@@ -1,12 +1,11 @@
-import { AppBar, Badge, Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material";
-import DarkModeButton from "../components/DarkModeButton/DarkModeButton";
+import { Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { AccessAlarm, ShoppingCart } from "@mui/icons-material";
+import { AccessAlarm } from "@mui/icons-material";
 
 
 const midLinks = [
     { title: 'home', path: '' },
-    { title: 'catalog', path: 'catalog' },
+    { title: 'overtime', path: 'overtime' },
     { title: 'about', path: 'about' },
 ]
 
@@ -40,7 +39,7 @@ function Header() {
                             sx={{ textDecoration: 'none', color: 'inherit' }}
     
                         >
-                            Re-Store
+                            Hr_Management
                         </Typography>
                     </Box>
     
@@ -60,7 +59,7 @@ function Header() {
                     </List>
     
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton component={Link} to='/basket' size="large" color="inherit" sx={{ mr: 2 }}>
+                        <IconButton component={Link} to='/' size="large" color="inherit" sx={{ mr: 2 }}>
                             <AccessAlarm />
                         </IconButton>
     
