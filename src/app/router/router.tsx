@@ -5,6 +5,7 @@ import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import LeavetimeLog from "../../features/leavelog/LeavetimeList";
+import ContractDetails from "../../features/contract/ContractDetails";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
       { path: "/overtime", element: <OvertimeLog /> },
       //Them router ngay vi tri nay nhe!!
       { path: "/leavetime", element: <LeavetimeLog /> },
+      { path: "/contract", element: <ContractDetails /> },
 
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
