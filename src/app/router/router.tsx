@@ -15,6 +15,7 @@ export const router = createBrowserRouter([
       { path: "/overtime", element: <OvertimeLog /> },
       //Them router ngay vi tri nay nhe!!
       { path: "/leavetime", element: <LeavetimeLog /> },
+      
 
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
