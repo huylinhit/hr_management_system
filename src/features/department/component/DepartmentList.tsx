@@ -2,11 +2,26 @@ import { Grid } from "@mui/material";
 
 // component
 import DepartmentCard from "./DepartmentCard";
+import { Department } from "../../../app/models/department";
+import { UserInfor } from "../../../app/models/userInfor";
 
-export default function DepartmentList () {
+// interface
+interface Props {
+    departments: Department[]
+    staffs: UserInfor[]
+}
+
+export default function DepartmentList ({departments, staffs}: Props) {
+    // -------------------------- VAR -----------------------------
+    // -------------------------- STATE ---------------------------
+    // -------------------------- REDUX ---------------------------
+    // -------------------------- EFFECT --------------------------
+    // -------------------------- MAIN ----------------------------
     return (
         <Grid container >
-            <DepartmentCard/>
+            {departments.map((department) => (
+                <DepartmentCard key={department.departmentId} department={department} staffs={staffs}/>
+            ))}
         </Grid>
     )
 }
