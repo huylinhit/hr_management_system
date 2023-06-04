@@ -4,7 +4,10 @@ import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 import OvertimeLog from "../../features/overlog/OvertimeList";
-import LeavetimeLog from "../../features/leavelog/LeavetimeList";
+// import LeavetimeLog from "../../features/leavelog/LeavetimeList";
+import LeavetimeList from "../../features/leavelog/LeavetimeList";
+import MyLeavetime from "../../features/leavelog/MyLeavetime";
+import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
 
 export const router = createBrowserRouter([
   {
@@ -14,8 +17,10 @@ export const router = createBrowserRouter([
       { path: "", element: <HomePage /> },
       { path: "/overtime", element: <OvertimeLog /> },
       //Them router ngay vi tri nay nhe!!
-      { path: "/leavetime", element: <LeavetimeLog /> },
+      { path: "/leavetime", element: <LeavetimeList /> },
+      { path: "/typeleavetime", element: <TypeLeavetime /> },
 
+      { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
