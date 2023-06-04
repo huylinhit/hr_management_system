@@ -26,10 +26,10 @@ export default function DepartmentPage () {
   // -------------------------- MAIN ----------------------------
   return (
     <Box className="page-content">
-      <Grid container xs={12} sx={{ marginBottom: "20px" }}>
+      <Grid container sx={{ marginBottom: "20px" }}>
         <DepartmentHeader />
       </Grid>
-      <Grid container xs={12}>
+      <Grid container sx={{ padding: "0 30px 40px 30px" }}>
         <DepartmentList departments={departments} staffs={staffs} />
       </Grid>
     </Box>

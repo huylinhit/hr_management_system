@@ -8,7 +8,7 @@ function App() {
       <Sidebar />
       <CssBaseline />
 
-      <Box sx={{ mt: 10, border: '1px solid black', ml: 32, mr: 2}}>
+      <Box sx={{ mt: 8, ml: 30, background: "#fcfcfc"}}>
         <Outlet />
       </Box>
     </Box>
