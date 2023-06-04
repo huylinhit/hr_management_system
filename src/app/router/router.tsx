@@ -4,12 +4,12 @@ import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 import OvertimeLog from "../../features/overlog/OvertimeList";
-
 import LeavetimeLog from "../../features/leavelog/LeavetimeList";
 import ContractDetails from "../../features/contract/ContractDetails";
 import CreateOvertime from "../../features/overlog/CreateOvertime";
-import ViewOvertime from "../../features/overlog/ViewOvertime";
+
 import LeavetimeList from "../../features/leavelog/LeavetimeList";
+import ViewOvertime from "../../features/overlog/ViewOvertime";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
       { path: "/leavetime", element: <LeavetimeLog /> },
       { path: "/contract", element: <ContractDetails /> },
       { path: "/overlog", element: <CreateOvertime /> },
-      { path: "/overlog", element: <ViewOvertime /> },
+      { path: "/viewoverlog", element: <ViewOvertime /> },
       { path: "/leavelog", element: <LeavetimeList /> },
 
 
