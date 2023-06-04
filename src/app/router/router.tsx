@@ -4,6 +4,7 @@ import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 import OvertimeLog from "../../features/overlog/OvertimeList";
+import DepartmentPage from "../../features/department/DepartmentPage";
 
 export const router = createBrowserRouter([
     {
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
         children:[
             { path: '' , element: <HomePage/>},
             { path: '/overtime' , element: <OvertimeLog/>},
+            { path: '/department-list' , element: <DepartmentPage/>},
             //Them router ngay vi tri nay nhe!!
 
             { path: 'server-error' , element: <ServerErrorPage/>},
