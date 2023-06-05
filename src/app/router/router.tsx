@@ -8,8 +8,10 @@ import OvertimeLog from "../../features/overlog/OvertimeList";
 import LeavetimeList from "../../features/leavelog/LeavetimeList";
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
-import CreateOvertime from "../../features/overlog/CreateOvertime";
 import ViewOvertime from "../../features/overlog/ViewOvertime";
+
+
+
 
 export const router = createBrowserRouter([
   {
@@ -21,10 +23,7 @@ export const router = createBrowserRouter([
       //Them router ngay vi tri nay nhe!!
       { path: "/leavetime", element: <LeavetimeList /> },
       { path: "/typeleavetime", element: <TypeLeavetime /> },
-      { path: "/overlog", element: <CreateOvertime /> },
       { path: "/viewot", element: <ViewOvertime /> },
-
-
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },

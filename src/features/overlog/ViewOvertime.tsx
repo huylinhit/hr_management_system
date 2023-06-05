@@ -1,14 +1,20 @@
-import { Autocomplete, Button, Container, Grid, List, ListItem, Paper, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputLabel, List, ListItem, MenuItem, Paper, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { ReactNode } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Link } from "react-router-dom";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
+const headerStyle = {
+    fontWeight: 'bold'
+}
 const top100Films = [
     { label: "1", year: 1994 },
     { label: "2", year: 1972 },
@@ -18,7 +24,9 @@ const top100Films = [
     { label: "6", year: 1993 },
     { label: "7", year: 1994 },
   ];
+  
 function ViewOvertimeLog() {
+    
     function createData(
         name: string,
         department: string,
@@ -53,12 +61,82 @@ function ViewOvertimeLog() {
         
   
     ];
+    function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
+       
+    }
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
     return (
         <>
             <Container>
         <Container sx={{ display: "flex", justifyContent: "space-between" }}>
           <Grid item xs={4}>
-            <Button>Tạo đơn nghỉ phép</Button>
+          <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Tạo yêu cầu tăng ca
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle sx={headerStyle} color="primary" > Yêu cầu tăng ca</DialogTitle>
+        <DialogContent>
+          <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={2}><Typography sx={headerStyle}>Loại tăng ca</Typography></Grid>
+                        <Grid item xs={10}><Grid item xs={10}>
+                            <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Không</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        label="Tăng ca thường"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={10}>Không</MenuItem>
+                                        <MenuItem value={20}>Tang ca thuong</MenuItem>
+                                        <MenuItem value={30}>Khong thuong</MenuItem>
+                                    </Select>
+                            </FormControl>
+                        </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid container >
+                    <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={2}><Typography sx={headerStyle}>Chọn ngày</Typography></Grid>
+                            <Grid item xs={10}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DateRangePicker']}>
+                                        <DateRangePicker localeText={{ start: 'Check-in', end: 'Check-out' }} />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid container >
+                    <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={2}><Typography sx={headerStyle}>Thời gian</Typography></Grid>
+                            <Grid item xs={10}><TextField id="outlined-basic" label="Outlined" variant="outlined" /></Grid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleClose}>Tạo</Button>
+          <Button onClick={handleClose}>Đóng</Button>
+        </DialogActions>
+          </Dialog>
+
+          </div>
           </Grid>
 
           <Grid item xs={4}>
