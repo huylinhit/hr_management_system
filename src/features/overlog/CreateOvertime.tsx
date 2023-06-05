@@ -11,10 +11,8 @@ const headerStyle = {
 }
 function CreateOvertime() {
     function handleChange(event: SelectChangeEvent<any>, child: ReactNode): void {
-        throw new Error("Function not implemented.");
+        
     }
-
-
     return (
         <>
             <Container component={Paper} maxWidth={false} sx={{ padding: '24px', py: '12px' }}>
@@ -25,17 +23,17 @@ function CreateOvertime() {
                         <Grid item xs={2}><Typography sx={headerStyle}>Loại tăng ca</Typography></Grid>
                         <Grid item xs={10}><Grid item xs={10}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Không</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    label="Tăng ca thường"
-                                    onChange={handleChange}>
-                                    <MenuItem value={10}>Không</MenuItem>
-                                    <MenuItem value={10}>Tăng ca thường</MenuItem>
-                                    <MenuItem value={20}>Tăng ca không thường</MenuItem>
-                                    <MenuItem value={30}>Ét ô ét</MenuItem>
-                                </Select>
+                            <InputLabel id="demo-simple-select-label">Không</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        label="Tăng ca thường"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={10}>Không</MenuItem>
+                                        <MenuItem value={20}>Tang ca thuong</MenuItem>
+                                        <MenuItem value={30}>Khong thuong</MenuItem>
+                                    </Select>
                             </FormControl>
                         </Grid>
                         </Grid>
