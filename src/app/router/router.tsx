@@ -11,6 +11,8 @@ import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
 import ViewOvertime from "../../features/overlog/ViewOvertime";
 import DepartmentPage from "../../features/department/DepartmentPage";
+import Login from "../../features/account/Login";
+import Register from "../../features/account/Register";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +21,9 @@ export const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "/overtime", element: <OvertimeLog /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+
       //Them router ngay vi tri nay nhe!!
       { path: "/leavetime", element: <LeavetimeList /> },
       { path: "/typeleavetime", element: <TypeLeavetime /> },
