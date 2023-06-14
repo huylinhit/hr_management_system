@@ -17,7 +17,7 @@ export default function DetailOvertime () {
                 </Typography>
             </Grid>
             <Grid container className="page-content" >
-                <Grid item>
+                <Grid item sx={{ width: "100%", padding: "10px 50px"}}>
                     <DetailOvertimeContent />
                 </Grid>
                 <Grid item sx={{ width: "100%"}}>
