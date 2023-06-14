@@ -3,7 +3,6 @@ import * as React from 'react';
 import { ReactNode } from "react";
 
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { SelectChangeEvent, Container, Grid, Button, Dialog, DialogTitle, DialogContent, Typography, FormControl, InputLabel, Select, 
@@ -109,9 +108,9 @@ function ViewOvertimeLog() {
                                                 <Grid item xs={2}><Typography sx={headerStyle}>Chọn ngày</Typography></Grid>
                                                 <Grid item xs={10}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DateRangePicker']}>
+                                                        <Container>
                                                             <DateRangePicker localeText={{ start: 'Check-in', end: 'Check-out' }} />
-                                                        </DemoContainer>
+                                                        </Container>
                                                     </LocalizationProvider>
                                                 </Grid>
                                             </Grid>
