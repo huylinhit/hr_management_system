@@ -1,6 +1,8 @@
 import { Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { AccessAlarm } from "@mui/icons-material";
+import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 
 const midLinks = [
@@ -25,60 +27,62 @@ const navStyle = {
     }
 };
 
-function Header() {
 
+export default function Header() {
+    const { user } = useAppSelector(state => state.account);
 
     return (
             
-            <>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography
+        <>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography
+                        component={NavLink}
+                        to='/' variant="h5"
+                        sx={{ textDecoration: 'none', color: 'inherit' }}
+
+                    >
+                        Hr_Management
+                    </Typography>
+                </Box>
+
+                <List sx={{ display: 'flex' }}>
+                    {midLinks.map(({ title, path }) =>
+                    (
+                        <ListItem
                             component={NavLink}
-                            to='/' variant="h5"
-                            sx={{ textDecoration: 'none', color: 'inherit' }}
-    
+                            to={path}
+                            key={path}
+                            sx={navStyle}
                         >
-                            Hr_Management
-                        </Typography>
-                    </Box>
-    
-                    <List sx={{ display: 'flex' }}>
-                        {midLinks.map(({ title, path }) =>
-                        (
+                            {title.toUpperCase()}
+                        </ListItem>
+                    )
+                    )}
+                </List>
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <IconButton component={Link} to='/' size="large" color="inherit" sx={{ mr: 2 }}>
+                        <AccessAlarm />
+                    </IconButton>
+                    {user ? (
+                        <SignedInMenu />
+                    ) : (
+                        <List sx={{ display: 'flex', alignItems: 'center' }}>
+                        {rightLinks.map(({ title, path }) => (
                             <ListItem
-                                component={NavLink}
-                                to={path}
                                 key={path}
-                                sx={navStyle}
+                                to={path}
+                                component={NavLink}
+                                sx={{ color: 'inherit', typography: 'h6' }}
                             >
                                 {title.toUpperCase()}
                             </ListItem>
-                        )
-                        )}
+                        ))}
                     </List>
-    
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton component={Link} to='/' size="large" color="inherit" sx={{ mr: 2 }}>
-                            <AccessAlarm />
-                        </IconButton>
-    
-                        <List sx={{ display: 'flex', alignItems: 'center' }}>
-                            {rightLinks.map(({ title, path }) => (
-                                <ListItem
-                                    key={path}
-                                    to={path}
-                                    component={NavLink}
-                                    sx={{ color: 'inherit', typography: 'h6' }}
-                                >
-                                    {title.toUpperCase()}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
-                </Toolbar>
-            </>
+                    )}
+                </Box>
+            </Toolbar>
+        </>
     );
 }
-
-export default Header;
