@@ -1,16 +1,15 @@
-
 import * as React from 'react';
 import { ReactNode } from "react";
-
-import { LocalizationProvider } from '@mui/x-date-pickers-pro';
-import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { SelectChangeEvent, Container, Grid, Button, Dialog, DialogTitle, DialogContent, Typography, FormControl, InputLabel, Select, 
-    MenuItem, TextField, DialogActions, Autocomplete, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import {
+    SelectChangeEvent, Container, Grid, Button, Dialog, DialogTitle, DialogContent, Typography, FormControl, InputLabel, Select,
+    MenuItem, TextField, DialogActions, Autocomplete, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, styled, tableCellClasses
+} from '@mui/material';
+import CreateOvertime from './CreateOvertime';
 
 const headerStyle = {
     fontWeight: 'bold'
 }
+
 const top100Films = [
     { label: "1", year: 1994 },
     { label: "2", year: 1972 },
@@ -18,45 +17,65 @@ const top100Films = [
     { label: "4", year: 2008 },
     { label: "5", year: 1957 },
     { label: "6", year: 1993 },
-    { label: "7", year: 1994 },``
+    { label: "7", year: 1994 }, ``
 ];
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 function ViewOvertimeLog() {
 
     function createData(
+        id: number,
         name: string,
-        department: string,
         kind: string,
         to: string,
         from: string,
         times: string,
+        reason: string,
         status: string,
+        more: ReactNode,
+
     ) {
-        return { name, department, kind, to, from, times, status };
+        return {id, name, kind, to, from, times, reason, status, more };
     }
 
+
     const rows = [
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
-        createData('Minh Hoang', "Phát triển sản phẩm", "Bệnh", "09/01/2023 19:00", "09/01/2023 22:00", "3:00", "Đang chờ"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+
+        
 
 
 
     ];
+
     function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
 
     }
@@ -78,60 +97,7 @@ function ViewOvertimeLog() {
                             <Button variant="outlined" onClick={handleClickOpen}>
                                 Tạo yêu cầu tăng ca
                             </Button>
-                            <Dialog open={open} onClose={handleClose}>
-                                <DialogTitle sx={headerStyle} color="primary" > Yêu cầu tăng ca</DialogTitle>
-                                <DialogContent>
-                                    <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={2}><Typography sx={headerStyle}>Loại tăng ca</Typography></Grid>
-                                            <Grid item xs={10}><Grid item xs={10}>
-                                                <FormControl fullWidth>
-                                                    <InputLabel id="demo-simple-select-label">Không</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        label="Tăng ca thường"
-                                                        onChange={handleChange}
-                                                    >
-                                                        <MenuItem value={10}>Không</MenuItem>
-                                                        <MenuItem value={20}>Tang ca thuong</MenuItem>
-                                                        <MenuItem value={30}>Khong thuong</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container >
-                                        <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={2}><Typography sx={headerStyle}>Chọn ngày</Typography></Grid>
-                                                <Grid item xs={10}>
-                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <Container>
-                                                            <DateRangePicker localeText={{ start: 'Check-in', end: 'Check-out' }} />
-                                                        </Container>
-                                                    </LocalizationProvider>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container >
-                                        <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={2}><Typography sx={headerStyle}>Thời gian</Typography></Grid>
-                                                <Grid item xs={10}><TextField id="outlined-basic" label="Outlined" variant="outlined" /></Grid>
-
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={handleClose}>Tạo</Button>
-                                    <Button onClick={handleClose}>Đóng</Button>
-                                </DialogActions>
-                            </Dialog>
-
+                            <CreateOvertime open={open} handleChange={handleChange} handleClose={handleClose} />
                         </div>
                     </Grid>
 
@@ -145,7 +111,7 @@ function ViewOvertimeLog() {
                             disablePortal
                             id="combo-box-demo"
                             options={top100Films}
-                            sx={{ width: 200 }}
+                            sx={{ width: 200,   }}
                             renderInput={(params) => <TextField {...params} label="Loại" />}
                         />
                     </Grid>
@@ -161,39 +127,39 @@ function ViewOvertimeLog() {
                 </Container>
 
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Tên nhân viên</TableCell>
-                                <TableCell align="right">Phòng ban</TableCell>
-                                <TableCell align="right">Loại nghỉ phép</TableCell>
-                                <TableCell align="right">Từ</TableCell>
-                                <TableCell align="right">Đến</TableCell>
-                                <TableCell align="right">Thời gian</TableCell>
-                                <TableCell align="right">Trạng thái</TableCell>
+                                <StyledTableCell>Mã nhân viên</StyledTableCell>
+                                <StyledTableCell align="right">Tên nhân viên</StyledTableCell>
+                                <StyledTableCell align="right">Loại tăng ca</StyledTableCell>
+                                <StyledTableCell align="right">Từ</StyledTableCell>
+                                <StyledTableCell align="right">Đến</StyledTableCell>
+                                <StyledTableCell align="right">Thời gian</StyledTableCell>
+                                <StyledTableCell align="right">Lý do</StyledTableCell>
+                                <StyledTableCell align="right">Trạng thái</StyledTableCell>
+                                <StyledTableCell align="right">Xem thêm</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="right">{row.department}</TableCell>
-                                    <TableCell align="right">{row.kind}</TableCell>
-                                    <TableCell align="right">{row.to}</TableCell>
-                                    <TableCell align="right">{row.from}</TableCell>
-                                    <TableCell align="right">{row.times}</TableCell>
-                                    <TableCell align="right">{row.status}</TableCell>
+                                <StyledTableRow key={row.id}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.id}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{row.name}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.kind}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.to}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.from}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.times}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.reason}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.status}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.more}</StyledTableCell>
 
-                                </TableRow>
+                                </StyledTableRow>
                             ))}
                         </TableBody>
                     </Table>
-
                 </TableContainer>
             </Container>
         </>
