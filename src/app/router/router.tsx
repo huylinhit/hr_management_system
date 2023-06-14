@@ -13,6 +13,7 @@ import ViewOvertime from "../../features/overlog/ViewOvertime";
 import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
       { path: "/leavetime", element: <LeavetimeList /> },
       { path: "/typeleavetime", element: <TypeLeavetime /> },
       { path: "/viewot", element: <ViewOvertime /> },
+      { path: "/detail-overtime", element: <DetailOvertime /> },
       { path: '/department-list' , element: <DepartmentPage/>},
 
       { path: "/myleavelist", element: <MyLeavetime /> },
