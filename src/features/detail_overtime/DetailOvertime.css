@@ -7,7 +7,7 @@
   padding: 5px 0 15px 0;
   font-style: normal;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 30px;
   line-height: 39px;
 }
 
@@ -23,16 +23,16 @@
 .form-title p {
   font-style: normal;
   font-weight: 550;
-  font-size: 24px;
-  line-height: 25px;
+  font-size: 20px;
+  /* line-height: 25px; */
   margin-bottom: 15px;
 }
 
-.form-content p {
+.form-content p, div {
   font-style: normal;
   font-weight: 400;
-  font-size: 22px;
-  line-height: 27px;
+  font-size: 18px;
+  /* line-height: 25px; */
 }
 
 /* ---------- FOOTER ------------- */
