@@ -6,10 +6,14 @@ import {
   List,
   ListItem,
   Paper,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import CreateLeave from "./CreateLeave";
+import { ReactNode } from "react";
+import React from "react";
 const top100Films = [
   { label: "The Shawshank Redemption", year: 1994 },
   { label: "The Godfather", year: 1972 },
@@ -21,12 +25,30 @@ const top100Films = [
 ];
 
 function LeavetimeList() {
+  function handleChange(
+    event: SelectChangeEvent<unknown>,
+    child: ReactNode
+  ): void {}
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
       <Container>
         <Container sx={{ display: "flex", justifyContent: "space-between" }}>
           <Grid item xs={4}>
-            <Button>Tạo đơn nghỉ phép</Button>
+            <div>
+              <Button variant="contained" onClick={handleClickOpen}>Tạo đơn nghỉ phép</Button>
+              <CreateLeave
+             open={open} handleChange={handleChange} handleClose={handleClose}
+              />
+            </div>
           </Grid>
 
           <Grid item xs={4}>

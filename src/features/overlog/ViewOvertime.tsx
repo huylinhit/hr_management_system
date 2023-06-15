@@ -27,6 +27,7 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
+
 import React from "react";
 import { BorderColor } from "@mui/icons-material";
 
@@ -246,38 +247,46 @@ function ViewOvertimeLog() {
   return (
     <>
       <Container>
-        <Typography variant="h5" sx={headerStyle}>
+        <Typography variant="h4" sx={headerStyle}>
           Danh sách đơn làm thêm giờ
         </Typography>
-        <Container sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Grid item xs={4}></Grid>
-
-          <Grid item xs={4}>
-            <Button variant="contained" sx={{ width: 200 }}>
-              Tìm kiếm
-            </Button>
+        <Container>
+          <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Grid
+              item
+              xs={10}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <TextField label="Tìm kiếm..." />
+              <Grid>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 200 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Loại" />
+                  )}
+                />
+              </Grid>
+              <Grid>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 200 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Phòng" />
+                  )}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={10}>
+              <Button variant="outlined" onClick={handleClickOpen}>
+                Tạo yêu cầu tăng ca
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Loại" />}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Phòng" />}
-            />
-          </Grid>
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Tạo yêu cầu tăng ca
-          </Button>
         </Container>
 
         <TableContainer component={Paper}>
