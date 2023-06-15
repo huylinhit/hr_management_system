@@ -58,17 +58,15 @@ function ViewOvertimeLog() {
 
 
     const rows = [
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),        
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),        
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),        
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),       
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"), 
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),
+        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),       
 
         
 
@@ -91,6 +89,9 @@ function ViewOvertimeLog() {
     return (
         <>
             <Container>
+            <Typography variant="h4" sx={headerStyle}>
+          Danh sách đơn làm thêm giờ
+        </Typography>
                 <Container sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Grid item xs={4}>
                         <div>
