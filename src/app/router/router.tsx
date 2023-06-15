@@ -3,9 +3,8 @@ import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
-import OvertimeLog from "../../features/overlog/OvertimeList";
 
-// import LeavetimeLog from "../../features/leavelog/LeavetimeList";
+import OvertimeLog from "../../features/overlog/OvertimeList";
 import LeavetimeList from "../../features/leavelog/LeavetimeList";
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
@@ -14,6 +13,7 @@ import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
+import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +33,7 @@ export const router = createBrowserRouter([
       { path: '/department-list' , element: <DepartmentPage/>},
 
       { path: "/myleavelist", element: <MyLeavetime /> },
+      { path: "/detail-leave-log", element: <DetailLeave /> },
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },

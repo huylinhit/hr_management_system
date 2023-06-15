@@ -28,7 +28,7 @@ interface Props {
   finish: boolean,
 }
 
-export default function DetailOvertimeContent({ staff, logOt, types, formValue, setFormValue, finish }: Props) {
+export default function DetailLeaveContent({ staff, logOt, types, formValue, setFormValue, finish }: Props) {
   // -------------------------- VAR -----------------------------
   const ticketStatus = ["Chờ duyệt", "Đồng ý", "Từ chối"];
   // -------------------------- STATE ---------------------------

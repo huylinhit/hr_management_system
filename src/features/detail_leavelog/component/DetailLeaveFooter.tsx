@@ -5,7 +5,7 @@ interface Props {
   setFinish: Function;
 }
 
-export default function DetailOvertimeFooter({ setFinish }: Props) {
+export default function DetailLeaveFooter({ setFinish }: Props) {
   const handleFinish = () =>{
     setFinish(true)
   }
