@@ -16,6 +16,7 @@ import Register from "../../features/account/Register";
 import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
 import CreateLeave from "../../features/leavelog/CreateLeave";
+import EmployeeList from "../../features/employee/EmployeeList";
 
 
 export const router = createBrowserRouter([
@@ -39,6 +40,8 @@ export const router = createBrowserRouter([
 
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetail />},
+
+      { path: '/employeelist' , element: <EmployeeList />},
 
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
