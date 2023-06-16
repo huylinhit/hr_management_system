@@ -1,9 +1,9 @@
 
-import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses } from '@mui/material';
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Switch } from '@mui/material';
 import React, { ReactNode } from 'react';
-import { BorderColor } from '@mui/icons-material';
+import { BorderColor, Route } from '@mui/icons-material';
 import CreateOtherTypes from './CreateOtherTypes';
-
+import EditOtherTypes from './EditOtherTypes';
 const headerStyle = {
     fontWeight: 'bold'
 }
@@ -38,6 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
+
 function ViewOtherTypes() {
 
     function createData(
@@ -45,13 +46,13 @@ function ViewOtherTypes() {
         id: number,
         name: string,
         kind: string,
-       content:string,
+        content: string,
         times: string,
         status: string,
         reply: string,
 
     ) {
-        return { Doid, id, name, kind, content, times, status,reply };
+        return { Doid, id, name, kind, content, times, status, reply };
     }
 
 
@@ -73,6 +74,7 @@ function ViewOtherTypes() {
         marginBottom: '10px',
     };
 
+
     function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
 
     }
@@ -85,6 +87,8 @@ function ViewOtherTypes() {
     const handleClose = () => {
         setOpen(false);
     };
+
+
     return (
         <>
             <Container>
@@ -145,7 +149,7 @@ function ViewOtherTypes() {
                                 <StyledTableCell align="center">Ngày tạo đơn</StyledTableCell>
                                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                                
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -160,8 +164,19 @@ function ViewOtherTypes() {
                                     <StyledTableCell align="center">{row.content}</StyledTableCell>
                                     <StyledTableCell align="center">{row.times}</StyledTableCell>
                                     <StyledTableCell align="center">{row.status}</StyledTableCell>
-                                    <StyledTableCell align="center"><BorderColor />{row.reply}</StyledTableCell>
-                                   
+                                    <StyledTableCell align="center">
+                                        <Button variant="contained" onClick={handleClickOpen}>
+                                            <BorderColor />
+                                            {row.reply}
+                                        </Button>
+                                        {/* <EditOtherTypes  open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+
+                                        <Route path="/edit-other-types" component={EditOtherTypes} />
+
+
+
+                                    </StyledTableCell>
+
 
                                 </StyledTableRow>
                             ))}
