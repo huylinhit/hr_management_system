@@ -62,6 +62,11 @@ function LeavetimeList() {
     createData(1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "1", "...", "Chờ duyệt", "Xem thêm"),
     createData(1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023", "09/09/2023", "1", "...", "Chờ duyệt", "Xem thêm"),
   ];
+
+  const styles = {
+    marginBottom: '10px',
+  };
+
   function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
 
   }
@@ -77,7 +82,7 @@ function LeavetimeList() {
   return (
     <>
       <Container>
-        <Typography variant="h4" sx={headerStyle}>
+        <Typography variant="h4" sx={headerStyle} style={styles}>
           Danh sách đơn nghỉ phép
         </Typography>
         <Container>
@@ -95,7 +100,7 @@ function LeavetimeList() {
                   options={top100Films}
                   sx={{ width: 200 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Loại" />
+                    <TextField {...params} label="Loại" style={styles} />
                   )}
                 />
               </Grid>

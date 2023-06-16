@@ -8,11 +8,17 @@ const headerStyle = {
 }
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
+
+const styles = {
+    borderBottom: '1px solid rgba(0, 0, 0)',
+    marginBottom: '20px',
+};
+
 function CreateOvertime({ open, handleClose, handleChange }: any) {
     return (
         <Dialog open={open} onClose={handleClose}>
             <ThemeProvider theme={theme}>
-                <DialogTitle variant="h4" sx={headerStyle} color="primary" >Đơn xin nghỉ phép</DialogTitle>
+                <DialogTitle variant="h5" sx={headerStyle} color="primary" style={styles} >Đơn xin nghỉ phép</DialogTitle>
             </ThemeProvider>
             <DialogContent>
                 <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
@@ -42,9 +48,7 @@ function CreateOvertime({ open, handleClose, handleChange }: any) {
                             <Grid item xs={2}><Typography sx={headerStyle}>Chọn ngày</Typography></Grid>
                             <Grid item xs={10}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <Container>
                                         <DateRangePicker localeText={{ start: 'Từ', end: 'Đến' }} />
-                                    </Container>
                                 </LocalizationProvider>
                             </Grid>
                         </Grid>
@@ -70,7 +74,7 @@ function CreateOvertime({ open, handleClose, handleChange }: any) {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Container sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Container sx={{ display: "flex", justifyContent: "center" }}>
                     <Button onClick={handleClose} variant="outlined" >Hủy</Button>
                     <Button onClick={handleClose} variant="contained" >Xác nhận</Button>
                 </Container>

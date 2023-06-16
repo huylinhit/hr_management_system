@@ -1,10 +1,8 @@
-import * as React from 'react';
-import { ReactNode } from "react";
-import {
-    SelectChangeEvent, Container, Grid, Button, Dialog, DialogTitle, DialogContent, Typography, FormControl, InputLabel, Select,
-    MenuItem, TextField, DialogActions, Autocomplete, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, styled, tableCellClasses
-} from '@mui/material';
+
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses } from '@mui/material';
+import React, { ReactNode } from 'react';
 import CreateOvertime from './CreateOvertime';
+import { BorderColor } from '@mui/icons-material';
 
 const headerStyle = {
     fontWeight: 'bold'
@@ -21,23 +19,24 @@ const top100Films = [
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+      fontSize: 14,
     },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+      backgroundColor: theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
-        border: 0,
+      border: 0,
     },
-}));
+  }));
+
 
 function ViewOvertimeLog() {
 
@@ -64,8 +63,6 @@ function ViewOvertimeLog() {
         createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),        
         createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),       
         createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"), 
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),
-        createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),
         createData(1000001,'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt","Xem thêm"),       
 
         
@@ -73,6 +70,9 @@ function ViewOvertimeLog() {
 
 
     ];
+    const styles = {
+      marginBottom: '10px',
+    };
 
     function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
 
@@ -89,57 +89,64 @@ function ViewOvertimeLog() {
     return (
         <>
             <Container>
-            <Typography variant="h4" sx={headerStyle}>
+            <Typography variant="h4" sx={headerStyle} style={styles}> 
           Danh sách đơn làm thêm giờ
         </Typography>
-                <Container sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Grid item xs={4}>
-                        <div>
-                            <Button variant="outlined" onClick={handleClickOpen}>
-                                Tạo yêu cầu tăng ca
-                            </Button>
-                            <CreateOvertime open={open} handleChange={handleChange} handleClose={handleClose} />
-                        </div>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Button variant="contained" sx={{ width: 200 }}>
-                            Tìm kiếm
-                        </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={top100Films}
-                            sx={{ width: 200,   }}
-                            renderInput={(params) => <TextField {...params} label="Loại" />}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={top100Films}
-                            sx={{ width: 200 }}
-                            renderInput={(params) => <TextField {...params} label="Phòng" />}
-                        />
-                    </Grid>
-                </Container>
+        <Container>
+          <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Grid
+              item
+              xs={10}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <TextField label="Tìm kiếm..." />
+              <Grid>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 200 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Loại" style={styles}/>
+                  )}
+                />
+              </Grid>
+              <Grid>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 200 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Phòng" />
+                  )}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={10}>
+              <div>
+                <Button variant="contained" onClick={handleClickOpen}>
+                  + Tạo đơn tăng ca
+                </Button>
+                <CreateOvertime open={open} handleChange={handleChange} handleClose={handleClose} />
+              </div>
+            </Grid>
+          </Grid>
+        </Container>
 
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Mã nhân viên</StyledTableCell>
-                                <StyledTableCell align="right">Tên nhân viên</StyledTableCell>
-                                <StyledTableCell align="right">Loại tăng ca</StyledTableCell>
-                                <StyledTableCell align="right">Từ</StyledTableCell>
-                                <StyledTableCell align="right">Đến</StyledTableCell>
-                                <StyledTableCell align="right">Thời gian</StyledTableCell>
-                                <StyledTableCell align="right">Lý do</StyledTableCell>
-                                <StyledTableCell align="right">Trạng thái</StyledTableCell>
-                                <StyledTableCell align="right">Xem thêm</StyledTableCell>
+                                <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
+                                <StyledTableCell align="center">Loại tăng ca</StyledTableCell>
+                                <StyledTableCell align="center">Từ</StyledTableCell>
+                                <StyledTableCell align="center">Đến</StyledTableCell>
+                                <StyledTableCell align="center">Thời gian</StyledTableCell>
+                                <StyledTableCell align="center">Lý do</StyledTableCell>
+                                <StyledTableCell align="center">Trạng thái</StyledTableCell>
+                                <StyledTableCell align="center"></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -148,14 +155,14 @@ function ViewOvertimeLog() {
                                     <StyledTableCell component="th" scope="row">
                                         {row.id}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{row.name}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.kind}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.to}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.from}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.times}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.reason}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.status}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.more}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.name}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.kind}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.to}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.from}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.times}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.reason}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.status}</StyledTableCell>
+                                    <StyledTableCell align="center"><BorderColor /></StyledTableCell>
 
                                 </StyledTableRow>
                             ))}
