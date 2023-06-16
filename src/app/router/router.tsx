@@ -13,6 +13,9 @@ import ViewOvertime from "../../features/overlog/ViewOvertime";
 import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import DepartmentDetail from "../../features/department/DepartmentDetail";
+import DepartmentList from "../../features/department/DepartmentList";
+
 
 export const router = createBrowserRouter([
   {
@@ -20,17 +23,21 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <HomePage /> },
-      { path: "/overtime", element: <OvertimeLog /> },
+       
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
-     
-      
-      { path: "/viewot", element: <ViewOvertime /> },
-      { path: '/department-list' , element: <DepartmentPage/>},
-
+      { path: "/leavetime", element: <LeavetimeList /> },
+      { path: "/typeleavetime", element: <TypeLeavetime /> },
       { path: "/myleavelist", element: <MyLeavetime /> },
+
+      { path: "/overtime", element: <OvertimeLog /> },
+      { path: "/viewot", element: <ViewOvertime /> },
+
+      { path: '/department-list' , element: <DepartmentList/>},
+      { path: '/department-detail' , element: <DepartmentDetail />},
+
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },

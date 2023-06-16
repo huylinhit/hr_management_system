@@ -1,5 +1,6 @@
-import { Grid, Button, IconButton, TextField } from "@mui/material";
+
 import SearchIcon from '@mui/icons-material/Search';
+import { Grid, Button, IconButton, TextField } from '@mui/material';
 
 
 export default function DepartmentHeader () {
