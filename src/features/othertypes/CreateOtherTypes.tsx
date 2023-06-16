@@ -10,7 +10,7 @@ let theme = createTheme();
 theme = responsiveFontSizes(theme);
 const styles = {
     borderBottom: '1px solid rgba(0, 0, 0)',
-    marginBottom: '20px',
+    marginBottom: '15px',
 };
 
 
