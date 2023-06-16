@@ -14,6 +14,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 import DetailLeave from "../../features/detail_leavelog/DetailLeave";
+import DetailTicket from "../../features/detail_ticket/DetailTicket";
 
 export const router = createBrowserRouter([
   {
@@ -26,14 +27,18 @@ export const router = createBrowserRouter([
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
-      { path: "/leavetime", element: <LeavetimeList /> },
-      { path: "/typeleavetime", element: <TypeLeavetime /> },
-      { path: "/viewot", element: <ViewOvertime /> },
-      { path: "/detail-overtime", element: <DetailOvertime /> },
       { path: '/department-list' , element: <DepartmentPage/>},
 
+      
+      { path: "/viewot", element: <ViewOvertime /> },
+      { path: "/detail-overtime", element: <DetailOvertime /> },
+
       { path: "/myleavelist", element: <MyLeavetime /> },
+      { path: "/leavetime", element: <LeavetimeList /> },
+      { path: "/typeleavetime", element: <TypeLeavetime /> },
       { path: "/detail-leave-log", element: <DetailLeave /> },
+
+      { path: "/detail-ticket", element: <DetailTicket /> },
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
