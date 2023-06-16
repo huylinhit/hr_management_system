@@ -21,21 +21,23 @@ import React, { ReactNode } from "react";
 const headerStyle = {
   fontWeight: "bold",
 };
+const styles = {
+  borderBottom: "1px solid rgba(0, 0, 0)",
+  marginBottom: "20px",
+};
 
 function CreateLeave({ open, handleClose, handleChange }: any) {
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={headerStyle} color="primary">
-          {" "} 
-          <Typography variant="h4" sx={headerStyle} >
-          
+          {" "}
+          <Typography variant="h4" sx={styles}>
             Đơn nghỉ phép
           </Typography>
         </DialogTitle>
 
-        <DialogContent      
-        >
+        <DialogContent>
           <Grid item xs={12} sx={{ py: "8px", border: "4px" }}>
             <Grid container spacing={2}>
               <Grid item xs={3}>
@@ -143,15 +145,15 @@ function CreateLeave({ open, handleClose, handleChange }: any) {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions >
-          
-          <Button variant="outlined" onClick={handleClose}>
-            Hủy
-          </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Xác nhận
-          </Button>
-          
+        <DialogActions>
+          <Container sx={{ display: "flex", justifyContent: "center" }}>
+            <Button variant="outlined" onClick={handleClose}>
+              Hủy
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Xác nhận
+            </Button>
+          </Container>
         </DialogActions>
       </Dialog>
     </>

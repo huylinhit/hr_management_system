@@ -246,50 +246,46 @@ function ViewOvertimeLog() {
   };
   return (
     <>
-      <Container>
+     
         <Typography variant="h4" sx={headerStyle}>
           Danh sách đơn làm thêm giờ
         </Typography>
-        <Container>
-          <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Grid
-              item
-              xs={10}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <TextField label="Tìm kiếm..." />
-              <Grid>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={top100Films}
-                  sx={{ width: 200 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Loại" />
-                  )}
-                />
-              </Grid>
-              <Grid>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={top100Films}
-                  sx={{ width: 200 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Phòng" />
-                  )}
-                />
-              </Grid>
+        <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Grid
+            item
+            xs={10}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <TextField label="Tìm kiếm..." />
+            <Grid>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={top100Films}
+                sx={{ width: 200 }}
+                renderInput={(params) => <TextField {...params} label="Loại" />}
+              />
             </Grid>
-            <Grid item xs={10}>
-              <Button variant="outlined" onClick={handleClickOpen}>
-                Tạo yêu cầu tăng ca
-              </Button>
+            <Grid>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={top100Films}
+                sx={{ width: 200 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Phòng" />
+                )}
+              />
             </Grid>
           </Grid>
-        </Container>
+          <Grid item xs={10}>
+            <Button variant="contained" onClick={handleClickOpen}>
+             + Tạo yêu cầu tăng ca
+            </Button>
+          </Grid>
+        </Grid>
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ mt: "10px" }}>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow sx={{ background: "black" }}>
@@ -346,7 +342,7 @@ function ViewOvertimeLog() {
             </TableBody>
           </Table>
         </TableContainer>
-      </Container>
+     
     </>
   );
 }
