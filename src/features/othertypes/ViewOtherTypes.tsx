@@ -2,7 +2,7 @@
 import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses } from '@mui/material';
 import React, { ReactNode } from 'react';
 import { BorderColor } from '@mui/icons-material';
-
+import CreateOtherTypes from './CreateOtherTypes';
 
 const headerStyle = {
     fontWeight: 'bold'
@@ -127,6 +127,7 @@ function ViewOtherTypes() {
                             <Button variant="contained" onClick={handleClickOpen}>
                                 + Tạo đơn
                             </Button>
+                            <CreateOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} />
 
                         </Grid>
                     </Grid>
