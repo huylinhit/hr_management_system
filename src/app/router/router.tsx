@@ -6,9 +6,9 @@ import NotFound from "../errors/NotFound";
 import OvertimeLog from "../../features/overlog/OvertimeList";
 
 // import LeavetimeLog from "../../features/leavelog/LeavetimeList";
-import LeavetimeList from "../../features/leavelog/LeavetimeList";
+
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
-import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
+
 import ViewOvertime from "../../features/overlog/ViewOvertime";
 import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
