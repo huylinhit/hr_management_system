@@ -3,19 +3,26 @@ import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
-import OvertimeLog from "../../features/overlog/OvertimeList";
 
-// import LeavetimeLog from "../../features/leavelog/LeavetimeList";
-
-import MyLeavetime from "../../features/leavelog/MyLeavetime";
-
-import ViewOvertime from "../../features/overlog/ViewOvertime";
-import DepartmentPage from "../../features/department/DepartmentPage";
+// component
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+
+//
+import OvertimeLog from "../../features/overlog/OvertimeList";
+import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
+
+//
+import MyLeavetime from "../../features/leavelog/MyLeavetime";
+
+//
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
+
+//
 import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
+
+
 
 
 export const router = createBrowserRouter([
@@ -29,16 +36,12 @@ export const router = createBrowserRouter([
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
-      { path: "/leavetime", element: <LeavetimeList /> },
-      { path: "/typeleavetime", element: <TypeLeavetime /> },
+      { path: "/overtime", element: <OvertimeLog /> },
+      { path: "/viewot", element: <ViewOvertimeLog /> },
+
       { path: "/myleavelist", element: <MyLeavetime /> },
 
-      { path: "/overtime", element: <OvertimeLog /> },
-      { path: "/viewot", element: <ViewOvertime /> },
-
-      { path: '/department-list' , element: <DepartmentPage/>},
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-
 
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetail />},

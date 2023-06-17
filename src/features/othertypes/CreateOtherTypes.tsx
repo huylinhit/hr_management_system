@@ -1,7 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, responsiveFontSizes, Dialog, DialogTitle, DialogContent, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, DialogActions, Container, Button } from "@mui/material";
-import { LocalizationProvider, DateRangePicker } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 
 const headerStyle = {
     fontWeight: 'bold'
