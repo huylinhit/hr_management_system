@@ -57,8 +57,15 @@ const Account = {
     register: (values: any) => requests.post('account/register', values),
     currentUser: () => requests.get('account/currentUser'),
 }
+
+const Department = {
+    list: () => requests.get('departments'), 
+    details: (id: number) => requests.get(`orders/${id}`),
+    create: (values: any) => requests.post('orders', values),
+}
 const agent = {
-    Account
+    Account,
+    Department
 }
 
 export default agent;

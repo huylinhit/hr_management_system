@@ -9,9 +9,8 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 
 //
-import ViewOvertime from "../../features/overlog/ViewOvertime";
-
 import OvertimeLog from "../../features/overlog/OvertimeList";
+import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 
 //
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
@@ -23,19 +22,22 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
 
+
+
+
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       { path: "", element: <HomePage /> },
-      { path: "/overtime", element: <OvertimeLog /> },
+       
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
       { path: "/overtime", element: <OvertimeLog /> },
-      { path: "/viewot", element: <ViewOvertime /> },
+      { path: "/viewot", element: <ViewOvertimeLog /> },
 
       { path: "/myleavelist", element: <MyLeavetime /> },
 
