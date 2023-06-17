@@ -13,6 +13,7 @@ import ViewOvertime from "../../features/overlog/ViewOvertime";
 import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
 
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
 
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertime /> },
+
+      { path: '/department-list' , element: <DepartmentPage/>},
+      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
+
 
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetail />},
