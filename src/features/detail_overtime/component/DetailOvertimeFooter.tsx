@@ -16,6 +16,7 @@ export default function DetailOvertimeFooter({ setFinish }: Props) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
+        padding:"30px 50px"
       }}
     >
       <Grid item className="footer-btn">

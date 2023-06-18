@@ -26,10 +26,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Mã đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.otLogId}</Typography>
         </Grid>
       </Grid>
@@ -43,10 +43,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Mã số nhân viên: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.staffId}</Typography>
         </Grid>
       </Grid>
@@ -60,10 +60,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Tên nhân viên: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>
             {staff.lastName} {staff.firstName}
           </Typography>
@@ -79,10 +79,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Loại đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{type?.typeName}</Typography>
         </Grid>
       </Grid>
@@ -96,10 +96,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Từ: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.logStart}</Typography>
         </Grid>
       </Grid>
@@ -112,10 +112,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Đến: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.logEnd}</Typography>
         </Grid>
       </Grid>
@@ -128,10 +128,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Số ngày nghỉ: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.logHours} giờ</Typography>
         </Grid>
       </Grid>
@@ -144,10 +144,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Nội dung đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.reason}</Typography>
         </Grid>
       </Grid>
@@ -160,10 +160,10 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Ngày gửi đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={7} className="form-content">
           <Typography>{logOt.createAt}</Typography>
         </Grid>
       </Grid>

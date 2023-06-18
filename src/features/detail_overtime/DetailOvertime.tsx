@@ -34,15 +34,17 @@ export default function DetailOvertime() {
       <Grid container className="page-title">
         <Typography>Phản hồi đơn làm thêm giờ</Typography>
       </Grid>
-      <Grid container className="page-content">
-        <Grid item sx={{ width: "100%", padding: "20px 70px" }}>
-          <DetailOvertimeContent logOt={logOt} staff={staff} types={types} 
-                                 setFormValue={setFormValue} formValue={formValue} finish={finish} />
+      <Container>
+        <Grid container className="page-content">
+          <Grid item sx={{ width: "100%", padding: "60px 100px 0 100px" }}>
+            <DetailOvertimeContent logOt={logOt} staff={staff} types={types} 
+                                  setFormValue={setFormValue} formValue={formValue} finish={finish} />
+          </Grid>
+          <Grid item sx={{ width: "100%" }}>
+            <DetailOvertimeFooter setFinish={setFinish} />
+          </Grid>
         </Grid>
-        <Grid item sx={{ width: "100%" }}>
-          <DetailOvertimeFooter setFinish={setFinish} />
-        </Grid>
-      </Grid>
+      </Container>
     </Box>
   );
 }

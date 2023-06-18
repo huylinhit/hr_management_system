@@ -18,12 +18,13 @@
     border-radius: 30px;
     height: auto;
     padding: 20px 45px;
+    margin: 5px 20px;
 }
 
 .form-title p {
   font-style: normal;
   font-weight: 550;
-  font-size: 20px;
+  font-size: 22px;
   /* line-height: 25px; */
   margin-bottom: 15px;
 }
@@ -31,12 +32,13 @@
 .form-content p, div {
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   /* line-height: 25px; */
 }
 
 /* ---------- FOOTER ------------- */
 .footer-btn button{
-    border: 1.5px solid #007FFF;
-    border-radius: 20px;
+  border: 1.5px solid #007FFF;
+  border-radius: 20px;
+  padding: auto;
 }

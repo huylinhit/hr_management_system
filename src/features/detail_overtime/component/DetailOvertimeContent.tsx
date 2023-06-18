@@ -1,12 +1,9 @@
 import {
-  Container,
   Grid,
-  InputLabel,
   MenuItem,
   TextField,
   Typography,
   Select,
-  OutlinedInput,
   FormControl,
   Box,
 } from "@mui/material";
@@ -29,7 +26,7 @@ interface Props {
   finish: boolean,
 }
 
-export default function DetailOvertimeContent({ staff, logOt, types, formValue, setFormValue, finish }: Props) {
+export default function DetailOvertimeContent({ staff, logOt, types }: Props) {
   // -------------------------- VAR -----------------------------
   const ticketStatus = ["Chờ duyệt", "Đồng ý", "Từ chối"];
   // -------------------------- STATE ---------------------------
@@ -55,15 +52,15 @@ export default function DetailOvertimeContent({ staff, logOt, types, formValue, 
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "flex-start",
+          alignItems: "center",
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Trạng thái: </Typography>
         </Grid>
         {logOt.status === "Chờ duyệt" ? 
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={7} className="form-content">
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
               <Select
                 labelId="demo-select-small-label"
@@ -79,8 +76,8 @@ export default function DetailOvertimeContent({ staff, logOt, types, formValue, 
             </FormControl>
           </Grid> 
           :
-          <Grid item xs={8} className="form-content">
-            <Box sx={{ backgroundColor: "#F14668", padding: "10px", width:"110px", borderRadius: "20px"}}>
+          <Grid item xs={7} className="form-content">
+            <Box sx={{ backgroundColor: "#F14668", padding: "10px 20px", width:"110px", borderRadius: "20px" }}>
               <Typography sx={{ color: "white", fontWeight:"500"}}>
                 {logOt.status}
               </Typography>
@@ -98,11 +95,11 @@ export default function DetailOvertimeContent({ staff, logOt, types, formValue, 
           marginBottom: "10px",
         }}
       >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={5} className="form-title">
           <Typography>Phản hồi: </Typography>
         </Grid>
         {logOt.status === "Chờ duyệt" ? 
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={7} className="form-content">
             <TextField
               id="outlined-multiline-flexible"
               label="Nhập phản hồi..."
@@ -112,7 +109,7 @@ export default function DetailOvertimeContent({ staff, logOt, types, formValue, 
             />
           </Grid>
           :
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={7} className="form-content">
             <Typography>
               {logOt.processNote}
             </Typography>
