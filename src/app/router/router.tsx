@@ -32,7 +32,6 @@ export const router = createBrowserRouter([
       
       { path: "/viewot", element: <ViewOvertime /> },
       { path: "/editot/:id", element: <EditOvertime /> },
-
       { path: '/department-list' , element: <DepartmentPage/>},
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
