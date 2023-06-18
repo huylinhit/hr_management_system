@@ -21,8 +21,6 @@ function CreateOtherTypes({ open, handleClose, handleChange }: any) {
                 <DialogTitle variant="h5" sx={headerStyle} color="primary" style={styles} >Tạo đơn</DialogTitle>
             </ThemeProvider>
             <DialogContent>
-
-                
                 <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}><Typography sx={headerStyle}>Loại đơn</Typography></Grid>

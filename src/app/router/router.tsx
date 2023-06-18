@@ -14,6 +14,8 @@ import DepartmentPage from "../../features/department/DepartmentPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
+import EditOtherType from "../../features/othertypes/EditOtherType";
+import EditOvertime from "../../features/overlog/EditOvertime";
 
 export const router = createBrowserRouter([
   {
@@ -29,9 +31,11 @@ export const router = createBrowserRouter([
      
       
       { path: "/viewot", element: <ViewOvertime /> },
+      { path: "/editot/:id", element: <EditOvertime /> },
+
       { path: '/department-list' , element: <DepartmentPage/>},
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
