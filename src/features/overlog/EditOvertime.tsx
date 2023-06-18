@@ -6,7 +6,7 @@ const headerStyle = {
     fontWeight: 'bold'
   }
   const styles = {
-    marginBottom: '10px',
+    marginBottom: '12px',
   };
   
 function EditOvertime({ open, handleClose, handleChange }: any) {
