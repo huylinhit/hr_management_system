@@ -21,6 +21,8 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
+import EditOvertime from "../../features/overlog/EditOvertime";
+import EditOtherType from "../../features/othertypes/EditOtherType";
 
 
 
@@ -38,11 +40,11 @@ export const router = createBrowserRouter([
       //Them router ngay vi tri nay nhe!!
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
-
+      { path: "/editot/:id", element: <EditOvertime /> },
       { path: "/myleavelist", element: <MyLeavetime /> },
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetail />},
 
