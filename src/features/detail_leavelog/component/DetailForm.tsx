@@ -23,7 +23,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -40,7 +40,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -57,7 +57,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -76,7 +76,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -93,39 +93,33 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
           <Typography>Từ: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={2} className="form-content">
           <Typography>{logOt.logStart}</Typography>
         </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          marginBottom: "10px",
-        }}
-      >
-        <Grid item xs={4} className="form-title">
+        <Grid item xs={1} className="form-title">
+          <Typography>-</Typography>
+        </Grid>
+        <Grid item xs={2} className="form-title">
           <Typography>Đến: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
+        <Grid item xs={3} className="form-content">
           <Typography>{logOt.logEnd}</Typography>
         </Grid>
       </Grid>
+      
       <Grid
         container
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -141,7 +135,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
@@ -157,7 +151,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">

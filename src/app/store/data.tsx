@@ -33,8 +33,8 @@ export const OTTYPE = [
 export const STAFF = {staffId: 1, userId: 1, lastName:"Nguyen", firstName:"Ngoc", dob:"2003-09-15", phone:"0909090909", gender:0, address:"hok bik", 
                         country:"VietNam", citizenId:"086728991835", departmentId: 1, position: "Manager", hireDate:"2020-01-01", bankAccount:"oidwofew", 
                         bankAccountName:"Nguyen Bao Ngoc", bank:"abbank", WorkTimeByYear:12, accountStatus:1}
-export const OTLOG = {otLogId: 1, staffId: 11, otTypeId: 1, logStart:"2020-11-11 17:00:00", logEnd:"2020-11-11 20:00:00", logHours:3, reason:"none", status:"Chờ duyệt", 
-                        processNote:"", respondenceId: 0, createAt: "2020-11-11", changeStatusTime: "", enable: true}
+export const OTLOG = {otLogId: 1, staffId: 11, otTypeId: 1, logStart:"2020-11-11", logEnd:"2020-11-11", logHours:3, reason:"none", status:"Chờ duyệt", 
+                        processNote:"poiuytresdfghjkllkjbv", respondenceId: 0, createAt: "2020-11-11", changeStatusTime: "", enable: true}
 
 export const OTLOGS = [
 {otLogId: 1, staffId: 11, otTypeId: 1, logStart:"2020-11-11 17:00:00", logEnd:"2020-11-11 20:00:00", logHours:3, reason:"none", status:"Chờ duyệt", 
@@ -49,5 +49,7 @@ export const OTLOGS = [
   processNote:"", respondenceId: 4, createAt: "2020-11-11", changeStatusTime: "2020-11-11", enable: true},
 {otLogId: 1, staffId: 11, otTypeId: 1, logStart:"2020-11-11 17:00:00", logEnd:"2020-11-11 20:00:00", logHours:3, reason:"none", status:"Từ chối", 
   processNote:"", respondenceId: 5, createAt: "2020-11-11", changeStatusTime: "2020-11-11", enable: true},
-
 ]
+
+export const FORMSTATUS = {pending: "Chờ duyệt", agree: "Chấp nhận", disagree: "Từ chối"}
+

@@ -18,7 +18,11 @@ import Register from "../../features/account/Register";
 //
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
+import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 
+//
+import MyLeavetime from "../../features/leavelog/MyLeavetime";
+import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 
 //
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
@@ -26,6 +30,8 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetail from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
+
+
 
 
 
@@ -43,8 +49,10 @@ export const router = createBrowserRouter([
       //Them router ngay vi tri nay nhe!!
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
+      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
       { path: "/myleavelist", element: <MyLeavetime /> },
+      { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
 
