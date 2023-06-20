@@ -26,7 +26,14 @@ function Sidebar() {
                 variant="permanent"
                 anchor="left"
             >
-                <Toolbar />
+                <Toolbar>
+                    <Typography
+                        variant="h4"
+                        sx={{fontFamily:'Cascadia Code'}}
+                    >
+                        HRM
+                    </Typography>
+                </Toolbar>
                 <Divider />
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (

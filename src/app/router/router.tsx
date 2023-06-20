@@ -9,11 +9,10 @@ import OvertimeLog from "../../features/overlog/OvertimeList";
 import LeavetimeList from "../../features/leavelog/LeavetimeList";
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import TypeLeavetime from "../../features/leavelog/TypeLeavetime";
-import ViewOvertime from "../../features/overlog/ViewOvertime";
-import DepartmentPage from "../../features/department/DepartmentPage";
+import ViewOvertime from "../../features/overlog/ViewOvertime"; 
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
-import DepartmentDetail from "../../features/department/DepartmentDetail";
+import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
 
 
@@ -35,8 +34,8 @@ export const router = createBrowserRouter([
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertime /> },
 
-      { path: '/department-list' , element: <DepartmentList/>},
-      { path: '/department-detail' , element: <DepartmentDetail />},
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/departments/:id' , element: <DepartmentDetails />},
 
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },

@@ -1,3 +1,5 @@
+import { UserInfor } from "./userInfor";
+
 export interface Department {
     id: number;
     departmentId: number;
@@ -6,4 +8,5 @@ export interface Department {
     numberOfStaff: number;
     managerPhone: string;
     managerMail: string;
+    userInfors: UserInfor[];
 }

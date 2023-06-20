@@ -1,8 +1,11 @@
 export interface UserInfor {
     staffId: number;
-    userId: number;
-    lastName: string;
-    firstName: string;
+    id: number;
+    fullName: string;
+    departmentName: string;
+    email: string;
+    position: string;
+    gioiTinh:string;
     dob: string;
     phone: string;
     gender: number;
@@ -10,7 +13,7 @@ export interface UserInfor {
     country: string;
     citizenId: string;
     departmentId: number;
-    position: string;
+    isManager: boolean;
     hireDate: string;
     bankAccount: string;
     bankAccountName: string;
