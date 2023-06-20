@@ -1,19 +1,26 @@
-import { Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, IconButton, List, ListItem, Toolbar, Typography, Tooltip } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { AccessAlarm } from "@mui/icons-material";
+import { AccessAlarm, BorderAll } from "@mui/icons-material";
 import { useAppSelector } from "../store/configureStore";
 import SignedInMenu from "./SignedInMenu";
-
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import GitHubIcon from '@mui/icons-material/GitHub';
 const midLinks = [
     { title: 'home', path: '' },
     { title: 'overtime', path: 'overtime' },
     { title: 'about', path: 'about' },
 ]
 
+const enterDelay = 400;
+
 const rightLinks = [
-    { title: 'login', path: '/login' },
-    { title: 'register', path: '/register' },
+    { 
+        title: 
+        <IconButton component={Link} to="/" size="large" sx={{ mr: 2 }}>
+            <LoginIcon />
+        </IconButton>,
+        path: '/login' },
 ]
 
 const navStyle = {
@@ -32,57 +39,40 @@ export default function Header() {
     const { user } = useAppSelector(state => state.account);
 
     return (
-            
-        <>
-            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography
-                        component={NavLink}
-                        to='/' variant="h5"
-                        sx={{ textDecoration: 'none', color: 'inherit' }}
-
-                    >
-                        Hr_Management
-                    </Typography>
-                </Box>
-
-                <List sx={{ display: 'flex' }}>
-                    {midLinks.map(({ title, path }) =>
-                    (
-                        <ListItem
-                            component={NavLink}
-                            to={path}
-                            key={path}
-                            sx={navStyle}
-                        >
-                            {title.toUpperCase()}
-                        </ListItem>
-                    )
-                    )}
-                </List>
-
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconButton component={Link} to='/' size="large" color="inherit" sx={{ mr: 2 }}>
-                        <AccessAlarm />
+        <AppBar position="fixed" elevation={0} color="inherit" sx={{borderBottom: '1px solid #E4E4E4 ', opacity: '100%'}}>
+          <Toolbar sx={{justifyContent:'space-between'}}>
+            <Box sx={{ display: 'flex', flexGrow: 1 }}>
+                {/* <Typography
+                    component={NavLink}
+                    to="/"
+                    variant="h6"
+                    sx={{ textDecoration: 'none', color: '#333333' }}
+                >
+                    Human Resource Management
+                </Typography> */}
+            </Box>
+    
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Tooltip title="Alarm" enterDelay={enterDelay}>
+                    <IconButton component={Link} to="/departments" size="large" sx={{ mr: 2 , color:'#007FFF'}}>
+                        <AccessAlarm fontSize="inherit"/>
                     </IconButton>
-                    {user ? (
-                        <SignedInMenu />
-                    ) : (
-                        <List sx={{ display: 'flex', alignItems: 'center' }}>
-                        {rightLinks.map(({ title, path }) => (
-                            <ListItem
-                                key={path}
-                                to={path}
-                                component={NavLink}
-                                sx={{ color: 'inherit', typography: 'h6' }}
-                            >
-                                {title.toUpperCase()}
-                            </ListItem>
-                        ))}
-                    </List>
-                    )}
-                </Box>
-            </Toolbar>
-        </>
-    );
+                </Tooltip>
+                 
+                <Tooltip title="Github Repository" enterDelay={enterDelay}>
+                    <IconButton component={Link} to="/" size="large" sx={{ mr: 2 , color:'#007FFF', borderRadius:'12px', border: '1px solid #E0E0E0', padding:'6px'}} aria-label="logout">
+                        <GitHubIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Logout" enterDelay={enterDelay}>
+                    <IconButton component={Link} to="/" size="large" sx={{ mr: 2 , color:'#0075FF', borderRadius:'12px', border: '1px solid #E0E0E0', padding:'6px'}} aria-label="logout">
+                        <LogoutIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+                 
+            </Box>
+          </Toolbar>
+        </AppBar>
+      );
 }
