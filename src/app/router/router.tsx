@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
 
       { path: '/department-list' , element: <DepartmentList/>},
-      { path: '/department-detail' , element: <DepartmentDetail />},
+      { path: '/department-detail' , element: <DepartmentDetails />},
       { path: "/firststep", element: <Firststep /> },
 
       { path: '/employeelist' , element: <EmployeeList />},
