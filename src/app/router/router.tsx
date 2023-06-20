@@ -17,6 +17,7 @@ import DepartmentDetail from "../../features/department/DepartmentDetail";
 import DepartmentList from "../../features/department/DepartmentList";
 import CreateLeave from "../../features/leavelog/CreateLeave";
 import EmployeeList from "../../features/employee/EmployeeList";
+import Firststep from "../../features/employee/Firststep";
 
 
 export const router = createBrowserRouter([
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
 
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetail />},
+      { path: "/firststep", element: <Firststep /> },
 
       { path: '/employeelist' , element: <EmployeeList />},
 

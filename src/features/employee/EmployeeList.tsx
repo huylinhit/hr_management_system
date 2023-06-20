@@ -30,6 +30,7 @@ import {
 
 import React from "react";
 import { BorderColor } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -231,19 +232,7 @@ function EmployeeList() {
       "chờ duyệt"
     ),
   ];
-  function handleChange(
-    event: SelectChangeEvent<unknown>,
-    child: ReactNode
-  ): void {}
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <Typography variant="h4" sx={headerStyle}>
@@ -276,9 +265,9 @@ function EmployeeList() {
           </Grid>
         </Grid>
         <Grid item xs={10}>
-          <Button variant="contained" onClick={handleClickOpen}>
-            + Thêm nhân viên mới
-          </Button>
+       
+            <Link to="/firststep">    <Button variant="contained"> + Thêm nhân viên mới</Button> </Link>
+          
         </Grid>
       </Grid>
 
@@ -334,5 +323,4 @@ function EmployeeList() {
     </>
   );
 }
-
 export default EmployeeList;
