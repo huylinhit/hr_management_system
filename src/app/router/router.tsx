@@ -26,6 +26,9 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
+import CreateLeave from "../../features/leavelog/CreateLeave";
+import EmployeeList from "../../features/employee/EmployeeList";
+import Firststep from "../../features/employee/Firststep";
 
 
 export const router = createBrowserRouter([
@@ -49,11 +52,17 @@ export const router = createBrowserRouter([
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
+      { path: "/createleave", element: <CreateLeave /> },
       { path: "/detail-leave-log", element: <DetailLeave /> },
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
 
+      { path: '/department-list' , element: <DepartmentList/>},
+      { path: '/department-detail' , element: <DepartmentDetails />},
+      { path: "/firststep", element: <Firststep /> },
+
+      { path: '/employeelist' , element: <EmployeeList />},
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
