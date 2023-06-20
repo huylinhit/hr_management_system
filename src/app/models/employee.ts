@@ -1,11 +1,9 @@
-export interface UserInfor {
+export interface Employee {
     staffId: number;
-    id: number;
-    fullName: string;
-    departmentName: string;
-    email: string;
-    position: string;
-    gioiTinh:string;
+    userId: number;
+    // imageFile: string;
+	lastName: string;
+	firstName: string;
     dob: string;
     phone: string;
     gender: number;
@@ -13,11 +11,11 @@ export interface UserInfor {
     country: string;
     citizenId: string;
     departmentId: number;
-    isManager: boolean;
     hireDate: string;
     bankAccount: string;
     bankAccountName: string;
     bank: string;
-    WorkTimeByYear: number;
+    workTimeByYear: number;
+    isManager: number;
     accountStatus: number;
 }
