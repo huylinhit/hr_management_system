@@ -67,6 +67,29 @@ const Department = {
     patch: (id: number, values: any) => requests.patch(`departments/${id}`, values)
 }
 
+const Ticket = {
+    list: () => requests.get('tickets'),
+    details: (id: number) => requests.get(`tickets/${id}`),
+    create: (values: any) => requests.post('tickets', values),
+    update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
+    patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values)
+}
+
+const Skill = {
+    list: () => requests.get('skill'),
+    details: (id: number) => requests.get(`skill/${id}`),
+    create: (values: any) => requests.post('skill', values),
+    update: (id: number, values: any) => requests.put(`skill/${id}`, values),
+    patch: (id: number, values: any) => requests.patch(`skill/${id}`, values)
+}
+
+const StaffSkill = {
+    list: () => requests.get('staffskill'),
+    details: (id: number) => requests.get(`staffskill/${id}`),
+    create: (values: any) => requests.post('staffskill', values),
+    update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+    patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values)
+}
 const UserInfors = {
     list: () => requests.get('userinfor'),
     details: (id: number) => requests.get(`userinfor/${id}`),
@@ -74,7 +97,10 @@ const UserInfors = {
 const agent = {
     Account,
     Department,
-    UserInfors
+    UserInfors,
+    Ticket,
+    Skill,
+    StaffSkill
 }
 
 export default agent;

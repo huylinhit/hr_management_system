@@ -5,6 +5,7 @@ import { type } from "os";
 import { UserInfor } from "../../../app/models/userInfor";
 import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
+import React from "react";
 
 // interface
 interface Props {
@@ -65,7 +66,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
         </Grid>
         <Grid item xs={8} className="form-content">
           <Typography>
-            {staff.lastName} {staff.firstName}
+            {staff.fullName}
           </Typography>
         </Grid>
       </Grid>

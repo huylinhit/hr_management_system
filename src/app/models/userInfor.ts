@@ -1,7 +1,7 @@
 export interface UserInfor {
     staffId: number;
     id: number;
-    fullName: string;
+    firstName: string;
     departmentName: string;
     email: string;
     position: string;

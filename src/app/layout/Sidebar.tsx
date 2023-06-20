@@ -2,7 +2,7 @@ import { AccessAlarm } from "@mui/icons-material";
 import { AppBar, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import Header from "./Header";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 function Sidebar() {
     return (

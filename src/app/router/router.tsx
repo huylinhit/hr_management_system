@@ -26,6 +26,7 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetail from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
+import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 
 
 
@@ -47,6 +48,7 @@ export const router = createBrowserRouter([
       { path: "/myleavelist", element: <MyLeavetime /> },
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
+      { path: '/createothertypes' , element: <CreateOtherTypes/>},
 
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
