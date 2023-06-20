@@ -9,7 +9,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 
 //
-import DetailEmployee from "../../features/employee/DetailEmployee";
+import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 
 //
 import OvertimeLog from "../../features/overlog/OvertimeList";

@@ -1,5 +1,5 @@
-.page-container {
-    padding: 10px 30px;
+.page-container-detail-employee {
+    padding: 10px 30px 30px 30px;
     width: calc(100vh - 240);
 }
 
@@ -12,10 +12,9 @@
 }
 
 /* -------- BODY --------- */
-.page-content {
+.page-content-detail-employee {
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: white;
-    border-radius: 30px;
     height: auto;
     padding: 30px 45px;
     margin: 5px 20px;
