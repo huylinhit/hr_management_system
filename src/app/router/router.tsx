@@ -9,6 +9,9 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 
 //
+import DetailEmployee from "../../features/employee/DetailEmployee";
+
+//
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
@@ -23,7 +26,7 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
-import DetailEmployee from "../../features/employee/DetailEmployee";
+
 
 export const router = createBrowserRouter([
   {
