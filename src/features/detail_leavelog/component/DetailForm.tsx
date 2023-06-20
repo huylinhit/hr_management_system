@@ -2,13 +2,13 @@ import { Grid, Typography } from "@mui/material";
 import { type } from "os";
 
 // api
-import { UserInfor } from "../../../app/models/userInfor";
 import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
+import { Employee } from "../../../app/models/employee";
 
 // interface
 interface Props {
-  staff: UserInfor;
+  staff: Employee;
   logOt: LogOT;
   types: OtType[];
 }

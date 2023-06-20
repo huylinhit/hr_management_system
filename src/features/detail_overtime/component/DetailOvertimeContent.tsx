@@ -18,7 +18,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
-import { UserInfor } from "../../../app/models/userInfor";
+import { Employee } from "../../../app/models/employee";
 import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
 
@@ -28,7 +28,7 @@ import DetailForm from "./DetailForm";
 
 // interface
 interface Props {
-  staff: UserInfor;
+  staff: Employee;
   logOt: LogOT;
   types: OtType[];
 }

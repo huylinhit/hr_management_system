@@ -15,7 +15,7 @@ import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
 import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
-import { UserInfor } from "../../app/models/userInfor";
+import { Employee } from "../../app/models/employee";
 import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 
@@ -28,7 +28,7 @@ export default function DetailOvertime() {
   const dispatch = useAppDispatch();
   const { handleSubmit } = useForm();
   // -------------------------- STATE ---------------------------
-  const [staff, setStaff] = useState<UserInfor>(STAFF);
+  const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
