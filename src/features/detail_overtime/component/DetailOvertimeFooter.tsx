@@ -2,12 +2,12 @@ import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface Props {
-  setFinish: Function;
+
 }
 
-export default function DetailOvertimeFooter({ setFinish }: Props) {
+export default function DetailOvertimeFooter({  }: Props) {
   const handleFinish = () =>{
-    setFinish(true)
+
   }
 
   return (
@@ -28,7 +28,7 @@ export default function DetailOvertimeFooter({ setFinish }: Props) {
       </Grid>
       <Grid item className="footer-btn">
         <Button variant="contained" 
-          onChange={handleFinish}
+          type="submit"
         >
           Cập nhật 
         </Button>
