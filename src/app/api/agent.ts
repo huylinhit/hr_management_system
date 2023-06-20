@@ -50,6 +50,7 @@ const requests = {
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
+    patch: (url: string, body: {}) => axios.patch(url, body).then(responseBody),
 }
 
 const Account = {
@@ -60,12 +61,20 @@ const Account = {
 
 const Department = {
     list: () => requests.get('departments'), 
-    details: (id: number) => requests.get(`orders/${id}`),
-    create: (values: any) => requests.post('orders', values),
+    details: (id: number) => requests.get(`departments/${id}`),
+    create: (values: any) => requests.post('departments', values),
+    update: (id: number, values: any) => requests.put(`departments/${id}`, values),
+    patch: (id: number, values: any) => requests.patch(`departments/${id}`, values)
+}
+
+const UserInfors = {
+    list: () => requests.get('userinfor'),
+    details: (id: number) => requests.get(`userinfor/${id}`),
 }
 const agent = {
     Account,
-    Department
+    Department,
+    UserInfors
 }
 
 export default agent;

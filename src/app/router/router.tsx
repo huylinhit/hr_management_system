@@ -4,6 +4,13 @@ import HomePage from "../../features/home/HomePage";
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 
+
+// import LeavetimeLog from "../../features/leavelog/LeavetimeList";
+
+import MyLeavetime from "../../features/leavelog/MyLeavetime";
+
+
+import DepartmentDetails from "../../features/department/DepartmentDetails";
 // component
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
@@ -21,7 +28,7 @@ import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 
 //
-import DepartmentDetail from "../../features/department/DepartmentDetail";
+import DepartmentDetail from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
 
 
@@ -49,8 +56,8 @@ export const router = createBrowserRouter([
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
 
-      { path: '/department-list' , element: <DepartmentList/>},
-      { path: '/department-detail' , element: <DepartmentDetail />},
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/departments/:id' , element: <DepartmentDetails />},
 
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
