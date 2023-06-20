@@ -1,17 +1,21 @@
 import {
-  Container,
   Grid,
-  InputLabel,
   MenuItem,
   TextField,
   Typography,
   Select,
-  OutlinedInput,
   FormControl,
   Box,
+  Chip,
+  InputLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { SelectChangeEvent } from "@mui/material/Select";
+
+// data
+import { FORMSTATUS } from "../../../app/store/data";
 
 // api
 import { UserInfor } from "../../../app/models/userInfor";
@@ -24,26 +28,19 @@ interface Props {
   staff: UserInfor;
   logOt: LogOT;
   types: OtType[];
-  setFormValue: Function;
-  formValue: Object;
-  finish: boolean;
 }
 
-export default function DetailLeaveContent({
-  staff,
-  logOt,
-  types,
-  formValue,
-  setFormValue,
-  finish,
-}: Props) {
+export default function DetailLeaveContent({ staff, logOt, types }: Props) {
   // -------------------------- VAR -----------------------------
-  const ticketStatus = ["Chờ duyệt", "Đồng ý", "Từ chối"];
+  const { id } = useParams<{ id: string }>()
+  const { register } = useForm();
   // -------------------------- STATE ---------------------------
-  const [disable, setDisable] = useState(false);
   const [selectedType, setSelectedType] = useState("");
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    
+  }, [ id ])
   // -------------------------- FUNCTION ------------------------
   const handleSelect = (event: SelectChangeEvent) => {
     setSelectedType(event.target.value as string);
@@ -62,45 +59,40 @@ export default function DetailLeaveContent({
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "flex-start",
-          marginBottom: "10px",
+          alignItems: "center",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
           <Typography>Trạng thái: </Typography>
         </Grid>
-        {logOt.status === "Chờ duyệt" ? (
+        {logOt.status === FORMSTATUS.pending ? (
           <Grid item xs={8} className="form-content">
-            <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+            <FormControl fullWidth size="small">
+              <InputLabel>Chọn</InputLabel>
               <Select
                 labelId="demo-select-small-label"
                 id="demo-select-small"
                 value={selectedType}
                 label="Status"
-                onChange={handleSelect}
+                // onChange={handleSelect}
+                {...register("status")}
               >
-                {ticketStatus.map((status, index) => (
-                  <MenuItem key={index} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
+                <MenuItem value={FORMSTATUS.pending}>{FORMSTATUS.pending}</MenuItem>
+                <MenuItem value={FORMSTATUS.agree}>{FORMSTATUS.agree}</MenuItem>
+                <MenuItem value={FORMSTATUS.disagree}>{FORMSTATUS.disagree}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
         ) : (
           <Grid item xs={8} className="form-content">
-            <Box
-              sx={{
-                backgroundColor: "#F14668",
-                padding: "10px",
-                width: "110px",
-                borderRadius: "20px",
-              }}
-            >
-              <Typography sx={{ color: "white", fontWeight: "500" }}>
-                {logOt.status}
-              </Typography>
-            </Box>
+            <Chip
+              label={logOt.status}
+              color={
+                logOt.status === FORMSTATUS.agree ? 
+                  "info" : "error"
+              }
+            />
           </Grid>
         )}
       </Grid>
@@ -111,22 +103,21 @@ export default function DetailLeaveContent({
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginBottom: "10px",
+          marginBottom: "5px",
         }}
       >
         <Grid item xs={4} className="form-title">
           <Typography>Phản hồi: </Typography>
         </Grid>
-        {logOt.status === "Chờ duyệt" ? (
+        {logOt.status === FORMSTATUS.pending ? (
           <Grid item xs={8} className="form-content">
             <TextField
               id="outlined-multiline-flexible"
               label="Nhập phản hồi..."
+              fullWidth
               multiline
-              rows={4}
-              onChange={(e) => {
-                console.log(e);
-              }}
+              rows={2}
+              {...register("processNote", { required: "Không để trống phần phản hồi" })}
             />
           </Grid>
         ) : (
