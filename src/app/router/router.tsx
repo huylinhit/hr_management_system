@@ -42,10 +42,10 @@ export const router = createBrowserRouter([
       //Them router ngay vi tri nay nhe!!
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
-      { path: "/detail-overtime-log", element: <DetailOvertime /> },
+      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
       { path: "/myleavelist", element: <MyLeavetime /> },
-      { path: "/detail-leave-log", element: <DetailLeave /> },
+      { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
 
