@@ -1,6 +1,6 @@
 .page-container {
-    padding: 10px 30px;
-    width: calc(100vh - 240);
+  padding: 10px 30px;
+  width: calc(100vh - 240);
 }
 
 .page-title p {
@@ -11,14 +11,14 @@
   line-height: 39px;
 }
 
-/* -------- BDY --------- */
+/* -------- BODY --------- */
 .page-content {
-    border: 1px solid purple;
-    background-color: white;
-    border-radius: 30px;
-    height: auto;
-    padding: 20px 45px;
-    margin: 5px 20px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  border-radius: 30px;
+  height: auto;
+  padding: 20px 45px;
+  margin: 5px 20px;
 }
 
 .form-title p {
@@ -29,7 +29,8 @@
   margin-bottom: 15px;
 }
 
-.form-content p, div {
+.form-content p,
+div {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -37,8 +38,8 @@
 }
 
 /* ---------- FOOTER ------------- */
-.footer-btn button{
-  border: 1.5px solid #007FFF;
+.footer-btn button {
+  border: 1.5px solid #007fff;
   border-radius: 20px;
   padding: auto;
 }
