@@ -1,42 +1,44 @@
 .page-container {
-    padding: 10px 30px;
-    width: calc(100vh - 240);
+  padding: 10px 30px;
+  width: calc(100vh - 240);
 }
 
 .page-title p {
-  padding: 5px 0 15px 0;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 39px;
+padding: 5px 0 15px 0;
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 39px;
 }
 
 /* -------- BDY --------- */
 .page-content {
-    border: 1px solid purple;
-    background-color: white;
-    border-radius: 30px;
-    height: auto;
-    padding: 20px 45px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  border-radius: 30px;
+  height: auto;
+  padding: 20px 45px;
+  margin: 5px 20px;
 }
 
 .form-title p {
-  font-style: normal;
-  font-weight: 550;
-  font-size: 20px;
-  /* line-height: 25px; */
-  margin-bottom: 15px;
+font-style: normal;
+font-weight: 550;
+font-size: 22px;
+/* line-height: 25px; */
+margin-bottom: 15px;
 }
 
 .form-content p, div {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  /* line-height: 25px; */
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+/* line-height: 25px; */
 }
 
 /* ---------- FOOTER ------------- */
 .footer-btn button{
-    border: 1.5px solid #007FFF;
-    border-radius: 20px;
+border: 1.5px solid #007FFF;
+border-radius: 20px;
+padding: auto;
 }
