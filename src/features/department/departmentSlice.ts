@@ -2,6 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import { Department } from "../../app/models/department";
 import { RootState } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
+import { selectToken } from "../account/authSlice";
 
 interface DepartmentState{
     departmentsLoaded: boolean;
@@ -19,6 +20,7 @@ export const fetchDepartmentsAsync = createAsyncThunk<Department[], void, { stat
   'department/fetchDepartmentsAsync',
   async (_, thunkAPI) => {
     try {
+ 
       const response = await agent.Department.list();
 
       // Map the response items to include the id property
@@ -68,7 +70,7 @@ export const departmentSlice = createSlice({
         });
         builder.addCase(fetchDepartmentsAsync.fulfilled, (state,action) => {
             departmentsAdapter.setAll(state,action.payload);
-            console.log(action.payload);
+ 
             state.status = 'idle';
             state.departmentsLoaded = true;
         });
@@ -81,7 +83,7 @@ export const departmentSlice = createSlice({
         });
         builder.addCase(fetchDepartmentAsync.fulfilled, (state, action) => {
           departmentsAdapter.upsertOne(state, action.payload);
-          console.log(departmentsAdapter);
+ 
           state.status = 'idle';
         });
         builder.addCase(fetchDepartmentAsync.rejected, (state,action) => {

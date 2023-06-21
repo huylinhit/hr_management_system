@@ -15,6 +15,7 @@ function App() {
   const initApp = useCallback(async () => {
     try {
       await dispatch(fetchCurrentUser());
+      console.log("FETCH CURRENT USER");
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +47,7 @@ function App() {
     <Sidebar />
     <CssBaseline />
 
-      <Box sx={{ mt: 8, ml: 30, backgroundColor:"#f5f5f5" }}>
+      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#FFFFFF" }}>
         <Outlet />
       </Box>
     </Box>

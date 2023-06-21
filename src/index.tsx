@@ -9,13 +9,18 @@ import { store } from './app/store/configureStore';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router}/>
-    </Provider>
-  </React.StrictMode>
-);
+try{
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router}/>
+      </Provider>
+    </React.StrictMode>
+  );
+}catch(error){
+  console.log(error);
+}
+ 
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

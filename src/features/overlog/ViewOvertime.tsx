@@ -1,44 +1,15 @@
 
-
-import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses } from '@mui/material';
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
 import React, { ReactNode } from 'react';
 import CreateOvertime from './CreateOvertime';
 import { BorderColor } from '@mui/icons-material';
-
-import { LocalizationProvider, heIL } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import {
-  SelectChangeEvent,
-  Container,
-  Grid,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  DialogActions,
-  Autocomplete,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "@mui/material";
-
-import React from "react";
-import { BorderColor } from "@mui/icons-material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
 
 const headerStyle = {
-  fontWeight: "bold",
-};
+  fontWeight: 'bold'
+}
+
 const top100Films = [
   { label: "1", year: 1994 },
   { label: "2", year: 1972 },
@@ -46,220 +17,69 @@ const top100Films = [
   { label: "4", year: 2008 },
   { label: "5", year: 1957 },
   { label: "6", year: 1993 },
-  { label: "7", year: 1994 },
-  ``,
+  { label: "7", year: 1994 }, ``
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 
 function ViewOvertimeLog() {
+
   function createData(
-    msnv: string,
+    Doid: string,
+    id: number,
     name: string,
     kind: string,
     to: string,
     from: string,
     times: string,
     reason: string,
-    status: string
+    status: string,
+    reply: ReactNode,
+
   ) {
-    return { msnv, name, kind, to, from, times, reason, status };
+    return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
+
   const rows = [
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "09/01/2023 19:00",
-      "09/01/2023 22:00",
-      "3:00",
-      "...",
-      "chờ duyệt"
-    ),
+    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0002", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0003", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0004", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0005", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0006", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0007", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+
+
+
+
+
   ];
-  function handleChange(
-    event: SelectChangeEvent<unknown>,
-    child: ReactNode
-  ): void {}
+  const styles = {
+    marginBottom: '10px',
+  };
+
+  function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
+
+  }
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -271,8 +91,8 @@ function ViewOvertimeLog() {
   };
   return (
     <>
-     
-        <Typography variant="h4" sx={headerStyle}>
+      <Container>
+        <Typography variant="h4" sx={headerStyle} style={styles}>
           Danh sách đơn làm thêm giờ
         </Typography>
         <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -281,14 +101,18 @@ function ViewOvertimeLog() {
             xs={10}
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
-            <TextField label="Tìm kiếm..." />
+            <TextField
+              size='small'
+              label="Tìm kiếm..." />
             <Grid>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
                 sx={{ width: 200 }}
-                renderInput={(params) => <TextField {...params} label="Loại" />}
+                renderInput={(params) => (
+                  <TextField {...params} size='small' label="Loại" style={styles} />
+                )}
               />
             </Grid>
             <Grid>
@@ -298,76 +122,92 @@ function ViewOvertimeLog() {
                 options={top100Films}
                 sx={{ width: 200 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Phòng" />
+                  <TextField {...params} size='small' label="Phòng" />
                 )}
               />
             </Grid>
           </Grid>
           <Grid item xs={10}>
-            <Button variant="contained" onClick={handleClickOpen}>
-             + Tạo yêu cầu tăng ca
-            </Button>
+            <div>
+              <Button variant="contained" onClick={handleClickOpen}>
+                + Tạo đơn tăng ca
+              </Button>
+              <CreateOvertime open={open} handleChange={handleChange} handleClose={handleClose} />
+            </div>
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper} sx={{ mt: "10px" }}>
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
-              <TableRow sx={{ background: "black" }}>
-                <TableCell sx={{ color: "white" }} align="center">
-                  MSNV
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Tên
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Loại tăng ca
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Từ
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Đến
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Thời gian
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Lý do
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center">
-                  Trạng thái
-                </TableCell>
-                <TableCell sx={{ color: "white" }} align="center"></TableCell>
+              <TableRow>
+                <StyledTableCell>Mã đơn</StyledTableCell>
+                <StyledTableCell align="center">Mã nhân viên</StyledTableCell>
+                <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
+                <StyledTableCell align="center">Loại tăng ca</StyledTableCell>
+                <StyledTableCell align="center">Từ</StyledTableCell>
+                <StyledTableCell align="center">Đến</StyledTableCell>
+                <StyledTableCell align="center">Thời gian</StyledTableCell>
+                <StyledTableCell align="center">Lý do</StyledTableCell>
+                <StyledTableCell align="center">Trạng thái</StyledTableCell>
+                <StyledTableCell align="center">Phản hồi</StyledTableCell>
+                <StyledTableCell align="center">Xóa</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow
-                  key={row.msnv}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.msnv}
-                  </TableCell>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.kind}</TableCell>
-                  <TableCell align="center">{row.to}</TableCell>
-                  <TableCell align="center">{row.from}</TableCell>
-                  <TableCell align="center">{row.times}</TableCell>
-                  <TableCell align="center">{row.reason}</TableCell>
-                  <TableCell align="center">
-                    <div>{row.status}</div>
-                  </TableCell>
-                  <TableCell align="center">
-                    <BorderColor />
-                  </TableCell>
-                </TableRow>
+                <StyledTableRow key={row.Doid}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.Doid}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.id}</StyledTableCell>
+                  <StyledTableCell align="center">{row.name}</StyledTableCell>
+                  <StyledTableCell align="center">{row.kind}</StyledTableCell>
+                  <StyledTableCell align="center">{row.to}</StyledTableCell>
+                  <StyledTableCell align="center">{row.from}</StyledTableCell>
+                  <StyledTableCell align="center">{row.times}</StyledTableCell>
+                  <StyledTableCell align="center">{row.reason}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Chip
+                      label={row.status}
+                      color={
+
+                        row.status === 'Chấp nhận'
+                          ? 'info'
+                          : row.status === 'Chờ duyệt'
+                            ? 'default' // or 'disabled' if you want a grayed-out color
+                            : 'error'
+                      }
+                      sx={{ width: "92px" }}
+
+                    />
+
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Button
+                      // onClick={handleClickOpen}
+                      component={Link}
+                      to={`/detail-overtime-log/${row.Doid}`}
+                    >
+                      <BorderColor />
+                      {row.reply}
+
+                    </Button>
+                  </StyledTableCell>
+                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+
+                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
+
+
+                  </StyledTableCell>
+
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-     
+      </Container>
     </>
   );
 }
