@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createticket", element: <CreateTicketForm /> },
 
-      { path: '/department-list' , element: <DepartmentList/>},
+      { path: '/departments' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},
       { path: "/firststep", element: <Firststep /> },
 

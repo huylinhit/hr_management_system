@@ -25,7 +25,14 @@ export default function DetailEmployee() {
       </Grid>
 
       <Container>
-        <Grid container className="page-content-detail-employee">
+        <Grid
+          container
+          sx={{
+            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            backgroundColor: "white",
+            padding: "20px 45px 40px 45px",
+          }}
+        >
           <Grid
             container
             sx={{
@@ -42,17 +49,21 @@ export default function DetailEmployee() {
               </IconButton>
             </Grid>
           </Grid>
+
           <Grid item sx={{ width: "100%" }}>
             <DetailAva />
           </Grid>
+
           <Divider />
+
           <Grid
             item
             sx={{
               width: "100%",
               display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              padding: "30px 30px 0 30px",
             }}
           >
             <Grid item xs={6}>

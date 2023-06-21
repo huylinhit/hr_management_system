@@ -26,7 +26,7 @@ export default function DetailAva() {
             sx={{ bgcolor: "deepOrange", width: "120px", height: "120px" }}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} sx={{ paddingLeft: "10px"}}>
           <Typography variant="h5">Nguyen Minh Hoang</Typography>
           <Typography>Nguyen Minh Hoang</Typography>
         </Grid>

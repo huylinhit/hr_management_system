@@ -15,7 +15,5 @@
 .page-content-detail-employee {
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: white;
-    height: auto;
     padding: 30px 45px;
-    margin: 5px 20px;
 }
