@@ -26,6 +26,11 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
+
+import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
+import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
+import RequireAuth from "./RequireAuth";
+
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
@@ -36,8 +41,16 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        element: <RequireAuth />,
+        children: [
+          { path: "/departments", element: <DepartmentList /> },
+          { path: "/departments/:id", element: <DepartmentDetails /> },
+        ],
+      },
+
       { path: "", element: <HomePage /> },
-       
+
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
 
@@ -45,7 +58,7 @@ export const router = createBrowserRouter([
       // Employee
       { path: "/detail-employee", element: <DetailEmployee /> },
 
-      // Overtime 
+      // Overtime
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
@@ -55,9 +68,10 @@ export const router = createBrowserRouter([
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       // Ticket
+
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
-
+      { path: "/createticket", element: <CreateTicketForm /> },
 
       { path: '/department-list' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},
@@ -66,6 +80,7 @@ export const router = createBrowserRouter([
       { path: '/employeelist' , element: <EmployeeList />},
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

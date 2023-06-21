@@ -19,6 +19,7 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 import { Employee } from "../../app/models/employee";
 import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
+import React from "react";
 
 
 export default function DetailLeave() {

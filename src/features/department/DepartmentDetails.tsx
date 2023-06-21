@@ -27,12 +27,20 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid-pro";
+
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { NavLink, useParams } from "react-router-dom";
 import DepartmentForm from "./DepartmentForm";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DepartmentManagers from "./DepartmentManagers";
+import PhoneIcon from "@mui/icons-material/Phone";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import NumbersOutlinedIcon from "@mui/icons-material/NumbersOutlined";
+import TextFormatOutlinedIcon from '@mui/icons-material/TextFormatOutlined';
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -43,6 +51,11 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
+const headerStyle = {
+  color: "#007FFF",
+  fontWeight: 600,
+  fontSize: 13,
+};
 export default function DepartmentDetails() {
   const columns: GridColDef[] = [
     {
@@ -50,6 +63,11 @@ export default function DepartmentDetails() {
       field: "staffId",
       headerName: "Id",
       flex: 0.5,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <div>ID</div>
+        </Typography>
+      ),
     },
     {
       //fullName
@@ -58,20 +76,25 @@ export default function DepartmentDetails() {
       flex: 1,
       editable: true,
       headerClassName: "custom-header-text",
-    },
-    {
-      //position
-      field: "position",
-      headerName: "Chức vụ",
-      flex: 1,
-      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <TextFormatOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
+          <div>Tên Nhân Viên</div>
+        </Typography>
+      ),
     },
     {
       //phone
-      field: "phone",
+      field: "phone", 
       headerName: "Số Điện Thoại",
       flex: 1,
       editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
+          <div>Số Điện Thoại</div>
+        </Typography>
+      ),
     },
     {
       //gioiTinh
@@ -79,6 +102,13 @@ export default function DepartmentDetails() {
       headerName: "Giới Tính",
       flex: 1,
       editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <PermIdentityIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Giới Tính</div>
+        </Typography>
+      ),
     },
     {
       //email
@@ -86,6 +116,13 @@ export default function DepartmentDetails() {
       headerName: "Email",
       flex: 1,
       editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <EmailOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Số Điện Thoại</div>
+        </Typography>
+      ),
     },
     {
       //bank
@@ -93,6 +130,13 @@ export default function DepartmentDetails() {
       headerName: "Ngân Hàng",
       flex: 1,
       editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <AccountBalanceOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Ngân Hàng</div>
+        </Typography>
+      ),
     },
     {
       //bankAccount
@@ -100,11 +144,25 @@ export default function DepartmentDetails() {
       headerName: "TK Ngân Hàng",
       flex: 1,
       editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>TK Ngân Hàng</div>
+        </Typography>
+      ),
     },
     {
       field: "button",
-      headerName: "",
-      flex: 0.5,
+      headerName: "Chức Vụ",
+      flex: 1,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <AccountCircleIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Chức Vụ</div>
+        </Typography>
+      ),
       renderCell(params) {
         return (
           <>
@@ -323,6 +381,11 @@ export default function DepartmentDetails() {
               ".MuiDataGrid-columnHeaders": {
                 backgroundColor: "#E0F0FF",
               },
+              borderLeft: "none",
+              borderRight: "none",
+              color: "#505050",
+              fontWeight: "550",
+              fontSize:15
             }}
             slots={{
               loadingOverlay: LinearProgress,

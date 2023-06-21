@@ -112,7 +112,7 @@ export default function DepartmentList() {
 
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
-    console.log(departments);
+ 
   }, [dispatch, departmentsLoaded]);
 
   useEffect(() => {
