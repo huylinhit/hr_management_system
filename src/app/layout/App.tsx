@@ -15,6 +15,7 @@ function App() {
   const initApp = useCallback(async () => {
     try {
       await dispatch(fetchCurrentUser());
+      console.log("FETCH CURRENT USER");
     } catch (error) {
       console.log(error);
     }

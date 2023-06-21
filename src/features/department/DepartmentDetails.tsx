@@ -85,7 +85,7 @@ export default function DepartmentDetails() {
     },
     {
       //phone
-      field: "phone",
+      field: "phone", 
       headerName: "Số Điện Thoại",
       flex: 1,
       editable: true,

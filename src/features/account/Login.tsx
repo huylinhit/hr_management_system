@@ -10,7 +10,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import {LoadingButton} from '@mui/lab';
 import { Container, Paper, Typography, TextField } from '@mui/material';
 import { useAppDispatch } from '../../app/store/configureStore';
-import { signInUser } from './accountSlice';
+import { fetchCurrentUser, signInUser } from './accountSlice';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -21,7 +21,8 @@ export default function Login() {
 
     async function submitForm(data: FieldValues){
         await dispatch(signInUser(data));
-        navigate('/department-list');
+        await dispatch(fetchCurrentUser());
+        navigate('/departments');
          
     }
 

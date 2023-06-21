@@ -52,7 +52,7 @@ export const userInforSlice = createSlice({
     });
     builder.addCase(fetchUserInforsAsync.fulfilled, (state, action) => {
       userInforsAdapter.setAll(state, action.payload);
-      console.log(action.payload);
+ 
       state.status = "idle";
       state.userInforsLoaded = true;
     });
@@ -65,7 +65,7 @@ export const userInforSlice = createSlice({
     });
     builder.addCase(fetchUserInforAsync.fulfilled, (state, action) => {
       userInforsAdapter.upsertOne(state, action.payload);
-      console.log(userInforsAdapter);
+ 
       state.status = "idle";
     });
     builder.addCase(fetchUserInforAsync.rejected, (state, action) => {
