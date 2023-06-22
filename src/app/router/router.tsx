@@ -9,7 +9,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 
 //
-import DetailEmployee from "../../features/employee/DetailEmployee";
+import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 
 //
 import OvertimeLog from "../../features/overlog/OvertimeList";
@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createticket", element: <CreateTicketForm /> },
 
-      { path: '/department-list' , element: <DepartmentList/>},
+      { path: '/departments' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},
       { path: "/firststep", element: <Firststep /> },
 

@@ -123,7 +123,7 @@ export default function DepartmentList() {
   }, [departmentsLoaded, departments]);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF"}}>
       <Button
         variant="text"
         sx={{
