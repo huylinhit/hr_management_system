@@ -26,28 +26,20 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Mã đơn: </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Mã đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{logOt.otLogId}</Typography>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          marginBottom: "5px",
-        }}
-      >
-        <Grid item xs={4} className="form-title">
-          <Typography>Mã số nhân viên: </Typography>
-        </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{logOt.staffId}</Typography>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.otLogId}
+          </Typography>
         </Grid>
       </Grid>
 
@@ -60,11 +52,44 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Tên nhân viên: </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Mã số nhân viên: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.staffId}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          marginBottom: "5px",
+        }}
+      >
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Tên nhân viên: </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
             {staff.lastName} {staff.firstName}
           </Typography>
         </Grid>
@@ -79,11 +104,20 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Loại đơn: </Typography>
+        <Grid item xs={4}>
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Loại đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{type?.typeName}</Typography>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {type?.typeName}
+          </Typography>
         </Grid>
       </Grid>
 
@@ -96,23 +130,46 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Từ: </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Từ: </Typography>
         </Grid>
-        <Grid item xs={2} className="form-content">
-          <Typography>{logOt.logStart}</Typography>
+        <Grid item xs={2}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.logStart}
+          </Typography>
         </Grid>
-        <Grid item xs={1} className="form-title">
-          <Typography>-</Typography>
+        <Grid item xs={1} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>-</Typography>
         </Grid>
-        <Grid item xs={2} className="form-title">
-          <Typography>Đến: </Typography>
+        <Grid item xs={2} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Đến: </Typography>
         </Grid>
-        <Grid item xs={3} className="form-content">
-          <Typography>{logOt.logEnd}</Typography>
+        <Grid item xs={3}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.logEnd}
+          </Typography>
         </Grid>
       </Grid>
-      
+
       <Grid
         container
         sx={{
@@ -122,27 +179,20 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Số ngày nghỉ: </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Số giờ làm: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{logOt.logHours} giờ</Typography>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          marginBottom: "5px",
-        }}
-      >
-        <Grid item xs={4} className="form-title">
-          <Typography>Nội dung đơn: </Typography>
-        </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{logOt.reason}</Typography>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.logHours} giờ
+          </Typography>
         </Grid>
       </Grid>
       <Grid
@@ -154,11 +204,45 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Ngày gửi đơn: </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Nội dung đơn: </Typography>
         </Grid>
-        <Grid item xs={8} className="form-content">
-          <Typography>{logOt.createAt}</Typography>
+        <Grid item xs={8}>
+          <Typography
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.reason}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          marginBottom: "5px",
+        }}
+      >
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Ngày gửi đơn: </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <Typography
+           sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+          >
+            {logOt.createAt}
+          </Typography>
         </Grid>
       </Grid>
     </>

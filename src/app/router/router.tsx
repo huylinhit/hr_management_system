@@ -57,12 +57,10 @@ export const router = createBrowserRouter([
 
       //Them router ngay vi tri nay nhe!!
       // Employee
+      { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee", element: <DetailEmployee /> },
 
       // Overtime
-      // 
-      { path: "/overtime", element: <OvertimeLog /> },
-
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
@@ -77,12 +75,11 @@ export const router = createBrowserRouter([
       { path: "/createticket", element: <CreateTicketForm /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
 
-
+      // Department 
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},
       { path: "/firststep", element: <Firststep /> },
 
-      { path: '/employeelist' , element: <EmployeeList />},
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
