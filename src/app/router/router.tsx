@@ -59,16 +59,18 @@ export const router = createBrowserRouter([
       { path: "/detail-employee", element: <DetailEmployee /> },
 
       // Overtime
+      // 
       { path: "/overtime", element: <OvertimeLog /> },
+
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
+      //
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       // Ticket
-
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createticket", element: <CreateTicketForm /> },

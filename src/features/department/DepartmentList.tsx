@@ -123,7 +123,7 @@ export default function DepartmentList() {
   }, [departmentsLoaded, departments]);
 
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF"}}>
+    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", paddingLeft: "25px" }}>
       <Button
         variant="text"
         sx={{
@@ -142,6 +142,7 @@ export default function DepartmentList() {
         to={`/departments`}
         key={"/departments"}
       >
+        
         Danh sách phòng ban
       </Button>
       <Grid container justifyContent={"space-between"}>

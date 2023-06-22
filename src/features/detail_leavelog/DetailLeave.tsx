@@ -4,9 +4,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
-//style
-import "./DetailLeave.css";
-
 // component
 import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
@@ -40,12 +37,31 @@ export default function DetailLeave() {
   };
   // -------------------------- MAIN ----------------------------
   return (
-    <Box className="page-container">
+    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container className="page-title">
-        <Typography>Phản hồi đơn xin nghỉ phép</Typography>
+        <Typography
+          sx={{
+            padding: "5px 0 15px 0",
+            fontStyle: "normal",
+            fontWeight: "700",
+            fontSize: "30px",
+            lineHeight: "39px",
+          }}
+        >
+          Phản hồi đơn xin nghỉ phép
+        </Typography>
       </Grid>
 
-      <Grid container className="page-content">
+      <Grid
+        container
+        sx={{
+          boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+          backgroundColor: "white",
+          borderRadius: "30px",
+          padding: "20px 45px",
+          margin: "5px 20px",
+        }}
+      >
         <Form autoComplete="off" form={form}>
           <Grid item sx={{ width: "100%", padding: "50px 50px 0 50px" }}>
             <DetailLeaveContent logOt={logOt} staff={staff} types={types} />
