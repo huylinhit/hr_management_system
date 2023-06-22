@@ -1,6 +1,14 @@
 import { Box, Grid, Typography } from "@mui/material";
 
-export default function DetailSkill() {
+// data
+import { Employee } from "../../../app/models/employee";
+
+// interface
+interface Props {
+  staff: Employee;
+}
+
+export default function DetailSkill({ staff }: Props) {
   return (
     <Box sx={{ padding: "0 10px 20px 10px" }}>
       <Grid>

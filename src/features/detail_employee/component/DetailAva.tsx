@@ -1,6 +1,14 @@
 import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 
-export default function DetailAva() {
+// data
+import { Employee } from "../../../app/models/employee";
+
+// interface
+interface Props {
+  staff: Employee;
+}
+
+export default function DetailAva({ staff }: Props) {
   return (
     <Grid
       container
@@ -27,8 +35,8 @@ export default function DetailAva() {
           />
         </Grid>
         <Grid item xs={9} sx={{ paddingLeft: "10px"}}>
-          <Typography variant="h5">Nguyen Minh Hoang</Typography>
-          <Typography>Nguyen Minh Hoang</Typography>
+          <Typography variant="h5">{staff.lastName} {staff.firstName}</Typography>
+          <Typography>{staff.staffId}</Typography>
         </Grid>
       </Grid>
       <Grid

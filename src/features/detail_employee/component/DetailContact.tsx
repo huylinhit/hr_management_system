@@ -1,6 +1,14 @@
 import { Box, Grid, Typography } from "@mui/material";
 
-export default function DetailContact() {
+// data
+import { Employee } from "../../../app/models/employee";
+
+// interface
+interface Props {
+  staff: Employee;
+}
+
+export default function DetailContact({ staff }: Props) {
   return (
     <Box sx={{ padding: "0 10px 20px 10px"}}>
       <Grid>
@@ -24,7 +32,7 @@ export default function DetailContact() {
             <Typography sx={{ fontWeight: "600" }}>Số điện thoại:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400" }}>Giới tính:</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{staff.phone}</Typography>
           </Grid>
         </Grid>
 
@@ -60,7 +68,7 @@ export default function DetailContact() {
             <Typography sx={{ fontWeight: "600" }}>Địa chỉ:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400" }}>Giới tính:</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{staff.address}</Typography>
           </Grid>
         </Grid>
       </Grid>
