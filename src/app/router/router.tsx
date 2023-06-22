@@ -30,6 +30,7 @@ import DepartmentList from "../../features/department/DepartmentList";
 import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import RequireAuth from "./RequireAuth";
+import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
 
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
@@ -74,6 +75,8 @@ export const router = createBrowserRouter([
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createticket", element: <CreateTicketForm /> },
+      { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+
 
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},

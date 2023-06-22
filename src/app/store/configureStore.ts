@@ -4,6 +4,7 @@ import { accountSlice } from "../../features/account/accountSlice";
 import { departmentSlice } from "../../features/department/departmentSlice";
 import { userInforSlice } from "../../features/department/userInforSlice";
 import { ticketSlice } from "../../features/othertypes/ticketSlice";
+import { ticketTypeSlice } from "../../features/othertypes/ticketTypeSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         department: departmentSlice.reducer,
         userInfor: userInforSlice.reducer,
         ticket: ticketSlice.reducer,
+        ticketType: ticketTypeSlice.reducer
     }
 })
 

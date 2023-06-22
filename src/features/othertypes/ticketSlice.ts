@@ -4,9 +4,11 @@ import { async } from "q";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
 import { UserInfo } from "os";
+import { TicketType } from "../../app/models/ticketType";
 
 interface TicketState {
   ticketsLoaded: boolean;
+  ticketTypesLoaded: boolean;
   filtersLoaded: boolean;
   status: string;
 }
@@ -14,6 +16,7 @@ interface TicketState {
 const ticketsAdapter = createEntityAdapter<Ticket>({
   selectId: (ticket) => ticket.ticketId,
 });
+
 
 export const fetchTicketsAsync = createAsyncThunk<Ticket[], void, { state: RootState }>(
   "tickets/fetchTicketsAsync",
@@ -40,9 +43,10 @@ export const fetchTicketAsync = createAsyncThunk<Ticket, number>(
 );
 
 export const ticketSlice = createSlice({
-  name:"tickets",
+  name: "tickets",
   initialState: ticketsAdapter.getInitialState<TicketState>({
     ticketsLoaded: false,
+    ticketTypesLoaded: false,
     filtersLoaded: false,
     status: "idle",
   }),
@@ -61,6 +65,7 @@ export const ticketSlice = createSlice({
       console.log(action.payload);
       state.status = "idle";
     });
+
     builder.addCase(fetchTicketAsync.pending, (state, action) => {
       state.status = "pendingFetchUserInfor";
     });
@@ -73,9 +78,7 @@ export const ticketSlice = createSlice({
       console.log(action);
       state.status = "idle";
     });
-  }
+  },
 });
 
-export const ticketsSelectors = ticketsAdapter.getSelectors(
-  (state: RootState) => state.ticket
-)
+export const ticketsSelectors = ticketsAdapter.getSelectors((state: RootState) => state.ticket);
