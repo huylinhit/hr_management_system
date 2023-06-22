@@ -47,7 +47,7 @@ function App() {
     <Sidebar />
     <CssBaseline />
 
-      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#FFFFFF" }}>
+      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#F5F5F5" }}>
         <Outlet />
       </Box>
     </Box>

@@ -1,9 +1,12 @@
 
-import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Switch } from '@mui/material';
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Switch, Chip, makeStyles } from '@mui/material';
 import React, { ReactNode } from 'react';
-import { BorderColor, Route } from '@mui/icons-material';
+import { BorderColor, } from '@mui/icons-material';
 import CreateOtherTypes from './CreateOtherTypes';
-import EditOtherTypes from './EditOtherTypes';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+
+
 const headerStyle = {
     fontWeight: 'bold'
 }
@@ -58,12 +61,12 @@ function ViewOtherTypes() {
 
     const rows = [
         createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
-        createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
+        createData("HR0002", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chấp nhận", ""),
+        createData("HR0003", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Từ chối", ""),
+        createData("HR0004", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
+        createData("HR0005", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chấp nhận", ""),
+        createData("HR0006", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Từ chối", ""),
+        createData("HR0007", 1000001, 'Nguyen Hong Ngoc', "Đơn khác", "...", "09/09/2023 22:00", "Chờ duyệt", ""),
 
 
 
@@ -87,30 +90,32 @@ function ViewOtherTypes() {
     const handleClose = () => {
         setOpen(false);
     };
-
-
+   
+   
     return (
         <>
             <Container>
                 <Typography variant="h4" sx={headerStyle} style={styles}>
                     Danh sách đơn khác
                 </Typography>
-                <Container>
+                
                     <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Grid
                             item
                             xs={10}
                             sx={{ display: "flex", justifyContent: "space-between" }}
                         >
-                            <TextField label="Tìm kiếm..." />
+                            <TextField 
+                            size= 'small'
+                            label="Tìm kiếm..." />
                             <Grid>
                                 <Autocomplete
                                     disablePortal
                                     id="combo-box-demo"
                                     options={top100Films}
-                                    sx={{ width: 200 }}
+                                    sx={{width: 200 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Loại" style={styles} />
+                                        <TextField {...params} size= 'small' label="Loại" style={styles} />
                                     )}
                                 />
                             </Grid>
@@ -121,7 +126,7 @@ function ViewOtherTypes() {
                                     options={top100Films}
                                     sx={{ width: 200 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Phòng" />
+                                        <TextField {...params} size= 'small' label="Phòng" />
                                     )}
                                 />
                             </Grid>
@@ -135,7 +140,7 @@ function ViewOtherTypes() {
 
                         </Grid>
                     </Grid>
-                </Container>
+               
 
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -149,6 +154,7 @@ function ViewOtherTypes() {
                                 <StyledTableCell align="center">Ngày tạo đơn</StyledTableCell>
                                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
+                                <StyledTableCell align="center">Xóa</StyledTableCell>
 
                             </TableRow>
                         </TableHead>
@@ -163,16 +169,36 @@ function ViewOtherTypes() {
                                     <StyledTableCell align="center">{row.kind}</StyledTableCell>
                                     <StyledTableCell align="center">{row.content}</StyledTableCell>
                                     <StyledTableCell align="center">{row.times}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.status}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button variant="contained" onClick={handleClickOpen}>
+                                        <Chip
+                                            label={row.status}
+                                            color={
+
+                                                row.status === 'Chấp nhận'
+                                                    ? 'info'
+                                                    : row.status === 'Chờ duyệt'
+                                                        ? 'default' // or 'disabled' if you want a grayed-out color
+                                                        : 'error'
+                                            }
+                                            sx={{width: "92px"}}
+
+                                        />
+
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button
+                                            // onClick={handleClickOpen}
+                                            component={Link}
+                                            to={`/editothertype/${row.Doid}`}
+                                        >
                                             <BorderColor />
                                             {row.reply}
+
                                         </Button>
-                                        {/* <EditOtherTypes  open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+                                    </StyledTableCell>
+                                    {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
 
-                                        <Route path="/edit-other-types" component={EditOtherTypes} />
-
+                                    <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
 
 
                                     </StyledTableCell>
@@ -189,3 +215,6 @@ function ViewOtherTypes() {
 }
 
 export default ViewOtherTypes;
+
+
+

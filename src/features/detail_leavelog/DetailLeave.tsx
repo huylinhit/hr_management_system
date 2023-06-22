@@ -4,7 +4,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
-
 //style
 import "./DetailLeave.css";
 
@@ -19,8 +18,7 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 import { Employee } from "../../app/models/employee";
 import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
-import React from "react";
-
+import { Form } from "antd";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
@@ -29,7 +27,7 @@ export default function DetailLeave() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { handleSubmit } = useForm();
+  const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
   const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------
@@ -46,14 +44,16 @@ export default function DetailLeave() {
       <Grid container className="page-title">
         <Typography>Phản hồi đơn xin nghỉ phép</Typography>
       </Grid>
-      
+
       <Grid container className="page-content">
-        <Grid item sx={{ width: "100%", padding: "50px 50px 0 50px" }}>
-          <DetailLeaveContent logOt={logOt} staff={staff} types={types} />
-        </Grid>
-        <Grid item sx={{ width: "100%" }}>
-          <DetailLeaveFooter />
-        </Grid>
+        <Form autoComplete="off" form={form}>
+          <Grid item sx={{ width: "100%", padding: "50px 50px 0 50px" }}>
+            <DetailLeaveContent logOt={logOt} staff={staff} types={types} />
+          </Grid>
+          <Grid item sx={{ width: "100%" }}>
+            <DetailLeaveFooter />
+          </Grid>
+        </Form>
       </Grid>
     </Box>
   );

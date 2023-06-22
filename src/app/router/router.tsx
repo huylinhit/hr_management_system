@@ -9,7 +9,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 
 //
-import DetailEmployee from "../../features/employee/DetailEmployee";
+import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 
 //
 import OvertimeLog from "../../features/overlog/OvertimeList";
@@ -26,10 +26,16 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
+
 import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import RequireAuth from "./RequireAuth";
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
+
+import EmployeeList from "../../features/employee/EmployeeList";
+import Firststep from "../../features/employee/Firststep";
+import EditOtherType from "../../features/othertypes/EditOtherType";
+
 
 export const router = createBrowserRouter([
   {
@@ -56,17 +62,27 @@ export const router = createBrowserRouter([
       // Overtime
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
-      { path: "/detail-overtime-log", element: <DetailOvertime /> },
+      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
-      { path: "/detail-leave-log", element: <DetailLeave /> },
+      { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       // Ticket
-      { path: "/viewothertypes", element: <ViewOtherTypes /> },
-      { path: "/createothertypes", element: <CreateOtherTypes /> },
+
+      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createticket", element: <CreateTicketForm /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+
+
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/department-detail' , element: <DepartmentDetails />},
+      { path: "/firststep", element: <Firststep /> },
+
+      { path: '/employeelist' , element: <EmployeeList />},
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/departments/:id' , element: <DepartmentDetails />},
 
 
       // Others
