@@ -29,6 +29,7 @@ import DepartmentList from "../../features/department/DepartmentList";
 import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import RequireAuth from "./RequireAuth";
+import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,8 @@ export const router = createBrowserRouter([
       { path: "/viewothertypes", element: <ViewOtherTypes /> },
       { path: "/createothertypes", element: <CreateOtherTypes /> },
       { path: "/createticket", element: <CreateTicketForm /> },
+      { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

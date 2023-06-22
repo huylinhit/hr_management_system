@@ -82,6 +82,13 @@ const Ticket = {
   update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
 };
+const TicketType = {
+  list: () => requests.get("tickettype"),
+  details: (id: number) => requests.get(`tickettype/${id}`),
+  create: (values: any) => requests.post("tickettype", values),
+  update: (id: number, values: any) => requests.put(`tickettype/${id}`, values),
+  delete: (id: number) => requests.delete(`tickettype/${id}`),
+}
 
 const Skill = {
   list: () => requests.get("skill"),
@@ -109,6 +116,7 @@ const agent = {
   Ticket,
   Skill,
   StaffSkill,
+  TicketType
 };
 
 export default agent;
