@@ -12,6 +12,9 @@ import Register from "../../features/account/Register";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 
 //
+import DetailContract from "../../features/detail_contract/DetailContract";
+
+//
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
@@ -37,6 +40,7 @@ import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
 
 
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -59,6 +63,9 @@ export const router = createBrowserRouter([
       // Employee
       { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee", element: <DetailEmployee /> },
+
+      // Contract
+      { path: "/detail-contract", element: <DetailContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
