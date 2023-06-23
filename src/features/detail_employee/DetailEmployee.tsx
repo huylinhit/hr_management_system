@@ -1,16 +1,6 @@
 import { useState } from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  Container,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
 import { LuEdit } from "react-icons/lu";
-
-// style
-import "./DetailEmployee.css";
 
 // component
 import DetailAva from "./component/DetailAva";
@@ -18,8 +8,8 @@ import DetailContact from "./component/DetailContact";
 import DetailInfo from "./component/DetailInfo";
 import DetailSkill from "./component/DetailSkill";
 
-// data 
-import { STAFF } from "../../app/store/data"
+// data
+import { STAFF } from "../../app/store/data";
 import { Employee } from "../../app/models/employee";
 
 export default function DetailEmployee() {
@@ -30,9 +20,19 @@ export default function DetailEmployee() {
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
   return (
-    <Box className="page-container-detail-employee">
-      <Grid container className="page-title">
-        <Typography>Thông tin nhân viên</Typography>
+    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+      <Grid container>
+        <Typography
+          sx={{
+            padding: "5px 0 15px 0",
+            fontStyle: "normal",
+            fontWeight: "700",
+            fontSize: "30px",
+            lineHeight: "39px",
+          }}
+        >
+          Thông tin nhân viên
+        </Typography>
         <IconButton aria-label="delete" sx={{ padding: "10px 10px 20px 10px" }}>
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
@@ -47,8 +47,11 @@ export default function DetailEmployee() {
             padding: "20px 45px 40px 45px",
           }}
         >
-          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}>
-            <DetailAva staff={staff}/>
+          <Grid
+            item
+            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
+          >
+            <DetailAva staff={staff} />
           </Grid>
 
           <hr
@@ -71,7 +74,7 @@ export default function DetailEmployee() {
             }}
           >
             <Grid item xs={5}>
-              <DetailInfo staff={staff}/>
+              <DetailInfo staff={staff} />
             </Grid>
 
             <Grid item xs={1}>

@@ -2,9 +2,11 @@
 import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Switch, Chip, makeStyles } from '@mui/material';
 import React, { ReactNode } from 'react';
 import { BorderColor, } from '@mui/icons-material';
+import { CiCircleMore } from "react-icons/ci";
 import CreateOtherTypes from './CreateOtherTypes';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { FORMSTATUS } from '../../app/store/data';
 
 
 const headerStyle = {
@@ -94,26 +96,27 @@ function ViewOtherTypes() {
    
     return (
         <>
-            <Container>
+            <Container sx={{ padding: "15px 0" }}>
                 <Typography variant="h4" sx={headerStyle} style={styles}>
                     Danh sách đơn khác
                 </Typography>
                 
-                    <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Grid sx={{ display: "flex", justifyContent: "space-between", padding: " 20px 0 5px 0" }}>
                         <Grid
                             item
                             xs={10}
                             sx={{ display: "flex", justifyContent: "space-between" }}
                         >
-                            <TextField 
-                            size= 'small'
-                            label="Tìm kiếm..." />
+                            <Grid sx={{ margin: "0 5px" }}>
+              <TextField size="small" label="Tìm kiếm..." />
+            </Grid>
+
                             <Grid>
                                 <Autocomplete
                                     disablePortal
                                     id="combo-box-demo"
                                     options={top100Films}
-                                    sx={{width: 200 }}
+                                    sx={{width: 200, margin: "0 5px" }}
                                     renderInput={(params) => (
                                         <TextField {...params} size= 'small' label="Loại" style={styles} />
                                     )}
@@ -124,7 +127,7 @@ function ViewOtherTypes() {
                                     disablePortal
                                     id="combo-box-demo"
                                     options={top100Films}
-                                    sx={{ width: 200 }}
+                                    sx={{ width: 200, margin: "0 5px" }}
                                     renderInput={(params) => (
                                         <TextField {...params} size= 'small' label="Phòng" />
                                     )}
@@ -173,12 +176,11 @@ function ViewOtherTypes() {
                                         <Chip
                                             label={row.status}
                                             color={
-
-                                                row.status === 'Chấp nhận'
-                                                    ? 'info'
-                                                    : row.status === 'Chờ duyệt'
-                                                        ? 'default' // or 'disabled' if you want a grayed-out color
-                                                        : 'error'
+                                                row.status === FORMSTATUS.agree
+                                                ? "info"
+                                                : row.status === FORMSTATUS.pending
+                                                ? "default" // or 'disabled' if you want a grayed-out color
+                                                : "error"
                                             }
                                             sx={{width: "92px"}}
 
@@ -191,7 +193,10 @@ function ViewOtherTypes() {
                                             component={Link}
                                             to={`/editothertype/${row.Doid}`}
                                         >
-                                            <BorderColor />
+                                            {row.status === FORMSTATUS.pending
+                          ? <BorderColor />
+                          : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
+                      }
                                             {row.reply}
 
                                         </Button>
