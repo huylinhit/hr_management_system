@@ -46,8 +46,7 @@ function App() {
     <Box >
     <Sidebar />
     <CssBaseline />
-
-      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#F5F5F5" }}>
+      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#FFFFFF" }}>  {/* NĂN NỈ Á :<< Nguyễn Bảo Ngọc*/}
         <Outlet />
       </Box>
     </Box>
