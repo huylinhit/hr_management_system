@@ -1,36 +1,45 @@
 import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-interface Props {
+interface Props {}
 
-}
-
-export default function DetailOvertimeFooter({  }: Props) {
-  const handleFinish = () =>{
-
-  }
+export default function DetailOvertimeFooter({}: Props) {
+  const handleFinish = () => {};
 
   return (
-    <Grid container
+    <Grid
+      container
       sx={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
-        padding:"30px 50px"
+        padding: "30px 50px",
       }}
     >
-      <Grid item className="footer-btn">
-        <Button variant="outlined" 
-            startIcon={<ArrowBackIcon />}
+      <Grid item >
+        <Button
+          variant="outlined"
+          sx={{
+            border: "1.5px solid #007FFF",
+            borderRadius: "20px",
+            padding: "auto",
+          }}
+          startIcon={<ArrowBackIcon />}
         >
           Quay về
         </Button>
       </Grid>
-      <Grid item className="footer-btn">
-        <Button variant="contained" 
+      <Grid item >
+        <Button
+          variant="contained"
           type="submit"
+          sx={{
+            border: "1.5px solid #007FFF",
+            borderRadius: "20px",
+            padding: "auto",
+          }}
         >
-          Cập nhật 
+          Cập nhật
         </Button>
       </Grid>
     </Grid>

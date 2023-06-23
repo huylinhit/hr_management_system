@@ -12,6 +12,9 @@ import Register from "../../features/account/Register";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 
 //
+import DetailContract from "../../features/detail_contract/DetailContract";
+
+//
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
@@ -41,6 +44,7 @@ import MyTicketList from "../../features/othertypes/MyTicketList";
 import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
 
 
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,31 +65,33 @@ export const router = createBrowserRouter([
 
       //Them router ngay vi tri nay nhe!!
       // Employee
+      { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee", element: <DetailEmployee /> },
 
+      // Contract
+      { path: "/detail-contract", element: <DetailContract /> },
+
       // Overtime
-      { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
+      //
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
 
       // Ticket
-
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/myticketlist", element: <MyTicketList /> },
       { path: "/otherusersticketlist", element: <OtherUsersTicketList /> },
 
-
+      // Department 
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/department-detail' , element: <DepartmentDetails />},
       { path: "/firststep", element: <Firststep /> },
 
-      { path: '/employeelist' , element: <EmployeeList />},
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
