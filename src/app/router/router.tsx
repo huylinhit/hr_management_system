@@ -34,7 +34,8 @@ import RequireAuth from "./RequireAuth";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
-
+import EditContract from "../../features/contract/EditContract";
+import ContractDetail from "../../features/contract/ContractDetail";
 
 export const router = createBrowserRouter([
   {
@@ -69,23 +70,26 @@ export const router = createBrowserRouter([
 
       // Ticket
 
-      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-      { path: '/editothertype/:id' , element: <EditOtherType/>},
+      { path: "/viewothertypes", element: <ViewOtherTypes /> },
+      { path: "/editothertype/:id", element: <EditOtherType /> },
       { path: "/createticket", element: <CreateTicketForm /> },
 
-      { path: '/department-list' , element: <DepartmentList/>},
-      { path: '/department-detail' , element: <DepartmentDetails />},
+      { path: "/department-list", element: <DepartmentList /> },
+      { path: "/department-detail", element: <DepartmentDetails /> },
       { path: "/firststep", element: <Firststep /> },
 
-      { path: '/employeelist' , element: <EmployeeList />},
-      { path: '/departments' , element: <DepartmentList/>},
-      { path: '/departments/:id' , element: <DepartmentDetails />},
-
+      { path: "/employeelist", element: <EmployeeList /> },
+      { path: "/departments", element: <DepartmentList /> },
+      { path: "/departments/:id", element: <DepartmentDetails /> },
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
+
+      //Contract
+      { path: "/editcontract", element: <EditContract /> },
+      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);

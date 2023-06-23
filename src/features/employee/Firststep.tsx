@@ -91,7 +91,7 @@ function FirstStep() {
       <Typography variant="h4" sx={{ mb: "10px" }}>
         Thêm nhân viên mới
       </Typography>
-      <Container component={Paper} sx={{ mt: "30px" }}>
+      <Container component={Paper}>
         <Container>
           <Box sx={{ width: "100%" }}>
             <Stepper activeStep={activeStep}>
@@ -131,6 +131,7 @@ function FirstStep() {
                         mt: "30px",
                         border: "solid 2px rgba(226, 225, 229, 1)",
                         borderRadius: "10px",
+
                       }}
                     >
                       {/* NHẬP USERNAME */}
