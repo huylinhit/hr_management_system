@@ -270,9 +270,9 @@ function ViewOvertimeLog() {
                     <Chip
                       label={row.status}
                       color={
-                        row.status === "Chấp nhận"
+                        row.status === FORMSTATUS.agree
                           ? "info"
-                          : row.status === "Chờ duyệt"
+                          : row.status === FORMSTATUS.pending
                           ? "default" // or 'disabled' if you want a grayed-out color
                           : "error"
                       }
