@@ -343,6 +343,23 @@ export const CONTRACTLIST = [
   },
 ]
 
+export const ALLOWANCETYPE = [
+  {allowanceTypeId: 1, allowanceName: "Phụ cấp trách nhiệm", allowanceDetailSalary: "Không quá 10%"},
+  {allowanceTypeId: 2, allowanceName: "Phụ cấp thu hút", allowanceDetailSalary: "Dưới 35%"},
+  {allowanceTypeId: 3, allowanceName: "Phụ cấp lưu động", allowanceDetailSalary: "Dưới 10%"},
+  {allowanceTypeId: 4, allowanceName: "Phụ cấp chức vụ", allowanceDetailSalary: "Dưới 15%"},
+  {allowanceTypeId: 5, allowanceName: "Phụ cấp gửi xe và ăn trưa", allowanceDetailSalary: "Tùy thỏa thuận"},
+]
+
+export const ALLOWANCE = [
+  {allowanceId: 1, contractId: 1, allowanceTypeId: 1, allowanceSalary: 2000000},
+  {allowanceId: 2, contractId: 1, allowanceTypeId: 2, allowanceSalary: 2000000},
+  {allowanceId: 3, contractId: 2, allowanceTypeId: 5, allowanceSalary: 2000000},
+  {allowanceId: 4, contractId: 3, allowanceTypeId: 5, allowanceSalary: 2000000},
+  {allowanceId: 5, contractId: 4, allowanceTypeId: 5, allowanceSalary: 2000000},
+  {allowanceId: 6, contractId: 1, allowanceTypeId: 5, allowanceSalary: 2000000},
+]
+
 export const FORMSTATUS = {
   pending: "Chờ duyệt",
   agree: "Chấp nhận",

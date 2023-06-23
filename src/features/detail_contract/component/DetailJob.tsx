@@ -1,8 +1,35 @@
+import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
-export default function DetailJob() {
+// model
+import { Contract } from "../../../app/models/contract";
+import { Department } from "../../../app/models/departments";
+import { Employee } from "../../../app/models/employee";
+
+// data
+import { CONTRACTTYPE, DEPARTMENT } from "../../../app/store/data";
+import { ContractType } from "../../../app/models/contractType";
+
+
+// interface
+interface Props {
+  contract: Contract;
+  employee: Employee;
+}
+
+export default function DetailJob({ contract, employee }: Props) {
+  // -------------------------- VAR -----------------------------
+  // -------------------------- STATE ---------------------------
+  const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
+  const [contractTypes, setContractTypes] = useState<ContractType[]>(CONTRACTTYPE)
+  // -------------------------- REDUX ---------------------------
+  // -------------------------- EFFECT --------------------------
+  // -------------------------- FUNCTION ------------------------
+  const department = departments.find((d) => d.departmentId === employee.departmentId)
+  const contractType = contractTypes.find((type) => type.contractTypeId === contract.contractTypeId)
+
   return (
-    <Grid>
+    <Grid sx={{ paddingBottom: "10px"}}>
       <Typography
         sx={{
           color: "#246DD6",
@@ -26,14 +53,14 @@ export default function DetailJob() {
             padding: "0 30px 10px 30px",
           }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
               Phòng ban công tác:
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.dob} */}
+              {department?.departmentName}
             </Typography>
           </Grid>
         </Grid>
@@ -48,14 +75,14 @@ export default function DetailJob() {
             padding: "0 30px 10px 30px",
           }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
               Loại hợp đồng:
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.citizenId}  */}
+              {contractType?.name} 
             </Typography>
           </Grid>
         </Grid>
@@ -70,17 +97,17 @@ export default function DetailJob() {
             padding: "0 30px 5px 30px",
           }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
               Từ ngày:
             </Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.lastName} {employee.firstName} */}
+              {contract.startDate}
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
               -
             </Typography>
@@ -92,7 +119,7 @@ export default function DetailJob() {
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.gender === 0 ? "Nữ" : "Nam"} */}
+              {contract.endDate}
             </Typography>
           </Grid>
         </Grid>

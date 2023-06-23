@@ -15,7 +15,6 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 import { Employee } from "../../app/models/employee";
 import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
-import { Form } from "antd";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
@@ -24,7 +23,7 @@ export default function DetailLeave() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
   const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------

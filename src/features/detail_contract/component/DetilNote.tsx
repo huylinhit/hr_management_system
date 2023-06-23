@@ -1,6 +1,14 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 
-export default function DetaiNote() {
+// data
+import { Contract } from "../../../app/models/contract";
+
+// interface
+interface Props {
+  contract: Contract;
+}
+
+export default function DetaiNote({ contract }: Props) {
   return (
     <Grid>
       <Typography
@@ -31,7 +39,7 @@ export default function DetaiNote() {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.dob} */}
+              {contract.workDatePerWeek}
             </Typography>
           </Grid>
         </Grid>
@@ -51,10 +59,17 @@ export default function DetaiNote() {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {/* {employee.citizenId}  */}
+              {contract.note}
             </Typography>
           </Grid>
         </Grid>
+
+        <Grid sx={{
+            maxWidth: "100%",
+            padding: "0 30px 10px 30px",
+          }}>
+            <Button variant="contained" size="small" sx={{ borderRadius:"10px" }}>Xem file</Button>
+          </Grid>
       </Grid>
     </Grid>
   );

@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { LuEdit } from "react-icons/lu";
 
 // component
@@ -11,18 +18,17 @@ import { Employee } from "../../app/models/employee";
 import { CONTRACTLIST, USERINFOR } from "../../app/store/data";
 import { Contract } from "../../app/models/contract";
 
-
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
-  const id = 1
+  const id = 1;
   // -------------------------- STATE ---------------------------
   const [staffs, setStaffs] = useState<Employee[]>(USERINFOR);
   const [contracts, setContracts] = useState<Contract[]>(CONTRACTLIST);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const contract = contracts.find((c) => c.contractId === id)
-  const employee = staffs.find((s) => s.staffId === contract?.staffId)
+  const contract = contracts.find((c) => c.contractId === id);
+  const employee = staffs.find((s) => s.staffId === contract?.staffId);
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
@@ -57,22 +63,20 @@ export default function DetailContract() {
             background: "#FFF",
             margin: "0 10px",
             maxWidth: "1085px",
-            padding: "10px 20px"
+            padding: "10px 20px",
           }}
         >
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "25px" }}
-          >
-            {!!employee && <DetailEmployeeInfo employee={employee}/>}
-            
+          <Grid item sx={{ width: "100%", paddingTop: "25px" }}>
+            {!!employee && <DetailEmployeeInfo employee={employee} />}
           </Grid>
 
           <Grid
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
           >
-            {!!contract && <DetailContractInfo />}
+            {!!contract && !!employee && (
+              <DetailContractInfo contract={contract} employee={employee} />
+            )}
           </Grid>
         </Grid>
       </Container>

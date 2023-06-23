@@ -5,7 +5,17 @@ import DetailJob from "./DetailJob";
 import DetailSalary from "./DetailSalary";
 import DetaiNote from "./DetilNote";
 
-export default function DetailContractInfo() {
+// model
+import { Contract } from "../../../app/models/contract";
+import { Employee } from "../../../app/models/employee";
+
+// interface
+interface Props {
+  contract: Contract;
+  employee: Employee;
+}
+
+export default function DetailContractInfo({ contract, employee }: Props) {
   return (
     <Box sx={{ padding: "0 35px" }}>
       <Grid>
@@ -22,9 +32,9 @@ export default function DetailContractInfo() {
       </Grid>
 
       <Grid>
-        <DetailJob />
-        <DetailSalary />
-        <DetaiNote />
+        <DetailJob contract={contract} employee={employee}/>
+        <DetailSalary contract={contract} employee={employee}/>
+        <DetaiNote contract={contract}/>
       </Grid>
     </Box>
   );
