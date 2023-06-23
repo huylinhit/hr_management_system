@@ -23,7 +23,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink } from "react-router-dom";
-import { fetchCurrentUserTicketsAsync, fetchTicketsAsync, setTicketAdded, ticketsSelectors } from "./ticketSlice";
+import {
+  fetchCurrentUserTicketsAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
 import { Ticket } from "../../app/models/ticket";
 import CreateTicketForm from "./CreateTicketForm";
 
@@ -64,12 +69,6 @@ export default function MyTicketList() {
       editable: true,
     },
     {
-      field: "ticketStatus",
-      headerName: "Trạng thái",
-      flex: 1,
-      editable: true,
-    },
-    {
       field: "createAt",
       headerName: "Thời gian tạo",
       flex: 1,
@@ -79,6 +78,12 @@ export default function MyTicketList() {
       field: "processNote",
       headerName: "Ghi chú",
       flex: 1,
+      editable: true,
+    },
+    {
+      field: "ticketStatus",
+      headerName: "Trạng thái",
+      flex: 0.5,
       editable: true,
     },
     {
@@ -92,9 +97,6 @@ export default function MyTicketList() {
       headerName: "",
       flex: 0.5,
       renderCell: (params) => (
-        // <IconButton onClick={() => handleButtonClick(params.row.id)}>
-        //   <MoreHorizIcon />
-        // </IconButton>
         <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
           <MoreHorizIcon />
         </IconButton>
@@ -116,10 +118,10 @@ export default function MyTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded){
+    if (!ticketsLoaded || ticketAdded) {
       dispatch(fetchCurrentUserTicketsAsync());
       dispatch(setTicketAdded(false));
-    }  
+    }
   }, [dispatch, ticketsLoaded, ticketAdded]);
 
   useEffect(() => {
@@ -130,7 +132,7 @@ export default function MyTicketList() {
   }, [ticketsLoaded, tickets]);
 
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt:'5%' }}>
+    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt: "5%" }}>
       <Button
         variant="text"
         sx={{
@@ -175,10 +177,7 @@ export default function MyTicketList() {
           Tạo đơn mới
         </Button>
 
-        <CreateTicketForm
-          open={open}
-          onClose={handleCloseDialog}
-        />
+        <CreateTicketForm open={open} onClose={handleCloseDialog} />
       </Grid>
 
       <Box sx={{ height: 400, width: "100%", margin: "0 auto", marginTop: "1%" }}>
