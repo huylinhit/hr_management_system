@@ -37,6 +37,8 @@ import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
+import MyTicketList from "../../features/othertypes/MyTicketList";
+import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
 
 
 export const router = createBrowserRouter([
@@ -74,8 +76,9 @@ export const router = createBrowserRouter([
 
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
-      { path: "/createticket", element: <CreateTicketForm /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+      { path: "/myticketlist", element: <MyTicketList /> },
+      { path: "/otherusersticketlist", element: <OtherUsersTicketList /> },
 
 
       { path: '/departments' , element: <DepartmentList/>},
