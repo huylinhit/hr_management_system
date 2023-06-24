@@ -82,6 +82,7 @@ const Ticket = {
   details: (id: number) => requests.get(`tickets/${id}`),
   create: (values: any) => requests.post("tickets", values),
   update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
+  updateStatus: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
 };
 const TicketType = {

@@ -95,7 +95,7 @@ export default function OtherUsersTicketList() {
         // <IconButton onClick={() => handleButtonClick(params.row.id)}>
         //   <MoreHorizIcon />
         // </IconButton>
-        <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
+        <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
       ),
@@ -149,7 +149,7 @@ export default function OtherUsersTicketList() {
         to={`/departments`}
         key={"/departments"}
       >
-        Đơn khác của tôi
+        Danh sách đơn khác
       </Button>
       <Grid container justifyContent={"space-between"}>
         <TextField
@@ -185,6 +185,7 @@ export default function OtherUsersTicketList() {
         <DataGrid
           density="compact"
           getRowId={(row: any) => row.ticketId}
+          getRowHeight={() => 'auto'} 
           sx={{
             height: 650,
             width: "100%",
