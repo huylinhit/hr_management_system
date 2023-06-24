@@ -66,11 +66,16 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Trạng thái: </Typography>
+        <Grid item xs={4}>
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "22px",
+            marginBottom: "15px",
+          }}>Trạng thái: </Typography>
         </Grid>
         {logOt.status === FORMSTATUS.pending ? (
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={8}>
             <FormControl fullWidth size="small">
               <InputLabel>Chọn</InputLabel>
               <Select
@@ -88,7 +93,7 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
             </FormControl>
           </Grid>
         ) : (
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={8}>
             <Chip
               label={logOt.status}
               color={
@@ -109,11 +114,16 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} className="form-title">
-          <Typography>Phản hồi: </Typography>
+        <Grid item xs={4}>
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "22px",
+            marginBottom: "15px",
+          }}>Phản hồi: </Typography>
         </Grid>
         {logOt.status === FORMSTATUS.pending ? (
-          <Grid item xs={8} className="form-content">
+          <Grid item xs={8}>
             <TextField
               id="outlined-multiline-flexible"
               label="Nhập phản hồi..."
@@ -124,8 +134,8 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
             />
           </Grid>
         ) : (
-          <Grid item xs={8} className="form-content">
-            <Typography>{logOt.processNote}</Typography>
+          <Grid item xs={8}>
+            <Typography sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}>{logOt.processNote}</Typography>
           </Grid>
         )}
       </Grid>

@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 import { UserInfor } from "../../app/models/userInfor";
 import agent from "../../app/api/agent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -132,7 +133,6 @@ export default function DepartmentForm({
   // If userInfors is not loaded, load it using dispatch
   useEffect(() => {
     if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
-    console.log(userInfors);
   }, [dispatch, userInforsLoaded]);
 
   // If userInfors is loaded, set rows
@@ -221,6 +221,9 @@ export default function DepartmentForm({
                     <div>Quản lý mới: {managerName}</div>
                   </Box>
                 </Typography>
+              </Grid>
+              <Grid>
+                
               </Grid>
             </Grid>
           </>

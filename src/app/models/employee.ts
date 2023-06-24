@@ -1,7 +1,6 @@
 export interface Employee {
     staffId: number;
     userId: number;
-    // imageFile: string;
 	lastName: string;
 	firstName: string;
     dob: string;
