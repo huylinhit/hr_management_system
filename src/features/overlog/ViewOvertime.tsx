@@ -138,7 +138,7 @@ function ViewOvertimeLog() {
         </Grid>
 
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} >
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>

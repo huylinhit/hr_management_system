@@ -29,6 +29,10 @@ import DepartmentList from "../../features/department/DepartmentList";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
+import ViewCandidate from "../../features/candidate/ViewCadidate";
+import CreateCandidate from "../../features/candidate/CreateCandidate";
+import EditCandidate from "../../features/candidate/EditCandidate";
+import Candidate from "../../features/candidate/Candidate";
 
 
 export const router = createBrowserRouter([
@@ -57,6 +61,13 @@ export const router = createBrowserRouter([
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
+
+      // Candidate
+      { path: "/viewcandidate", element: <ViewCandidate /> },
+      { path: "/createcandidate/:id", element: <CreateCandidate /> },
+      { path: "/editcandidate/:id", element: <EditCandidate /> },
+      { path: "/1candidate/:id", element: <Candidate /> },
+
 
 
       { path: '/department-list' , element: <DepartmentList/>},
