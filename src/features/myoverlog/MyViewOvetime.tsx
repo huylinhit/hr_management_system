@@ -1,33 +1,15 @@
-import {
-  SelectChangeEvent,
-  Container,
-  Typography,
-  Grid,
-  TextField,
-  Autocomplete,
-  Button,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  styled,
-  tableCellClasses,
-  Chip,
-} from "@mui/material";
-import React, { ReactNode } from "react";
-import { BorderColor } from "@mui/icons-material";
-import { CiCircleMore } from "react-icons/ci";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "react-router-dom";
-import CreateOvertime from "./CreateOvertime";
-import { FORMSTATUS } from "../../app/store/data";
+
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
+import React, { ReactNode } from 'react';
+
+import { BorderColor } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+import MyCreateOT from './MyCreateOT';
 
 const headerStyle = {
-  fontWeight: "bold",
-};
+  fontWeight: 'bold'
+}
 
 const top100Films = [
   { label: "1", year: 1994 },
@@ -36,8 +18,7 @@ const top100Films = [
   { label: "4", year: 2008 },
   { label: "5", year: 1957 },
   { label: "6", year: 1993 },
-  { label: "7", year: 1994 },
-  ``,
+  { label: "7", year: 1994 }, ``
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,16 +31,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  "&:last-child td, &:last-child th": {
+  '&:last-child td, &:last-child th': {
     border: 0,
   },
 }));
 
-function ViewOvertimeLog() {
+
+function MyViewOvertime() {
+
   function createData(
     Doid: string,
     id: number,
@@ -70,105 +53,34 @@ function ViewOvertimeLog() {
     times: string,
     reason: string,
     status: string,
-    reply: ReactNode
+    reply: ReactNode,
+
   ) {
     return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
+
   const rows = [
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Từ chối",
-      ""
-    ),
-    createData(
-      "HR0002",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Chờ duyệt",
-      ""
-    ),
-    createData(
-      "HR0003",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Chấp nhận",
-      ""
-    ),
-    createData(
-      "HR0004",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Từ chối",
-      ""
-    ),
-    createData(
-      "HR0005",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Chờ duyệt",
-      ""
-    ),
-    createData(
-      "HR0006",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Chấp nhận",
-      ""
-    ),
-    createData(
-      "HR0007",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Ngày lễ",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3:00",
-      "...",
-      "Từ chối",
-      ""
-    ),
+    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0002", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0003", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0004", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0005", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0006", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0007", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+
+
+
+
+
   ];
   const styles = {
-    marginBottom: "10px",
+    marginBottom: '10px',
   };
 
-  function handleChange(
-    event: SelectChangeEvent<unknown>,
-    child: ReactNode
-  ): void {}
+  function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
+
+  }
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -180,33 +92,27 @@ function ViewOvertimeLog() {
   };
   return (
     <>
-      <Container sx={{ padding: "15px 0" }}>
+      <Container>
         <Typography variant="h4" sx={headerStyle} style={styles}>
-          Danh sách đơn làm thêm giờ
+          Danh sách đơn làm thêm giờ của tôi
         </Typography>
-        <Grid sx={{ display: "flex", justifyContent: "space-between", padding: " 20px 0 5px 0" }}>
+        <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
           <Grid
             item
             xs={10}
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Grid sx={{ margin: "0 5px" }}>
-              <TextField size="small" label="Tìm kiếm..." />
-            </Grid>
-
+            <TextField
+              size='small'
+              label="Tìm kiếm..." />
             <Grid>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
-                sx={{ width: 200, margin: "0 5px"  }}
+                sx={{ width: 200 }}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    size="small"
-                    label="Loại"
-                    style={styles}
-                  />
+                  <TextField {...params} size='small' label="Loại" style={styles} />
                 )}
               />
             </Grid>
@@ -215,9 +121,9 @@ function ViewOvertimeLog() {
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
-                sx={{ width: 200, margin: "0 5px"  }}
+                sx={{ width: 200 }}
                 renderInput={(params) => (
-                  <TextField {...params} size="small" label="Phòng" />
+                  <TextField {...params} size='small' label="Phòng" />
                 )}
               />
             </Grid>
@@ -227,14 +133,11 @@ function ViewOvertimeLog() {
               <Button variant="contained" onClick={handleClickOpen}>
                 + Tạo đơn tăng ca
               </Button>
-              <CreateOvertime
-                open={open}
-                handleChange={handleChange}
-                handleClose={handleClose}
-              />
+              <MyCreateOT open={open} handleChange={handleChange} handleClose={handleClose} />
             </div>
           </Grid>
         </Grid>
+
 
         <TableContainer component={Paper} >
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -250,7 +153,7 @@ function ViewOvertimeLog() {
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                
+                <StyledTableCell align="center">Xóa</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -270,27 +173,36 @@ function ViewOvertimeLog() {
                     <Chip
                       label={row.status}
                       color={
-                        row.status === FORMSTATUS.agree
-                          ? "info"
-                          : row.status === FORMSTATUS.pending
-                          ? "default" // or 'disabled' if you want a grayed-out color
-                          : "error"
+
+                        row.status === 'Chấp nhận'
+                          ? 'info'
+                          : row.status === 'Chờ duyệt'
+                            ? 'default' // or 'disabled' if you want a grayed-out color
+                            : 'error'
                       }
                       sx={{ width: "92px" }}
+
                     />
+
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <Button
+                      // onClick={handleClickOpen}
                       component={Link}
                       to={`/detail-overtime-log/${row.Doid}`}
                     >
-                      {row.status === FORMSTATUS.pending
-                          ? <BorderColor />
-                          : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
-                      }
+                      <BorderColor />
                       {row.reply}
+
                     </Button>
                   </StyledTableCell>
+                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+
+                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
+
+
+                  </StyledTableCell>
+
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -301,4 +213,4 @@ function ViewOvertimeLog() {
   );
 }
 
-export default ViewOvertimeLog;
+export default MyViewOvertime;
