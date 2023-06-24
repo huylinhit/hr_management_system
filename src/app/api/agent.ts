@@ -77,6 +77,8 @@ const Department = {
 
 const Ticket = {
   list: () => requests.get("tickets"),
+  currentUserList: () => requests.get("tickets/currentusertickets"),
+  otherUsersList: () => requests.get("tickets/otheruserstickets"),
   details: (id: number) => requests.get(`tickets/${id}`),
   create: (values: any) => requests.post("tickets", values),
   update: (id: number, values: any) => requests.put(`tickets/${id}`, values),

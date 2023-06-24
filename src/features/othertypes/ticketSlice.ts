@@ -8,15 +8,14 @@ import { TicketType } from "../../app/models/ticketType";
 
 interface TicketState {
   ticketsLoaded: boolean;
-  ticketTypesLoaded: boolean;
   filtersLoaded: boolean;
   status: string;
+  ticketAdded: boolean;
 }
 
 const ticketsAdapter = createEntityAdapter<Ticket>({
   selectId: (ticket) => ticket.ticketId,
 });
-
 
 export const fetchTicketsAsync = createAsyncThunk<Ticket[], void, { state: RootState }>(
   "tickets/fetchTicketsAsync",
@@ -30,6 +29,29 @@ export const fetchTicketsAsync = createAsyncThunk<Ticket[], void, { state: RootS
   }
 );
 
+export const fetchCurrentUserTicketsAsync = createAsyncThunk<Ticket[], void, { state: RootState }>(
+  "tickets/fetchCurrentUserTicketsAsync",
+  async (_, thunkAPI) => {
+    try {
+      const response = await agent.Ticket.currentUserList();
+      return response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
+export const fetchOtherUsersTicketsAsync = createAsyncThunk<Ticket[], void, { state: RootState }>(
+  "tickets/fetchOtherUsersTicketsAsync",
+  async (_, thunkAPI) => {
+    try {
+      const response = await agent.Ticket.otherUsersList();
+      return response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
 export const fetchTicketAsync = createAsyncThunk<Ticket, number>(
   "ticket/fetchTicketAsync",
   async (ticketId, thunkAPI) => {
@@ -46,11 +68,15 @@ export const ticketSlice = createSlice({
   name: "tickets",
   initialState: ticketsAdapter.getInitialState<TicketState>({
     ticketsLoaded: false,
-    ticketTypesLoaded: false,
     filtersLoaded: false,
     status: "idle",
+    ticketAdded: false,
   }),
-  reducers: {},
+  reducers: {
+    setTicketAdded: (state, action) => {
+      state.ticketAdded = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchTicketsAsync.pending, (state) => {
       state.status = "pendingFetchTickets";
@@ -62,6 +88,34 @@ export const ticketSlice = createSlice({
       state.ticketsLoaded = true;
     });
     builder.addCase(fetchTicketsAsync.rejected, (state, action) => {
+      console.log(action.payload);
+      state.status = "idle";
+    });
+
+    builder.addCase(fetchCurrentUserTicketsAsync.pending, (state) => {
+      state.status = "pendingFetchTickets";
+    });
+    builder.addCase(fetchCurrentUserTicketsAsync.fulfilled, (state, action) => {
+      ticketsAdapter.setAll(state, action.payload);
+      console.log(action.payload);
+      state.status = "idle";
+      state.ticketsLoaded = true;
+    });
+    builder.addCase(fetchCurrentUserTicketsAsync.rejected, (state, action) => {
+      console.log(action.payload);
+      state.status = "idle";
+    });
+
+    builder.addCase(fetchOtherUsersTicketsAsync.pending, (state) => {
+      state.status = "pendingFetchTickets";
+    });
+    builder.addCase(fetchOtherUsersTicketsAsync.fulfilled, (state, action) => {
+      ticketsAdapter.setAll(state, action.payload);
+      console.log(action.payload);
+      state.status = "idle";
+      state.ticketsLoaded = true;
+    });
+    builder.addCase(fetchOtherUsersTicketsAsync.rejected, (state, action) => {
       console.log(action.payload);
       state.status = "idle";
     });
@@ -80,5 +134,5 @@ export const ticketSlice = createSlice({
     });
   },
 });
-
+export const {setTicketAdded} = ticketSlice.actions;
 export const ticketsSelectors = ticketsAdapter.getSelectors((state: RootState) => state.ticket);

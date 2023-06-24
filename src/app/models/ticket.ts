@@ -2,6 +2,7 @@ export interface Ticket{
     ticketId: number;
     staffId: number;
     ticketTypeId: number;
+    ticketName: string;
     ticketReason: string;
     ticketFile: string;
     ticketStatus: boolean;
