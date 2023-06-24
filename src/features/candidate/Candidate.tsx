@@ -1,12 +1,8 @@
 import { Avatar, Box, Button, Chip, Container, Divider, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import { deepPurple } from "@mui/material/colors";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { BorderColor } from "@mui/icons-material";
+
 import { Link } from "react-router-dom";
 
 const headerStyle = {

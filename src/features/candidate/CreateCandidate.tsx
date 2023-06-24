@@ -57,16 +57,16 @@ function CreateCandidate() {
                 </Typography>
 
                 <Container component={Paper} maxWidth={false} sx={{ padding: '20px', borderRadius: '40px' }}>
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: '12px' }}>
+                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: '16px' }}>
                         <Avatar sx={{ bgcolor: deepPurple[500], width: 100, height: 100 }}>A</Avatar>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                ref={fileInputRef}
-                                style={{ display: "none" }}
-                                onChange={handleFileSelected}
-                            />
-                        <Button  color="primary" sx={{ mt: 2 }} onClick={handleUploadButtonClick}>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            style={{ display: "none" }}
+                            onChange={handleFileSelected}
+                        />
+                        <Button color="primary" sx={{ mt: 2, py: '15px' }} onClick={handleUploadButtonClick}>
                             Thêm/ Sửa ảnh
                         </Button>
                     </Box>
@@ -74,26 +74,29 @@ function CreateCandidate() {
                     <Box sx={{ flexGrow: 1 }}>
 
                         <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
                                     id="outlined"
                                     label="Họ"
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
+
                                     id="outlined"
                                     label="Tên"
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
                         </Grid>
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
-                                <FormControl fullWidth>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                <FormControl sx={{ width: '400px' }}>
                                     <FormLabel id="demo-row-radio-buttons-group-label" >Giới tính</FormLabel>
                                     <RadioGroup
                                         row
@@ -107,53 +110,55 @@ function CreateCandidate() {
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={8} sx={{ py: '12px', maxWidth: '100%' }}>
-
-
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker label="Ngày sinh" />
-                                </LocalizationProvider>
-
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
                                     id="outlined"
-                                    label="Số điện thoại"
+                                    label="Ngày sinh"
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                        </Grid>
+                        <Grid container spacing={2} columns={16}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
+                                    id="outlined"
+                                    label="Số điện thoại"
+                                    size="small"
+                                    sx={{ width: '400px' }}
+                                />
+                            </Grid>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                <TextField
                                     id="outlined"
                                     label="Email"
-
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
                         </Grid>
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
                                     id="outlined"
                                     label="CCCD"
-
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
                         </Grid>
                     </Box>
                     <Box>
                         <Grid container spacing={1} columns={16}>
-                            <Grid item xs={16} sx={{ py: '12px' }}>
+                            <Grid item xs={16} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
                                     fullWidth
-                                    id="fullWidth"
+                                    id="outlined"
                                     label="Địa chỉ"
+                                    size="small"
+                                    sx={{ width: '957px' }}
                                 />
                             </Grid>
                         </Grid>
@@ -161,65 +166,88 @@ function CreateCandidate() {
 
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
-
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
                                     id="outlined"
                                     label="Vị trí ứng tuyển"
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
-
                             </Grid>
-                            <Grid item xs={8} sx={{ py: '12px' }}>
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
                                 <TextField
-                                    fullWidth
                                     id="outlined"
                                     label="Thu nhập mong muốn"
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
                         </Grid>
                     </Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', py: '10px', textIndent: '70px' }} >Kỹ năng</Typography>
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} columns={16}>
-                            <Grid item xs={8} sx={{ py: '0px' }}>
-                                <Typography variant="h6" sx={headerStyle} >Kỹ năng</Typography>
-                                <TextField sx={{ py: '4px' }}
-                                    fullWidth
+                            <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                <TextField
                                     id="outlined"
-                                    label="Nhập"
-                                />
-                                <TextField sx={{ py: '4px' }}
-                                    fullWidth
-                                    id="outlined"
-                                    label="Nhập"
-                                />
-                                <TextField sx={{ py: '4px' }}
-                                    fullWidth
-                                    id="outlined"
-                                    label="Nhập"
-                                />
-                                <TextField sx={{ py: '4px' }}
-                                    fullWidth
-                                    id="outlined"
-                                    label="Nhập"
+                                    label="Nhập..."
+                                    size="small"
+                                    sx={{ width: '400px' }}
                                 />
                             </Grid>
-
-                            <Grid item xs={8} >
+                            <Grid item xs={8} sx={{textIndent: '70px'}} >
                                 <Button variant="contained" onClick={handleClickOpen} sx={{ borderRadius: '40px' }}>
                                     Tải CV
                                 </Button>
 
                             </Grid>
                         </Grid>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2} columns={16}>
+                                <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                    <TextField
+                                        id="outlined"
+                                        label="Nhập..."
+                                        size="small"
+                                        sx={{ width: '400px' }}
+                                    />
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2} columns={16}>
+                                <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                    <TextField
+                                        id="outlined"
+                                        label="Nhập..."
+                                        size="small"
+                                        sx={{ width: '400px' }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Box>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={2} columns={16}>
+                                <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'center', py: '35px' }}>
+                                    <TextField
+                                        id="outlined"
+                                        label="Nhập..."
+                                        size="small"
+                                        sx={{ width: '400px' }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Box>
+
                     </Box>
 
-                    <Container sx={{ display: "flex", justifyContent: "right"  }}>
-                        <Button onClick={handleClose} variant="contained" sx={{borderRadius: '40px'}}>Thêm</Button>
+                    <Container sx={{ display: "flex", justifyContent: "right" }}>
+                        <Button onClick={handleClose} variant="contained" sx={{ borderRadius: '40px' }}>Thêm</Button>
                     </Container>
 
                 </Container>
-            </Container>
+            </Container >
         </>
     );
 }

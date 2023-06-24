@@ -68,6 +68,8 @@ export const router = createBrowserRouter([
       //MyLeavetime
       { path: "/myleavetime", element: <MyViewLeavetime /> },
 
+      
+
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
@@ -81,7 +83,7 @@ export const router = createBrowserRouter([
       { path: "/viewcandidate", element: <ViewCandidate /> },
       { path: "/createcandidate/:id", element: <CreateCandidate /> },
       { path: "/editcandidate/:id", element: <EditCandidate /> },
-      { path: "/1candidate/:id", element: <Candidate /> },
+      { path: "/detailcandidate/:id", element: <Candidate /> },
 
 
 

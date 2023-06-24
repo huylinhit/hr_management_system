@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 import { BorderColor } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import CreateCandidate from './CreateCandidate';
 
 const headerStyle = {
     fontWeight: 'bold'
@@ -78,7 +77,7 @@ function ViewCandidate() {
         <>
             <Container>
                 <Typography variant="h4" sx={headerStyle} style={styles}>
-                    Danh sách đơn làm thêm giờ
+                    Danh sách ứng viên
                 </Typography>
                 <Grid >
                     <Grid
@@ -155,7 +154,7 @@ function ViewCandidate() {
                   <Button
                       // onClick={handleClickOpen}
                       component={Link}
-                      to={`/1candidate/${row.phone}`}
+                      to={`/detailcandidate/${row.phone}`}
                     >
                   <BorderColor /> {row.reply}
                   </Button>
