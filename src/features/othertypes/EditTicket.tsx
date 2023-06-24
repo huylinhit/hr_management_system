@@ -10,7 +10,7 @@ const styles = {
 
 
 
-function EditOtherType({ open, handleClose, handleChange }: any) {
+export default function EditTicket({ open, handleClose, handleChange }: any) {
   const { id } = useParams<{ id: string }>();
   
   console.log(id);
@@ -118,5 +118,3 @@ function EditOtherType({ open, handleClose, handleChange }: any) {
     </>
   );
 }
-
-export default EditOtherType;

@@ -1,15 +1,10 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { departmentSelectors, fetchDepartmentsAsync } from "./departmentSlice";
 import { useEffect, useState } from "react";
 import {
   Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   InputAdornment,
@@ -17,7 +12,6 @@ import {
   TextField,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import "./DepartmentList.css";
 import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
@@ -29,58 +23,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink } from "react-router-dom";
-import DepartmentForm from "./DepartmentForm";
-const columns: GridColDef[] = [
-  {
-    field: "departmentId",
-    headerName: "ID",
-    flex: 0.5,
-  },
-  {
-    field: "departmentName",
-    headerName: "Tên Phòng Ban",
-    flex: 1,
-    editable: true,
-    headerClassName: "custom-header-text",
-  },
-  {
-    field: "manager",
-    headerName: "Quản Lý",
-    flex: 1,
-    editable: true,
-  },
-  {
-    field: "numberOfStaff",
-    headerName: "Số Nhân Viên",
-    flex: 1,
-    editable: true,
-  },
-  {
-    field: "managerMail",
-    headerName: "Email",
-    flex: 1,
-    editable: true,
-  },
-  {
-    field: "managerPhone",
-    headerName: "Số Điện Thoại",
-    flex: 1,
-    editable: true,
-  },
-  {
-    field: "button",
-    headerName: "",
-    flex: 0.5,
-    renderCell: (params) => (
-      // <IconButton onClick={() => handleButtonClick(params.row.id)}>
-      //   <MoreHorizIcon />
-      // </IconButton>
-      <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
-        <MoreHorizIcon />
-      </IconButton>
-    ),
-  },
-];
+import {
+  fetchCurrentUserTicketsAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
+import { Ticket } from "../../app/models/ticket";
+import CreateTicketForm from "./CreateTicketForm";
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -92,13 +43,70 @@ function CustomToolbar() {
   );
 }
 
-export default function DepartmentList() {
-  const departments = useAppSelector(departmentSelectors.selectAll);
+export default function MyTicketList() {
+  const columns: GridColDef[] = [
+    {
+      field: "ticketId",
+      headerName: "ID",
+      flex: 0.5,
+    },
+    {
+      field: "ticketName",
+      headerName: "Loại đơn",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "ticketReason",
+      headerName: "Lí do làm đơn",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "ticketFile",
+      headerName: "File",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "createAt",
+      headerName: "Thời gian tạo",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "processNote",
+      headerName: "Ghi chú",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "ticketStatus",
+      headerName: "Trạng thái",
+      flex: 0.5,
+      editable: true,
+    },
+    {
+      field: "changeStatusTime",
+      headerName: "Thời gian thay đổi",
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "button",
+      headerName: "",
+      flex: 0.5,
+      renderCell: (params) => (
+        <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
+          <MoreHorizIcon />
+        </IconButton>
+      ),
+    },
+  ];
+  const tickets = useAppSelector(ticketsSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
-    (state) => state.department
-  );
-  const [rows, setRows] = useState<Department[]>([]);
+  const { ticketsLoaded, filtersLoaded, ticketAdded } = useAppSelector((state) => state.ticket);
+  const [rows, setRows] = useState<Ticket[]>([]);
   const [open, setOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -110,19 +118,21 @@ export default function DepartmentList() {
   };
 
   useEffect(() => {
-    if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
- 
-  }, [dispatch, departmentsLoaded]);
+    if (!ticketsLoaded || ticketAdded) {
+      dispatch(fetchCurrentUserTicketsAsync());
+      dispatch(setTicketAdded(false));
+    }
+  }, [dispatch, ticketsLoaded, ticketAdded]);
 
   useEffect(() => {
-    if (departmentsLoaded) {
+    if (ticketsLoaded) {
       // Update the rows when departments are loaded
-      setRows(departments);
+      setRows(tickets);
     }
-  }, [departmentsLoaded, departments]);
+  }, [ticketsLoaded, tickets]);
 
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", paddingLeft: "25px" }}>
+    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt: "5%" }}>
       <Button
         variant="text"
         sx={{
@@ -141,8 +151,7 @@ export default function DepartmentList() {
         to={`/departments`}
         key={"/departments"}
       >
-        
-        Danh sách phòng ban
+        Đơn khác của tôi
       </Button>
       <Grid container justifyContent={"space-between"}>
         <TextField
@@ -165,21 +174,16 @@ export default function DepartmentList() {
           startIcon={<AddIcon />}
           onClick={handleOpenDialog}
         >
-          Thêm phòng ban
+          Tạo đơn mới
         </Button>
 
-        <DepartmentForm
-          open={open}
-          onClose={handleCloseDialog}
-          createOrAdd={false}
-          departmentNameParam=""
-          departmentId={0}
-        />
+        <CreateTicketForm open={open} onClose={handleCloseDialog} />
       </Grid>
 
       <Box sx={{ height: 400, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="compact"
+          getRowId={(row: any) => row.ticketId}
           sx={{
             height: 650,
             width: "100%",
@@ -196,7 +200,7 @@ export default function DepartmentList() {
             loadingOverlay: LinearProgress,
             toolbar: CustomToolbar,
           }}
-          loading={!departmentsLoaded}
+          loading={!ticketsLoaded || ticketAdded}
           rows={rows}
           columns={columns}
           classes={{

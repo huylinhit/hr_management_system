@@ -37,9 +37,12 @@ import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm
 
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
-import EditOtherType from "../../features/othertypes/EditOtherType";
+import EditOtherType from "../../features/othertypes/EditTicket";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
+import MyTicketList from "../../features/othertypes/MyTicketList";
+import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
+import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 
 
@@ -81,8 +84,12 @@ export const router = createBrowserRouter([
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
-      { path: "/createticket", element: <CreateTicketForm /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+      { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
+      { path: "/otheruserstickets/:id", element: <OtherUsersTicketList /> },
+      { path: "/approveticket", element: <ApproveTicketForm /> },
+
 
       // Department 
       { path: '/departments' , element: <DepartmentList/>},

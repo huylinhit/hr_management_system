@@ -11,15 +11,19 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { fetchTicketTypesAsync } from "./ticketTypeSlice";
 import { useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
-
-export default function CreateTicketForm() {
+import { setTicketAdded } from "./ticketSlice";
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+export default function CreateTicketForm({open, onClose}: Props) {
   const dispatch = useAppDispatch();
-  const [open, setOpen] = React.useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState(0);
   const [isTicketTypeEmpty, setIsTicketTypeEmpty] = useState(false);
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
+  const {ticketsLoaded} = useAppSelector((state) => state.ticket);
   const { ticketTypes, ticketTypesLoaded } = useAppSelector((state) => state.ticketType);
   const currentUser = useAppSelector((state) => state.account);
   console.log(currentUser.user?.userInfor.staffId);
@@ -41,13 +45,6 @@ export default function CreateTicketForm() {
     setIsReasonEmpty(false);
   }, 500);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleCreateTicket = () => {
     console.log(selectedTicketTypeId);
@@ -68,11 +65,13 @@ export default function CreateTicketForm() {
       agent.Ticket.create(ticketCreate)
         .then((response) => {
           console.log("Ticket created successfully: ", response);
+          dispatch(setTicketAdded(true));
         })
         .catch((error) => {
           console.error("Error creating ticket: ", error);
         })
     }
+    onClose();
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -90,10 +89,7 @@ export default function CreateTicketForm() {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create Ticket
-      </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
+      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
         <DialogTitle sx={{ fontWeight: 550, fontSize: 20 }} display={"flex"} alignItems={"center"}>
           Tạo đơn khác
         </DialogTitle>
@@ -172,7 +168,7 @@ export default function CreateTicketForm() {
           </>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Hủy</Button>
+          <Button onClick={onClose}>Hủy</Button>
           <Button onClick={handleCreateTicket} autoFocus>
             Tạo
           </Button>
