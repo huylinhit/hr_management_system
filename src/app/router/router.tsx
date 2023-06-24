@@ -45,16 +45,27 @@ import EditTicket from "../../features/othertypes/EditTicket";
 // Type
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
 
-// Candidate
+import EditOtherType from "../../features/othertypes/TicketApprovalForm";
+
+
+//
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
 import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
-// Staff Skill
+//
+import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
+
+//
+import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
+
+import EditOtherType from "../../features/othertypes/EditTicket";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
-
+import MyTicketList from "../../features/othertypes/MyTicketList";
+import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
+import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 export const router = createBrowserRouter([
   {
@@ -106,7 +117,7 @@ export const router = createBrowserRouter([
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
-      { path: "/otheruserstickets/:id", element: <OtherUsersTicketList /> },
+      { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },
 
       // Candidate
