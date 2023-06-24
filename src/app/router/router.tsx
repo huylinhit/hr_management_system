@@ -15,7 +15,6 @@ import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import DetailContract from "../../features/detail_contract/DetailContract";
 
 //
-import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
