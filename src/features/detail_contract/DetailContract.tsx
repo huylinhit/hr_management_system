@@ -17,6 +17,7 @@ import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 import { Employee } from "../../app/models/employee";
 import { CONTRACTLIST, USERINFOR } from "../../app/store/data";
 import { Contract } from "../../app/models/contract";
+import DetailContractFooter from "./component/DetailContractFooter";
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
@@ -79,6 +80,13 @@ export default function DetailContract() {
             )}
           </Grid>
         </Grid>
+        <Grid container sx={{
+            margin: "0 10px",
+            // maxWidth: "1085px",
+            padding: "30px 20px 0 30px",
+          }}>
+            <DetailContractFooter/>
+          </Grid>
       </Container>
     </Box>
   );

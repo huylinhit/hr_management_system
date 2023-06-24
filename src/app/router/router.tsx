@@ -18,6 +18,8 @@ import DetailContract from "../../features/detail_contract/DetailContract";
 import OvertimeLog from "../../features/overlog/OvertimeList";
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
+import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
+
 
 //
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
@@ -72,6 +74,7 @@ export const router = createBrowserRouter([
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
+      { path: "/detail-own-overtime-log", element: <DetailOwnOvertime /> },
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
