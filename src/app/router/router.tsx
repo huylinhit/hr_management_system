@@ -27,7 +27,6 @@ import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 
 //
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
-import EditOtherType from "../../features/othertypes/EditOtherType";
 
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
@@ -53,12 +52,12 @@ import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
 //
 import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
 
-import EditOtherType from "../../features/othertypes/EditTicket";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import MyTicketList from "../../features/othertypes/MyTicketList";
 import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
 import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
+import EditTicket from "../../features/othertypes/EditTicket";
 
 export const router = createBrowserRouter([
   {
@@ -105,7 +104,7 @@ export const router = createBrowserRouter([
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-      { path: '/editothertype/:id' , element: <EditOtherType/>},
+      { path: '/editothertype/:id' , element: <EditTicket/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
