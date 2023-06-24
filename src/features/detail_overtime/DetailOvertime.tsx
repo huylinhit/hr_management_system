@@ -58,7 +58,7 @@ export default function DetailOvertime() {
             backgroundColor: "white",
             borderRadius: "30px",
             padding: "20px 45px",
-            margin: "5px 20px",
+            margin: "5px 0",
           }}  
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
