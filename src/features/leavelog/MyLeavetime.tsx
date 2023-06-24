@@ -251,7 +251,6 @@ function LeavetimeList() {
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                <StyledTableCell align="center">Xóa</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -290,14 +289,6 @@ function LeavetimeList() {
                           ? <BorderColor />
                           : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
                       }
-                      {row.reply}
-                    </Button>
-                  </StyledTableCell>
-                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
-
-                  <StyledTableCell align="center">
-                    <Button color="error" onClick={handleClose}>
-                      <DeleteIcon />
                       {row.reply}
                     </Button>
                   </StyledTableCell>
