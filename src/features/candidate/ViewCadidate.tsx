@@ -96,7 +96,7 @@ function ViewCandidate() {
                                 onClick={handleClickOpen} 
                                 style={styles}
                                 component={Link}
-                                to={`/createcandidate/${0}`}
+                                to="/createcandidate/"
                                 >
                                     + Thêm nhân viên mới
                                 </Button>
@@ -154,7 +154,7 @@ function ViewCandidate() {
                   <Button
                       // onClick={handleClickOpen}
                       component={Link}
-                      to={`/detailcandidate/${row.phone}`}
+                      to="/detailcandidate/"
                     >
                   <BorderColor /> {row.reply}
                   </Button>

@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Chip, Container, Divider, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { deepPurple } from "@mui/material/colors";
 
 import { Link } from "react-router-dom";
@@ -252,14 +252,23 @@ function Candidate({ handleClose, handleOpen, handleChange }: any) {
                             </Grid>
                         </Grid>
                     </Box>
-                    <Container sx={{ display: "flex", justifyContent: "right" }}>
+                    <Container sx={{py:'15px', display: "flex", justifyContent: "space-between" }}>
+                        <Button
+                        sx={{ borderRadius: '40px' }}
+                         variant="outlined"
+                            startIcon={<ArrowBackIcon />}
+                            component={Link}
+                            to="/viewcandidate/"
+                        >
+                            Quay về
+                        </Button>
                         <Button
                             sx={{ borderRadius: '40px' }}
                             onClick={handleOpen}
                             variant="contained"
 
                             component={Link}
-                            to={`/editcandidate/${0}`}
+                            to="/editcandidate/"
                         >
                             Chỉnh sửa
                         </Button>

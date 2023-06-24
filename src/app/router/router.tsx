@@ -81,9 +81,9 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/createcandidate/:id", element: <CreateCandidate /> },
-      { path: "/editcandidate/:id", element: <EditCandidate /> },
-      { path: "/detailcandidate/:id", element: <Candidate /> },
+      { path: "/createcandidate", element: <CreateCandidate /> },
+      { path: "/editcandidate", element: <EditCandidate /> },
+      { path: "/detailcandidate", element: <Candidate /> },
 
 
 
