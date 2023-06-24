@@ -28,6 +28,7 @@ import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvert
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
+import DetailOwnLeave from "../../features/detail_own_leave/DetailOwnLeave";
 
 // Department
 import DepartmentDetails from "../../features/department/DepartmentDetails";
@@ -38,9 +39,9 @@ import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import MyTicketList from "../../features/othertypes/MyTicketList";
+import DetailOwnTicket from "../../features/detail_own_ticket/DetailOwnTicket";
 import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
 import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
-import EditTicket from "../../features/othertypes/EditTicket";
 
 // Type
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
@@ -54,18 +55,10 @@ import CreateCandidate from "../../features/candidate/CreateCandidate";
 import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
-//
-import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
-
-//
-import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
-
-import EditOtherType from "../../features/othertypes/EditTicket";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
-import MyTicketList from "../../features/othertypes/MyTicketList";
-import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
-import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
+import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
+
 
 export const router = createBrowserRouter([
   {
@@ -108,14 +101,15 @@ export const router = createBrowserRouter([
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
-      //
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
+      { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-      { path: '/editothertype/:id' , element: <EditTicket/>},
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
       { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },

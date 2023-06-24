@@ -29,7 +29,7 @@ interface Props {
   types: OtType[];
 }
 
-export default function DetailOvertimeContent({ logOt, types }: Props) {
+export default function DetailTicketContent({ logOt, types }: Props) {
   // -------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>();
   const { register } = useForm();

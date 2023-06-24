@@ -9,7 +9,7 @@ interface Props {
   logOt: LogOT;
 }
 
-export default function DetailOvertimeFooter({logOt}: Props) {
+export default function DetailTicketFooter({logOt}: Props) {
   const handleFinish = () => {};
 
   return (

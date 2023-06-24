@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
-import DetailOvertimeContent from "./component/DetailOvertimeContent";
-import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
+import DetailTicketContent from "./component/DetailTicketContent";
+import DetailTicketFooter from "./component/DetailTicketFooter";
 
 // data
 import { OTLOG, OTTYPE } from "../../app/store/data";
@@ -15,7 +15,7 @@ import { OTLOG, OTTYPE } from "../../app/store/data";
 import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 
-export default function DetailOwnOvertime() {
+export default function DetailOwnTicket() {
   // -------------------------- VAR -----------------------------
   const [logOt, setLogOt] = useState<LogOT>(OTLOG);
   const [types, setTypes] = useState<OtType[]>(OTTYPE);
@@ -34,7 +34,7 @@ export default function DetailOwnOvertime() {
   };
   // -------------------------- MAIN ----------------------------
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+    <Box sx={{ padding: "10px 30px 30px 30px", minHeight: "calc(100vh - 65px)" }}>
       <Grid>
         <Typography
           sx={{
@@ -44,7 +44,7 @@ export default function DetailOwnOvertime() {
             fontSize: "30px",
             lineHeight: "39px",
           }}
-        >Đơn làm thêm giờ</Typography>
+        >Đơn gửi khác</Typography>
         <Typography
           sx={{
             paddingBottom: "15px",
@@ -69,10 +69,10 @@ export default function DetailOwnOvertime() {
           }}  
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailOvertimeContent logOt={logOt} types={types} />
+            <DetailTicketContent logOt={logOt} types={types} />
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <DetailOvertimeFooter logOt={logOt}/>
+            <DetailTicketFooter logOt={logOt}/>
           </Grid>
         </Grid>
       </Container>
