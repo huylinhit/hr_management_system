@@ -4,7 +4,8 @@ import { ReactNode } from "react";
 import { BorderColor } from "@mui/icons-material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
-import CreateLeavetime from "./CreateLeavetime";
+import MyCreateLeavetime from "./MyCreateLeavetime";
+
 
 const headerStyle = {
   fontWeight: "bold",
@@ -39,7 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function LeavetimeList() {
+function MyViewLeavetime() {
   function createData(
     Doid: string,
     id: number,
@@ -131,7 +132,7 @@ function LeavetimeList() {
               <Button variant="contained" onClick={handleClickOpen}>
                 + Tạo đơn nghỉ phép
               </Button>
-              <CreateLeavetime open={open} handleChange={handleChange} handleClose={handleClose} />
+              <MyCreateLeavetime open={open} handleChange={handleChange} handleClose={handleClose} />
             </div>
           </Grid>
         </Grid>
@@ -149,8 +150,8 @@ function LeavetimeList() {
                 <StyledTableCell align="center">Số ngày nghỉ</StyledTableCell>
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
-                <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                
+                <StyledTableCell align="center">Xem thêm</StyledTableCell>
+                <StyledTableCell align="center">Xóa</StyledTableCell>
 
               </TableRow>
             </TableHead>
@@ -194,7 +195,12 @@ function LeavetimeList() {
 
                     </Button>
                   </StyledTableCell>
-                  
+                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+
+                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
+
+
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -205,4 +211,4 @@ function LeavetimeList() {
   );
 }
 
-export default LeavetimeList;
+export default MyViewLeavetime;

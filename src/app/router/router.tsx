@@ -22,17 +22,25 @@ import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 
 //
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
+import EditOtherType from "../../features/othertypes/EditOtherType";
 
 //
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
-import EditOtherType from "../../features/othertypes/EditOtherType";
+
+//
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
 import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
+
+//
+import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
+
+//
+import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
 
 
 export const router = createBrowserRouter([
@@ -53,6 +61,13 @@ export const router = createBrowserRouter([
       { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
+
+      //MyOT
+      { path: "/myovertime", element: <MyViewOvertime /> },
+
+      //MyLeavetime
+      { path: "/myleavetime", element: <MyViewLeavetime /> },
+
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },

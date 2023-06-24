@@ -1,14 +1,16 @@
-import { Autocomplete, Button, Chip, Container, Grid, Paper, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography, styled, tableCellClasses, } from "@mui/material";
-import React from "react";
-import { ReactNode } from "react";
-import { BorderColor } from "@mui/icons-material";
+
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
+import React, { ReactNode } from 'react';
+
+import { BorderColor } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from "react-router-dom";
-import CreateLeavetime from "./CreateLeavetime";
+import { Link } from 'react-router-dom';
+import MyCreateOT from './MyCreateOT';
 
 const headerStyle = {
-  fontWeight: "bold",
-};
+  fontWeight: 'bold'
+}
+
 const top100Films = [
   { label: "1", year: 1994 },
   { label: "2", year: 1972 },
@@ -39,7 +41,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function LeavetimeList() {
+function MyViewOvertime() {
+
   function createData(
     Doid: string,
     id: number,
@@ -58,20 +61,19 @@ function LeavetimeList() {
 
 
   const rows = [
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Từ chối", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chấp nhận", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Từ chối", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chấp nhận", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
+    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0002", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0003", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0004", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("HR0005", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
+    createData("HR0006", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
+    createData("HR0007", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
 
 
 
 
 
   ];
-
   const styles = {
     marginBottom: '10px',
   };
@@ -92,7 +94,7 @@ function LeavetimeList() {
     <>
       <Container>
         <Typography variant="h4" sx={headerStyle} style={styles}>
-          Danh sách đơn nghỉ phép
+          Danh sách đơn làm thêm giờ
         </Typography>
         <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
           <Grid
@@ -129,29 +131,29 @@ function LeavetimeList() {
           <Grid item xs={10}>
             <div>
               <Button variant="contained" onClick={handleClickOpen}>
-                + Tạo đơn nghỉ phép
+                + Tạo đơn tăng ca
               </Button>
-              <CreateLeavetime open={open} handleChange={handleChange} handleClose={handleClose} />
+              <MyCreateOT open={open} handleChange={handleChange} handleClose={handleClose} />
             </div>
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper}>
+
+        <TableContainer component={Paper} >
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Mã đơn</StyledTableCell>
                 <StyledTableCell align="center">Mã nhân viên</StyledTableCell>
                 <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-                <StyledTableCell align="center">Loại nghỉ phép</StyledTableCell>
+                <StyledTableCell align="center">Loại tăng ca</StyledTableCell>
                 <StyledTableCell align="center">Từ</StyledTableCell>
                 <StyledTableCell align="center">Đến</StyledTableCell>
-                <StyledTableCell align="center">Số ngày nghỉ</StyledTableCell>
+                <StyledTableCell align="center">Thời gian</StyledTableCell>
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                
-
+                <StyledTableCell align="center">Xóa</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -187,14 +189,20 @@ function LeavetimeList() {
                     <Button
                       // onClick={handleClickOpen}
                       component={Link}
-                      to={`/detail-leave-log/${row.Doid}`}
+                      to={`/detail-overtime-log/${row.Doid}`}
                     >
                       <BorderColor />
                       {row.reply}
 
                     </Button>
                   </StyledTableCell>
-                  
+                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
+
+                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
+
+
+                  </StyledTableCell>
+
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -205,4 +213,4 @@ function LeavetimeList() {
   );
 }
 
-export default LeavetimeList;
+export default MyViewOvertime;

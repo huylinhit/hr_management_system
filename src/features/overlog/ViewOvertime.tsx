@@ -152,7 +152,7 @@ function ViewOvertimeLog() {
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                <StyledTableCell align="center">Xóa</StyledTableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -186,7 +186,6 @@ function ViewOvertimeLog() {
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <Button
-                      // onClick={handleClickOpen}
                       component={Link}
                       to={`/detail-overtime-log/${row.Doid}`}
                     >
@@ -194,12 +193,6 @@ function ViewOvertimeLog() {
                       {row.reply}
 
                     </Button>
-                  </StyledTableCell>
-                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
-
-                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
-
-
                   </StyledTableCell>
 
                 </StyledTableRow>
