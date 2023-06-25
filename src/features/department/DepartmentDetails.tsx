@@ -378,6 +378,7 @@ export default function DepartmentDetails() {
                 backgroundColor: "#E0F0FF",
               },
               borderLeft: "none",
+              borderRadius: 0,
               borderRight: "none",
               fontFamily: "Montserrat",
               color: "#2F2F2F",
