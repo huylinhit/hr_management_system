@@ -56,7 +56,7 @@ function CreateOtherTypes({ open, handleClose, handleChange }: any) {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Container sx={{ display: "flex", justifyContent: "center" }}>
+                <Container sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Button onClick={handleClose} variant="outlined" >Hủy</Button>
                     <Button onClick={handleClose} variant="contained" >Xác nhận</Button>
                 </Container>

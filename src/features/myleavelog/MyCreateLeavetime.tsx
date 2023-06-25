@@ -14,11 +14,11 @@ const styles = {
     marginBottom: '20px',
 };
 
-function CreateLeavetime({ open, handleClose, handleChange }: any) {
+function MyCreateLeavetime({ open, handleClose, handleChange }: any) {
     return (
         <Dialog open={open} onClose={handleClose}>
             <ThemeProvider theme={theme}>
-                <DialogTitle variant="h5" sx={headerStyle} color="primary" style={styles} >Đơn xin nghỉ phép</DialogTitle>
+                <DialogTitle variant="h5" sx={headerStyle} color="primary" style={styles} >Đơn xin nghỉ phép của tôi</DialogTitle>
             </ThemeProvider>
             <DialogContent>
                 <Grid item xs={12} sx={{ py: '8px', border: '4px' }}>
@@ -83,4 +83,4 @@ function CreateLeavetime({ open, handleClose, handleChange }: any) {
     );
 }
 
-export default CreateLeavetime;
+export default MyCreateLeavetime;
