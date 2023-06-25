@@ -10,6 +10,7 @@ import {
   InputAdornment,
   LinearProgress,
   TextField,
+  Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
@@ -23,9 +24,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink } from "react-router-dom";
-import { fetchCurrentUserTicketsAsync, fetchOtherUsersTicketsAsync, fetchTicketsAsync, setTicketAdded, ticketsSelectors } from "./ticketSlice";
+import {
+  fetchCurrentUserTicketsAsync,
+  fetchOtherUsersTicketsAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
 import { Ticket } from "../../app/models/ticket";
 import CreateTicketForm from "./CreateTicketForm";
+import moment from "moment";
 
 function CustomToolbar() {
   return (
@@ -37,60 +45,25 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
-
+const fontStyle = "Mulish";
+const navStyle = {
+  fontSize: 25,
+  fontWeight: 800,
+  fontFamily: fontStyle,
+  textTransform: "none",
+  color: "#333333",
+  borderRadius: "10px",
+  padding: "0px 10px 0px 10px",
+  "&:hover": {
+    backgroundColor: "#F8F8F8", // Set the hover background color
+  },
+};
 export default function OtherUsersTicketList() {
   const columns: GridColDef[] = [
     {
-      field: "ticketId",
-      headerName: "ID",
-      flex: 0.5,
-    },
-    {
-      field: "ticketName",
-      headerName: "Loại đơn",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "ticketReason",
-      headerName: "Lí do làm đơn",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "ticketFile",
-      headerName: "File",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "ticketStatus",
-      headerName: "Trạng thái",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "createAt",
-      headerName: "Thời gian tạo",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "processNote",
-      headerName: "Ghi chú",
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: "changeStatusTime",
-      headerName: "Thời gian thay đổi",
-      flex: 1,
-      editable: true,
-    },
-    {
       field: "button",
       headerName: "",
-      flex: 0.5,
+      width: 75,
       renderCell: (params) => (
         // <IconButton onClick={() => handleButtonClick(params.row.id)}>
         //   <MoreHorizIcon />
@@ -99,6 +72,104 @@ export default function OtherUsersTicketList() {
           <MoreHorizIcon />
         </IconButton>
       ),
+    },
+    {
+      field: "ticketId",
+      headerName: "ID",
+      width: 100,
+    },
+    {
+      field: "ticketName",
+      headerName: "Loại đơn",
+      width: 250,
+      editable: true,
+    },
+    {
+      field: "ticketReason",
+      headerName: "Lí do làm đơn",
+      width: 250,
+      editable: true,
+    },
+    {
+      field: "ticketFile",
+      headerName: "File",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "ticketStatus",
+      headerName: "Trạng thái",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderCell(params) {
+        return (
+          <>
+            {params.value === "Chấp nhận" ? (
+              <Typography
+                sx={{
+               
+                  backgroundColor: "#D9EFD6",
+                  padding: "1px 10px ",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : params.value === "Chờ duyệt" ? (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor:"#FFF5D1",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor:"#FFD1D1",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            )}
+          </>
+        );
+      }
+    },
+    {
+      field: "processNote",
+      headerName: "Ghi chú",
+      width: 250,
+      editable: true,
+    },
+    {
+      field: "createAt",
+      headerName: "Thời gian tạo",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+    },
+
+    {
+      field: "changeStatusTime",
+      headerName: "Thời gian thay đổi",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
   ];
   const tickets = useAppSelector(ticketsSelectors.selectAll);
@@ -116,10 +187,10 @@ export default function OtherUsersTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded){
+    if (!ticketsLoaded || ticketAdded) {
       dispatch(fetchOtherUsersTicketsAsync());
       dispatch(setTicketAdded(false));
-    }  
+    }
   }, [dispatch, ticketsLoaded, ticketAdded]);
 
   useEffect(() => {
@@ -130,27 +201,21 @@ export default function OtherUsersTicketList() {
   }, [ticketsLoaded, tickets]);
 
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt:'5%' }}>
-      <Button
-        variant="text"
-        sx={{
-          fontSize: 25,
-          fontWeight: "bold",
-          textTransform: "none",
-          color: "#333333",
-          borderRadius: "10px",
-          padding: "0px 10px 0px 10px",
-          "&:hover": {
-            backgroundColor: "#F8F8F8", // Set the hover background color
-          },
-        }}
-        disableElevation={true}
-        component={NavLink}
-        to={`/departments`}
-        key={"/departments"}
-      >
-        Danh sách đơn khác
-      </Button>
+    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt: "5%" }}>
+      <Grid container spacing={0} alignContent="center">
+        <Grid item>
+          <Button
+            variant="text"
+            sx={navStyle}
+            disableElevation={true}
+            component={NavLink}
+            to={`/otheruserstickets`}
+            key={"/otheruserstickets"}
+          >
+            Danh sách đơn khác
+          </Button>
+        </Grid>
+      </Grid>
       <Grid container justifyContent={"space-between"}>
         <TextField
           id="standard-basic"
@@ -175,20 +240,16 @@ export default function OtherUsersTicketList() {
           Tạo đơn mới
         </Button>
 
-        <CreateTicketForm
-          open={open}
-          onClose={handleCloseDialog}
-        />
+        <CreateTicketForm open={open} onClose={handleCloseDialog} />
       </Grid>
 
-      <Box sx={{ height: 400, width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ height: 700, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="compact"
           getRowId={(row: any) => row.ticketId}
-          getRowHeight={() => 'auto'} 
           sx={{
-            height: 650,
-            width: "100%",
+            height: 700,
+
             ".MuiDataGrid-columnHeaderTitle": {
               fontWeight: "bold !important",
               overflow: "visible !important",
@@ -197,6 +258,9 @@ export default function OtherUsersTicketList() {
             ".MuiDataGrid-columnHeaders": {
               backgroundColor: "#E0F0FF",
             },
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: fontStyle,
           }}
           slots={{
             loadingOverlay: LinearProgress,
@@ -205,9 +269,6 @@ export default function OtherUsersTicketList() {
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}
           columns={columns}
-          classes={{
-            columnHeader: "custom-header",
-          }}
           initialState={{
             pagination: {
               paginationModel: {
@@ -216,7 +277,6 @@ export default function OtherUsersTicketList() {
             },
           }}
           pageSizeOptions={[5]}
-          checkboxSelection
           disableRowSelectionOnClick
         />
       </Box>

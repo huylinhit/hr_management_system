@@ -20,8 +20,33 @@ import { ticketsSelectors } from "./ticketSlice";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
+import "../../app/layout/App.css";
+
+const fontStyle = "Mulish";
+
+const menuItemStyle = {
+  fontStyle: fontStyle,
+};
+const navStyle = {
+  fontSize: 25,
+  fontWeight: 800,
+  fontFamily: fontStyle,
+  textTransform: "none",
+  color: "#333333",
+  borderRadius: "10px",
+  padding: "0px 10px 0px 10px",
+  "&:hover": {
+    backgroundColor: "#F8F8F8", // Set the hover background color
+  },
+};
 const headerStyle = {
-  fontWeight: "bold",
+  fontWeight: 700,
+  fontFamily: fontStyle,
+};
+const infoStyle = {
+  fontWeight: 500,
+  fontFamily: fontStyle,
+  color: "#6D6D6D",
 };
 const verticalSpacing = {
   mb: "2%",
@@ -37,7 +62,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
   const ticket = useAppSelector((state) => ticketsSelectors.selectById(state, id!));
   const [ticketStatus, setTicketStatus] = useState(ticket?.ticketStatus);
   const formattedTicketId = `TK-${ticket?.ticketId.toString().padStart(5, "0")}`;
-  
+
   const debouncedReasonInput = debounce((event: any) => {
     setProcessNote(event.target.value);
   }, 750);
@@ -62,69 +87,64 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
         console.log("Error creating ticket: ", error);
       });
   };
-
+ 
   return (
-    <Container maxWidth="xl">
-      <Box display={"flex"} alignItems={"center"} sx={{ mt: "6%", mb: "1%" }}>
-        <Button
-          variant="text"
-          sx={{
-            fontSize: 25,
-            fontWeight: "bold",
-            textTransform: "none",
-            color: "#333333",
-            borderRadius: "10px",
-            padding: "0px 10px 0px 10px",
-            "&:hover": {
-              backgroundColor: "#F8F8F8", // Set the hover background color
-            },
-          }}
-          disableElevation={true}
-          component={NavLink}
-          to={`/otheruserstickets`}
-          key={"/otheruserstickets"}
-        >
-          Danh sách đơn khác
-        </Button>
-        <ArrowRightIcon sx={{ padding: 0 }} fontSize="large" />
-        <Button
-          variant="text"
-          sx={{
-            fontSize: 25,
-            fontWeight: "bold",
-            textTransform: "none",
-            color: "#333333",
-            borderRadius: "10px",
-            padding: "0px 10px 0px 10px",
-            "&:hover": {
-              backgroundColor: "#F8F8F8", // Set the hover background color
-            },
-          }}
-          disableElevation={true}
-          component={NavLink}
-          to={`/departments`}
-          key={"/departments"}
-        >
-          Phản hồi đơn
-        </Button>
-      </Box>
+    <Container maxWidth="xl" sx={{mt: "5%"}}>
+      <Grid container spacing={0} alignContent="center">
+        <Grid item>
+          <Button
+            variant="text"
+            sx={navStyle}
+            disableElevation={true}
+            component={NavLink}
+            to={`/otheruserstickets`}
+            key={"/otheruserstickets"}
+          >
+            Danh sách đơn khác
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
+        </Grid>
+
+        <Grid item>
+          <Button
+            variant="text"
+            sx={navStyle}
+            disableElevation={true}
+          >
+            Phản hồi đơn
+          </Button>
+        </Grid>
+      </Grid>
 
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
-          <Typography sx={{ fontSize: "25px", fontWeight: "bold" }}>
+          <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
             Đơn của {ticket?.staffName}
           </Typography>
-          <Box display={"flex"} alignItems={"center"}>
+          <Box display={"flex"} alignItems={"flex-end"}>
             <Button
               variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#8A8A8A" }}
+              sx={{
+                fontWeight: "bold",
+                textTransform: "none",
+                color: "#8A8A8A",
+                fontFamily: fontStyle,
+              }}
               disableElevation={true}
             >
               Quay lại
             </Button>
             <Button
               variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
+              sx={{
+                fontWeight: "bold",
+                textTransform: "none",
+                color: "#007FFF",
+                fontFamily: fontStyle,
+              }}
               disableElevation={true}
               onClick={handleTicketApproval}
             >
@@ -138,7 +158,9 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Mã đơn</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>TK-{ticket?.ticketId.toString().padStart(5, "0")}</Typography>
+            <Typography sx={infoStyle}>
+              TK-{ticket?.ticketId.toString().padStart(5, "0")}
+            </Typography>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={verticalSpacing}>
@@ -146,7 +168,9 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Mã số nhân viên</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>STF-{ticket?.staffId.toString().padStart(5, "0")}</Typography>
+            <Typography sx={infoStyle}>
+              STF-{ticket?.staffId.toString().padStart(5, "0")}
+            </Typography>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={verticalSpacing}>
@@ -154,7 +178,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Tên nhân viên</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>{ticket?.staffName}</Typography>
+            <Typography sx={infoStyle}>{ticket?.staffName}</Typography>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={verticalSpacing}>
@@ -162,7 +186,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Loại đơn</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>{ticket?.ticketName}</Typography>
+            <Typography sx={infoStyle}>{ticket?.ticketName}</Typography>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={verticalSpacing}>
@@ -170,7 +194,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Nội dung đơn</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>{ticket?.ticketReason}</Typography>
+            <Typography sx={infoStyle}>{ticket?.ticketReason}</Typography>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={verticalSpacing}>
@@ -178,8 +202,8 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             <Typography sx={headerStyle}>Ngày gửi đơn</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>
-              {moment(ticket?.changeStatusTime).format('MMM Do, YYYY, HH:mm')};
+            <Typography sx={infoStyle}>
+              {moment(ticket?.changeStatusTime).format("MMM Do, YYYY, HH:mm")};
             </Typography>
           </Grid>
         </Grid>
@@ -190,14 +214,20 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
           <Grid item xs={9}>
             <TextField
               select
-              sx={{ width: "20%" }}
+              sx={{ width: "20%", fontStyle: "Mulish" }}
               variant="standard"
               defaultValue={ticket?.ticketStatus}
               onChange={handleStatusChange}
             >
-              <MenuItem value={"Chờ duyệt"}>Chờ duyệt</MenuItem>
-              <MenuItem value={"Chấp nhận"}>Chấp nhận</MenuItem>
-              <MenuItem value={"Từ chối"}>Từ chối</MenuItem>
+              <MenuItem sx={menuItemStyle} value={"Chờ duyệt"}>
+                Chờ duyệt
+              </MenuItem>
+              <MenuItem sx={menuItemStyle} value={"Chấp nhận"}>
+                Chấp nhận
+              </MenuItem>
+              <MenuItem sx={menuItemStyle} value={"Từ chối"}>
+                Từ chối
+              </MenuItem>
             </TextField>
           </Grid>
         </Grid>
@@ -213,6 +243,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             label="Nhập phản hồi..."
             InputProps={{
               disableUnderline: true,
+              style: { fontFamily: fontStyle},
             }}
             defaultValue={ticket?.processNote}
             onChange={debouncedReasonInput}

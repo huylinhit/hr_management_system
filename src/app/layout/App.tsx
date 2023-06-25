@@ -7,7 +7,6 @@ import { fetchCurrentUser } from "../../features/account/accountSlice";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import LoadingComponent from "./LoadingComponent";
-
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
