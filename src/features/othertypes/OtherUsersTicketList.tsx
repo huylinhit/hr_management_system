@@ -247,24 +247,25 @@ export default function OtherUsersTicketList() {
         <DataGrid
           density="compact"
           getRowId={(row: any) => row.ticketId}
+         
           sx={{
             height: 700,
-
-            ".MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important",
-              overflow: "visible !important",
-              color: "#007FFF",
-            },
-            ".MuiDataGrid-columnHeaders": {
-              backgroundColor: "#E0F0FF",
-            },
+            border: "none",
+            // ".MuiDataGrid-columnHeaderTitle": {
+            //   fontWeight: "bold !important",
+            //   overflow: "visible !important",
+            //   color: "#007FFF",
+            // },
+            // ".MuiDataGrid-columnHeaders": {
+            //   backgroundColor: "#E0F0FF",
+            // },
             fontSize: 16,
             fontWeight: 550,
             fontFamily: fontStyle,
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}

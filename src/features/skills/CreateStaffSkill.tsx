@@ -11,9 +11,12 @@ import { useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-export default function CreateStaffSkill() {
-  const [open, setOpen] = React.useState(false);
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+export default function CreateStaffSkill({open, onClose}: Props) {
+ 
   const [skillName, setSkillName] = useState("");
   const [isSkillNameEmptpy, setIsSkillNameEmpty] = useState(false);
   const [isLevelEmpty, setIsLevelEmpty] = useState(false);
@@ -29,14 +32,6 @@ export default function CreateStaffSkill() {
     setLevel(event.target.value);
     setIsLevelEmpty(false);
   }, 500);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleCreateTicket = () => {
     console.log(skillName);
@@ -63,17 +58,14 @@ export default function CreateStaffSkill() {
         .catch((error) => {
           console.error("Error creating staff skill: ", error);
         });
-      setOpen(false);
+        onClose();
     }
   };
 
   return (
     <>
       <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Thêm Staff Skill
-      </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
+      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
         <DialogTitle sx={{ fontWeight: 550, fontSize: 20 }} display={"flex"} alignItems={"center"}>
           Thêm kỹ năng
         </DialogTitle>
@@ -105,7 +97,7 @@ export default function CreateStaffSkill() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Hủy</Button>
+          <Button onClick={onClose}>Hủy</Button>
           <Button onClick={handleCreateTicket} autoFocus>
             Tạo
           </Button>

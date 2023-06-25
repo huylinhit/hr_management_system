@@ -58,6 +58,7 @@ import Candidate from "../../features/candidate/Candidate";
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
+import StaffSkillsList from "../../features/skills/StaffSkillsList";
 
 
 export const router = createBrowserRouter([
@@ -128,7 +129,7 @@ export const router = createBrowserRouter([
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
-      { path: '/createstaffskill' , element: <CreateStaffSkill />},
+      { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
 
