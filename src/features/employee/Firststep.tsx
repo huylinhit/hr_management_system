@@ -8,8 +8,23 @@ import {
   Container,
   Paper,
   Grid,
+  Radio,
 } from "@mui/material";
+
 import React from "react";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
+// import { makeStyles } from '@material-ui/core/styles';
+// const useStyles = makeStyles({
+//   myStepLabel: {
+//     color: "red",
+//     fontSize: 16,
+//     // add more style rules as needed
+//   },
+// });
 
 function FirstStep() {
   const steps = ["Tạo acount", "Thông tin cá nhân", "Lưu hợp đồng"];
@@ -79,16 +94,15 @@ function FirstStep() {
       return newSkipped;
     });
   };
+  const [selectedValue, setSelectedValue] = React.useState("male");
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setName("");
-    setPhone("");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
   };
 
   return (
     <>
-      <Typography variant="h4" sx={{ mb: "10px" }}>
+      <Typography variant="h4" sx={{ mb: "10px", fontWeight: "bold" }}>
         Thêm nhân viên mới
       </Typography>
       <Container component={Paper}>
@@ -117,7 +131,7 @@ function FirstStep() {
             </Stepper>
             {activeStep === steps.length ? (
               <React.Fragment>
-                <Typography sx={{ mt: 2, mb: 1 }}>
+                <Typography sx={{ mt: 2, mb: 1, fontSize: "20px" }}>
                   Bạn đã hoàn thành các bước
                 </Typography>
               </React.Fragment>
@@ -131,7 +145,6 @@ function FirstStep() {
                         mt: "30px",
                         border: "solid 2px rgba(226, 225, 229, 1)",
                         borderRadius: "10px",
-
                       }}
                     >
                       {/* NHẬP USERNAME */}
@@ -144,73 +157,90 @@ function FirstStep() {
                             ml: "50px",
                           }}
                         >
-                          <Typography>Username</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Username
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "90%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Email</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Email
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Nhập email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "90%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Mật khẩu</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Mật khẩu
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Nhập mật khẩu"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "90%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Xác nhận mật khẩu</Typography>
-                          <input
-                            type="text"
-                            placeholder="Nhập lại mật khẩu"
-                            value={passwordagain}
-                            onChange={(e) => setAgian(e.target.value)}
-                            style={{
-                              height: "40px",
-                              width: "90%",
-                              border: " 2px solid rgba(226, 225, 229, 1)",
-                              borderRadius: "5px",
-                            }}
-                          />
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Xác nhận mật khẩu
+                          </Typography>
+                          <div>
+                            <input
+                              type="text"
+                              placeholder="Nhập lại mật khẩu"
+                              value={passwordagain}
+                              onChange={(e) => setAgian(e.target.value)}
+                              style={{
+                                height: "56px",
+                                width: "90%",
+                                border: " 2px solid rgba(226, 225, 229, 1)",
+                                borderRadius: "5px",
+                                fontSize:"17px"
+                              }}
+                            />
+                          </div>
 
-                          <Typography>Vai trò</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Vai trò
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Nhập vai trò"
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "90%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
                         </Container>
@@ -247,195 +277,248 @@ function FirstStep() {
                           }}
                         >
                           <div>
-                            <Typography>Họ</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Họ
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
+                                width: "80%",
+                                border: " 2px solid rgba(226, 225, 229, 1)",
+                                borderRadius: "5px",
+                                fontSize:"17px"
+                              }}
+                            />
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Giới tính
+                            </Typography>
+                            {/* <input
+                              type="text"
+                              placeholder="Enter your phone number"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              style={{
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
                               }}
-                            />
-                            <Typography>Giới tính</Typography>
+                            /> */}
+                            <Box sx={{ display: "flex", gap: 2 }}>
+                             
+                              <Radio
+                                checked={selectedValue === "male"}
+                                onChange={handleChange}
+                                value="male"
+                                name="gender"
+                                sx={{ color: "black" }}
+                                inputProps={{"aria-label": "Nam"  }}
+                              />
+                               <Typography sx={{mt:"10px"}}> Nam</Typography>
+                              
+                              
+                              <Radio
+                                checked={selectedValue === "women"}
+                                onChange={handleChange}
+                                value="women"
+                                name="gender"
+                                inputProps={{"aria-label": "Nu" }}
+                              />
+                              <Typography sx={{mt:"10px"}}>Nữ</Typography>
+                            </Box>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              SĐT
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
-                              }}
-                            />
-                            <Typography>SĐT</Typography>
-                            <input
-                              type="text"
-                              placeholder="Enter your phone number"
-                              value={phone}
-                              onChange={(e) => setPhone(e.target.value)}
-                              style={{
-                                height: "40px",
-                                width: "80%",
-                                border: " 2px solid rgba(226, 225, 229, 1)",
-                                borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
                           </div>
-                          {/* </Grid> */}
-                          {/* <Grid xs={6}> */}
+
                           <div>
-                            <Typography>Tên</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Tên
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
 
-                            <Typography>Quốc tịch</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Quốc tịch
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
 
-                            <Typography>Ngày sinh</Typography>
-                            <input
-                              type="text"
-                              placeholder="Enter your phone number"
-                              value={phone}
-                              onChange={(e) => setPhone(e.target.value)}
-                              style={{
-                                height: "40px",
-                                width: "80%",
-                                border: " 2px solid rgba(226, 225, 229, 1)",
-                                borderRadius: "5px",
-                              }}
-                            />
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Ngày sinh
+                            </Typography>
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DemoContainer components={["DatePicker"]}>
+                                <DatePicker
+                                  sx={{ width: "80%" }}
+                                  label="MM/DD/YYYY"
+                                />
+                              </DemoContainer>
+                            </LocalizationProvider>
                           </div>
-                          {/* </Grid>
-                        </Grid> */}
                         </div>
-                        <Typography>Địa chỉ</Typography>
+                        <Typography sx={{ fontSize: "18px" }}>
+                          Địa chỉ
+                        </Typography>
                         <input
                           type="text"
                           placeholder="Enter your phone number"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           style={{
-                            height: "40px",
+                            height: "56px",
                             width: "90%",
                             border: " 2px solid rgba(226, 225, 229, 1)",
                             borderRadius: "5px",
+                            fontSize:"17px"
                           }}
                         />
-                        <Typography>CMND|CCCD</Typography>
+                        <Typography sx={{ fontSize: "18px" }}>
+                          CMND|CCCD
+                        </Typography>
                         <input
                           type="text"
                           placeholder="Enter your phone number"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           style={{
-                            height: "40px",
+                            height: "56px",
                             width: "40%",
                             border: " 2px solid rgba(226, 225, 229, 1)",
                             borderRadius: "5px",
+                            fontSize:"17px"
                           }}
                         />
                         <div
                           style={{
                             display: "grid",
                             gridTemplateColumns: "1fr 1fr",
-                            // gridGap: "10px",
                           }}
                         >
                           <div>
-                            <Typography>Phòng ban</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Phòng ban
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
-                            <Typography>Chức vụ</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Chức vụ
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
                           </div>
                           <div>
-                            <Typography>Tên ngân hàng</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              Tên ngân hàng
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
-                            <Typography>Số tài khoản ngân hàng</Typography>
+                            <Typography sx={{ fontSize: "18px" }}>
+                              {" "}
+                              Số tài khoản ngân hàng
+                            </Typography>
                             <input
                               type="text"
                               placeholder="Enter your phone number"
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               style={{
-                                height: "40px",
+                                height: "56px",
                                 width: "80%",
                                 border: " 2px solid rgba(226, 225, 229, 1)",
                                 borderRadius: "5px",
+                                fontSize:"17px"
                               }}
                             />
                           </div>
                         </div>
-                        <Typography>Ngân hàng</Typography>
+                        <Typography sx={{ fontSize: "18px" }}>
+                          Ngân hàng
+                        </Typography>
                         <input
                           type="text"
                           placeholder="Enter your phone number"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           style={{
-                            height: "40px",
+                            height: "56px",
                             width: "90%",
                             border: " 2px solid rgba(226, 225, 229, 1)",
                             borderRadius: "5px",
+                            fontSize:"17px"
                           }}
                         />
                       </Container>
@@ -463,152 +546,206 @@ function FirstStep() {
                         style={{
                           display: "grid",
                           gridTemplateColumns: "1fr 1fr",
-                          // gridGap: "10px",
                         }}
                       >
                         <div>
-                          <Typography>Loại hợp đồng</Typography>
-                          <input
-                            type="text"
-                            placeholder="Enter your phone number"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Loại hợp đồng
+                          </Typography>
+                          <select
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
-                              border: " 2px solid rgba(226, 225, 229, 1)",
-                              borderRadius: "5px",
+                              border: "2px solid rgba(226, 225, 229, 1)",
+                              borderRadius: "8px",
+                              fontSize: "17px",
+                              color: "#000",
                             }}
-                          />
-                          <Typography>Ngày bắt đầu hợp đồng</Typography>
+                          >
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                          </select>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Ngày bắt đầu hợp đồng
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
-                            }}
-                          />
-
-                          <Typography>Lương căn bản</Typography>
-                          <input
-                            type="text"
-                            placeholder="Enter your phone number"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            style={{
-                              height: "40px",
-                              width: "80%",
-                              border: " 2px solid rgba(226, 225, 229, 1)",
-                              borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Số ngày làm hàng tháng</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Lương căn bản
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Phụ cấp</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Số ngày làm hàng tháng
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
+
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Phụ cấp
+                          </Typography>
+                          <select
+                            style={{
+                              height: "56px",
+                              width: "80%",
+                              border: "2px solid rgba(226, 225, 229, 1)",
+                              borderRadius: "8px",
+                              fontSize: "17px",
+                              color: "#000",
+                            }}
+                          >
+                            <option value="">Chọn loại phụ cấp</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                          </select>
+                          <div>
+                            <Button
+                              sx={{
+                                width: "60px",
+                                height: "60px",
+                                borderRadius: "60%",
+                                backgroundColor: "#007FFF",
+                                color: " white",
+                                fontSize: "17px",
+                                border: "none",
+                                outline: "none",
+                                cursor: "pointer",
+                                my: "15px",
+                              }}
+                            >
+                              +
+                            </Button>
+                          </div>
                         </div>
                         <div>
-                          <Typography>Loại lương</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Loại lương
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Ngày kết thúc hợp đồng</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Ngày kết thúc hợp đồng
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Lương tính thuế</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Lương tính thuế
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
 
-                          <Typography>Ngày trả lương hàng tháng</Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            Ngày trả lương hàng tháng
+                          </Typography>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             style={{
-                              height: "40px",
+                              height: "56px",
                               width: "80%",
                               border: " 2px solid rgba(226, 225, 229, 1)",
                               borderRadius: "5px",
+                              fontSize:"17px"
                             }}
                           />
                         </div>
                       </div>
-                      <Typography>Ghi chú</Typography>
+                      <Typography sx={{ fontSize: "18px" }}>Ghi chú</Typography>
                       <input
                         type="text"
                         placeholder="Enter your phone number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         style={{
-                          height: "40px",
+                          height: "56px",
                           width: "90%",
                           border: " 2px solid rgba(226, 225, 229, 1)",
                           borderRadius: "5px",
+                          fontSize:"17px"
                         }}
                       />
 
-                      <Typography>Nhập file</Typography>
+                      <Button
+                        variant="contained"
+                        sx={{ fontSize: "18px, ", mt: "20px" }}
+                      >
+                        Nhập file
+                      </Button>
                     </Container>
                   </Container>
                 )}
@@ -618,13 +755,13 @@ function FirstStep() {
                     color="inherit"
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    sx={{ mr: 1 }}
+                    sx={{ mr: 1, fontSize: "20px" }}
                   >
                     Quay về
                   </Button>
                   <Box sx={{ flex: "1 1 auto" }} />
 
-                  <Button onClick={handleNext}>
+                  <Button sx={{ fontSize: "20px" }} onClick={handleNext}>
                     {activeStep === steps.length - 1 ? "Hoàn thành" : "Tiếp"}
                   </Button>
                 </Box>

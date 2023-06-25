@@ -36,6 +36,7 @@ import Firststep from "../../features/employee/Firststep";
 import EditOtherType from "../../features/othertypes/EditOtherType";
 import EditContract from "../../features/contract/EditContract";
 import ContractDetail from "../../features/contract/ContractDetail";
+import EditEmployee from "../../features/employee/EditEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,8 @@ export const router = createBrowserRouter([
       { path: "/firststep", element: <Firststep /> },
 
       { path: "/employeelist", element: <EmployeeList /> },
+      { path: "/editemployee", element: <EditEmployee /> },
+
       { path: "/departments", element: <DepartmentList /> },
       { path: "/departments/:id", element: <DepartmentDetails /> },
 
