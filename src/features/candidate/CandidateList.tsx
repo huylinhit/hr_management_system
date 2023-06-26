@@ -24,16 +24,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink } from "react-router-dom";
-import {
-  fetchCurrentUserTicketsAsync,
-  fetchOtherUsersTicketsAsync,
-  fetchTicketsAsync,
-  setTicketAdded,
-  ticketsSelectors,
-} from "./ticketSlice";
+
 import { Ticket } from "../../app/models/ticket";
-import CreateTicketForm from "./CreateTicketForm";
+
 import moment from "moment";
+import { candidatesSelectors, fetchCandidatesAsync, setCandidateAdded } from "./candidateSlice";
+import { Candidate } from "../../app/models/candidate";
 
 function CustomToolbar() {
   return (
@@ -64,41 +60,91 @@ export default function OtherUsersTicketList() {
       field: "button",
       headerName: "",
       width: 75,
-      renderCell: (params) => (
-        // <IconButton onClick={() => handleButtonClick(params.row.id)}>
-        //   <MoreHorizIcon />
-        // </IconButton>
-        <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
-          <MoreHorizIcon />
-        </IconButton>
-      ),
+      renderCell: (params) => {
+        return (
+
+          <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
+            <MoreHorizIcon />
+          </IconButton>
+        );
+      },
     },
     {
-      field: "ticketId",
+      field: "candidateId",
       headerName: "ID",
       width: 100,
     },
     {
-      field: "ticketName",
-      headerName: "Loại đơn",
+      field: "imageFile",
+      headerName: "Ảnh",
       width: 300,
       editable: true,
     },
     {
-      field: "ticketReason",
-      headerName: "Lí do làm đơn",
+      field: "name",
+      headerName: "Tên ứng viên",
       width: 300,
       editable: true,
     },
     {
-      field: "ticketFile",
-      headerName: "File",
+      field: "email",
+      headerName: "Email",
       width: 300,
       editable: true,
     },
     {
-      field: "ticketStatus",
-      headerName: "Trạng thái",
+      field: "phone",
+      headerName: "Số điện thoại",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "dob",
+      headerName: "Ngày sinh",
+      width: 300,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+    },
+    {
+      field: "gioiTinh",
+      headerName: "Giới tính",
+      width: 300,
+      editable: true,
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "department",
+      headerName: "Phòng ban",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "expectedSalary",
+      headerName: "Lương mong muốn",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "resumeFile",
+      headerName: "Hồ sơ",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "applyDate",
+      headerName: "Ngày ứng tuyển",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+    },
+    {
+      field: "result",
+      headerName: "Kết quả",
       width: 200,
       editable: true,
       align: "right",
@@ -149,32 +195,13 @@ export default function OtherUsersTicketList() {
         );
       },
     },
-    {
-      field: "processNote",
-      headerName: "Ghi chú",
-      width: 300,
-      editable: true,
-    },
-    {
-      field: "createAt",
-      headerName: "Thời gian tạo",
-      width: 300,
-      editable: true,
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
-    },
-
-    {
-      field: "changeStatusTime",
-      headerName: "Thời gian thay đổi",
-      width: 300,
-      editable: true,
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
-    },
   ];
-  const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const candidates = useAppSelector(candidatesSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { ticketsLoaded, filtersLoaded, ticketAdded } = useAppSelector((state) => state.ticket);
-  const [rows, setRows] = useState<Ticket[]>([]);
+  const { candidateAdded, filtersLoaded, candidatesLoaded } = useAppSelector(
+    (state) => state.candidate
+  );
+  const [rows, setRows] = useState<Candidate[]>([]);
   const [open, setOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -186,22 +213,22 @@ export default function OtherUsersTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded) {
-      dispatch(fetchOtherUsersTicketsAsync());
-      dispatch(setTicketAdded(false));
+    if (!candidatesLoaded || candidateAdded) {
+      dispatch(fetchCandidatesAsync());
+      dispatch(setCandidateAdded(false));
     }
-  }, [dispatch, ticketsLoaded, ticketAdded]);
+  }, [dispatch, candidatesLoaded, candidateAdded]);
 
   useEffect(() => {
-    if (ticketsLoaded) {
+    if (candidatesLoaded) {
       // Update the rows when departments are loaded
-      setRows(tickets);
+      setRows(candidates);
     }
-  }, [ticketsLoaded, tickets]);
+  }, [candidatesLoaded, candidates]);
 
   return (
     <>
-     <Box sx={{paddingLeft:"10%", mt:"5%", paddingRight:"5%"}}>
+      <Box sx={{ paddingLeft: "10%", mt: "5%", paddingRight: "5%" }}>
         <Grid container spacing={0} alignContent="center">
           <Grid item>
             <Button
@@ -212,7 +239,7 @@ export default function OtherUsersTicketList() {
               to={`/otheruserstickets`}
               key={"/otheruserstickets"}
             >
-              Danh sách đơn khác
+              Danh sách ứng viên
             </Button>
           </Grid>
         </Grid>
@@ -237,17 +264,15 @@ export default function OtherUsersTicketList() {
             startIcon={<AddIcon />}
             onClick={handleOpenDialog}
           >
-            Tạo đơn mới
+            Tạo ứng viên
           </Button>
-
-          <CreateTicketForm open={open} onClose={handleCloseDialog} />
         </Grid>
-        </Box>
+      </Box>
 
       <Box sx={{ height: 700, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="compact"
-          getRowId={(row: any) => row.ticketId}
+          getRowId={(row: any) => row.candidateId}
           sx={{
             height: 700,
             border: "none",
@@ -264,12 +289,11 @@ export default function OtherUsersTicketList() {
             fontFamily: fontStyle,
           }}
           showCellVerticalBorder
-          
           slots={{
             loadingOverlay: LinearProgress,
             //toolbar: CustomToolbar,
           }}
-          loading={!ticketsLoaded || ticketAdded}
+          loading={!candidatesLoaded || candidateAdded}
           rows={rows}
           columns={columns}
           initialState={{
