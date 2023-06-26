@@ -10,12 +10,15 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
+import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
+import EditContract from "../../features/contract/EditContract";
+import ContractDetail from "../../features/contract/ContractDetail";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -45,9 +48,7 @@ import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 // Type
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
-
 import EditOtherType from "../../features/othertypes/TicketApprovalForm";
-
 
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
@@ -59,7 +60,6 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +84,7 @@ export const router = createBrowserRouter([
       { path: "/firststep", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee", element: <DetailEmployee /> },
+      { path: "/editemployee", element: <EditEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -108,6 +109,7 @@ export const router = createBrowserRouter([
       { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
       // Ticket
+      { path: "/createticket", element: <CreateTicketForm /> },
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
@@ -132,12 +134,14 @@ export const router = createBrowserRouter([
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
-
-
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
+
+      //Contract
+      { path: "/editcontract", element: <EditContract /> },
+      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);
