@@ -7,36 +7,59 @@ import NotFound from "../errors/NotFound";
 // component
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import RequireAuth from "./RequireAuth";
 
-//
-import DetailEmployee from "../../features/employee/DetailEmployee";
+// Employee
+import EditEmployee from "../../features/employee/EditEmployee";
+import DetailEmployee from "../../features/detail_employee/DetailEmployee";
+import EmployeeList from "../../features/employee/EmployeeList";
+import Firststep from "../../features/employee/Firststep";
 
-//
-import OvertimeLog from "../../features/overlog/OvertimeList";
+// Contract
+import DetailContract from "../../features/detail_contract/DetailContract";
+import EditContract from "../../features/contract/EditContract";
+import ContractDetail from "../../features/contract/ContractDetail";
+
+// Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
+import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
+import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
 
-//
+
+// Leave
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
 import DetailLeave from "../../features/detail_leavelog/DetailLeave";
+import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
+import DetailOwnLeave from "../../features/detail_own_leave/DetailOwnLeave";
 
-//
-import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
-
-//
+// Department
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
 
+// Ticket
+import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
 import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
 import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
-import RequireAuth from "./RequireAuth";
+import MyTicketList from "../../features/othertypes/MyTicketList";
+import DetailOwnTicket from "../../features/detail_own_ticket/DetailOwnTicket";
+import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
+import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
-import EmployeeList from "../../features/employee/EmployeeList";
-import Firststep from "../../features/employee/Firststep";
-import EditOtherType from "../../features/othertypes/EditOtherType";
-import EditContract from "../../features/contract/EditContract";
-import ContractDetail from "../../features/contract/ContractDetail";
-import EditEmployee from "../../features/employee/EditEmployee";
+// Type
+import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
+import EditOtherType from "../../features/othertypes/TicketApprovalForm";
+
+//
+import ViewCandidate from "../../features/candidate/ViewCadidate";
+import CreateCandidate from "../../features/candidate/CreateCandidate";
+import EditCandidate from "../../features/candidate/EditCandidate";
+import Candidate from "../../features/candidate/Candidate";
+
+import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
+import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
+import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
+import StaffSkillsList from "../../features/skills/StaffSkillsList";
 
 export const router = createBrowserRouter([
   {
@@ -58,32 +81,58 @@ export const router = createBrowserRouter([
 
       //Them router ngay vi tri nay nhe!!
       // Employee
+      { path: "/firststep", element: <Firststep /> },
+      { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee", element: <DetailEmployee /> },
+      { path: "/editemployee", element: <EditEmployee /> },
+
+      // Contract
+      { path: "/detail-contract", element: <DetailContract /> },
 
       // Overtime
-      { path: "/overtime", element: <OvertimeLog /> },
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
+      { path: "/detail-own-overtime-log", element: <DetailOwnOvertime /> },
+
+      //MyOT
+      { path: "/myovertime", element: <MyViewOvertime /> },
+
+      //MyLeavetime
+      { path: "/myleavetime", element: <MyViewLeavetime /> },
+
+      
+
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
+      { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
       // Ticket
-
-      { path: "/viewothertypes", element: <ViewOtherTypes /> },
-      { path: "/editothertype/:id", element: <EditOtherType /> },
       { path: "/createticket", element: <CreateTicketForm /> },
+      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
+      { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+      { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
+      { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
+      { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
+      { path: "/approveticket", element: <ApproveTicketForm /> },
 
-      { path: "/department-list", element: <DepartmentList /> },
-      { path: "/department-detail", element: <DepartmentDetails /> },
-      { path: "/firststep", element: <Firststep /> },
+      // Candidate
+      { path: "/viewcandidate", element: <ViewCandidate /> },
+      { path: "/createcandidate", element: <CreateCandidate /> },
+      { path: "/editcandidate", element: <EditCandidate /> },
+      { path: "/detailcandidate", element: <Candidate /> },
 
-      { path: "/employeelist", element: <EmployeeList /> },
-      { path: "/editemployee", element: <EditEmployee /> },
 
-      { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> },
+
+      // Department 
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/departments/:id' , element: <DepartmentDetails />},
+
+      { path: '/staffskills' , element: <StaffSkillsList />},
+      { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

@@ -7,7 +7,6 @@ import { fetchCurrentUser } from "../../features/account/accountSlice";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import LoadingComponent from "./LoadingComponent";
-
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
@@ -46,8 +45,7 @@ function App() {
     <Box >
     <Sidebar />
     <CssBaseline />
-
-      <Box sx={{ mt: 8, ml: 38, backgroundColor:"#FFFFFF" }}>
+      <Box sx={{ mt: 8, ml: 37, backgroundColor:"#FFFFFF" }}>
         <Outlet />
       </Box>
     </Box>

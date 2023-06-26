@@ -77,11 +77,21 @@ const Department = {
 
 const Ticket = {
   list: () => requests.get("tickets"),
+  currentUserList: () => requests.get("tickets/currentusertickets"),
+  otherUsersList: () => requests.get("tickets/otheruserstickets"),
   details: (id: number) => requests.get(`tickets/${id}`),
   create: (values: any) => requests.post("tickets", values),
   update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
+  updateStatus: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
 };
+const TicketType = {
+  list: () => requests.get("tickettype"),
+  details: (id: number) => requests.get(`tickettype/${id}`),
+  create: (values: any) => requests.post("tickettype", values),
+  update: (id: number, values: any) => requests.put(`tickettype/${id}`, values),
+  delete: (id: number) => requests.delete(`tickettype/${id}`),
+}
 
 const Skill = {
   list: () => requests.get("skill"),
@@ -109,6 +119,7 @@ const agent = {
   Ticket,
   Skill,
   StaffSkill,
+  TicketType
 };
 
 export default agent;

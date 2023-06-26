@@ -1,10 +1,31 @@
-import { Autocomplete, Button, Chip, Container, Grid, Paper, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography, styled, tableCellClasses, } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Chip,
+  Container,
+  Grid,
+  Paper,
+  SelectChangeEvent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TextField,
+  Typography,
+  styled,
+  tableCellClasses,
+} from "@mui/material";
 import React from "react";
 import { ReactNode } from "react";
 import { BorderColor } from "@mui/icons-material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import CreateLeavetime from "./CreateLeavetime";
+import { FORMSTATUS } from "../../app/store/data";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -16,7 +37,8 @@ const top100Films = [
   { label: "4", year: 2008 },
   { label: "5", year: 1957 },
   { label: "6", year: 1993 },
-  { label: "7", year: 1994 }, ``
+  { label: "7", year: 1994 },
+  ``,
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,15 +51,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
-
 
 function LeavetimeList() {
   function createData(
@@ -50,35 +71,106 @@ function LeavetimeList() {
     times: string,
     reason: string,
     status: string,
-    reply: ReactNode,
-
+    reply: ReactNode
   ) {
     return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
-
   const rows = [
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Từ chối", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chấp nhận", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Từ chối", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chấp nhận", ""),
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Nghỉ thai sản", "06/06/2023 18:00", "09/09/2023 22:00", "3", "...", "Chờ duyệt", ""),
-
-
-
-
-
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Từ chối",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Chờ duyệt",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Chấp nhận",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Từ chối",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Chờ duyệt",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Chấp nhận",
+      ""
+    ),
+    createData(
+      "HR0001",
+      1000001,
+      "Nguyen Hong Ngoc",
+      "Nghỉ thai sản",
+      "06/06/2023 18:00",
+      "09/09/2023 22:00",
+      "3",
+      "...",
+      "Chờ duyệt",
+      ""
+    ),
   ];
 
   const styles = {
-    marginBottom: '10px',
+    marginBottom: "10px",
   };
 
-  function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
-
-  }
+  function handleChange(
+    event: SelectChangeEvent<unknown>,
+    child: ReactNode
+  ): void {}
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -90,27 +182,32 @@ function LeavetimeList() {
   };
   return (
     <>
-      <Container>
+      <Container sx={{ padding: "15px 0" }}>
         <Typography variant="h4" sx={headerStyle} style={styles}>
           Danh sách đơn nghỉ phép
         </Typography>
-        <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Grid sx={{ display: "flex", justifyContent: "space-between", padding: " 20px 0 5px 0" }}>
           <Grid
             item
             xs={10}
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
-            <TextField
-              size='small'
-              label="Tìm kiếm..." />
+            <Grid sx={{ margin: "0 5px" }}>
+              <TextField size="small" label="Tìm kiếm..." />
+            </Grid>
             <Grid>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
-                sx={{ width: 200 }}
+                sx={{ width: 200, margin: "0 5px" }}
                 renderInput={(params) => (
-                  <TextField {...params} size='small' label="Loại" style={styles} />
+                  <TextField
+                    {...params}
+                    size="small"
+                    label="Loại"
+                    style={styles}
+                  />
                 )}
               />
             </Grid>
@@ -119,9 +216,9 @@ function LeavetimeList() {
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
-                sx={{ width: 200 }}
+                sx={{ width: 200, margin: "0 5px" }}
                 renderInput={(params) => (
-                  <TextField {...params} size='small' label="Phòng" />
+                  <TextField {...params} size="small" label="Phòng" />
                 )}
               />
             </Grid>
@@ -131,7 +228,11 @@ function LeavetimeList() {
               <Button variant="contained" onClick={handleClickOpen}>
                 + Tạo đơn nghỉ phép
               </Button>
-              <CreateLeavetime open={open} handleChange={handleChange} handleClose={handleClose} />
+              <CreateLeavetime
+                open={open}
+                handleChange={handleChange}
+                handleClose={handleClose}
+              />
             </div>
           </Grid>
         </Grid>
@@ -150,8 +251,6 @@ function LeavetimeList() {
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                <StyledTableCell align="center">Xóa</StyledTableCell>
-
               </TableRow>
             </TableHead>
             <TableBody>
@@ -171,17 +270,14 @@ function LeavetimeList() {
                     <Chip
                       label={row.status}
                       color={
-
-                        row.status === 'Chấp nhận'
-                          ? 'info'
-                          : row.status === 'Chờ duyệt'
-                            ? 'default' // or 'disabled' if you want a grayed-out color
-                            : 'error'
+                        row.status === FORMSTATUS.agree
+                          ? "info"
+                          : row.status === FORMSTATUS.pending
+                          ? "default" // or 'disabled' if you want a grayed-out color
+                          : "error"
                       }
                       sx={{ width: "92px" }}
-
                     />
-
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <Button
@@ -189,16 +285,12 @@ function LeavetimeList() {
                       component={Link}
                       to={`/detail-leave-log/${row.Doid}`}
                     >
-                      <BorderColor />
+                      {row.status === FORMSTATUS.pending
+                          ? <BorderColor />
+                          : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
+                      }
                       {row.reply}
-
                     </Button>
-                  </StyledTableCell>
-                  {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
-
-                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
-
-
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

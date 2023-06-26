@@ -4,9 +4,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
-//style
-import "./DetailOvertime.css";
-
 // component
 import DetailOvertimeContent from "./component/DetailOvertimeContent";
 import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
@@ -39,18 +36,32 @@ export default function DetailOvertime() {
   };
   // -------------------------- MAIN ----------------------------
   return (
-    <Box className="page-container">
-      <Grid container className="page-title">
-        <Typography>Phản hồi đơn làm thêm giờ</Typography>
+    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+      <Grid>
+        <Typography
+          sx={{
+            padding: "5px 0 15px 0",
+            fontStyle: "normal",
+            fontWeight: "700",
+            fontSize: "30px",
+            lineHeight: "39px",
+          }}
+        >Phản hồi đơn làm thêm giờ</Typography>
       </Grid>
 
       <Container>
         <Grid
           container
           onSubmit={handleSubmit(onSubmit)}
-          className="page-content"
+          sx={{
+            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            backgroundColor: "white",
+            borderRadius: "30px",
+            padding: "20px 45px",
+            margin: "5px 0",
+          }}  
         >
-          <Grid item sx={{ width: "100%", padding: "50px 50px 0 50px" }}>
+          <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
             <DetailOvertimeContent logOt={logOt} staff={staff} types={types} />
           </Grid>
           <Grid item sx={{ width: "100%" }}>

@@ -39,8 +39,8 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import NumbersOutlinedIcon from "@mui/icons-material/NumbersOutlined";
-import TextFormatOutlinedIcon from '@mui/icons-material/TextFormatOutlined';
-
+import TextFormatOutlinedIcon from "@mui/icons-material/TextFormatOutlined";
+import "../../app/layout/App.css";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -54,7 +54,20 @@ function CustomToolbar() {
 const headerStyle = {
   color: "#007FFF",
   fontWeight: 600,
+  fontFamily: "Montserrat",
   fontSize: 13,
+};
+const navStyle = {
+  fontSize: 25,
+  fontWeight: "bold",
+  textTransform: "none",
+  color: "#333333",
+  borderRadius: "10px",
+  fontFamily: "Montserrat",
+  padding: "0px 10px 0px 10px",
+  "&:hover": {
+    backgroundColor: "#F8F8F8", // Set the hover background color
+  },
 };
 export default function DepartmentDetails() {
   const columns: GridColDef[] = [
@@ -78,14 +91,15 @@ export default function DepartmentDetails() {
       headerClassName: "custom-header-text",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <TextFormatOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
+          <TextFormatOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
           <div>Tên Nhân Viên</div>
         </Typography>
       ),
     },
     {
       //phone
-      field: "phone", 
+      field: "phone",
       headerName: "Số Điện Thoại",
       flex: 1,
       editable: true,
@@ -228,17 +242,7 @@ export default function DepartmentDetails() {
         <Grid item>
           <Button
             variant="text"
-            sx={{
-              fontSize: 25,
-              fontWeight: "bold",
-              textTransform: "none",
-              color: "#333333",
-              borderRadius: "10px",
-              padding: "0px 10px 0px 10px",
-              "&:hover": {
-                backgroundColor: "#F8F8F8", // Set the hover background color
-              },
-            }}
+            sx={navStyle}
             disableElevation={true}
             component={NavLink}
             to={`/departments`}
@@ -255,17 +259,7 @@ export default function DepartmentDetails() {
         <Grid item>
           <Button
             variant="text"
-            sx={{
-              fontSize: 25,
-              fontWeight: "bold",
-              textTransform: "none",
-              color: "#333333",
-              borderRadius: "10px",
-              padding: "0px 10px 0px 10px",
-              "&:hover": {
-                backgroundColor: "#F8F8F8", // Set the hover background color
-              },
-            }}
+            sx={navStyle}
             disableElevation={true}
           >
             {department?.departmentName}
@@ -333,6 +327,7 @@ export default function DepartmentDetails() {
                 borderRadius: "10px",
                 padding: "0px 10px 0px 10px",
                 color: "#007FFF",
+                fontFamily: "Montserrat",
               }}
               disableElevation={true}
               startIcon={<AddIcon />}
@@ -358,6 +353,7 @@ export default function DepartmentDetails() {
                 borderRadius: "10px",
                 padding: "0px 10px 0px 10px",
                 color: "#757575",
+                fontFamily: "Montserrat",
               }}
               disableElevation={true}
               startIcon={<ModeEditIcon />}
@@ -382,10 +378,12 @@ export default function DepartmentDetails() {
                 backgroundColor: "#E0F0FF",
               },
               borderLeft: "none",
+              borderRadius: 0,
               borderRight: "none",
-              color: "#505050",
-              fontWeight: "550",
-              fontSize:15
+              fontFamily: "Montserrat",
+              color: "#2F2F2F",
+              fontWeight: "500",
+              fontSize: 15,
             }}
             slots={{
               loadingOverlay: LinearProgress,
@@ -394,9 +392,6 @@ export default function DepartmentDetails() {
             loading={departmentStatus.includes("pending")}
             rows={department.userInfors}
             columns={columns}
-            classes={{
-              columnHeader: "custom-header",
-            }}
             initialState={{
               pagination: {
                 paginationModel: {

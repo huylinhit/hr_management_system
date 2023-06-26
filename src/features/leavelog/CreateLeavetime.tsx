@@ -14,7 +14,7 @@ const styles = {
     marginBottom: '20px',
 };
 
-function CreateOvertime({ open, handleClose, handleChange }: any) {
+function CreateLeavetime({ open, handleClose, handleChange }: any) {
     return (
         <Dialog open={open} onClose={handleClose}>
             <ThemeProvider theme={theme}>
@@ -83,4 +83,4 @@ function CreateOvertime({ open, handleClose, handleChange }: any) {
     );
 }
 
-export default CreateOvertime;
+export default CreateLeavetime;
