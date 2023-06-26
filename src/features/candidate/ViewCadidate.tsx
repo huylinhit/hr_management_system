@@ -1,33 +1,36 @@
 
+
 import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
 import React, { ReactNode } from 'react';
 import { BorderColor } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+ 
 
 const headerStyle = {
-    fontWeight: 'bold'
-}
+  fontWeight: "bold",
+};
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
 }));
 function ViewCandidate() {
+ 
     function createData(
         igm: string,
         name: string,
@@ -106,6 +109,7 @@ function ViewCandidate() {
                     </Grid>
                 </Grid>
                 <TableContainer component={Paper} sx={{ borderRadius: '20px' }}>
+ 
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -118,7 +122,6 @@ function ViewCandidate() {
                 <StyledTableCell align="center">Kết quả</StyledTableCell>
                 <StyledTableCell align="center">Xem thêm</StyledTableCell>
                 <StyledTableCell align="center">Xóa</StyledTableCell>
-
               </TableRow>
             </TableHead>
             <TableBody>
@@ -133,46 +136,40 @@ function ViewCandidate() {
                   <StyledTableCell align="center">{row.mail}</StyledTableCell>
                   <StyledTableCell align="center">{row.phone}</StyledTableCell>
                   <StyledTableCell align="center">
-                    
-                  <Chip
-                                            label={row.status}
-                                            color={
+                    <Chip
+                      label={row.status}
+                      color={
+                        row.status === "Đạt"
+                          ? "success"
+                          : row.status === "Không đạt"
+                          ? "error" // or 'disabled' if you want a grayed-out color
+                          : "error"
+                      }
+                      sx={{ width: "92px" }}
+                    />
+                  </StyledTableCell>
 
-                                                row.status === 'Đạt'
-                                                    ? 'success'
-                                                    : row.status === 'Không đạt'
-                                                        ? 'error' // or 'disabled' if you want a grayed-out color
-                                                       : 'error'
-                                            }
-                                            sx={{width: "92px"}}
-
-                                        />
-
-                    </StyledTableCell>
-
-                  <StyledTableCell align="center"> 
-                  <Button
+                  <StyledTableCell align="center">
+                    <Button
                       // onClick={handleClickOpen}
                       component={Link}
                       to="/detailcandidate/"
                     >
-                  <BorderColor /> {row.reply}
-                  </Button>
+                      <BorderColor /> {row.reply}
+                    </Button>
                   </StyledTableCell>
-                  <StyledTableCell align="center"><DeleteIcon /></StyledTableCell>
+                  <StyledTableCell align="center">
+                    <DeleteIcon />
+                  </StyledTableCell>
                   {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
-
-
-                  
-
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-            </Container>
-        </>
-    );
+      </Container>
+    </>
+  );
 }
 
 export default ViewCandidate;
