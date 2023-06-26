@@ -154,6 +154,7 @@ export default function CreateCandidate() {
       address: address,
       expectedSalary: expectedSalary,
     };
+
     agent.Candidate.create(candidateCreate)
       .then((response) => {
         const candidateId = response.candidateId;

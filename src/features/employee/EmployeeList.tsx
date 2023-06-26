@@ -1,23 +1,8 @@
-import { ReactNode } from "react";
-
-import { LocalizationProvider, heIL } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import {
-  SelectChangeEvent,
-  Container,
   Grid,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  DialogActions,
   Autocomplete,
   TableContainer,
   Paper,
@@ -26,11 +11,13 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  styled,
+  tableCellClasses,
 } from "@mui/material";
 
-import React from "react";
-import { BorderColor } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -45,6 +32,26 @@ const top100Films = [
   { label: "7", year: 1994 },
   ``,
 ];
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function EmployeeList() {
   function createData(
@@ -61,76 +68,6 @@ function EmployeeList() {
   }
 
   const rows = [
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
     createData(
       "NV01",
       "Nguyễn Hồng Ngọc",
@@ -265,57 +202,70 @@ function EmployeeList() {
           </Grid>
         </Grid>
         <Grid item xs={10}>
-       
-            <Link to="/firststep">    <Button variant="contained"> + Thêm nhân viên mới</Button> </Link>
-          
+          <Link to="/firststep">
+            {" "}
+            <Button variant="contained"> + Thêm nhân viên mới</Button>{" "}
+          </Link>
         </Grid>
       </Grid>
 
-      <TableContainer component={Paper} sx={{ mt: "10px" }}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow sx={{ background: "black" }}>
-              <TableCell sx={{ color: "white" }} align="center">
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 MSNV
-              </TableCell>
-              <TableCell sx={{ color: "white" }} align="center">
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 Hình ảnh
-              </TableCell>
-              <TableCell sx={{ color: "white" }} align="center">
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 Tên
-              </TableCell>
-              <TableCell sx={{ color: "white" }} align="center">
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 Số điện thoại
-              </TableCell>
-              <TableCell sx={{ color: "white" }} align="center">
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 Giới tính
-              </TableCell>
-              <TableCell sx={{ color: "white" }} align="center">
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
                 Mail
-              </TableCell>
+              </StyledTableCell>
 
-              <TableCell sx={{ color: "white" }} align="center"></TableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
+                Xóa
+              </StyledTableCell>
+              <StyledTableCell sx={{ color: "white" }} align="center">
+                Xem thêm
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <TableRow
+              <StyledTableRow
                 key={row.msnv}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <StyledTableCell component="th" scope="row">
                   {row.msnv}
-                </TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.to}</TableCell>
-                <TableCell align="center">{row.from}</TableCell>
-                <TableCell align="center">{row.times}</TableCell>
+                </StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
+                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.to}</StyledTableCell>
+                <StyledTableCell align="center">{row.from}</StyledTableCell>
+                <StyledTableCell align="center">{row.times}</StyledTableCell>
 
-                <TableCell align="center">
-                  <BorderColor />
-                </TableCell>
-              </TableRow>
+                <StyledTableCell align="center">
+                  <Button color="error">
+                    <DeleteIcon />
+                  </Button>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <Button sx={{ color: "black" }}>
+                    <MoreHorizIcon />
+                  </Button>
+                </StyledTableCell>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>
