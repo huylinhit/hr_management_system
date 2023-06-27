@@ -13,6 +13,7 @@ import {
   TableBody,
   styled,
   tableCellClasses,
+  Container,
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
@@ -53,113 +54,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function EmployeeList() {
+ export default function EmployeeList() {
+  // -------------------------- VAR -----------------------------
+  const tableHeadTitle = [
+    "MSNV",
+    "Hình ảnh",
+    "Tên",
+    "Số điện thoại",
+    "Giới tính",
+    "Mail",
+    "Xóa",
+    "Xem thêm",
+  ];
+  // -------------------------- STATE ---------------------------
+  // -------------------------- REDUX ---------------------------
+  // -------------------------- EFFECT --------------------------
+  // -------------------------- FUNCTION ------------------------
   function createData(
     msnv: string,
+    image: string,
     name: string,
     kind: string,
     to: string,
     from: string,
-    times: string,
+    time: string,
     reason: string,
     status: string
   ) {
-    return { msnv, name, kind, to, from, times, reason, status };
+    return { msnv, image, name, kind, to, from, time, reason, status };
   }
+  // -------------------------- MAIN ----------------------------
 
   const rows = [
     createData(
       "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
-      "Nguyễn Hồng Ngọc",
-      "Ngày lễ",
-      "0123456789",
-      "Nữ",
-      "dchau@gmail.com",
-      "...",
-      "chờ duyệt"
-    ),
-    createData(
-      "NV01",
+      "abc",
       "Nguyễn Hồng Ngọc",
       "Ngày lễ",
       "0123456789",
@@ -171,75 +100,61 @@ function EmployeeList() {
   ];
 
   return (
-    <>
+    <Container sx={{ padding: "15px 0" }}>
       <Typography variant="h4" sx={headerStyle}>
         Danh sách nhân viên
       </Typography>
-      <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Grid
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: " 20px 0 5px 0",
+        }}
+      >
         <Grid
           item
           xs={10}
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
-          <TextField label="Tìm kiếm..." />
-          <Grid>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Loại" />}
-            />
+          <Grid sx={{ margin: "0 5px", backgroundColor: "#FFFFFF" }}>
+            <TextField size="small" label="Tìm kiếm..." />
           </Grid>
+
           <Grid>
             <Autocomplete
               disablePortal
               id="combo-box-demo"
+              size="small"
               options={top100Films}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Phòng" />}
+              sx={{ width: 200, margin: "0 5px", backgroundColor: "#FFFFFF" }}
+              renderInput={(params) => (
+                <TextField {...params} label="Phòng ban" />
+              )}
             />
           </Grid>
         </Grid>
         <Grid item xs={10}>
-          <Link to="/firststep">
-            {" "}
-            <Button variant="contained"> + Thêm nhân viên mới</Button>{" "}
-          </Link>
+          {/* <Link to="/firststep"> */}
+            <Button variant="contained" component={Link}
+                    to="/create-new-employee"> + Thêm nhân viên mới</Button>
+          {/* </Link> */}
         </Grid>
       </Grid>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
+
           <TableHead>
             <TableRow sx={{ background: "black" }}>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                MSNV
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Hình ảnh
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Tên
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Số điện thoại
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Giới tính
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Mail
-              </StyledTableCell>
-
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Xóa
-              </StyledTableCell>
-              <StyledTableCell sx={{ color: "white" }} align="center">
-                Xem thêm
-              </StyledTableCell>
+              {tableHeadTitle.map((title) => (
+                <StyledTableCell sx={{ color: "white", fontSize: "15px" }} align="center">
+                  {title}
+                </StyledTableCell>
+              ))}
             </TableRow>
           </TableHead>
+
+
           <TableBody>
             {rows.map((row) => (
               <StyledTableRow
@@ -253,24 +168,29 @@ function EmployeeList() {
                 <StyledTableCell align="center">{row.name}</StyledTableCell>
                 <StyledTableCell align="center">{row.to}</StyledTableCell>
                 <StyledTableCell align="center">{row.from}</StyledTableCell>
-                <StyledTableCell align="center">{row.times}</StyledTableCell>
+                <StyledTableCell align="center">{row.time}</StyledTableCell>
 
                 <StyledTableCell align="center">
                   <Button color="error">
                     <DeleteIcon />
                   </Button>
                 </StyledTableCell>
+
                 <StyledTableCell align="center">
-                  <Button sx={{ color: "black" }}>
+                  <Button
+                    sx={{ color: "black" }}
+                    component={Link}
+                    to={`/detail-employee/${row.msnv}`}
+                  >
                     <MoreHorizIcon />
                   </Button>
                 </StyledTableCell>
+
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Container>
   );
 }
-export default EmployeeList;
