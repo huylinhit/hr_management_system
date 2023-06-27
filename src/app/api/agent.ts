@@ -43,7 +43,7 @@ axios.interceptors.response.use(
         toast.error(data.title);
         break;
       case 500:
-        router.navigate("/server-error", { state: { error: data } });
+        //router.navigate("/server-error", { state: { error: data } });
         break;
       default:
         break;
@@ -109,6 +109,16 @@ const StaffSkill = {
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
 
+const Candidate = {
+  list: () => requests.get("candidates"),
+  details: (id: number) => requests.get(`candidates/${id}`),
+  create: (values: any) => requests.post("candidates", values),
+  update: (id: number, values: any) => requests.put(`candidates/${id}`, values),
+}
+const CandidateSkill = {
+  create: (values: any) => requests.post("candidateskills", values),
+}
+
 const UserInfors = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
@@ -131,7 +141,9 @@ const agent = {
   Ticket,
   Skill,
   StaffSkill,
-  TicketType
+  TicketType,
+  Candidate,
+  CandidateSkill
 };
 
 export default agent;

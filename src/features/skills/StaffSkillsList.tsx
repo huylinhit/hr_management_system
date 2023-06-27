@@ -83,11 +83,11 @@ const BoardContainer = styled("div")({
   overflowX: "auto",
 });
 const colorOptions: { background: string; text: string }[] = [
-  { background: '#D9EFD6', text: '#000000' },
-  { background: '#F0D9EF', text: '#333333' },
-  { background: '#C6E2E9', text: '#222222' },
-  { background: '#FDE5D9', text: '#444444' },
-  { background: '#F8EAC4', text: '#555555' },
+  { background: "#D9EFD6", text: "#000000" },
+  { background: "#F0D9EF", text: "#333333" },
+  { background: "#C6E2E9", text: "#222222" },
+  { background: "#FDE5D9", text: "#444444" },
+  { background: "#F8EAC4", text: "#555555" },
 ];
 export default function StaffSkillsList() {
   const columns: GridColDef[] = [
@@ -164,49 +164,51 @@ export default function StaffSkillsList() {
   }, [dispatch, staffSkillsLoaded]);
 
   return (
-    <Container maxWidth={"xl"} sx={{ backgroundColor: "#FFFFFF", mt: "5%" }}>
-      <Grid container spacing={0} alignContent="center">
-        <Grid item>
+    <>
+      <Box sx={{paddingLeft:"10%", mt:"5%", paddingRight:"5%"}}>
+        <Grid container spacing={0} alignContent="center">
+          <Grid item>
+            <Button
+              variant="text"
+              sx={navStyle}
+              disableElevation={true}
+              component={NavLink}
+              to={`/otheruserstickets`}
+              key={"/otheruserstickets"}
+            >
+              Danh sách kỹ năng
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container justifyContent={"space-between"}>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),  
+            }}
+            variant="standard"
+          />
+
           <Button
             variant="text"
-            sx={navStyle}
+            sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
             disableElevation={true}
-            component={NavLink}
-            to={`/otheruserstickets`}
-            key={"/otheruserstickets"}
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
           >
-            Danh sách kỹ năng
+            Tạo kỹ năng mới
           </Button>
         </Grid>
-      </Grid>
-      <Grid container justifyContent={"space-between"}>
-        <TextField
-          id="standard-basic"
-          label="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          variant="standard"
-        />
-
-        <Button
-          variant="text"
-          sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-          disableElevation={true}
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
-          Tạo đơn mới
-        </Button>
-      </Grid>
+     </Box>
 
       <CreateStaffSkill open={open} onClose={handleCloseDialog} />
 
-      <Box sx={{ overflowX: "auto", display: "flex", mt: "1%" }}>
+      <Box sx={{ overflowX: "auto", display: "flex", mt: "1%",paddingLeft: '10%' }}>
         {Object.entries(staffSkillsBySkillName).map(([skillName, staffSkills], index) => {
           const { background, text } = colorOptions[index % colorOptions.length];
 
@@ -214,7 +216,7 @@ export default function StaffSkillsList() {
             <Box
               key={skillName}
               sx={{
-                flex: "0 0 20%",
+                flex: "0 0 250px",
                 height: "auto",
                 mr: "1.5%",
               }}
@@ -253,45 +255,7 @@ export default function StaffSkillsList() {
           );
         })}
       </Box>
-      {/* <Box sx={{ height: 700, width: "100%", margin: "0 auto", marginTop: "1%" }}>
-        <DataGrid
-          density="compact"
-          getRowId={(row: any) => row.uniqueId}
-          sx={{
-            height: 700,
-
-            ".MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important",
-              overflow: "visible !important",
-              color: "#007FFF",
-            },
-            ".MuiDataGrid-columnHeaders": {
-              backgroundColor: "#E0F0FF",
-            },
-            fontSize: 16,
-            fontWeight: 550,
-            fontFamily: fontStyle,
-            color: "#212121",
-          }}
-          slots={{
-            loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
-          }}
-          loading={!staffSkillsLoaded || staffSkillAdded}
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 15,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
-        />
-      </Box> */}
-    </Container>
+    </>
   );
 }
 
