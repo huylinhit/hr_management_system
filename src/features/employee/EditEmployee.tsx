@@ -1,17 +1,23 @@
 import { Box, Grid, Typography, Container, Paper, Button } from "@mui/material";
-import DetailAva from "./component/DetailAva";
+// import DetailAva from "./component/DetailAva";
 
 function EditEmployee() {
   return (
-    <>
-      <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+      <Typography sx={{
+            padding: "5px 0 15px 0",
+            fontStyle: "normal",
+            fontWeight: "700",
+            fontSize: "30px",
+            lineHeight: "39px",
+          }}>
         Chỉnh sửa thông tin nhân viên
       </Typography>
 
       <Container component={Paper} sx={{ mt: "20px" }}>
         <Grid container sx={{ display: "flex" }}>
           <Grid item xs={1}>
-            <DetailAva />
+            {/* <DetailAva /> */}
           </Grid>
           <Grid item xs={2} sx={{ mt: "30px", ml: "30px" }}>
             <div>
@@ -439,7 +445,7 @@ function EditEmployee() {
           </Grid>
         </Grid>
       </Container>
-    </>
+    </Box>
   );
 }
 
