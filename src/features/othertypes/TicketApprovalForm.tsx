@@ -87,9 +87,9 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
         console.log("Error creating ticket: ", error);
       });
   };
- 
+
   return (
-    <Container maxWidth="xl" sx={{mt: "5%"}}>
+    <Container maxWidth="xl" sx={{ mt: "5%" }}>
       <Grid container spacing={0} alignContent="center">
         <Grid item>
           <Button
@@ -109,11 +109,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
         </Grid>
 
         <Grid item>
-          <Button
-            variant="text"
-            sx={navStyle}
-            disableElevation={true}
-          >
+          <Button variant="text" sx={navStyle} disableElevation={true}>
             Phản hồi đơn
           </Button>
         </Grid>
@@ -203,7 +199,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
           </Grid>
           <Grid item xs={9}>
             <Typography sx={infoStyle}>
-              {moment(ticket?.changeStatusTime).format("MMM Do, YYYY, HH:mm")};
+              {moment(ticket?.changeStatusTime).format("MMM Do, YYYY, HH:mm")}
             </Typography>
           </Grid>
         </Grid>
@@ -243,7 +239,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
             label="Nhập phản hồi..."
             InputProps={{
               disableUnderline: true,
-              style: { fontFamily: fontStyle},
+              style: { fontFamily: fontStyle },
             }}
             defaultValue={ticket?.processNote}
             onChange={debouncedReasonInput}

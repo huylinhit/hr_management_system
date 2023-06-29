@@ -263,7 +263,7 @@ export default function OtherUsersTicketList() {
             fontWeight: 550,
             fontFamily: fontStyle,
           }}
-          showCellVerticalBorder
+           
           
           slots={{
             loadingOverlay: LinearProgress,

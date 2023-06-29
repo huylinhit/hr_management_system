@@ -6,7 +6,7 @@ export interface Ticket{
     staffName: string;
     ticketReason: string;
     ticketFile: string;
-    ticketStatus: boolean;
+    ticketStatus: string;
     createAt: Date;
     processNote: string;
     respondencesId: number;

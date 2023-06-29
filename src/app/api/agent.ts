@@ -116,7 +116,11 @@ const Candidate = {
   update: (id: number, values: any) => requests.put(`candidates/${id}`, values),
 }
 const CandidateSkill = {
+  list: () => requests.get("candidateskills"),
+  details: (id: number) => requests.get(`candidateskills/${id}`),
+  listByCandidateId: (id: number) => requests.get(`candidateskills/candidate/${id}`),
   create: (values: any) => requests.post("candidateskills", values),
+  update: (values: any) => requests.put(`candidateskills`, values)
 }
 const UserInfors = {
   list: () => requests.get("userinfor"),
