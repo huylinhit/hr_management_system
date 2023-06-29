@@ -13,7 +13,7 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-import { LogOT } from "../../app/models/LogOT";
+import { LogOT } from "../../app/models/logOT";
 import { OtType } from "../../app/models/otType";
 
 export default function DetailOvertime() {
@@ -54,7 +54,7 @@ export default function DetailOvertime() {
           container
           onSubmit={handleSubmit(onSubmit)}
           sx={{
-            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            border: "1px solid #E2E1E5",
             backgroundColor: "white",
             borderRadius: "30px",
             padding: "20px 45px",

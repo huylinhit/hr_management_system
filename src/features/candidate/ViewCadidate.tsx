@@ -1,27 +1,11 @@
-import {
-  SelectChangeEvent,
-  Container,
-  Typography,
-  Grid,
-  TextField,
-  Autocomplete,
-  Button,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  styled,
-  tableCellClasses,
-  Chip,
-} from "@mui/material";
-import React, { ReactNode } from "react";
-import { BorderColor } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "react-router-dom";
-import CreateCandidate from "./CreateCandidate";
+
+
+import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
+import React, { ReactNode } from 'react';
+import { BorderColor } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+ 
 
 const headerStyle = {
   fontWeight: "bold",
@@ -46,139 +30,86 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 function ViewCandidate() {
-  function createData(
-    igm: string,
-    name: string,
-    gender: string,
-    position: string,
-    mail: string,
-    phone: number,
-    status: string,
-    reply: string
-  ) {
-    return { igm, name, gender, position, mail, phone, status, reply };
-  }
+ 
+    function createData(
+        igm: string,
+        name: string,
+        gender: string,
+        position: string,
+        mail: string,
+        phone: number,
+        status: string,
+        reply: string,
 
-  const rows = [
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Không đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Không đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Không đạt",
-      ""
-    ),
-    createData(
-      "",
-      "Nguyen Hong Ngoc",
-      "Nữ",
-      "Android Trainee",
-      "hoangvm@gmail.com",
-      123456789,
-      "Không đạt",
-      ""
-    ),
-  ];
-  const styles = {
-    marginBottom: "10px",
-  };
+    ) {
+        return { igm, name, gender, position, mail, phone, status, reply };
+    }
 
-  function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {}
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const rows = [
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Không đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Không đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Không đạt", ""),
+        createData("", 'Nguyen Hong Ngoc', "Nữ", "Android Trainee", "hoangvm@gmail.com", 123456789, "Không đạt", ""),
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  return (
-    <>
-      <Container>
-        <Typography variant="h4" sx={headerStyle} style={styles}>
-          Danh sách đơn làm thêm giờ
-        </Typography>
-        <Grid>
-          <Grid item xs={10} sx={{ display: "flex", justifyContent: "space-between" }}>
-            <TextField size="small" label="Tìm kiếm..." />
-            <Grid item xs={10}>
-              <Button
-                sx={{ borderRadius: "40px" }}
-                variant="contained"
-                onClick={handleClickOpen}
-                style={styles}
-                component={Link}
-                to={`/createcandidate/${0}`}
-              >
-                + Thêm nhân viên mới
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-        <TableContainer component={Paper} sx={{ borderRadius: "20px" }}>
+
+
+
+    ];
+    const styles = {
+        marginBottom: '10px',
+    };
+
+    function handleChange(event: SelectChangeEvent<unknown>, child: ReactNode): void {
+
+    }
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    return (
+        <>
+            <Container>
+                <Typography variant="h4" sx={headerStyle} style={styles}>
+                    Danh sách ứng viên
+                </Typography>
+                <Grid >
+                    <Grid
+                        item
+                        xs={10}
+                        sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                        <TextField
+                            size='small'
+                            label="Tìm kiếm..." />
+                        <Grid item xs={10} >
+                            
+                                <Button 
+                                sx={{ borderRadius: '40px' }}
+                                variant="contained" 
+                                onClick={handleClickOpen} 
+                                style={styles}
+                                component={Link}
+                                to="/createcandidate/"
+                                >
+                                    + Thêm nhân viên mới
+                                </Button>
+
+                           
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <TableContainer component={Paper} sx={{ borderRadius: '20px' }}>
+ 
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -222,7 +153,7 @@ function ViewCandidate() {
                     <Button
                       // onClick={handleClickOpen}
                       component={Link}
-                      to={`/1candidate/${row.phone}`}
+                      to="/detailcandidate/"
                     >
                       <BorderColor /> {row.reply}
                     </Button>

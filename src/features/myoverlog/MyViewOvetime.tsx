@@ -44,30 +44,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function MyViewOvertime() {
 
   function createData(
-    Doid: string,
-    id: number,
-    name: string,
+
     kind: string,
     to: string,
     from: string,
     times: string,
     reason: string,
+    create: string,
     status: string,
+    appr: string,
     reply: ReactNode,
 
   ) {
-    return { Doid, id, name, kind, to, from, times, reason, status, reply };
+    return { kind, to, from, times, reason, create, status, appr, reply };
   }
 
 
   const rows = [
-    createData("HR0001", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
-    createData("HR0002", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
-    createData("HR0003", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
-    createData("HR0004", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
-    createData("HR0005", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chờ duyệt", ""),
-    createData("HR0006", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Chấp nhận", ""),
-    createData("HR0007", 1000001, 'Nguyen Hong Ngoc', "Ngày lễ", "06/06/2023 18:00", "09/09/2023 22:00", "3:00", "...", "Từ chối", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
+    createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
 
 
 
@@ -140,35 +140,32 @@ function MyViewOvertime() {
 
 
         <TableContainer component={Paper} >
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ minWidth: 1000 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Mã đơn</StyledTableCell>
-                <StyledTableCell align="center">Mã nhân viên</StyledTableCell>
-                <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-                <StyledTableCell align="center">Loại tăng ca</StyledTableCell>
+                <StyledTableCell>Loại tăng ca</StyledTableCell>
                 <StyledTableCell align="center">Từ</StyledTableCell>
                 <StyledTableCell align="center">Đến</StyledTableCell>
-                <StyledTableCell align="center">Thời gian</StyledTableCell>
+                <StyledTableCell align="center">Số giờ làm</StyledTableCell>
                 <StyledTableCell align="center">Lý do</StyledTableCell>
+                <StyledTableCell align="center">Ngày tạo</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
-                <StyledTableCell align="center">Phản hồi</StyledTableCell>
-                <StyledTableCell align="center">Xóa</StyledTableCell>
+                <StyledTableCell align="center">Ngày duyệt</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.Doid}>
+                <StyledTableRow key={row.kind}>
                   <StyledTableCell component="th" scope="row">
-                    {row.Doid}
+                    {row.kind}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.id}</StyledTableCell>
-                  <StyledTableCell align="center">{row.name}</StyledTableCell>
-                  <StyledTableCell align="center">{row.kind}</StyledTableCell>
                   <StyledTableCell align="center">{row.to}</StyledTableCell>
                   <StyledTableCell align="center">{row.from}</StyledTableCell>
                   <StyledTableCell align="center">{row.times}</StyledTableCell>
                   <StyledTableCell align="center">{row.reason}</StyledTableCell>
+                  <StyledTableCell align="center">{row.create}</StyledTableCell>
                   <StyledTableCell align="center">
                     <Chip
                       label={row.status}
@@ -183,19 +180,15 @@ function MyViewOvertime() {
                       sx={{ width: "92px" }}
 
                     />
-
+                   
                   </StyledTableCell>
+                  <StyledTableCell align="center">{row.appr}</StyledTableCell>
                   <StyledTableCell align="center">
-                    <Button
-                      // onClick={handleClickOpen}
-                      component={Link}
-                      to={`/detail-overtime-log/${row.Doid}`}
-                    >
-                      <BorderColor />
+                    <Button>
+                    <BorderColor />
                       {row.reply}
-
                     </Button>
-                  </StyledTableCell>
+                    </StyledTableCell>
                   {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
 
                   <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>

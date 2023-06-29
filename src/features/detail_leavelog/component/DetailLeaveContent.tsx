@@ -5,35 +5,33 @@ import {
   Typography,
   Select,
   FormControl,
-  Box,
   Chip,
   InputLabel,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { SelectChangeEvent } from "@mui/material/Select";
 
 // data
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
 import { Employee } from "../../../app/models/employee";
-import { LogOT } from "../../../app/models/LogOT";
-import { OtType } from "../../../app/models/otType";
 
 // component
 import DetailForm from "./DetailForm";
+import { LeaveLog } from "../../../app/models/leaveLog";
+import { LeaveType } from "../../../app/models/leaveType";
 
 
 // interface
 interface Props {
   staff: Employee;
-  logOt: LogOT;
-  types: OtType[];
+  logLeave: LeaveLog;
+  types: LeaveType[];
 }
 
-export default function DetailLeaveContent({ staff, logOt, types }: Props) {
+export default function DetailLeaveContent({ staff, logLeave, types }: Props) {
   // -------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>()
   const { register } = useForm();
@@ -41,21 +39,11 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
   const [selectedType, setSelectedType] = useState("");
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
-  useEffect(() => {
-    
-  }, [ id ])
   // -------------------------- FUNCTION ------------------------
-  const handleSelect = (event: SelectChangeEvent) => {
-    setSelectedType(event.target.value as string);
-  };
-
-  const handleChange = (event: Object) => {
-    console.log(event);
-  };
   // -------------------------- MAIN ----------------------------
   return (
     <>
-      <DetailForm logOt={logOt} staff={staff} types={types} />
+      <DetailForm logLeave={logLeave} staff={staff} types={types} />
 
       <Grid
         container
@@ -74,7 +62,7 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
             marginBottom: "15px",
           }}>Trạng thái: </Typography>
         </Grid>
-        {logOt.status === FORMSTATUS.pending ? (
+        {logLeave.status === FORMSTATUS.pending ? (
           <Grid item xs={8}>
             <FormControl fullWidth size="small">
               <InputLabel>Chọn</InputLabel>
@@ -95,9 +83,9 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
         ) : (
           <Grid item xs={8}>
             <Chip
-              label={logOt.status}
+              label={logLeave.status}
               color={
-                logOt.status === FORMSTATUS.agree ? 
+                logLeave.status === FORMSTATUS.agree ? 
                   "info" : "error"
               }
             />
@@ -122,7 +110,7 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
             marginBottom: "15px",
           }}>Phản hồi: </Typography>
         </Grid>
-        {logOt.status === FORMSTATUS.pending ? (
+        {logLeave.status === FORMSTATUS.pending ? (
           <Grid item xs={8}>
             <TextField
               id="outlined-multiline-flexible"
@@ -135,7 +123,7 @@ export default function DetailLeaveContent({ staff, logOt, types }: Props) {
           </Grid>
         ) : (
           <Grid item xs={8}>
-            <Typography sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}>{logOt.processNote}</Typography>
+            <Typography sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}>{logLeave.processNote}</Typography>
           </Grid>
         )}
       </Grid>

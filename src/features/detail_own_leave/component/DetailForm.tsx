@@ -2,18 +2,20 @@ import { Button, Grid, IconButton, Typography } from "@mui/material";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 import DetailLeaveInfo from "./component/DetailLeaveInfo";
+import { LeaveLog } from "../../../app/models/leaveLog";
+import { LeaveType } from "../../../app/models/leaveType";
 
 // interface
 interface Props {
-  logOt: LogOT;
-  types: OtType[];
+  logLeave: LeaveLog;
+  types: LeaveType[];
 }
 
-export default function DetailForm({ logOt, types }: Props) {
-  const type = types.find((type) => type.otTypeId === logOt.otTypeId);
+export default function DetailForm({ logLeave, types }: Props) {
+  const type = types.find((type) => type.leaveTypeId === logLeave.leaveTypeId);
   return (
     <>
       <Grid
@@ -26,22 +28,18 @@ export default function DetailForm({ logOt, types }: Props) {
         }}
       >
         <Grid item xs={4}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Loại đơn:{" "}
-          </Typography>
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Loại đơn: </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {type?.typeName}
+            {type?.leaveTypeName}
           </Typography>
         </Grid>
       </Grid>
@@ -55,54 +53,42 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Từ:{" "}
-          </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Từ: </Typography>
         </Grid>
         <Grid item xs={2}>
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logStart}
+            {logLeave.leaveStart}
           </Typography>
         </Grid>
-        <Grid item xs={1}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            -
-          </Typography>
+        <Grid item xs={1} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>-</Typography>
         </Grid>
-        <Grid item xs={2}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Đến:{" "}
-          </Typography>
+        <Grid item xs={2} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Đến: </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logEnd}
+            {logLeave.leaveEnd}
           </Typography>
         </Grid>
       </Grid>
@@ -116,32 +102,19 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Số ngày nghỉ: 
-          </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Số ngày nghỉ: </Typography>
         </Grid>
-        <Grid
-          item
-          xs={8}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }}
-        >
+        <Grid item xs={8}>
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logHours} ngày
-            <DetailLeaveInfo />
+            {logLeave.leaveDays} ngày
           </Typography>
         </Grid>
       </Grid>
@@ -154,23 +127,19 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Nội dung đơn:{" "}
-          </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Nội dung đơn: </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.reason}
+            {logLeave.description}
           </Typography>
         </Grid>
       </Grid>
@@ -183,23 +152,19 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4}>
-          <Typography
-            sx={{
-              fontStyle: "normal",
-              fontWeight: "550",
-              fontSize: "20px",
-              marginBottom: "15px",
-            }}
-          >
-            Ngày gửi đơn:{" "}
-          </Typography>
+        <Grid item xs={4} >
+          <Typography sx={{
+            fontStyle: "normal",
+            fontWeight: "550",
+            fontSize: "20px",
+            marginBottom: "15px",
+          }}>Ngày gửi đơn: </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
-            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+           sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.createAt}
+            {logLeave.createAt}
           </Typography>
         </Grid>
       </Grid>

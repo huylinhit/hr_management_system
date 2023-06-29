@@ -16,6 +16,8 @@ import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
+import EditContract from "../../features/contract/EditContract";
+import ContractDetail from "../../features/contract/ContractDetail";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -45,14 +47,11 @@ import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 // Type
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
-
 import EditOtherType from "../../features/othertypes/TicketApprovalForm";
-
 
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
-import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
@@ -61,7 +60,6 @@ import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
-
 
 export const router = createBrowserRouter([
   {
@@ -83,9 +81,9 @@ export const router = createBrowserRouter([
 
       //Them router ngay vi tri nay nhe!!
       // Employee
-      { path: "/firststep", element: <Firststep /> },
+      { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
-      { path: "/detail-employee", element: <DetailEmployee /> },
+      { path: "/detail-employee/:id", element: <DetailEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -100,7 +98,6 @@ export const router = createBrowserRouter([
 
       //MyLeavetime
       { path: "/myleavetime", element: <MyViewLeavetime /> },
-
 
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
@@ -119,10 +116,13 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/editcandidate/:id", element: <EditCandidate /> },
+
       { path: "/1candidate/:id", element: <Candidate /> },
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
+
+      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/detailcandidate/:id", element: <Candidate /> },
 
       // Department 
       { path: '/departments' , element: <DepartmentList/>},
@@ -131,12 +131,14 @@ export const router = createBrowserRouter([
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
-
-
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
+
+      //Contract
+      { path: "/editcontract", element: <EditContract /> },
+      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);

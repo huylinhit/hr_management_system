@@ -1,12 +1,8 @@
 import { Avatar, Box, Button, Chip, Container, Divider, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { deepPurple } from "@mui/material/colors";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { BorderColor } from "@mui/icons-material";
+
 import { Link } from "react-router-dom";
 
 const headerStyle = {
@@ -256,14 +252,23 @@ function Candidate({ handleClose, handleOpen, handleChange }: any) {
                             </Grid>
                         </Grid>
                     </Box>
-                    <Container sx={{ display: "flex", justifyContent: "right" }}>
+                    <Container sx={{py:'15px', display: "flex", justifyContent: "space-between" }}>
+                        <Button
+                        sx={{ borderRadius: '40px' }}
+                         variant="outlined"
+                            startIcon={<ArrowBackIcon />}
+                            component={Link}
+                            to="/viewcandidate/"
+                        >
+                            Quay về
+                        </Button>
                         <Button
                             sx={{ borderRadius: '40px' }}
                             onClick={handleOpen}
                             variant="contained"
 
                             component={Link}
-                            to={`/editcandidate/${0}`}
+                            to="/editcandidate/"
                         >
                             Chỉnh sửa
                         </Button>

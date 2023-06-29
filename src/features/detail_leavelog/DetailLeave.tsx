@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
@@ -9,19 +9,18 @@ import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
 // data
-import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
+import { STAFF, LEAVELOG, LEAVETYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-import { LogOT } from "../../app/models/LogOT";
-import { OtType } from "../../app/models/otType";
+import { LeaveLog } from "../../app/models/leaveLog";
+import { LeaveType } from "../../app/models/leaveType";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
-  const [logOt, setLogOt] = useState<LogOT>(OTLOG);
-  const [types, setTypes] = useState<OtType[]>(OTTYPE);
+  const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
+  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
@@ -29,11 +28,6 @@ export default function DetailLeave() {
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const onSubmit = (data: FieldValues) => {
-    console.log("abc");
-
-    navigate("/viewot");
-  };
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -55,7 +49,7 @@ export default function DetailLeave() {
         <Grid
           container
           sx={{
-            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            border: "1px solid #E2E1E5",
             backgroundColor: "white",
             borderRadius: "30px",
             padding: "20px 45px",
@@ -63,7 +57,7 @@ export default function DetailLeave() {
           }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logOt={logOt} staff={staff} types={types} />
+            <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} />
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter />

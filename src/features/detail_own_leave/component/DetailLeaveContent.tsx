@@ -17,19 +17,21 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 
 // component
 import DetailForm from "./DetailForm";
+import { LeaveType } from "../../../app/models/leaveType";
+import { LeaveLog } from "../../../app/models/leaveLog";
 
 // interface
 interface Props {
-  logOt: LogOT;
-  types: OtType[];
+  logLeave: LeaveLog;
+  types: LeaveType[];
 }
 
-export default function DetailLeaveContent({ logOt, types }: Props) {
+export default function DetailLeaveContent({ logLeave, types }: Props) {
   // -------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>();
   const { register } = useForm();
@@ -49,7 +51,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
   // -------------------------- MAIN ----------------------------
   return (
     <>
-      <DetailForm logOt={logOt} types={types} />
+      <DetailForm logLeave={logLeave} types={types} />
 
       <Grid
         container
@@ -72,7 +74,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
             Trạng thái:{" "}
           </Typography>
         </Grid>
-        {logOt.status === FORMSTATUS.pending ? (
+        {logLeave.status === FORMSTATUS.pending ? (
           <Grid
             item
             xs={8}
@@ -101,8 +103,8 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
         ) : (
           <Grid item xs={8}>
             <Chip
-              label={logOt.status}
-              color={logOt.status === FORMSTATUS.agree ? "info" : "error"}
+              label={logLeave.status}
+              color={logLeave.status === FORMSTATUS.agree ? "info" : "error"}
             />
           </Grid>
         )}
@@ -129,7 +131,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
             Phản hồi:{" "}
           </Typography>
         </Grid>
-        {logOt.status === FORMSTATUS.pending ? (
+        {logLeave.status === FORMSTATUS.pending ? (
           <Grid item xs={8}>
             <TextField
               id="outlined-multiline-flexible"
@@ -147,7 +149,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "20px " }}
             >
-              {logOt.processNote}
+              {logLeave.processNote}
             </Typography>
           </Grid>
         )}
@@ -175,7 +177,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          {logOt.status === FORMSTATUS.pending ? (
+          {logLeave.status === FORMSTATUS.pending ? (
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
             >
@@ -185,7 +187,7 @@ export default function DetailLeaveContent({ logOt, types }: Props) {
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
             >
-              {logOt.changeStatusTime}
+              {logLeave.changeStatusTime}
             </Typography>
           )}
         </Grid>

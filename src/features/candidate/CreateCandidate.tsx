@@ -178,6 +178,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
       address: address,
       expectedSalary: expectedSalary,
     };
+
     agent.Candidate.create(candidateCreate)
       .then((response) => {
         handleUploadImage(response.candidateId);
