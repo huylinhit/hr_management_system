@@ -2,7 +2,7 @@ import {  Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import { useRef } from "react";
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DetailAva from "../employee/component/DetailAva";
+import DetailAva from "../detail_employee/component/DetailAva";
 
 const headerStyle = {
     fontWeight: 'bold'
@@ -26,7 +26,7 @@ function EditCandidate({ handleClose, handleOpen, handleChange }: any) {
                 <Container component={Paper} maxWidth={false} sx={{ padding: '12px', borderRadius: '40px' }}>
                     <Grid container sx={{ display: "flex" }}>
                         <Grid item xs={1}>
-                            <DetailAva />
+                            {/* <DetailAva /> */}
                         </Grid>
                         <Grid item xs={2} sx={{ mt: "30px", ml: "30px" }}>
                         <div>

@@ -59,8 +59,9 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-
-
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+import DetailAllowance from "../../features/allowance/DetailAllowance";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -80,6 +81,8 @@ export const router = createBrowserRouter([
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
+      // Allowance
+
       // Employee
       { path: "/firststep", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
@@ -132,6 +135,9 @@ export const router = createBrowserRouter([
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
+      //payslip
+      { path: '/payslips' , element: <Payroll/>},
+      { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
 
 
       // Others

@@ -20,19 +20,19 @@ import { Contract } from "../../app/models/contract";
 import DetailContractFooter from "./component/DetailContractFooter";
 
 export default function DetailContract() {
-  // -------------------------- VAR -----------------------------
-  const id = 1;
-  // -------------------------- STATE ---------------------------
-  const [staffs, setStaffs] = useState<Employee[]>(USERINFOR);
-  const [contracts, setContracts] = useState<Contract[]>(CONTRACTLIST);
-  // -------------------------- REDUX ---------------------------
-  // -------------------------- EFFECT --------------------------
-  // -------------------------- FUNCTION ------------------------
-  const contract = contracts.find((c) => c.contractId === id);
-  const employee = staffs.find((s) => s.staffId === contract?.staffId);
+  // // -------------------------- VAR -----------------------------
+  // const id = 1;
+  // // -------------------------- STATE ---------------------------
+  // const [staffs, setStaffs] = useState<Employee[]>(USERINFOR);
+  // const [contracts, setContracts] = useState<Contract[]>(CONTRACTLIST);
+  // // -------------------------- REDUX ---------------------------
+  // // -------------------------- EFFECT --------------------------
+  // // -------------------------- FUNCTION ------------------------
+  // const contract = contracts.find((c) => c.contractId === id);
+  // const employee = staffs.find((s) => s.staffId === contract?.staffId);
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
-      <Grid container>
+      {/* <Grid container>
         <Typography
           sx={{
             padding: "5px 0 15px 0",
@@ -87,7 +87,7 @@ export default function DetailContract() {
           }}>
             <DetailContractFooter/>
           </Grid>
-      </Container>
+      </Container> */}
     </Box>
   );
 }
