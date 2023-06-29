@@ -25,7 +25,6 @@ const employeesAdapter = createEntityAdapter<Employee>({
     }
   );
   
-  
 export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
     'employee/fetchEmployeeAsync',
     async(employeeId, thunkAPI) => {
@@ -37,6 +36,7 @@ export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
       }
     }
   )
+  
   
   export const employeeSlice = createSlice({
       name: 'employees',
@@ -75,4 +75,4 @@ export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
       })
   })
   
-  export const departmentSelectors = employeesAdapter.getSelectors((state: RootState) => state.employee)
+  export const employeeSelectors = employeesAdapter.getSelectors((state: RootState) => state.employee)

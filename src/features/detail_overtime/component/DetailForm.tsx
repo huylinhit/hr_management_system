@@ -3,7 +3,7 @@ import { type } from "os";
 
 // api
 import { Employee } from "../../../app/models/employee";
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 
 // interface

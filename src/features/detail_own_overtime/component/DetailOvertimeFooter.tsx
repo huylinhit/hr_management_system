@@ -2,7 +2,8 @@ import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
+import { FORMSTATUS } from "../../../app/store/data";
 
 // interface
 interface Props {
@@ -37,7 +38,8 @@ export default function DetailOvertimeFooter({logOt}: Props) {
       </Grid>
 
       <Grid item >
-        <Button
+      {logOt.status === FORMSTATUS.pending ? (
+          <Button
           variant="contained"
           type="submit"
           sx={{
@@ -48,6 +50,7 @@ export default function DetailOvertimeFooter({logOt}: Props) {
         >
           Cập nhật
         </Button>
+        ) : null}
       </Grid>
     </Grid>
   );

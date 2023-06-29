@@ -2,19 +2,21 @@ import { Grid, Typography } from "@mui/material";
 import { type } from "os";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 import { Employee } from "../../../app/models/employee";
+import { LeaveLog } from "../../../app/models/leaveLog";
+import { LeaveType } from "../../../app/models/leaveType";
 
 // interface
 interface Props {
   staff: Employee;
-  logOt: LogOT;
-  types: OtType[];
+  logLeave: LeaveLog;
+  types: LeaveType[];
 }
 
-export default function DetailForm({ staff, logOt, types }: Props) {
-  const type = types.find((type) => type.otTypeId === logOt.otTypeId);
+export default function DetailForm({ staff, logLeave, types }: Props) {
+  const type = types.find((type) => type.leaveTypeId === logLeave.leaveTypeId);
   return (
     <>
       <Grid
@@ -38,7 +40,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.otLogId}
+            {logLeave.leaveLogId}
           </Typography>
         </Grid>
       </Grid>
@@ -64,7 +66,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.staffId}
+            {logLeave.staffId}
           </Typography>
         </Grid>
       </Grid>
@@ -116,7 +118,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {type?.typeName}
+            {type?.leaveTypeName}
           </Typography>
         </Grid>
       </Grid>
@@ -142,7 +144,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logStart}
+            {logLeave.leaveStart}
           </Typography>
         </Grid>
         <Grid item xs={1} >
@@ -165,7 +167,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logEnd}
+            {logLeave.leaveEnd}
           </Typography>
         </Grid>
       </Grid>
@@ -191,7 +193,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logHours} ngày
+            {logLeave.leaveDays} ngày
           </Typography>
         </Grid>
       </Grid>
@@ -216,7 +218,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.reason}
+            {logLeave.description}
           </Typography>
         </Grid>
       </Grid>
@@ -241,7 +243,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.createAt}
+            {logLeave.createAt}
           </Typography>
         </Grid>
       </Grid>
