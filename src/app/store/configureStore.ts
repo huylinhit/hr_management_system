@@ -8,6 +8,7 @@ import { ticketTypeSlice } from "../../features/othertypes/ticketTypeSlice";
 import { staffSkillSlice } from "../../features/skills/staffSkillSlice";
 import { employeeSlice } from "./employee/employeeSlice";
 import { candidateSlice } from "../../features/candidate/candidateSlice";
+import { candidateSkillSlice } from "../../features/candidate/candidateSkillSlice";
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         ticket: ticketSlice.reducer,
         ticketType: ticketTypeSlice.reducer,
         staffSkill: staffSkillSlice.reducer,
+        candidateSkill: candidateSkillSlice.reducer,
         employee: employeeSlice.reducer,
         candidate: candidateSlice.reducer
     }
