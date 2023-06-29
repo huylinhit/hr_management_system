@@ -118,14 +118,26 @@ const Candidate = {
 const CandidateSkill = {
   create: (values: any) => requests.post("candidateskills", values),
 }
+
 const UserInfors = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
+
+// -----------------------------------
+const Employees = {
+  list: () => requests.get("staffskill"),
+  details: (id: number) => requests.get(`staffskill/${id}`),
+  create: (values: any) => requests.post("staffskill", values),
+  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
+};
+
 const agent = {
   Account,
   Department,
   UserInfors,
+  Employees,
   Ticket,
   Skill,
   StaffSkill,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
+import { Link } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
@@ -33,7 +34,12 @@ export default function DetailEmployee() {
         >
           Thông tin nhân viên
         </Typography>
-        <IconButton aria-label="delete" sx={{ padding: "10px 10px 20px 10px" }}>
+        <IconButton
+          aria-label="delete"
+          sx={{ padding: "10px 10px 20px 10px" }}
+          component={Link}
+          to={`/editemployee/${staff.staffId}`}
+        >
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
       </Grid>

@@ -1,15 +1,16 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOT } from "../../../app/models/LogOT";
+import { LeaveLog } from "../../../app/models/leaveLog";
+import { FORMSTATUS } from "../../../app/store/data";
 
 // interface
 interface Props {
-  logOt: LogOT;
+  logLeave: LeaveLog;
 }
 
-export default function DetailLeaveFooter({logOt}: Props) {
+export default function DetailLeaveFooter({logLeave}: Props) {
   const handleFinish = () => {};
 
   return (
@@ -37,7 +38,8 @@ export default function DetailLeaveFooter({logOt}: Props) {
       </Grid>
 
       <Grid item >
-        <Button
+        {logLeave.status === FORMSTATUS.pending ? (
+          <Button
           variant="contained"
           type="submit"
           sx={{
@@ -48,6 +50,8 @@ export default function DetailLeaveFooter({logOt}: Props) {
         >
           Cập nhật
         </Button>
+        ) : null}
+        
       </Grid>
     </Grid>
   );
