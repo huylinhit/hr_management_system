@@ -10,7 +10,6 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
-import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
@@ -53,7 +52,6 @@ import EditOtherType from "../../features/othertypes/TicketApprovalForm";
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
-import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
@@ -85,7 +83,6 @@ export const router = createBrowserRouter([
       { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
-      { path: "/editemployee/:id", element: <EditEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -107,7 +104,6 @@ export const router = createBrowserRouter([
       { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
       // Ticket
-      // { path: "/createticket", element: <CreateTicketForm /> },
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
@@ -125,7 +121,6 @@ export const router = createBrowserRouter([
       { path: "/1candidate/:id", element: <Candidate /> },
       { path: "/candidates/", element: <CandidateList /> },
  
-      { path: "/editcandidate", element: <EditCandidate /> },
       { path: "/detailcandidate", element: <Candidate /> },
 
       // Department 
