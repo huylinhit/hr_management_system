@@ -5,16 +5,39 @@ import { type } from "os";
 import { Employee } from "../../../app/models/employee";
 import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
   staff: Employee;
-  logOt: LogOT;
+  logOt: LogOvertime;
   types: OtType[];
 }
 
-export default function DetailForm({ staff, logOt, types }: Props) {
+
+export default function DetailForm
+({ staff, logOt, types }: Props) 
+{
   const type = types.find((type) => type.otTypeId === logOt.otTypeId);
+
+  const [list, setList] = useState<LogOvertime[]>();
+
+  axios.defaults.baseURL = "http://localhost:5000/api";
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios
+      .get('/logots/${staffId}/')
+      .then((response) => {
+        setList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
       <Grid
@@ -39,6 +62,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
             {logOt.otLogId}
+            
           </Typography>
         </Grid>
       </Grid>
@@ -64,7 +88,7 @@ export default function DetailForm({ staff, logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.staffId}
+           {logOt.staffId}
           </Typography>
         </Grid>
       </Grid>

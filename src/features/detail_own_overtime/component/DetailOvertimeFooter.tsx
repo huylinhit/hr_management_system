@@ -3,13 +3,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
 import { LogOT } from "../../../app/models/LogOT";
+import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
-  logOt: LogOT;
+  logOt: LogOvertime;
 }
 
-export default function DetailOvertimeFooter({logOt}: Props) {
+export default function DetailOvertimeFooter({ logOt }: Props) {
   const handleFinish = () => {};
 
   return (
@@ -22,7 +23,7 @@ export default function DetailOvertimeFooter({logOt}: Props) {
         padding: "20px 30px 10px 30px",
       }}
     >
-      <Grid item >
+      <Grid item>
         <Button
           variant="outlined"
           sx={{
@@ -36,7 +37,7 @@ export default function DetailOvertimeFooter({logOt}: Props) {
         </Button>
       </Grid>
 
-      <Grid item >
+      <Grid item>
         <Button
           variant="contained"
           type="submit"
