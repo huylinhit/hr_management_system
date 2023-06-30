@@ -9,16 +9,16 @@ import DetailTicketContent from "./component/DetailTicketContent";
 import DetailTicketFooter from "./component/DetailTicketFooter";
 
 // data
-import { OTLOG, OTTYPE } from "../../app/store/data";
+import {  TICKET, TICKETYPES } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/LogOT";
-import { OtType } from "../../app/models/otType";
+import { Ticket } from "../../app/models/tickets";
+import { TicketType } from "../../app/models/ticketType";
 
 export default function DetailOwnTicket() {
   // -------------------------- VAR -----------------------------
-  const [logOt, setLogOt] = useState<LogOT>(OTLOG);
-  const [types, setTypes] = useState<OtType[]>(OTTYPE);
+  const [ticket, setTicket] = useState<Ticket>(TICKET);
+  const [types, setTypes] = useState<TicketType[]>(TICKETYPES);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -53,7 +53,7 @@ export default function DetailOwnTicket() {
             fontSize: "20px",
             lineHeight: "20px",
           }}
-        >Mã đơn - {logOt.otLogId}</Typography>
+        >Mã đơn - {ticket.ticketId}</Typography>
       </Grid>
 
       <Container>
@@ -61,7 +61,7 @@ export default function DetailOwnTicket() {
           container
           onSubmit={handleSubmit(onSubmit)}
           sx={{
-            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            border: "1px solid #E2E1E5",
             backgroundColor: "white",
             borderRadius: "30px",
             padding: "20px 45px",
@@ -69,10 +69,10 @@ export default function DetailOwnTicket() {
           }}  
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailTicketContent logOt={logOt} types={types} />
+            <DetailTicketContent ticket={ticket} types={types} />
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <DetailTicketFooter logOt={logOt}/>
+            <DetailTicketFooter ticket={ticket}/>
           </Grid>
         </Grid>
       </Container>

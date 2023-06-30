@@ -60,6 +60,7 @@ import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import CandidateList from "../../features/candidate/CandidateList";
+import CandidateDetails from "../../features/candidate/CandidateDetails";
 
 export const router = createBrowserRouter([
   {
@@ -81,10 +82,9 @@ export const router = createBrowserRouter([
 
       //Them router ngay vi tri nay nhe!!
       // Employee
-      { path: "/firststep", element: <Firststep /> },
-      { path: "/employeelist", element: <EmployeeList /> },
-      { path: "/detail-employee", element: <DetailEmployee /> },
-      // { path: "/editemployee", element: <EditEmployee /> },
+      { path: "/create-new-employee", element: <Firststep /> },
+      { path: '/employeelist' , element: <EmployeeList />},
+      { path: "/detail-employee/:id", element: <DetailEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -106,9 +106,8 @@ export const router = createBrowserRouter([
       { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
 
       // Ticket
-      // { path: "/createticket", element: <CreateTicketForm /> },
-      { path: "/viewothertypes", element: <ViewOtherTypes /> },
-      { path: "/editothertype/:id", element: <EditOtherType /> },
+      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
+      { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
@@ -123,13 +122,14 @@ export const router = createBrowserRouter([
       // { path: "/editcandidate/:id", element: <EditCandidate /> },
       { path: "/1candidate/:id", element: <Candidate /> },
       { path: "/candidates/", element: <CandidateList /> },
+      { path: "/candidates/:id", element: <CandidateDetails /> },
 
-      // { path: "/editcandidate", element: <EditCandidate /> },
-      { path: "/detailcandidate", element: <Candidate /> },
+      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/detailcandidate/:id", element: <Candidate /> },
 
-      // Department
-      { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> },
+      // Department 
+      { path: '/departments' , element: <DepartmentList/>},
+      { path: '/departments/:id' , element: <DepartmentDetails />},
 
       { path: "/staffskills", element: <StaffSkillsList /> },
       { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },

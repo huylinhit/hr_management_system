@@ -87,6 +87,7 @@ export default function CreateTicketForm({open, onClose}: Props) {
     console.log("Selected file:", file);
   };
 
+
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">

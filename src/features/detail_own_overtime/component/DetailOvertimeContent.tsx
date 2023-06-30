@@ -17,7 +17,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 
 // component

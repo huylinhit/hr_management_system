@@ -1,17 +1,19 @@
 import { Grid, Typography } from "@mui/material";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
+import { Ticket } from "../../../app/models/tickets";
+import { TicketType } from "../../../app/models/ticketType";
 
 // interface
 interface Props {
-  logOt: LogOT;
-  types: OtType[];
+  ticket: Ticket;
+  types: TicketType[];
 }
 
-export default function DetailForm({ logOt, types }: Props) {
-  const type = types.find((type) => type.otTypeId === logOt.otTypeId);
+export default function DetailForm({ ticket, types }: Props) {
+  const type = types.find((type) => type.ticketTypeId === ticket.ticketTypeId);
   return (
     <>
       <Grid
@@ -35,7 +37,7 @@ export default function DetailForm({ logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {type?.typeName}
+            {type?.ticketName}
           </Typography>
         </Grid>
       </Grid>
@@ -61,7 +63,7 @@ export default function DetailForm({ logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.reason}
+            {ticket.ticketReason}
           </Typography>
         </Grid>
       </Grid>
@@ -86,7 +88,7 @@ export default function DetailForm({ logOt, types }: Props) {
           <Typography
            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.createAt}
+            {ticket.createAt}
           </Typography>
         </Grid>
       </Grid>

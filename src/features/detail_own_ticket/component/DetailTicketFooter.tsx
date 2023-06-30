@@ -1,15 +1,16 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOT } from "../../../app/models/LogOT";
+import { Ticket } from "../../../app/models/tickets";
+import { FORMSTATUS } from "../../../app/store/data";
 
 // interface
 interface Props {
-  logOt: LogOT;
+  ticket: Ticket;
 }
 
-export default function DetailTicketFooter({logOt}: Props) {
+export default function DetailTicketFooter({ticket}: Props) {
   const handleFinish = () => {};
 
   return (
@@ -37,7 +38,8 @@ export default function DetailTicketFooter({logOt}: Props) {
       </Grid>
 
       <Grid item >
-        <Button
+      {ticket.ticketStatus === FORMSTATUS.pending ? (
+          <Button
           variant="contained"
           type="submit"
           sx={{
@@ -48,6 +50,7 @@ export default function DetailTicketFooter({logOt}: Props) {
         >
           Cập nhật
         </Button>
+        ) : null}
       </Grid>
     </Grid>
   );

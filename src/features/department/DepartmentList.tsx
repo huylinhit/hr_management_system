@@ -93,6 +93,7 @@ function CustomToolbar() {
 }
 
 export default function DepartmentList() {
+  const currentUser = useAppSelector((state) => state.account);
   const departments = useAppSelector(departmentSelectors.selectAll);
   const dispatch = useAppDispatch();
   const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
@@ -108,10 +109,10 @@ export default function DepartmentList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
+  console.log(currentUser);
 
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
- 
   }, [dispatch, departmentsLoaded]);
 
   useEffect(() => {
@@ -120,64 +121,65 @@ export default function DepartmentList() {
       setRows(departments);
     }
   }, [departmentsLoaded, departments]);
-
+  console.log(localStorage.getItem("user"));
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", paddingLeft: "25px" }}>
-      <Button
-        variant="text"
-        sx={{
-          fontSize: 25,
-          fontWeight: "bold",
-          textTransform: "none",
-          color: "#333333",
-          borderRadius: "10px",
-          padding: "0px 10px 0px 10px",
-          "&:hover": {
-            backgroundColor: "#F8F8F8", // Set the hover background color
-          },
-        }}
-        disableElevation={true}
-        component={NavLink}
-        to={`/departments`}
-        key={"/departments"}
-      >
-        
-        Danh sách phòng ban
-      </Button>
-      <Grid container justifyContent={"space-between"}>
-        <TextField
-          id="standard-basic"
-          label="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          variant="standard"
-        />
-
+    <>
+      <Box sx={{ paddingLeft: "10%", mt: "5%", paddingRight: "5%" }}>
         <Button
           variant="text"
-          sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
+          sx={{
+            fontSize: 25,
+            fontWeight: "bold",
+            textTransform: "none",
+            color: "#333333",
+            borderRadius: "10px",
+            padding: "0px 10px 0px 10px",
+            "&:hover": {
+              backgroundColor: "#F8F8F8", // Set the hover background color
+            },
+          }}
           disableElevation={true}
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
+          component={NavLink}
+          to={`/departments`}
+          key={"/departments"}
         >
-          Thêm phòng ban
+          Danh sách phòng ban
         </Button>
+        <Grid container justifyContent={"space-between"}>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant="standard"
+          />
 
-        <DepartmentForm
-          open={open}
-          onClose={handleCloseDialog}
-          createOrAdd={false}
-          departmentNameParam=""
-          departmentId={0}
-        />
-      </Grid>
+          <Button
+            variant="text"
+            sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
+            disableElevation={true}
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
+          >
+            Thêm phòng ban
+          </Button>
 
-      <Box sx={{ height: 400, width: "100%", margin: "0 auto", marginTop: "1%" }}>
+          <DepartmentForm
+            open={open}
+            onClose={handleCloseDialog}
+            createOrAdd={false}
+            departmentNameParam=""
+            departmentId={0}
+          />
+        </Grid>
+      </Box>
+
+      <Box sx={{ height: 700, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="compact"
           sx={{
@@ -199,9 +201,6 @@ export default function DepartmentList() {
           loading={!departmentsLoaded}
           rows={rows}
           columns={columns}
-          classes={{
-            columnHeader: "custom-header",
-          }}
           initialState={{
             pagination: {
               paginationModel: {
@@ -210,11 +209,10 @@ export default function DepartmentList() {
             },
           }}
           pageSizeOptions={[5]}
-          checkboxSelection
           disableRowSelectionOnClick
         />
       </Box>
-    </Container>
+    </>
   );
 }
 

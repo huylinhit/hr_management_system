@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
 import { LogOvertime } from "../../../app/models/logOvertime";
 
