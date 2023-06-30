@@ -117,14 +117,10 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/createcandidate", element: <CreateCandidate /> },
-
+      // { path: "/createcandidate", element: <CreateCandidate /> },
       // { path: "/editcandidate/:id", element: <EditCandidate /> },
-      { path: "/1candidate/:id", element: <Candidate /> },
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
-
-      { path: "/candidates/", element: <CandidateList /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 
       // Department 
