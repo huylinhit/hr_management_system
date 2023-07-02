@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -18,18 +18,29 @@ import { Employee } from "../../app/models/employee";
 import { CONTRACTLIST, USERINFOR } from "../../app/store/data";
 import { Contract } from "../../app/models/contract";
 import DetailContractFooter from "./component/DetailContractFooter";
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import { contractSelectors, fetchContractAsync } from "../../app/store/contract/contractSlice";
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
-  const id = 1;
+  const id = 1
+  // const { id } = useParams();
+  const dispatch = useAppDispatch()
   // -------------------------- STATE ---------------------------
-  const [staffs, setStaffs] = useState<Employee[]>(USERINFOR);
-  const [contracts, setContracts] = useState<Contract[]>(CONTRACTLIST);
   // -------------------------- REDUX ---------------------------
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, id));  
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, id));  
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    dispatch(fetchEmployeeAsync(Number(id)));
+    dispatch(fetchContractAsync(Number(id)));
+  }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
-  const contract = contracts.find((c) => c.contractId === id);
-  const employee = staffs.find((s) => s.staffId === contract?.staffId);
+  // -------------------------- MAIN ----------------------------
+  // const contract = contracts.find((c) => c.contractId === id);
+  // const employee = staffs.find((s) => s.staffId === contract?.staffId);
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
@@ -68,16 +79,14 @@ export default function DetailContract() {
           }}
         >
           <Grid item sx={{ width: "100%", paddingTop: "25px" }}>
-            {!!employee && <DetailEmployeeInfo employee={employee} />}
+            {<DetailEmployeeInfo employee={employee} />}
           </Grid>
 
           <Grid
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
           >
-            {!!contract && !!employee && (
-              <DetailContractInfo contract={contract} employee={employee} />
-            )}
+            <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>
         <Grid container sx={{
