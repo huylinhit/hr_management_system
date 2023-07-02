@@ -13,12 +13,14 @@ import RequireAuth from "./RequireAuth";
 // import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
+import EditEmployee from "../../features/edit_employee/EditEmployee";
 import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
 import EditContract from "../../features/contract/EditContract";
 import ContractDetail from "../../features/contract/ContractDetail";
+import ContractList from "../../features/list_contract/ContractList";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -61,7 +63,7 @@ import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
-import EditEmployee from "../../features/edit-employee/EditEmployee";
+
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +91,7 @@ export const router = createBrowserRouter([
       { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
+      { path: "/detail-contract", element: <ContractList /> },
       { path: "/detail-contract", element: <DetailContract /> },
 
       // Overtime

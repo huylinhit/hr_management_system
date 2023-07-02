@@ -18,16 +18,10 @@ interface Props {
 export default function DetailSalary({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
-  const [allowanceTypes, setAllowanceTypes] =
-    useState<AllowanceType[]>(ALLOWANCETYPE);
-  const [allowances, setAllowances] = useState<Allowance[]>(ALLOWANCE);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const allowanceList = allowances.filter(
-    (a) => a.contractId === contract?.contractId
-  );
-
+  // -------------------------- MAIN ----------------------------
   return (
     <Grid sx={{ paddingBottom: "10px" }}>
       <Typography
@@ -92,7 +86,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}></Grid>
         </Grid>
-        {allowanceList?.map((a) => (
+        {contract?.allowances.map((a) => (
           <Grid
             container
             sx={{
@@ -104,19 +98,13 @@ export default function DetailSalary({ contract, employee }: Props) {
             }}
           >
             <Grid item xs={3}>
-              {allowanceTypes.map((type) => {
-                if (type.allowanceTypeId === a.allowanceTypeId) {
-                  return (
-                    <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
-                      {type.allowanceName}:
-                    </Typography>
-                  );
-                }
-              })}
+              <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
+                {a.allowanceType.allowanceName}:
+              </Typography>
             </Grid>
             <Grid item xs={7}>
               <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-                {a?.allowanceSalary}
+                {a.allowanceSalary}
               </Typography>
             </Grid>
           </Grid>

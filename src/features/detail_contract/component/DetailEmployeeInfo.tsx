@@ -1,8 +1,8 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 // data
-import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
+import moment from "moment";
 
 // interface
 interface Props {
@@ -64,7 +64,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.dob}
+              {moment(employee?.dob).format("DD-MM-YYYY")}
             </Typography>
           </Grid>
         </Grid>

@@ -10,6 +10,7 @@ import { Employee } from "../../../app/models/employee";
 import { CONTRACTTYPE, DEPARTMENT } from "../../../app/store/data";
 import { ContractType } from "../../../app/models/contractType";
 import { UserInfor } from "../../../app/models/userInfor";
+import moment from "moment";
 
 
 // interface
@@ -21,14 +22,10 @@ interface Props {
 export default function DetailJob({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
-  const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
-  const [contractTypes, setContractTypes] = useState<ContractType[]>(CONTRACTTYPE)
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const department = departments.find((d) => d.departmentId === employee?.departmentId)
-  const contractType = contractTypes.find((type) => type.contractTypeId === contract?.contractTypeId)
-
+  // -------------------------- MAIN ----------------------------
   return (
     <Grid sx={{ paddingBottom: "10px"}}>
       <Typography
@@ -61,7 +58,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {department?.departmentName}
+              {contract?.staff.departmentName}
             </Typography>
           </Grid>
         </Grid>
@@ -83,7 +80,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contractType?.name} 
+              {contract?.contractType?.name} 
             </Typography>
           </Grid>
         </Grid>
@@ -105,7 +102,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.startDate}
+              {moment(contract?.startDate).format("DD-MM-YYYY")}
             </Typography>
           </Grid>
           <Grid item xs={1}>
@@ -120,7 +117,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.endDate}
+              {moment(contract?.endDate).format("DD-MM-YYYY")}
             </Typography>
           </Grid>
         </Grid>
