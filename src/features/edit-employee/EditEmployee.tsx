@@ -1,26 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { LuEdit } from "react-icons/lu";
+
 
 // component
-import DetailAva from "./component/DetailAva";
-import DetailContact from "./component/DetailContact";
-import DetailInfo from "./component/DetailInfo";
-import DetailSkill from "./component/DetailSkill";
-import DetailEmployeeFooter from "./component/DetailEmployeeFooter";
+import EditAva from "./component/EditAva";
+import EditContact from "./component/EditContact";
+import EditInfo from "./component/EditInfo";
+import EditSkill from "./component/EditSkill";
+import EditEmployeeFooter from "./component/EditEmployeeFooter";
 
 // data
-import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import {
+  employeeSelectors,
+  fetchEmployeeAsync,
+} from "../../app/store/employee/employeeSlice";
 
-export default function DetailEmployee() {
+export default function EditEmployee() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
+  const [editForm, setEditForm] = useState({})
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, id!));  
+  const employee = useAppSelector((state) =>
+    employeeSelectors.selectById(state, id!)
+  );
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
@@ -39,16 +45,8 @@ export default function DetailEmployee() {
             lineHeight: "39px",
           }}
         >
-          Thông tin nhân viên
+          Chỉnh sửa thông tin nhân viên
         </Typography>
-        <IconButton
-          aria-label="delete"
-          sx={{ padding: "10px 10px 20px 10px" }}
-          component={Link}
-          to={`/edit-employee/${employee?.staffId}`}
-        >
-          <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
-        </IconButton>
       </Grid>
 
       <Container>
@@ -65,7 +63,7 @@ export default function DetailEmployee() {
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
           >
-            <DetailAva employee={employee} />
+            <EditAva employee={employee} />
           </Grid>
 
           <hr
@@ -88,7 +86,7 @@ export default function DetailEmployee() {
             }}
           >
             <Grid item xs={5}>
-              <DetailInfo employee={employee} />
+              <EditInfo employee={employee} />
             </Grid>
 
             <Grid item xs={1}>
@@ -97,19 +95,19 @@ export default function DetailEmployee() {
                   background: "#E2E1E5",
                   color: "#E2E1E5",
                   borderColor: "#E2E1E5",
-                  height: "350px",
+                  height: "610px",
                   width: "1px",
                 }}
               />
             </Grid>
 
             <Grid item xs={6}>
-              <DetailContact employee={employee} />
-              <DetailSkill employee={employee} />
+              <EditContact employee={employee} />
+              <EditSkill employee={employee} />
             </Grid>
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <DetailEmployeeFooter />
+            <EditEmployeeFooter employee={employee} />
           </Grid>
         </Grid>
       </Container>

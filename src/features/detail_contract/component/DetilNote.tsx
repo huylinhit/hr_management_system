@@ -5,7 +5,7 @@ import { Contract } from "../../../app/models/contract";
 
 // interface
 interface Props {
-  contract: Contract;
+  contract: Contract |undefined;
 }
 
 export default function DetaiNote({ contract }: Props) {
@@ -39,7 +39,7 @@ export default function DetaiNote({ contract }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.workDatePerWeek}
+              {contract?.workDatePerWeek}
             </Typography>
           </Grid>
         </Grid>
@@ -59,7 +59,7 @@ export default function DetaiNote({ contract }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.note}
+              {contract?.note}
             </Typography>
           </Grid>
         </Grid>

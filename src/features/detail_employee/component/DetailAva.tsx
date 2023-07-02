@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 // data
 import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
+import { Link } from "react-router-dom";
 
 // interface
 interface Props {
@@ -35,17 +36,17 @@ export default function DetailAva({ employee }: Props) {
             sx={{ bgcolor: "deepOrange", width: "120px", height: "120px" }}
           />
         </Grid>
-        <Grid item xs={9} sx={{ paddingLeft: "10px"}}>
-          <Typography variant="h5">{employee?.lastName} {employee?.firstName}</Typography>
+        <Grid item xs={9} sx={{ paddingLeft: "10px" }}>
+          <Typography variant="h5">
+            {employee?.lastName} {employee?.firstName}
+          </Typography>
           <Typography>{employee?.staffId}</Typography>
         </Grid>
       </Grid>
-      <Grid
-        item
-        xs={3}
-        sx={{ maxWidth: "100%" }}
-      >
-        <Button variant="outlined">Xem hợp đồng nhân viên</Button>
+      <Grid item xs={3} sx={{ maxWidth: "100%" }}>
+        <Button variant="outlined" component={Link} to={"/detail-contract"}>
+          Xem hợp đồng nhân viên
+        </Button>
       </Grid>
     </Grid>
   );

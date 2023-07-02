@@ -61,6 +61,7 @@ import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
+import EditEmployee from "../../features/edit-employee/EditEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,7 @@ export const router = createBrowserRouter([
       { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
+      { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -117,8 +119,6 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      // { path: "/createcandidate", element: <CreateCandidate /> },
-      // { path: "/editcandidate/:id", element: <EditCandidate /> },
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },

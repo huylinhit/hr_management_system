@@ -9,12 +9,13 @@ import { Employee } from "../../../app/models/employee";
 // data
 import { CONTRACTTYPE, DEPARTMENT } from "../../../app/store/data";
 import { ContractType } from "../../../app/models/contractType";
+import { UserInfor } from "../../../app/models/userInfor";
 
 
 // interface
 interface Props {
-  contract: Contract;
-  employee: Employee;
+  contract: Contract | undefined;
+  employee: UserInfor | undefined;
 }
 
 export default function DetailJob({ contract, employee }: Props) {
@@ -25,8 +26,8 @@ export default function DetailJob({ contract, employee }: Props) {
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const department = departments.find((d) => d.departmentId === employee.departmentId)
-  const contractType = contractTypes.find((type) => type.contractTypeId === contract.contractTypeId)
+  const department = departments.find((d) => d.departmentId === employee?.departmentId)
+  const contractType = contractTypes.find((type) => type.contractTypeId === contract?.contractTypeId)
 
   return (
     <Grid sx={{ paddingBottom: "10px"}}>
@@ -104,7 +105,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.startDate}
+              {contract?.startDate}
             </Typography>
           </Grid>
           <Grid item xs={1}>
@@ -119,7 +120,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.endDate}
+              {contract?.endDate}
             </Typography>
           </Grid>
         </Grid>
