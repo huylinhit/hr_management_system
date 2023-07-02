@@ -1,19 +1,19 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { Employee } from "../../models/employee";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
+import { UserInfor } from "../../models/userInfor";
 
 interface EmployeeState {
     employeesLoaded: boolean;
-    employees: Employee | null;
+    employees: UserInfor | null;
     status: string
   }
 
-const employeesAdapter = createEntityAdapter<Employee>({
+const employeesAdapter = createEntityAdapter<UserInfor>({
     selectId: (employee) => employee.staffId,
   });
   
-  export const fetchEmployeesAsync = createAsyncThunk<Employee[], void, { state: RootState }>(
+  export const fetchEmployeesAsync = createAsyncThunk<UserInfor[], void, { state: RootState }>(
     "employee/fetchEmployeesAsync",
     async (_, thunkAPI) => {
       try {
@@ -25,7 +25,7 @@ const employeesAdapter = createEntityAdapter<Employee>({
     }
   );
   
-export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
+export const fetchEmployeeAsync = createAsyncThunk<UserInfor, number>(
     'employee/fetchEmployeeAsync',
     async(employeeId, thunkAPI) => {
       try{
@@ -48,7 +48,7 @@ export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
       reducers: {},
       extraReducers: (builder => {
           builder.addCase(fetchEmployeesAsync.pending, (state) => {
-              state.status = 'pendingFetchDepartments'
+              state.status = 'pendingFetchEmployees'
           });
           builder.addCase(fetchEmployeesAsync.fulfilled, (state,action) => {
               employeesAdapter.setAll(state,action.payload);
@@ -61,7 +61,7 @@ export const fetchEmployeeAsync = createAsyncThunk<Employee, number>(
               state.status = 'idle';
           });
           builder.addCase(fetchEmployeeAsync.pending, (state) => {
-              state.status = 'pendingFetchDepartment'
+              state.status = 'pendingFetchEmployee'
           });
           builder.addCase(fetchEmployeeAsync.fulfilled, (state, action) => {
             employeesAdapter.upsertOne(state, action.payload);

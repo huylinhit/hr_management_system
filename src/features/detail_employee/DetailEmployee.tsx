@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { LuEdit } from "react-icons/lu";
 
 // component
@@ -8,18 +9,24 @@ import DetailAva from "./component/DetailAva";
 import DetailContact from "./component/DetailContact";
 import DetailInfo from "./component/DetailInfo";
 import DetailSkill from "./component/DetailSkill";
+import DetailEmployeeFooter from "./component/DetailEmployeeFooter";
 
 // data
-import { STAFF } from "../../app/store/data";
-import { Employee } from "../../app/models/employee";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 
 export default function DetailEmployee() {
   // -------------------------- VAR -----------------------------
+  const { id } = useParams();
+  const dispatch = useAppDispatch()
   // -------------------------- STATE ---------------------------
-  const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, id!));  
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    dispatch(fetchEmployeeAsync(Number(id)));
+  }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
@@ -38,7 +45,7 @@ export default function DetailEmployee() {
           aria-label="delete"
           sx={{ padding: "10px 10px 20px 10px" }}
           component={Link}
-          to={`/editemployee/${staff.staffId}`}
+          to={`/editemployee/${employee?.staffId}`}
         >
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
@@ -48,16 +55,17 @@ export default function DetailEmployee() {
         <Grid
           container
           sx={{
-            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+            border: "1px solid #E2E1E5",
+            borderRadius: "20px",
             backgroundColor: "white",
-            padding: "20px 45px 40px 45px",
+            padding: "20px 45px 20px 45px",
           }}
         >
           <Grid
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
           >
-            <DetailAva staff={staff} />
+            <DetailAva employee={employee} />
           </Grid>
 
           <hr
@@ -80,7 +88,7 @@ export default function DetailEmployee() {
             }}
           >
             <Grid item xs={5}>
-              <DetailInfo staff={staff} />
+              <DetailInfo employee={employee} />
             </Grid>
 
             <Grid item xs={1}>
@@ -96,9 +104,12 @@ export default function DetailEmployee() {
             </Grid>
 
             <Grid item xs={6}>
-              <DetailContact staff={staff} />
-              <DetailSkill staff={staff} />
+              <DetailContact employee={employee} />
+              <DetailSkill employee={employee} />
             </Grid>
+          </Grid>
+          <Grid item sx={{ width: "100%" }}>
+            <DetailEmployeeFooter />
           </Grid>
         </Grid>
       </Container>

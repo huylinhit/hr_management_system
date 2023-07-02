@@ -128,15 +128,23 @@ const UserInfors = {
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
 
-// -----------------------------------
 const Employees = {
-  list: () => requests.get("staffskill"),
-  details: (id: number) => requests.get(`staffskill/${id}`),
-  create: (values: any) => requests.post("staffskill", values),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
-  patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
+  list: () => requests.get("userinfor"),
+  details: (id: number) => requests.get(`userinfor/${id}`),
+  create: (values: any) => requests.post("userinfor", values),
+  update: (id: number, values: any) => requests.put(`userinfor/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
+const Contract = {
+  list: () => requests.get("contract"),
+  details: (id: number) => requests.get(`contract/${id}`),
+  create: (values: any) => requests.post("contract", values),
+  update: (id: number, values: any) => requests.put(`contract/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`contract/${id}`, values),
+};
+
+// -----------------------------------
 const agent = {
   Account,
   Department,
@@ -147,7 +155,8 @@ const agent = {
   StaffSkill,
   TicketType,
   Candidate,
-  CandidateSkill
+  CandidateSkill,
+  Contract,
 };
 
 export default agent;

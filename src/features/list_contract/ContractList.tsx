@@ -30,6 +30,7 @@ import {
   
   // component
   import DeleteDialog from "./component/DeleteDialog";
+import React from "react";
   
   // style
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -154,16 +155,16 @@ export default function ContractList () {
                   {employee.staffId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {employee.imageFile === "" ? (
+                  {/* {employee.imageFile === "" ? (
                     <Avatar>
                       {employee.firstName.charAt(0).toUpperCase()}
                     </Avatar>
                   ) : (
                     <Avatar src={employee.imageFile} />
-                  )}
+                  )} */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {employee.lastName} {employee.firstName}
+                  {employee.fullName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {employee.phone}
@@ -172,7 +173,7 @@ export default function ContractList () {
                   {employee.hireDate}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {employee.userId}
+                  {employee.email}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Button

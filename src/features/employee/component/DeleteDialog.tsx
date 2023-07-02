@@ -9,12 +9,12 @@ import {
   useTheme,
 } from "@mui/material";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-import { Employee } from "../../../app/models/employee";
+import { UserInfor } from "../../../app/models/userInfor";
 
 interface Props {
     open: boolean,
     setOpen: Function,
-    item: Object,
+    item: UserInfor | undefined,
 }
 
 export default function DeleteDialog ({ open, setOpen, item}: Props) {
@@ -27,7 +27,7 @@ export default function DeleteDialog ({ open, setOpen, item}: Props) {
 
   const handleDelete = () => {
     console.log(item);
-    
+    setOpen(false);
   }
 
   return (
@@ -39,18 +39,18 @@ export default function DeleteDialog ({ open, setOpen, item}: Props) {
       sx={{ borderRadius:"10px", textAlign: "center"}}
     >
       <DialogTitle id="responsive-dialog-title" sx={{ fontSize: "25px", color: "#B9B9B9"}}>
-        Bạn có chắc muốn xóa abc này không?
+        Bạn có chắc muốn xóa nhân viên {item?.fullName} này không?
       </DialogTitle>
       <DialogContent>
         <DialogContentText sx={{ padding: "0 35%"}}>
           <DeleteSharpIcon sx={{ color: "#B9B9B9", fontSize: "70px" }} />
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: "space-around", paddingBottom:"15px" }}>
-        <Button size="small" variant="outlined" onClick={handleClose}>
+      <DialogActions sx={{ justifyContent: "center", paddingBottom:"15px" }}>
+        <Button variant="outlined" sx={{ margin: "0 10px"}} onClick={handleClose}>
           Hủy
         </Button>
-        <Button size="small" variant="contained" onClick={handleDelete} >
+        <Button variant="contained" sx={{ margin: "0 10px"}} onClick={handleDelete} >
           Xác nhận
         </Button>
       </DialogActions>

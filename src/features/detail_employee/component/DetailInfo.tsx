@@ -1,25 +1,27 @@
 import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
+import moment from "moment";
+
 
 // data
-import { Employee } from "../../../app/models/employee";
 import { DEPARTMENT } from "../../../app/store/data";
 import { Department } from "../../../app/models/departments";
+import { UserInfor } from "../../../app/models/userInfor";
 
 
 // interface
 interface Props {
-  staff: Employee;
+  employee: UserInfor | undefined;
 }
 
-export default function DetailInfo({ staff }: Props) {
+export default function DetailInfo({ employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const department = departments.find((d) => staff.departmentId === d.departmentId)
+  const department = departments.find((d) => employee?.departmentId === d.departmentId)
 
   return (
     <Box sx={{ padding: "0 10px"}}>
@@ -44,7 +46,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Giới tính:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.gender === 0 ? "Nữ" : "Nam"}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.gender === 0 ? "Nữ" : "Nam"}</Typography>
           </Grid>
         </Grid>
 
@@ -62,7 +64,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Ngày sinh:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.dob}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{moment(employee?.dob).format("DD-MM-YYYY")}</Typography>
           </Grid>
         </Grid>
 
@@ -80,7 +82,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Phòng ban:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{department?.departmentName}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.departmentName}</Typography>
           </Grid>
         </Grid>
 
@@ -98,7 +100,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Ngày vào làm:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.hireDate}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{moment(employee?.hireDate).format("DD-MM-YYYY")}</Typography>
           </Grid>
         </Grid>
 
@@ -116,7 +118,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Quốc tịch:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.country}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.country}</Typography>
           </Grid>
         </Grid>
 
@@ -134,7 +136,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>CMND|CCCD:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.citizenId}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.citizenId}</Typography>
           </Grid>
         </Grid>
 
@@ -152,7 +154,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Số năm làm việc:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.workTimeByYear} năm </Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.workTimeByYear} năm </Typography>
           </Grid>
         </Grid>
 
@@ -170,7 +172,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Tk ngân hàng:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.bankAccount}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.bankAccount}</Typography>
           </Grid>
         </Grid>
 
@@ -188,7 +190,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Tên tài khoản:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.bankAccountName}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.bankAccountName}</Typography>
           </Grid>
         </Grid>
 
@@ -206,7 +208,7 @@ export default function DetailInfo({ staff }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Ngân hàng:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{staff.bank}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.bank}</Typography>
           </Grid>
         </Grid>
       </Grid>

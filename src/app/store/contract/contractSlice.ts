@@ -75,4 +75,4 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
       })
   })
   
-  export const employeeSelectors = contractsAdapter.getSelectors((state: RootState) => state.contract)
+  export const contractSelectors = contractsAdapter.getSelectors((state: RootState) => state.contract)
