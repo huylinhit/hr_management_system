@@ -22,11 +22,12 @@ import { OtType } from "../../../app/models/otType";
 
 // component
 import DetailForm from "./DetailForm";
+import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
-  logOt: LogOT;
   types: OtType[];
+  logOt: LogOvertime;
 }
 
 export default function DetailOvertimeContent({ logOt, types }: Props) {
