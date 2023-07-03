@@ -2,14 +2,12 @@ export interface Ticket{
     ticketId: number;
     staffId: number;
     ticketTypeId: number;
-    ticketName: string;
-    staffName: string;
     ticketReason: string;
     ticketFile: string;
     ticketStatus: string;
-    createAt: Date;
+    createAt: string;
     processNote: string;
     respondencesId: number;
-    changeStatusTime: Date;
+    changeStatusTime: string;
     enable: boolean;
 }

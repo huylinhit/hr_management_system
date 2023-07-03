@@ -10,19 +10,21 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
+// import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
+import EditContract from "../../features/contract/EditContract";
+import ContractDetail from "../../features/contract/ContractDetail";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
 import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
-
 
 // Leave
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
@@ -45,23 +47,27 @@ import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 // Type
 import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
-
 import EditOtherType from "../../features/othertypes/TicketApprovalForm";
-
 
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
-import EditCandidate from "../../features/candidate/EditCandidate";
+// import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
+<<<<<<< HEAD
 import Payroll from "../../features/payslip/component/Payroll";
 import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
+=======
+import CandidateList from "../../features/candidate/CandidateList";
+import CandidateDetails from "../../features/candidate/CandidateDetails";
+
+>>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -84,9 +90,9 @@ export const router = createBrowserRouter([
       // Allowance
 
       // Employee
-      { path: "/firststep", element: <Firststep /> },
+      { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
-      { path: "/detail-employee", element: <DetailEmployee /> },
+      { path: "/detail-employee/:id", element: <DetailEmployee /> },
 
       // Contract
       { path: "/detail-contract", element: <DetailContract /> },
@@ -94,7 +100,7 @@ export const router = createBrowserRouter([
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/detail-own-overtime-log", element: <DetailOwnOvertime /> },
+      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
 
       //MyOT
       { path: "/myovertime", element: <MyViewOvertime /> },
@@ -102,13 +108,10 @@ export const router = createBrowserRouter([
       //MyLeavetime
       { path: "/myleavetime", element: <MyViewLeavetime /> },
 
-      
-
-
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
-      { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
+      { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
@@ -122,16 +125,17 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/createcandidate", element: <CreateCandidate /> },
-      { path: "/editcandidate", element: <EditCandidate /> },
-      { path: "/detailcandidate", element: <Candidate /> },
-
-
+      // { path: "/createcandidate", element: <CreateCandidate /> },
+      // { path: "/editcandidate/:id", element: <EditCandidate /> },
+      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/candidates/:id", element: <CandidateDetails /> },
+      { path: "/detailcandidate/:id", element: <Candidate /> },
 
       // Department 
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
+<<<<<<< HEAD
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
@@ -139,11 +143,19 @@ export const router = createBrowserRouter([
       { path: '/payslips' , element: <Payroll/>},
       { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
 
+=======
+      { path: "/staffskills", element: <StaffSkillsList /> },
+      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
+>>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
+
+      //Contract
+      { path: "/editcontract", element: <EditContract /> },
+      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);

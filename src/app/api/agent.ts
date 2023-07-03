@@ -44,7 +44,7 @@ axios.interceptors.response.use(
         toast.error(data.title);
         break;
       case 500:
-        router.navigate("/server-error", { state: { error: data } });
+        //router.navigate("/server-error", { state: { error: data } });
         break;
       default:
         break;
@@ -115,11 +115,27 @@ const StaffSkill = {
   update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
+
+const Candidate = {
+  list: () => requests.get("candidates"),
+  details: (id: number) => requests.get(`candidates/${id}`),
+  create: (values: any) => requests.post("candidates", values),
+  update: (id: number, values: any) => requests.put(`candidates/${id}`, values),
+}
+const CandidateSkill = {
+  list: () => requests.get("candidateskills"),
+  details: (id: number) => requests.get(`candidateskills/${id}`),
+  listByCandidateId: (id: number) => requests.get(`candidateskills/candidate/${id}`),
+  create: (values: any) => requests.post("candidateskills", values),
+  update: (values: any) => requests.put(`candidateskills`, values)
+}
+
 const UserInfors = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
 
+<<<<<<< HEAD
 
 const Payslip = {
   list: () => requests.get("payslips"),
@@ -147,19 +163,35 @@ const LogLeave = {
   update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
   patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
 }
+=======
+// -----------------------------------
+const Employees = {
+  list: () => requests.get("staffskill"),
+  details: (id: number) => requests.get(`staffskill/${id}`),
+  create: (values: any) => requests.post("staffskill", values),
+  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
+};
+>>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 
 const agent = {
   Account,
   Contract,
   Department,
   UserInfors,
+  Employees,
   Ticket,
   Skill,
   StaffSkill,
   TicketType,
+<<<<<<< HEAD
   Payslip,
   LogOt,
   LogLeave,
+=======
+  Candidate,
+  CandidateSkill
+>>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 };
 
 export default agent;

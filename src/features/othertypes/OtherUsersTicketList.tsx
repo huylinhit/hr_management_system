@@ -81,19 +81,19 @@ export default function OtherUsersTicketList() {
     {
       field: "ticketName",
       headerName: "Loại đơn",
-      width: 250,
+      width: 300,
       editable: true,
     },
     {
       field: "ticketReason",
       headerName: "Lí do làm đơn",
-      width: 250,
+      width: 300,
       editable: true,
     },
     {
       field: "ticketFile",
       headerName: "File",
-      width: 200,
+      width: 300,
       editable: true,
     },
     {
@@ -108,7 +108,6 @@ export default function OtherUsersTicketList() {
             {params.value === "Chấp nhận" ? (
               <Typography
                 sx={{
-               
                   backgroundColor: "#D9EFD6",
                   padding: "1px 10px ",
                   borderRadius: "6px",
@@ -123,7 +122,7 @@ export default function OtherUsersTicketList() {
               <Typography
                 sx={{
                   padding: "1px 10px ",
-                  backgroundColor:"#FFF5D1",
+                  backgroundColor: "#FFF5D1",
                   borderRadius: "6px",
                   alignItems: "center",
                   display: "flex",
@@ -136,7 +135,7 @@ export default function OtherUsersTicketList() {
               <Typography
                 sx={{
                   padding: "1px 10px ",
-                  backgroundColor:"#FFD1D1",
+                  backgroundColor: "#FFD1D1",
                   borderRadius: "6px",
                   alignItems: "center",
                   display: "flex",
@@ -148,18 +147,18 @@ export default function OtherUsersTicketList() {
             )}
           </>
         );
-      }
+      },
     },
     {
       field: "processNote",
       headerName: "Ghi chú",
-      width: 250,
+      width: 300,
       editable: true,
     },
     {
       field: "createAt",
       headerName: "Thời gian tạo",
-      width: 200,
+      width: 300,
       editable: true,
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
@@ -167,7 +166,7 @@ export default function OtherUsersTicketList() {
     {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
-      width: 200,
+      width: 300,
       editable: true,
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
@@ -201,53 +200,54 @@ export default function OtherUsersTicketList() {
   }, [ticketsLoaded, tickets]);
 
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#FFFFFF", mt: "5%" }}>
-      <Grid container spacing={0} alignContent="center">
-        <Grid item>
+    <>
+     <Box sx={{paddingLeft:"10%", mt:"5%", paddingRight:"5%"}}>
+        <Grid container spacing={0} alignContent="center">
+          <Grid item>
+            <Button
+              variant="text"
+              sx={navStyle}
+              disableElevation={true}
+              component={NavLink}
+              to={`/otheruserstickets`}
+              key={"/otheruserstickets"}
+            >
+              Danh sách đơn khác
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container justifyContent={"space-between"}>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant="standard"
+          />
+
           <Button
             variant="text"
-            sx={navStyle}
+            sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
             disableElevation={true}
-            component={NavLink}
-            to={`/otheruserstickets`}
-            key={"/otheruserstickets"}
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
           >
-            Danh sách đơn khác
+            Tạo đơn mới
           </Button>
+
+          <CreateTicketForm open={open} onClose={handleCloseDialog} />
         </Grid>
-      </Grid>
-      <Grid container justifyContent={"space-between"}>
-        <TextField
-          id="standard-basic"
-          label="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          variant="standard"
-        />
-
-        <Button
-          variant="text"
-          sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-          disableElevation={true}
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
-          Tạo đơn mới
-        </Button>
-
-        <CreateTicketForm open={open} onClose={handleCloseDialog} />
-      </Grid>
+        </Box>
 
       <Box sx={{ height: 700, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="compact"
           getRowId={(row: any) => row.ticketId}
-         
           sx={{
             height: 700,
             border: "none",
@@ -263,6 +263,8 @@ export default function OtherUsersTicketList() {
             fontWeight: 550,
             fontFamily: fontStyle,
           }}
+           
+          
           slots={{
             loadingOverlay: LinearProgress,
             //toolbar: CustomToolbar,
@@ -281,7 +283,7 @@ export default function OtherUsersTicketList() {
           disableRowSelectionOnClick
         />
       </Box>
-    </Container>
+    </>
   );
 }
 

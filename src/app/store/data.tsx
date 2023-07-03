@@ -244,10 +244,10 @@ export const OTLOGS = [
   },
 ];
 
-export const CONTRACTTYPE =[
-  {contractTypeId: 1, name: "Hợp đồng không xác định hạn", description: ""},
-  {contractTypeId: 2, name: "Hợp đồng xác định hạn", description: ""},
-]
+export const CONTRACTTYPE = [
+  { contractTypeId: 1, name: "Hợp đồng không xác định hạn", description: "" },
+  { contractTypeId: 2, name: "Hợp đồng xác định hạn", description: "" },
+];
 
 export const CONTRACT = {
   contractId: 4,
@@ -341,24 +341,137 @@ export const CONTRACTLIST = [
     changeAt: "",
     contractStatus: 1,
   },
-]
+];
 
 export const ALLOWANCETYPE = [
-  {allowanceTypeId: 1, allowanceName: "Phụ cấp trách nhiệm", allowanceDetailSalary: "Không quá 10%"},
-  {allowanceTypeId: 2, allowanceName: "Phụ cấp thu hút", allowanceDetailSalary: "Dưới 35%"},
-  {allowanceTypeId: 3, allowanceName: "Phụ cấp lưu động", allowanceDetailSalary: "Dưới 10%"},
-  {allowanceTypeId: 4, allowanceName: "Phụ cấp chức vụ", allowanceDetailSalary: "Dưới 15%"},
-  {allowanceTypeId: 5, allowanceName: "Phụ cấp gửi xe và ăn trưa", allowanceDetailSalary: "Tùy thỏa thuận"},
-]
+  {
+    allowanceTypeId: 1,
+    allowanceName: "Phụ cấp trách nhiệm",
+    allowanceDetailSalary: "Không quá 10%",
+  },
+  {
+    allowanceTypeId: 2,
+    allowanceName: "Phụ cấp thu hút",
+    allowanceDetailSalary: "Dưới 35%",
+  },
+  {
+    allowanceTypeId: 3,
+    allowanceName: "Phụ cấp lưu động",
+    allowanceDetailSalary: "Dưới 10%",
+  },
+  {
+    allowanceTypeId: 4,
+    allowanceName: "Phụ cấp chức vụ",
+    allowanceDetailSalary: "Dưới 15%",
+  },
+  {
+    allowanceTypeId: 5,
+    allowanceName: "Phụ cấp gửi xe và ăn trưa",
+    allowanceDetailSalary: "Tùy thỏa thuận",
+  },
+];
 
 export const ALLOWANCE = [
-  {allowanceId: 1, contractId: 1, allowanceTypeId: 1, allowanceSalary: 2000000},
-  {allowanceId: 2, contractId: 1, allowanceTypeId: 2, allowanceSalary: 2000000},
-  {allowanceId: 3, contractId: 2, allowanceTypeId: 5, allowanceSalary: 2000000},
-  {allowanceId: 4, contractId: 3, allowanceTypeId: 5, allowanceSalary: 2000000},
-  {allowanceId: 5, contractId: 4, allowanceTypeId: 5, allowanceSalary: 2000000},
-  {allowanceId: 6, contractId: 1, allowanceTypeId: 5, allowanceSalary: 2000000},
-]
+  {
+    allowanceId: 1,
+    contractId: 1,
+    allowanceTypeId: 1,
+    allowanceSalary: 2000000,
+  },
+  {
+    allowanceId: 2,
+    contractId: 1,
+    allowanceTypeId: 2,
+    allowanceSalary: 2000000,
+  },
+  {
+    allowanceId: 3,
+    contractId: 2,
+    allowanceTypeId: 5,
+    allowanceSalary: 2000000,
+  },
+  {
+    allowanceId: 4,
+    contractId: 3,
+    allowanceTypeId: 5,
+    allowanceSalary: 2000000,
+  },
+  {
+    allowanceId: 5,
+    contractId: 4,
+    allowanceTypeId: 5,
+    allowanceSalary: 2000000,
+  },
+  {
+    allowanceId: 6,
+    contractId: 1,
+    allowanceTypeId: 5,
+    allowanceSalary: 2000000,
+  },
+];
+
+export const LEAVETYPE = [
+  {
+    leaveTypeId: 1,
+    leaveTypeName: "Nghỉ phép có lương",
+    leaveTypeDetail: "",
+    leaveTypeDay: 12,
+    isSalary: 1,
+  },
+  {
+    leaveTypeId: 2,
+    leaveTypeName: "Nghỉ phép không lương",
+    leaveTypeDetail: "",
+    leaveTypeDay: 20,
+    isSalary: 0,
+  },
+  {
+    leaveTypeId: 3,
+    leaveTypeName: "Nghỉ phép sự kiện",
+    leaveTypeDetail: "",
+    leaveTypeDay: 7,
+    isSalary: 1,
+  },
+];
+
+export const LEAVELOG = {
+  leaveLogId: 1,
+  staffId: 1,
+  leaveTypeId: 1,
+  leaveStart: "2023-11-11",
+  leaveEnd: "2023-11-12",
+  leaveDays: 1,
+  leaveHours: 8,
+  description: "",
+  status: "Chờ duyệt",
+  createAt: "2023-11-10",
+  processNote: "",
+  respondencesId: 0,
+  changeStatusTime: "",
+  enable: 1,
+};
+
+export const TICKETYPES = [
+  { ticketTypeId: 1, ticketName: "Đơn xin nghỉ việc" },
+  { ticketTypeId: 2, ticketName: "Yêu cầu cập nhật thông tin cá nhân" },
+  { ticketTypeId: 3, ticketName: "Yêu cầu cập nhật hợp đồng" },
+  { ticketTypeId: 4, ticketName: "Đơn đề cử ứng viên" },
+  { ticketTypeId: 5, ticketName: "Các loại đơn khác" },
+];
+
+export const TICKET = {
+  ticketId: 1,
+  staffId: 1,
+  ticketTypeId: 1,
+  ticketReason: "none",
+  ticketFile: "none",
+  ticketStatus: "Chấp nhận",
+  createAt: "2023-01-01",
+  processNote: "",
+  respondencesId: 4,
+  changeStatusTime: "",
+  enable: true,
+};
 
 export const FORMSTATUS = {
   pending: "Chờ duyệt",

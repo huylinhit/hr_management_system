@@ -1,12 +1,13 @@
 import { Grid, Typography } from "@mui/material";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+import { LogOT } from "../../../app/models/logOT";
 import { OtType } from "../../../app/models/otType";
+import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
-  logOt: LogOT;
+  logOt: LogOvertime;
   types: OtType[];
 }
 
@@ -24,12 +25,16 @@ export default function DetailForm({ logOt, types }: Props) {
         }}
       >
         <Grid item xs={4}>
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Loại đơn: </Typography>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Loại đơn:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
@@ -49,13 +54,17 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Từ: </Typography>
+        <Grid item xs={4}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Từ:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={2}>
           <Typography
@@ -64,21 +73,29 @@ export default function DetailForm({ logOt, types }: Props) {
             {logOt.logStart}
           </Typography>
         </Grid>
-        <Grid item xs={1} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>-</Typography>
+        <Grid item xs={1}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            -
+          </Typography>
         </Grid>
-        <Grid item xs={2} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Đến: </Typography>
+        <Grid item xs={2}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Đến:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography
@@ -98,13 +115,17 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Số giờ làm: </Typography>
+        <Grid item xs={4}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Số giờ làm:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
@@ -123,13 +144,17 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Nội dung đơn: </Typography>
+        <Grid item xs={4}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Nội dung đơn:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
@@ -148,17 +173,21 @@ export default function DetailForm({ logOt, types }: Props) {
           marginBottom: "5px",
         }}
       >
-        <Grid item xs={4} >
-          <Typography sx={{
-            fontStyle: "normal",
-            fontWeight: "550",
-            fontSize: "20px",
-            marginBottom: "15px",
-          }}>Ngày gửi đơn: </Typography>
+        <Grid item xs={4}>
+          <Typography
+            sx={{
+              fontStyle: "normal",
+              fontWeight: "550",
+              fontSize: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            Ngày gửi đơn:{" "}
+          </Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography
-           sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
+            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
             {logOt.createAt}
           </Typography>
