@@ -91,8 +91,8 @@ export const router = createBrowserRouter([
       { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
-      { path: "/detail-contract", element: <ContractList /> },
-      { path: "/detail-contract", element: <DetailContract /> },
+      { path: "/list-contract", element: <ContractList /> },
+      { path: "/detail-contract/:id", element: <DetailContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
