@@ -8,8 +8,20 @@ const logOvertimesAdapter = createEntityAdapter<LogOt>({
     selectId: logot => logot.otLogId
 })
 
+export const fetchLogOtsAsync = createAsyncThunk<LogOt[]>(
+    'logot/fetchLogOtsAsync',
+    async (_, thunkAPI) =>{
+        try{
+            return await agent.LogOt.list();
+        }catch(error: any)
+        {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
+
 export const fetchLogOtAsync = createAsyncThunk<LogOt, { logOtId: number }>(
-    'logots/fetchLogosAsync',
+    'logot/fetchLogosAsync',
     async ({ logOtId }, thunkAPI) => {
         try {
             return await agent.LogOt.details(logOtId);
@@ -20,7 +32,7 @@ export const fetchLogOtAsync = createAsyncThunk<LogOt, { logOtId: number }>(
 )
 
 export const logotSlice = createSlice({
-    name: 'logots',
+    name: 'logot',
     initialState: logOvertimesAdapter.getInitialState({
         logOtLoaded: false,
         status: 'idle'

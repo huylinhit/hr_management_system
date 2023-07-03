@@ -61,8 +61,6 @@ function PayslipDetailSalary({
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>Lương Net thỏa thuận</Typography>
                     <Typography align="right" sx={style}>Lương làm thêm giờ (4*)</Typography>
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>Lương Net thực tế</Typography>
-
-
                 </Grid>
                 <Grid item xs={6} sx={{ border: "1px solid black" }}>
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{negotiableGrossSalaryEmployee}</Typography>

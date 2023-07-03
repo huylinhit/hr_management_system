@@ -13,9 +13,9 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-import { LogOt } from "../../app/models/logOt";
 import { OtType } from "../../app/models/otType";
 import axios from "axios";
+import { LogOt } from "../../app/models/logOt";
 
 export default function DetailOvertime() {
   // -------------------------- VAR -----------------------------
