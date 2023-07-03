@@ -1,16 +1,13 @@
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
 import {
   Button,
   Card,
-  Container,
   Grid,
   IconButton,
   InputAdornment,
-  LinearProgress,
-  Paper,
   TextField,
   Typography,
   styled,
@@ -25,16 +22,12 @@ import {
 } from "@mui/x-data-grid-pro";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
 import { Link, NavLink } from "react-router-dom";
 
-import { Ticket } from "../../app/models/ticket";
 
-import moment from "moment";
 import { fetchStaffSkillsAsync, setStaffSkillAdded, staffSkillsSelectors } from "./staffSkillSlice";
 import { StaffSkill } from "../../app/models/staffSkill";
 import CreateStaffSkill from "./CreateStaffSkill";
-import { border } from "@mui/system";
 
 function CustomToolbar() {
   return (

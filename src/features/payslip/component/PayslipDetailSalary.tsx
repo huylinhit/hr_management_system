@@ -1,7 +1,4 @@
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemText, Collapse, Grid, Typography } from "@mui/material";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Grid, Typography } from "@mui/material";
 
 interface Props {
     negotiableGrossSalaryEmployee : number

@@ -2,12 +2,12 @@ import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOvertime } from "../../../app/models/logOvertime";
 import { FORMSTATUS } from "../../../app/store/data";
+import { LogOt } from "../../../app/models/logOt";
 
 // interface
 interface Props {
-  logOt: LogOvertime;
+  logOt: LogOt;
 }
 
 export default function DetailOvertimeFooter({ logOt }: Props) {
