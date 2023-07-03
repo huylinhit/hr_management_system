@@ -1,8 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { router } from "../router/router";
 import { toast } from "react-toastify";
 import { store } from "../store/configureStore";
-import { request } from "http";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
@@ -135,7 +133,6 @@ const UserInfors = {
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
 
-<<<<<<< HEAD
 
 const Payslip = {
   list: () => requests.get("payslips"),
@@ -163,7 +160,6 @@ const LogLeave = {
   update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
   patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
 }
-=======
 // -----------------------------------
 const Employees = {
   list: () => requests.get("staffskill"),
@@ -172,7 +168,6 @@ const Employees = {
   update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
->>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 
 const agent = {
   Account,
@@ -184,14 +179,11 @@ const agent = {
   Skill,
   StaffSkill,
   TicketType,
-<<<<<<< HEAD
   Payslip,
   LogOt,
   LogLeave,
-=======
   Candidate,
   CandidateSkill
->>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 };
 
 export default agent;

@@ -59,15 +59,12 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-<<<<<<< HEAD
 import Payroll from "../../features/payslip/component/Payroll";
 import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
-=======
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 
->>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -135,7 +132,6 @@ export const router = createBrowserRouter([
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
-<<<<<<< HEAD
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
 
@@ -143,10 +139,6 @@ export const router = createBrowserRouter([
       { path: '/payslips' , element: <Payroll/>},
       { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
 
-=======
-      { path: "/staffskills", element: <StaffSkillsList /> },
-      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
->>>>>>> f6ad5b096476f042cdb239011ecbd4f13fa9abb6
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

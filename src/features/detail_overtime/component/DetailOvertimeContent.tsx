@@ -23,13 +23,13 @@ import { OtType } from "../../../app/models/otType";
 
 // component
 import DetailForm from "./DetailForm";
-import { LogOvertime } from "../../../app/models/logOvertime";
+import { LogOt } from "../../../app/models/logOt";
 
 
 // interface
 interface Props {
   staff: Employee;
-  logOt: LogOvertime;
+  logOt: LogOt;
   types: OtType[];
 }
 

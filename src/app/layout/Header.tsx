@@ -1,18 +1,13 @@
 import {
   AppBar,
   Box,
-  Button,
   IconButton,
-  List,
-  ListItem,
   Toolbar,
-  Typography,
   Tooltip,
 } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
-import { AccessAlarm, BorderAll } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { AccessAlarm } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
-import SignedInMenu from "./SignedInMenu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import GitHubIcon from "@mui/icons-material/GitHub";

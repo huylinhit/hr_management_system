@@ -99,8 +99,7 @@ function PayslipDetail() {
                     />
 
                     <LogLeaveTable
-                        staffId={parseInt(staffId!)}
-                        date={date}
+                    
                     />
                     <TaxDetailList 
                         taxDetails={payslip?.taxDetails!}

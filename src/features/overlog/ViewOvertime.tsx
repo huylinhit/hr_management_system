@@ -27,7 +27,7 @@ import { FORMSTATUS } from "../../app/store/data";
 import { Root } from "react-dom/client";
 import axios from "axios";
 import React from "react";
-import { LogOvertime } from "../../app/models/logOvertime";
+import { LogOt } from "../../app/models/logOt";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -185,7 +185,7 @@ function ViewOvertimeLog() {
 
   //call api
 
-  const [list, setList] = useState<LogOvertime[]>();
+  const [list, setList] = useState<LogOt[]>();
 
   axios.defaults.baseURL = "http://localhost:5000/api";
   axios.defaults.withCredentials = true;

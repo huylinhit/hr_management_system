@@ -1,14 +1,14 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { LogOT } from "../../app/models/LogOT";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
+import { LogOt } from "../../app/models/logOt";
 
 
-const logOvertimesAdapter = createEntityAdapter<LogOT>({
+const logOvertimesAdapter = createEntityAdapter<LogOt>({
     selectId: logot => logot.otLogId
 })
 
-export const fetchLogOtAsync = createAsyncThunk<LogOT, { logOtId: number }>(
+export const fetchLogOtAsync = createAsyncThunk<LogOt, { logOtId: number }>(
     'logots/fetchLogosAsync',
     async ({ logOtId }, thunkAPI) => {
         try {
