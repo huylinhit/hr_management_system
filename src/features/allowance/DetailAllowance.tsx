@@ -6,30 +6,14 @@ import { contractSelectors, fetchContractsAsync } from "../detail_contract/contr
 import axios from "axios";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Contract } from "../../app/models/contract";
+import { Allowance } from "../../app/models/allowance";
 
 interface Props {
-    staffId: number
+    allowances: Allowance[],
+    totalAllowance: number
 }
-function DetailAllowance({ staffId }: Props) {
+function DetailAllowance({ allowances, totalAllowance }: Props) {
     const [open, setOpen] = useState(true);
-    const dispatch = useAppDispatch();
-    //có staffId => lấy được hợp đồng => đổ dữ liệu trong hợp đôgnf 
-    const contracts = useAppSelector(contractSelectors.selectAll);
-    const { contractsLoaded, status } = useAppSelector(state => state.contract);
-    // const [contract, setContract] = useState<Contract>();
-    const contract = contracts.find(c => c.staffId === staffId);
-
-
-
-    useEffect(() => {
-        if (!contractsLoaded)
-            dispatch(fetchContractsAsync());
-
-        // setContract(contracts.find(c => c.staffId === staffId))
-    }, [contractsLoaded])
-    
-    if(!status) return <LoadingComponent message="Loading"/>
-
     const handleClick = () => {
         setOpen(!open);
     };
@@ -51,8 +35,8 @@ function DetailAllowance({ staffId }: Props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {contract?.allowances.length !== 0 ? (
-                                contract?.allowances.map(item => (
+                            {allowances.length !== 0 ? (
+                                allowances.map(item => (
                                     <TableRow key={item.allowanceId}>
                                         <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>{item.allowanceType.allowanceName}</TableCell>
                                         <TableCell align="right" style={{ borderRight: '1px solid #e0e0e0' }}>{item.allowanceType.allowanceDetailSalary}</TableCell>
@@ -64,9 +48,13 @@ function DetailAllowance({ staffId }: Props) {
                                     <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>Không</TableCell>
                                     <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>Không</TableCell>
                                     <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>0</TableCell>
-
                                 </TableRow>
                             )}
+                            <TableRow>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Tổng cộng</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{totalAllowance}</TableCell>
+                            </TableRow>
 
 
                         </TableBody>
