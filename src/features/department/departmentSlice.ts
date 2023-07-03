@@ -2,7 +2,6 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import { Department } from "../../app/models/department";
 import { RootState } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
-import { selectToken } from "../account/authSlice";
 
 interface DepartmentState{
     departmentsLoaded: boolean;

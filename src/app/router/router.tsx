@@ -38,8 +38,6 @@ import DepartmentList from "../../features/department/DepartmentList";
 
 // Ticket
 import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
-import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
-import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import MyTicketList from "../../features/othertypes/MyTicketList";
 import DetailOwnTicket from "../../features/detail_own_ticket/DetailOwnTicket";
 import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
@@ -51,17 +49,14 @@ import EditOtherType from "../../features/othertypes/TicketApprovalForm";
 
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
-import CreateCandidate from "../../features/candidate/CreateCandidate";
 // import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
-import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import Payroll from "../../features/payslip/component/Payroll";
 import PayslipDetail from "../../features/payslip/component/PayslipDetail";
-import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 

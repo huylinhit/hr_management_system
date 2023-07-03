@@ -1,8 +1,7 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, isAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { UserInfor } from "../../app/models/userInfor";
 import { RootState } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
-import { fetchDepartmentsAsync } from "./departmentSlice";
 
 interface UserInforState {
   userInforsLoaded: boolean;

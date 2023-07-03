@@ -4,7 +4,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   IconButton,
   LinearProgress,
   Typography,
@@ -12,7 +11,7 @@ import {
   Tooltip,
   Box,
 } from "@mui/material";
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarContainer,
@@ -20,12 +19,9 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridRowId,
   GridRowSelectionModel,
 } from "@mui/x-data-grid-pro";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchUserInforsAsync, userInforSelectors } from "./userInforSlice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UserInfor } from "../../app/models/userInfor";
 import agent from "../../app/api/agent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";

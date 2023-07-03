@@ -2,7 +2,6 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import { Candidate } from "../../app/models/candidate";
 import { RootState } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
-import { ticketSlice } from "../othertypes/ticketSlice";
 
 interface CandidateState {
   candidatesLoaded: boolean;

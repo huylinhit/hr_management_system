@@ -1,23 +1,10 @@
-import { useState } from "react";
 import {
   Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
 } from "@mui/material";
-import { LuEdit } from "react-icons/lu";
 
 // component
-import DetailContractInfo from "./component/DetailContractInfo";
-import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 
 // data
-import { Employee } from "../../app/models/employee";
-import { CONTRACTLIST, USERINFOR } from "../../app/store/data";
-import { Contract } from "../../app/models/contract";
-import DetailContractFooter from "./component/DetailContractFooter";
 
 export default function DetailContract() {
   // // -------------------------- VAR -----------------------------

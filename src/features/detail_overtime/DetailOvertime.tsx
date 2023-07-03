@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
@@ -9,7 +9,7 @@ import DetailOvertimeContent from "./component/DetailOvertimeContent";
 import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
 
 // data
-import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
+import { STAFF, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";

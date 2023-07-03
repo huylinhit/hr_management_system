@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
+import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 
 function EditContract() {
   return (

@@ -5,15 +5,12 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   Paper,
   Radio,
   RadioGroup,
-  SelectChangeEvent,
   TextField,
   Typography,
-  Input,
   debounce,
   styled,
   Dialog,
@@ -24,15 +21,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import React, { ReactNode, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import agent from "../../app/api/agent";
 import { ToastContainer, toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { FileDownloadDoneSharp } from "@mui/icons-material";
 import { storage } from "../../firebase";
 import { ref, uploadBytes } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { setCandidateAdded } from "./candidateSlice";
 const Item = styled(Paper)(({ theme }) => ({
