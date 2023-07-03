@@ -7,16 +7,38 @@ import { OtType } from "../../../app/models/otType";
 import { Employee } from "../../../app/models/employee";
 import { LeaveLog } from "../../../app/models/leaveLog";
 import { LeaveType } from "../../../app/models/leaveType";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { log } from "console";
 
 // interface
 interface Props {
   staff: Employee;
-  logLeave: LeaveLog;
+  logLeave: LeaveLog | undefined;
   types: LeaveType[];
 }
 
 export default function DetailForm({ staff, logLeave, types }: Props) {
-  const type = types.find((type) => type.leaveTypeId === logLeave.leaveTypeId);
+  const type = types.find((type) => type.leaveTypeId === logLeave?.leaveTypeId);
+
+//   const [list, setList] = useState<LeaveLog[]>();
+// console.log(logLeave?.leaveLogId);
+// console.log(staff.staffId);
+//   axios.defaults.baseURL = "http://localhost:5000/api";
+//   axios.defaults.withCredentials = true;
+
+//   useEffect(() => {
+//     axios
+//       .get(`/log-leaves/${logLeave?.leaveLogId}/staffs/${staff.staffId}`)
+//       .then((response) => {
+//         setList(response.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }, []);
+
+
   return (
     <>
       <Grid
@@ -40,7 +62,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveLogId}
+            {logLeave?.leaveLogId}
           </Typography>
         </Grid>
       </Grid>
@@ -66,7 +88,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.staffId}
+            {logLeave?.staffId}
           </Typography>
         </Grid>
       </Grid>
@@ -144,7 +166,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveStart}
+            {logLeave?.leaveStart}
           </Typography>
         </Grid>
         <Grid item xs={1} >
@@ -167,7 +189,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveEnd}
+            {logLeave?.leaveEnd}
           </Typography>
         </Grid>
       </Grid>
@@ -193,7 +215,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveDays} ngày
+            {logLeave?.leaveDays} ngày
           </Typography>
         </Grid>
       </Grid>
@@ -218,7 +240,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.description}
+            {logLeave?.description}
           </Typography>
         </Grid>
       </Grid>
@@ -243,7 +265,7 @@ export default function DetailForm({ staff, logLeave, types }: Props) {
           <Typography
            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.createAt}
+            {logLeave?.createAt}
           </Typography>
         </Grid>
       </Grid>

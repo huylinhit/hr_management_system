@@ -10,12 +10,12 @@ import { LeaveType } from "../../../app/models/leaveType";
 
 // interface
 interface Props {
-  logLeave: LeaveLog;
+  logLeave: LeaveLog | undefined;
   types: LeaveType[];
 }
 
 export default function DetailForm({ logLeave, types }: Props) {
-  const type = types.find((type) => type.leaveTypeId === logLeave.leaveTypeId);
+  const type = types.find((type) => type.leaveTypeId === logLeave?.leaveTypeId);
   return (
     <>
       <Grid
@@ -65,7 +65,7 @@ export default function DetailForm({ logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveStart}
+            {logLeave?.leaveStart}
           </Typography>
         </Grid>
         <Grid item xs={1} >
@@ -88,7 +88,7 @@ export default function DetailForm({ logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveEnd}
+            {logLeave?.leaveEnd}
           </Typography>
         </Grid>
       </Grid>
@@ -114,7 +114,7 @@ export default function DetailForm({ logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.leaveDays} ngày
+            {logLeave?.leaveDays} ngày
           </Typography>
         </Grid>
       </Grid>
@@ -139,7 +139,7 @@ export default function DetailForm({ logLeave, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.description}
+            {logLeave?.description}
           </Typography>
         </Grid>
       </Grid>
@@ -164,7 +164,7 @@ export default function DetailForm({ logLeave, types }: Props) {
           <Typography
            sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logLeave.createAt}
+            {logLeave?.createAt}
           </Typography>
         </Grid>
       </Grid>
