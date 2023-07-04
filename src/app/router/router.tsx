@@ -64,6 +64,7 @@ import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
+import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 
 export const router = createBrowserRouter([
   {
@@ -115,11 +116,12 @@ export const router = createBrowserRouter([
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/mytickets/:id", element: <MyTicketDetails /> },
       { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
       { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },
-
+      
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
       // { path: "/createcandidate", element: <CreateCandidate /> },

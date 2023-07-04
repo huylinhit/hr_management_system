@@ -13,6 +13,7 @@ import { logleaveSlice } from "../../features/detail_leavelog/logleaveSlice";
 import { employeeSlice } from "./employee/employeeSlice";
 import { candidateSlice } from "../../features/candidate/candidateSlice";
 import { candidateSkillSlice } from "../../features/candidate/candidateSkillSlice";
+import { headerSlice } from "../layout/headerSlice";
 
 export const store = configureStore({
     reducer: {
@@ -28,7 +29,8 @@ export const store = configureStore({
         logleave: logleaveSlice.reducer,
         candidateSkill: candidateSkillSlice.reducer,
         employee: employeeSlice.reducer,
-        candidate: candidateSlice.reducer
+        candidate: candidateSlice.reducer,
+        header: headerSlice.reducer,
     }
 })
 
