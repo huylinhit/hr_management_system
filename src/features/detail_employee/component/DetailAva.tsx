@@ -1,6 +1,7 @@
-import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 
 // data
+
+import { Grid, Avatar, Typography, Button } from "@mui/material";
 import { Employee } from "../../../app/models/employee";
 
 // interface

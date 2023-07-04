@@ -19,7 +19,7 @@ import { LeaveType } from "../../app/models/leaveType";
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
   const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
+  // const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
 
   const dispatch = useAppDispatch();
   // const [form] = Form.useForm();
@@ -57,7 +57,7 @@ export default function DetailLeave() {
           }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter />

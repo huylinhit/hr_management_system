@@ -1,377 +1,386 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import {  Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { useRef } from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { deepPurple } from "@mui/material/colors";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { NavLink, useParams } from "react-router-dom";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import React from "react";
-const fontStyle = "Mulish";
+
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DetailAva from "../detail_employee/component/DetailAva";
+
 const headerStyle = {
-  fontWeight: "bold",
-};
-const styles = {
-  marginBottom: "15px",
-};
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
-  fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
-};
-
-export default function EditCandidate({ handleClose, handleOpen, handleChange }: any) {
-  const { id } = useParams<{ id: string }>();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Xử lý file ở đây
-      console.log("File selected:", file);
-    }
-  };
-
-  const handleUploadButtonClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  return (
-    <>
-      <Box sx={{ paddingLeft: "10%", mt: "5%", paddingRight: "10%" }}>
-        <Grid container spacing={0} alignContent="center">
-          <Grid item>
-            <Button
-              variant="text"
-              sx={navStyle}
-              disableElevation={true}
-              component={NavLink}
-              to={`/otheruserstickets`}
-              key={"/otheruserstickets"}
-            >
-              Danh sách đơn khác
-            </Button>
-          </Grid>
-
-          <Grid item>
-            <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
-          </Grid>
-
-          <Grid item>
-            <Button variant="text" sx={navStyle} disableElevation={true}>
-              Phản hồi đơn
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={2} sx={{ mr: "30px" }}>
-            <Avatar sx={{ bgcolor: deepPurple[500], width: 150, height: 150 }}>A</Avatar>
-          </Grid>
-          <Grid item xs={9}>
-            <TextField
-              InputProps={{
-                disableUnderline: true,
-                style: { fontSize: "40px", fontWeight: "700", fontFamily: fontStyle },
-              }}
-              defaultValue={"Võ Minh Hoàng"}
-              variant="standard"
-              sx={{ marginRight: "10px", alignSelf: "flex-end" }}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <FormControl sx={{ m: 0, minWidth: 200 }}>
-              <InputLabel>Chờ duyệt</InputLabel>
-              <Select label="Chờ duyệt" onChange={handleChange}>
-                <MenuItem value={10}>Đạt</MenuItem>
-                <MenuItem value={20}>Không đạt</MenuItem>
-                <MenuItem value={30}>Chờ duyệt</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-
-        <Divider sx={{ my: 2, borderTopWidth: "1px", borderTopColor: "black" }} />
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Typography variant="h5" sx={{ fontWeight: "bold", color: "#0066cc" }} style={styles}>
-                Thông tin
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h5" sx={{ fontWeight: "bold", color: "#0066cc" }} style={styles}>
-                Kỹ năng
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Ngày sinh</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box sx={{ width: "200px" }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={["DatePicker"]}>
-                        <DatePicker label="DD/MM/YY" />
-                      </DemoContainer>
-                    </LocalizationProvider>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Ngoại ngữ</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}> Giới tính</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl sx={{ m: 0, minWidth: 200 }}>
-                    <InputLabel id="demo-select-small-label">Chọn</InputLabel>
-                    <Select
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      label="Chọn"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>Nam</MenuItem>
-                      <MenuItem value={20}>Nữ</MenuItem>
-                      <MenuItem value={30}>Khác</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>.NET</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "12px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Ngày sinh</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box sx={{ width: "200px" }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={["DatePicker"]}>
-                        <DatePicker label="DD/MM/YY" />
-                      </DemoContainer>
-                    </LocalizationProvider>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Ngoại ngữ</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Phòng ban</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl sx={{ m: 0, minWidth: 200, py: "10px" }}>
-                    <InputLabel id="demo-select-small-label">Chọn</InputLabel>
-                    <Select
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      label="Chọn"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>Phát triển sản phẩm</MenuItem>
-                      <MenuItem value={20}>APP</MenuItem>
-                      <MenuItem value={30}>Phát triển dự án</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Ngoại ngữ</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Số điện thoại</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Button>
-                    <AddCircleIcon />
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Email</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Button onClick={handleOpen} variant="outlined">
-                    Xem CV
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Địa chỉ</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}></Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Typography variant="h5" sx={{ fontWeight: "bold", color: "#0066cc" }} style={styles}>
-                Vị trí ứng tuyển
-              </Typography>
-            </Grid>
-            <Grid item xs={8}></Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Vị trí</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}></Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} columns={16}>
-            <Grid item xs={8}>
-              <Grid container spacing={2} columns={8}>
-                <Grid item xs={4}>
-                  <Typography sx={headerStyle}>Lương mong muốn</Typography>
-                </Grid>
-                <Grid item xs={4} sx={{ py: "10px" }}>
-                  <TextField id="outlined-basic" label="Nhập" variant="outlined" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={8}></Grid>
-          </Grid>
-        </Box>
-        <Container sx={{ display: "flex", justifyContent: "right" }}>
-          <Button onClick={handleClose} variant="contained" sx={{ borderRadius: "40px" }}>
-            Lưu
-          </Button>
-        </Container>
-      </Container>
-    </>
-  );
+    fontWeight: 'bold'
 }
+const styles = {
+
+    marginBottom: '15px',
+};
+
+
+function EditCandidate({ handleClose, handleOpen, handleChange }: any) {
+    return (
+        <>
+            <Container >
+                <Typography variant="h4" sx={headerStyle} style={styles} >
+                    Chỉnh sửa thông tin nhân viên
+                </Typography>
+                <Container component={Paper} maxWidth={false} sx={{ padding: '12px', borderRadius: '40px' }}>
+                    <Grid container sx={{ display: "flex" }}>
+                        <Grid item xs={1}>
+                            {/* <DetailAva /> */}
+                        </Grid>
+                        <Grid item xs={2} sx={{ mt: "30px", ml: "30px" }}>
+                        <div>
+                                <input
+                                    type="text"
+                                    placeholder=" Nguyễn Minh"
+                                    style={{
+                                        height: "36px",
+                                        width: "100%",
+                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                        borderRadius: "8px",
+                                        fontSize: "17px",
+                                    }}
+                                />
+                            </div>
+                            <div>
+                            <select
+                                    style={{
+                                        height: "36px",
+                                        width: "100%",
+                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                        borderRadius: "8px",
+                                        fontSize: "17px",
+                                        marginBottom: "12px",
+                                    }}
+                                    >
+                                    <option value="">Chờ duyệt</option>
+                                    <option value="Đạt">Đạt</option>
+                                    <option value="Không đạt">Không đạt</option>
+                                    
+                                </select>
+                            </div>
+                           
+                        </Grid>
+                        <Grid item xs={2} sx={{ mt: "30px", ml: "30px" }}>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Hoàng"
+                                    style={{
+                                        height: "36px",
+                                        width: "100%",
+                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                        borderRadius: "8px",
+                                        fontSize: "17px",
+                                    }}
+                                />
+                            </div>
+                        </Grid>
+                    </Grid>
+
+                    <Box
+                        sx={{ border: "0.5px solid rgba(0, 0, 0, 0.5) ", my: "20px" }}
+                    ></Box>
+                    <Container>
+                        <Grid container sx={{ display: "flex-", ml: "60px" }}>
+                            <Grid item xs={5}>
+                                <Typography
+                                    sx={{
+                                        fontSize: "26px",
+                                        fontWeight: "bold",
+                                        color: "#246DD6",
+                                        my: "20px",
+                                    }}
+                                >
+                                    Thông tin
+                                </Typography>
+                                <Container>
+                                    <Grid container sx={{ display: "flex" }}>
+                                        <Grid item xs={5}>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Giới tính:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Ngày sinh:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Phòng ban:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Số điện thoại:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Mail:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Địa chỉ:
+                                            </Typography>
+                                            <Grid item xs={4}></Grid>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: "23px",
+                                                    fontWeight: "bold",
+                                                    color: "#246DD6",
+                                                    my: "20px",
+                                                }}
+                                            >
+                                                Vị trí ứng tuyển
+                                            </Typography>
+                                            <Container>
+                                                <Typography
+                                                    sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                                >
+                                                    Vị trí:
+                                                </Typography>
+                                                <Typography
+                                                    sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                                >
+                                                    Lương mong muốn:
+                                                </Typography>
+                                            </Container>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <select
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: "2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                >
+                                                    <option value="">Chọn giới tính</option>
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
+                                                    <option value="Khác">Khác</option>
+                                                </select>
+                                            </div>
+
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="2000/12/20"
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <select
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: "2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                >
+                                                    <option value="">Chọn phòng</option>
+                                                    <option value="Nam">1</option>
+                                                    <option value="Nữ">2</option>
+                                                    <option value="Khác">3</option>
+                                                </select>
+                                            </div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="0964071639"
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="hoangvm@gmail.com "
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="abcd ko bít"
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{ marginBottom: "14px", height: "70px" }}></div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Marketing"
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{ marginBottom: "14px" }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="20.000.000"
+                                                    style={{
+                                                        height: "36px",
+                                                        width: "70%",
+                                                        border: " 2px solid rgba(226, 225, 229, 1)",
+                                                        borderRadius: "8px",
+                                                        fontSize: "17px",
+                                                        color: "#000",
+                                                    }}
+                                                />
+                                            </div>
+
+                                        </Grid>
+                                    </Grid>
+                                </Container>
+                            </Grid>
+
+                            <Box
+                                sx={{ border: "0.5px solid rgba(0, 0, 0, 0.5) ", my: "20px" }}
+                            ></Box>
+
+                            <Grid item xs={6} sx={{ ml: "85px" }}>
+
+                                <Grid container>
+                                    <Grid item xs={4}>
+                                        <Typography
+                                            sx={{
+                                                fontSize: "26px",
+                                                fontWeight: "bold",
+                                                color: "#246DD6",
+                                                my: "20px",
+                                            }}
+                                        >
+                                            Kỹ năng
+                                        </Typography>
+                                        <Container>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                .NET:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Ngoại ngữ:
+                                            </Typography>
+                                            <Typography
+                                                sx={{ fontSize: "20px", mb: "20px", fontWeight: "bold" }}
+                                            >
+                                                Ngoại ngữ:
+                                            </Typography>
+                                            <Button >
+                                                <AddCircleIcon style={{ fontSize: "50px" }} />
+                                            </Button>
+                                            <Grid style={{ marginBottom: "14px", height: "60px" }} >
+                                                <Button onClick={handleOpen} variant="outlined" >Xem CV</Button>
+                                            </Grid>
+                                        </Container>
+                                    </Grid>
+
+                                    <Grid item xs={8}>
+                                        <div style={{ marginBottom: "14px", height: "60px" }}></div>
+                                        <div style={{ marginBottom: "14px" }}>
+                                            <input
+                                                type="text"
+                                                placeholder="6 tháng"
+                                                style={{
+                                                    height: "36px",
+                                                    width: "40%",
+                                                    border: " 2px solid rgba(226, 225, 229, 1)",
+                                                    borderRadius: "8px",
+                                                    fontSize: "17px",
+                                                    color: "#000",
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ marginBottom: "14px" }}>
+                                            <input
+                                                type="text"
+                                                placeholder="Tiếng Nhật"
+                                                style={{
+                                                    height: "36px",
+                                                    width: "40%",
+                                                    border: " 2px solid rgba(226, 225, 229, 1)",
+                                                    borderRadius: "8px",
+                                                    fontSize: "17px",
+                                                    color: "#000",
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ marginBottom: "14px" }}>
+                                            <input
+                                                type="text"
+                                                placeholder="Tiếng Nhật"
+                                                style={{
+                                                    height: "36px",
+                                                    width: "40%",
+                                                    border: " 2px solid rgba(226, 225, 229, 1)",
+                                                    borderRadius: "8px",
+                                                    fontSize: "17px",
+                                                    color: "#000",
+                                                }}
+                                            />
+                                        </div>
+
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                    <Grid container>
+                        <Grid item xs={10}></Grid>
+                        <Grid item xs={2}>
+                            <Container sx={{ display: "flex", justifyContent: "right" }}>
+                                <Button onClick={handleClose} variant="contained" sx={{ borderRadius: '40px' }}>Lưu</Button>
+                            </Container>
+                        </Grid>
+                    </Grid>
+
+                </Container>
+            </Container>
+        </>
+    );
+}
+
+export default EditCandidate;

@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { router } from "../router/router";
 import { toast } from "react-toastify";
 import { store } from "../store/configureStore";
+import { request } from "http";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
@@ -67,6 +68,11 @@ const Account = {
   currentUser: () => requests.get("account/currentUser"),
 };
 
+const Contract = {
+  list: () => requests.get("contracts"),
+  validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
+}
+
 const Department = {
   list: () => requests.get("departments"),
   details: (id: number) => requests.get(`departments/${id}`),
@@ -74,6 +80,7 @@ const Department = {
   update: (id: number, values: any) => requests.put(`departments/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`departments/${id}`, values),
 };
+
 
 const Ticket = {
   list: () => requests.get("tickets"),
@@ -129,6 +136,33 @@ const UserInfors = {
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
 
+
+const Payslip = {
+  list: () => requests.get("payslips"),
+  details: (id: number, staffId: number) => requests.get(`payslips/${id}/staffs/${staffId}`),
+  listOfStaff: (id: number, staffId: number) => requests.get(`payslips/staffs/${staffId}`),
+  create: (staffId: number, dateTime: any) => requests.post(`payslips/staffs/${staffId}`, dateTime),
+  update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
+}
+
+const LogOt = {
+  list: () => requests.get("logots"),
+  details: (id: number) => requests.get(`logots/${id}}`),
+  listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
+  create: (values: any) => requests.post("logots", values),
+  update: (id: number, values: any) => requests.put(`logots/${id}`, values),
+  patch: (staffId: number, values: any) => requests.patch(`logots/staffs/${staffId}`, values),
+}
+
+const LogLeave = {
+  list: () => requests.get("log-leaves"),
+  details: (id: number) => requests.get(`log-leaves/${id}`),
+  listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
+  create: (values: any) => requests.post("log-leaves", values),
+  update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
+  patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
+}
 // -----------------------------------
 const Employees = {
   list: () => requests.get("staffskill"),
@@ -140,6 +174,7 @@ const Employees = {
 
 const agent = {
   Account,
+  Contract,
   Department,
   UserInfors,
   Employees,
@@ -147,6 +182,9 @@ const agent = {
   Skill,
   StaffSkill,
   TicketType,
+  Payslip,
+  LogOt,
+  LogLeave,
   Candidate,
   CandidateSkill
 };

@@ -2,15 +2,16 @@ import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOT } from "../../../app/models/LogOT";
+
 import { FORMSTATUS } from "../../../app/store/data";
+import { LogOt } from "../../../app/models/logOt";
 
 // interface
 interface Props {
-  logOt: LogOT;
+  logOt: LogOt;
 }
 
-export default function DetailOvertimeFooter({logOt}: Props) {
+export default function DetailOvertimeFooter({ logOt }: Props) {
   const handleFinish = () => {};
 
   return (
@@ -23,7 +24,7 @@ export default function DetailOvertimeFooter({logOt}: Props) {
         padding: "20px 30px 10px 30px",
       }}
     >
-      <Grid item >
+      <Grid item>
         <Button
           variant="outlined"
           sx={{
@@ -36,10 +37,10 @@ export default function DetailOvertimeFooter({logOt}: Props) {
           Quay về
         </Button>
       </Grid>
-
       <Grid item >
       {logOt.status === FORMSTATUS.pending ? (
           <Button
+
           variant="contained"
           type="submit"
           sx={{

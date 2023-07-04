@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
 
 // data
 import { Employee } from "../../../app/models/employee";
 import { DEPARTMENT } from "../../../app/store/data";
 import { Department } from "../../../app/models/departments";
+import { Box, Grid, Typography } from "@mui/material";
 
 
 // interface

@@ -10,6 +10,7 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
+// import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import Firststep from "../../features/employee/Firststep";
@@ -24,7 +25,6 @@ import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
 import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
-
 
 // Leave
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
@@ -52,12 +52,16 @@ import EditOtherType from "../../features/othertypes/TicketApprovalForm";
 //
 import ViewCandidate from "../../features/candidate/ViewCadidate";
 import CreateCandidate from "../../features/candidate/CreateCandidate";
+// import EditCandidate from "../../features/candidate/EditCandidate";
 import Candidate from "../../features/candidate/Candidate";
 
 import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
@@ -81,6 +85,8 @@ export const router = createBrowserRouter([
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
+      // Allowance
+
       // Employee
       { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
@@ -92,7 +98,7 @@ export const router = createBrowserRouter([
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/detail-own-overtime-log", element: <DetailOwnOvertime /> },
+      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
 
       //MyOT
       { path: "/myovertime", element: <MyViewOvertime /> },
@@ -103,7 +109,7 @@ export const router = createBrowserRouter([
       // Leave
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
-      { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
+      { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
@@ -118,12 +124,10 @@ export const router = createBrowserRouter([
       
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-
-      { path: "/1candidate/:id", element: <Candidate /> },
+      // { path: "/createcandidate", element: <CreateCandidate /> },
+      // { path: "/editcandidate/:id", element: <EditCandidate /> },
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
-
-      { path: "/candidates/", element: <CandidateList /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 
       // Department 
@@ -132,6 +136,11 @@ export const router = createBrowserRouter([
 
       { path: '/staffskills' , element: <StaffSkillsList />},
       { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
+
+      //payslip
+      { path: '/payslips' , element: <Payroll/>},
+      { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

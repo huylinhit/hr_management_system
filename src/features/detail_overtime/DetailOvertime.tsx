@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
@@ -13,13 +13,18 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-import { LogOT } from "../../app/models/LogOT";
+
+
 import { OtType } from "../../app/models/otType";
+import axios from "axios";
+import { LogOt } from "../../app/models/logOt";
 
 export default function DetailOvertime() {
   // -------------------------- VAR -----------------------------
-  const [logOt, setLogOt] = useState<LogOT>(OTLOG);
+  // const [logOt, setLogOt] = useState<LogOT>(OTLOG);
   const [types, setTypes] = useState<OtType[]>(OTTYPE);
+
+  const { id } = useParams();
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -34,8 +39,19 @@ export default function DetailOvertime() {
 
     navigate("/viewot");
   };
+
+  
+  const [logOt, setLogOt] = useState<LogOt>();
+  useEffect(() => {
+    axios.get(`/logots/${id}`).then((response) => setLogOt(response.data));
+  }, [id]);
+  console.log(logOt);
+
   // -------------------------- MAIN ----------------------------
   return (
+
+   <>
+   {logOt &&(
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid>
         <Typography
@@ -72,5 +88,8 @@ export default function DetailOvertime() {
         </Grid>
       </Container>
     </Box>
+   )}
+    
+   </>
   );
 }

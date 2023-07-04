@@ -1,5 +1,7 @@
+
+
 export interface AllowanceType {
-    allowanceTypeId: number;
-	allowanceName: string;
-	allowanceDetailSalary: string;
+	allowanceTypeId: number
+	allowanceName: string
+	allowanceDetailSalary: string
 }
