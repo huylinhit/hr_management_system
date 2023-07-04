@@ -30,8 +30,7 @@ export const store = configureStore({
         candidateSkill: candidateSkillSlice.reducer,
         employee: employeeSlice.reducer,
         candidate: candidateSlice.reducer,
-        header: headerSlice.reducer,,
-        contract: contractSlice.reducer,
+        header: headerSlice.reducer,
     }
 })
 

@@ -9,7 +9,7 @@ interface ContractState {
     status: string
   }
 
-const contractsAdapter = createEntityAdapter<Contract>({
+const contractAdapter = createEntityAdapter<Contract>({
     selectId: (contract) => contract.contractId,
   });
   
@@ -24,6 +24,18 @@ const contractsAdapter = createEntityAdapter<Contract>({
       }
     }
   );
+
+  export const fetchContractValidDetailASync = createAsyncThunk<Contract, number>(
+    'contract/fetchValidContractAsync',
+    async (staffId, thunkAPI)=>{
+        try{
+            return await agent.Contract.validDetails(staffId);
+
+        }catch(error: any){
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
   
 export const fetchContractAsync = createAsyncThunk<Contract, number>(
     'employee/fetchContractAsync',
@@ -40,18 +52,19 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
   
   export const contractSlice = createSlice({
       name: 'contracts',
-      initialState: contractsAdapter.getInitialState<ContractState>({
+      initialState: contractAdapter.getInitialState<ContractState>({
         contractsLoaded: false,
         contracts: null,
         status: "idle"
       }),
       reducers: {},
       extraReducers: (builder => {
+        // List
           builder.addCase(fetchContractsAsync.pending, (state) => {
               state.status = 'pendingFetchContracts'
           });
           builder.addCase(fetchContractsAsync.fulfilled, (state,action) => {
-            contractsAdapter.setAll(state,action.payload);
+            contractAdapter.setAll(state,action.payload);
    
               state.status = 'idle';
               state.contractsLoaded = true;
@@ -60,11 +73,27 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
               console.log(action.payload);
               state.status = 'idle';
           });
+
+          
+        //validDetails 
+        builder.addCase(fetchContractValidDetailASync.pending, (state) =>{
+          state.status = 'pendingFetchValidContract'
+      });
+      builder.addCase(fetchContractValidDetailASync.fulfilled, (state, action)=>{
+          contractAdapter.upsertOne(state, action.payload);
+          state.status = 'idle';
+          state.contractsLoaded = true;
+      });
+      builder.addCase(fetchContractValidDetailASync.rejected, (state) =>{
+          state.status = 'idle';
+      })
+
+      //Details 
           builder.addCase(fetchContractAsync.pending, (state) => {
               state.status = 'pendingFetchContract'
           });
           builder.addCase(fetchContractAsync.fulfilled, (state, action) => {
-            contractsAdapter.upsertOne(state, action.payload);
+            contractAdapter.upsertOne(state, action.payload);
    
             state.status = 'idle';
           });
@@ -75,4 +104,4 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
       })
   })
   
-  export const contractSelectors = contractsAdapter.getSelectors((state: RootState) => state.contract)
+  export const contractSelectors = contractAdapter.getSelectors((state: RootState) => state.contract)

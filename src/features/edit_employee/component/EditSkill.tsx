@@ -68,7 +68,7 @@ export default function EditSkill({ employee }: Props) {
           >
             <Grid item xs={5}>
               <Typography sx={{ fontWeight: "600" }}>
-                {skill.skillName} abc
+                {skill.skillName} 
               </Typography>
             </Grid>
             <Grid item xs={6}>

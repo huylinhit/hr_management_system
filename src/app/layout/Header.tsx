@@ -5,6 +5,8 @@ import {
   Toolbar,
   Tooltip,
   Avatar,
+  Button,
+  Typography,
 } from "@mui/material";
 
 import { Link, NavLink, useLocation } from "react-router-dom";
