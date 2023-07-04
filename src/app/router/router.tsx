@@ -61,8 +61,12 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
+import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 
 
 export const router = createBrowserRouter([
@@ -84,6 +88,8 @@ export const router = createBrowserRouter([
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
+      // Allowance
+
       // Employee
       { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
@@ -115,11 +121,12 @@ export const router = createBrowserRouter([
       { path: '/editothertype/:id' , element: <EditOtherType/>},
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/mytickets/:id", element: <MyTicketDetails /> },
       { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
       { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },
-
+      
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
       { path: "/candidates/", element: <CandidateList /> },
@@ -130,8 +137,13 @@ export const router = createBrowserRouter([
       { path: '/departments' , element: <DepartmentList/>},
       { path: '/departments/:id' , element: <DepartmentDetails />},
 
-      { path: "/staffskills", element: <StaffSkillsList /> },
-      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
+      { path: '/staffskills' , element: <StaffSkillsList />},
+      { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
+
+      //payslip
+      { path: '/payslips' , element: <Payroll/>},
+      { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

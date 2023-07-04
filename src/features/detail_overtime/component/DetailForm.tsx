@@ -3,16 +3,17 @@ import { type } from "os";
 
 // api
 import { Employee } from "../../../app/models/employee";
-import { LogOT } from "../../../app/models/logOT";
+
 import { OtType } from "../../../app/models/otType";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { LogOvertime } from "../../../app/models/logOvertime";
+import { LogOt } from "../../../app/models/logOt";
+
 
 // interface
 interface Props {
   staff: Employee;
-  logOt: LogOvertime;
+  logOt: LogOt;
   types: OtType[];
 }
 
@@ -22,7 +23,7 @@ export default function DetailForm
 {
   const type = types.find((type) => type.otTypeId === logOt.otTypeId);
 
-  const [list, setList] = useState<LogOvertime[]>();
+  const [list, setList] = useState<LogOt[]>();
 
   axios.defaults.baseURL = "http://localhost:5000/api";
   axios.defaults.withCredentials = true;

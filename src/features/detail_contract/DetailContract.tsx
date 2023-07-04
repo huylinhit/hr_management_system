@@ -36,7 +36,7 @@ export default function DetailContract() {
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
-      <Grid container>
+      {/* <Grid container>
         <Typography
           sx={{
             padding: "5px 0",
@@ -88,7 +88,7 @@ export default function DetailContract() {
           }}>
             <DetailContractFooter/>
           </Grid>
-      </Container>
+      </Container> */}
     </Box>
   );
 }

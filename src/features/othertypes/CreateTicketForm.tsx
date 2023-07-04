@@ -12,18 +12,21 @@ import { fetchTicketTypesAsync } from "./ticketTypeSlice";
 import { useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
 import { setTicketAdded } from "./ticketSlice";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../firebase";
 interface Props {
   open: boolean;
   onClose: () => void;
 }
-export default function CreateTicketForm({open, onClose}: Props) {
+export default function CreateTicketForm({ open, onClose }: Props) {
+  const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState(0);
   const [isTicketTypeEmpty, setIsTicketTypeEmpty] = useState(false);
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
-  const {ticketsLoaded} = useAppSelector((state) => state.ticket);
+  const { ticketsLoaded } = useAppSelector((state) => state.ticket);
   const { ticketTypes, ticketTypesLoaded } = useAppSelector((state) => state.ticketType);
   const currentUser = useAppSelector((state) => state.account);
   console.log(currentUser.user?.userInfor.staffId);
@@ -45,7 +48,6 @@ export default function CreateTicketForm({open, onClose}: Props) {
     setIsReasonEmpty(false);
   }, 500);
 
-
   const handleCreateTicket = () => {
     console.log(selectedTicketTypeId);
     console.log(reason);
@@ -58,18 +60,20 @@ export default function CreateTicketForm({open, onClose}: Props) {
     if (selectedTicketTypeId == 0) {
       setIsTicketTypeEmpty(true);
     }
-    if(reason == ""){
+    if (reason == "") {
       setIsReasonEmpty(true);
     }
-    if(!isTicketTypeEmpty && !isReasonEmpty){
+    if (!isTicketTypeEmpty && !isReasonEmpty) {
       agent.Ticket.create(ticketCreate)
         .then((response) => {
+          handleUploadFile(response.staffId);
           console.log("Ticket created successfully: ", response);
           dispatch(setTicketAdded(true));
         })
         .catch((error) => {
           console.error("Error creating ticket: ", error);
-        })
+        });
+        
     }
     onClose();
   };
@@ -81,13 +85,19 @@ export default function CreateTicketForm({open, onClose}: Props) {
       fileInputRef.current.click();
     }
   };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setSelectedFile(file);
     console.log("Selected file:", file);
   };
 
-
+  const handleUploadFile = (id: number) => {
+    if (selectedFile == null) return;
+    const fileRef = ref(storage, `staffFiles/${id}`);
+    uploadBytes(fileRef, selectedFile).then(() => {
+      console.log("GOOD");
+    });
+  };
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
@@ -146,9 +156,10 @@ export default function CreateTicketForm({open, onClose}: Props) {
               type="file"
               ref={fileInputRef}
               style={{ display: "none" }}
-              onChange={handleFileChange}
+              onChange={handleFileSelected}
             />
-            <Grid display={"flex"} alignItems={"center"} sx={{ mt: "5%" }}>
+
+            <Box display={"flex"} alignItems={"center"} sx={{ mt: "20px" }}>
               <Button
                 variant="contained"
                 sx={{
@@ -164,8 +175,19 @@ export default function CreateTicketForm({open, onClose}: Props) {
               >
                 Thêm File
               </Button>
-              <>{selectedFile && <Typography>Đã thêm: {selectedFile.name}</Typography>}</>
-            </Grid>
+              <Box>
+                <>
+                  {selectedFile && (
+                    <Typography>
+                      Đã thêm:{" "}
+                      {selectedFile.name.length > 30
+                        ? `${selectedFile.name.slice(0, 30)}...`
+                        : selectedFile.name}
+                    </Typography>
+                  )}
+                </>
+              </Box>
+            </Box>
           </>
         </DialogContent>
         <DialogActions>

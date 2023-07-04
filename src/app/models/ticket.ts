@@ -10,6 +10,7 @@ export interface Ticket{
     createAt: Date;
     processNote: string;
     respondencesId: number;
+    responsdenceName: string;
     changeStatusTime: Date;
     enable: boolean;
 }

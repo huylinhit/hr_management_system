@@ -1,11 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { Box, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { store, useAppDispatch } from "../store/configureStore";
+import { Box, CssBaseline, createTheme } from "@mui/material";
+import { useAppDispatch } from "../store/configureStore";
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
 import LoadingComponent from "./LoadingComponent";
 function App() {
   const dispatch = useAppDispatch();
@@ -45,7 +43,7 @@ function App() {
     <Box >
     <Sidebar />
     <CssBaseline />
-      <Box sx={{ mt: 8, ml: 37, backgroundColor:"#FFFFFF" }}>
+      <Box sx={{ mt: 0,ml: 37, backgroundColor:"#FFFFFF" }}>
         <Outlet />
       </Box>
     </Box>

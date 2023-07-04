@@ -12,7 +12,9 @@ import DetailLeaveFooter from "./component/DetailLeaveFooter";
 import { LEAVELOG, LEAVETYPE, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/logOT";
+
+import { LogOt } from "../../app/models/logOt";
+
 import { OtType } from "../../app/models/otType";
 import { LeaveLog } from "../../app/models/leaveLog";
 import { LeaveType } from "../../app/models/leaveType";
@@ -20,7 +22,7 @@ import { LeaveType } from "../../app/models/leaveType";
 export default function DetailOwnLeave() {
   // -------------------------- VAR -----------------------------
   const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
+  // const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
 
   const { handleSubmit } = useForm();
   // -------------------------- STATE ---------------------------
@@ -63,7 +65,7 @@ export default function DetailOwnLeave() {
           }}  
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter logLeave={logLeave}/>

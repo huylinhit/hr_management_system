@@ -16,15 +16,21 @@ interface Props {
 }
 
 export default function DetailSalary({ contract, employee }: Props) {
-  // -------------------------- VAR -----------------------------
-  // -------------------------- STATE ---------------------------
-  // -------------------------- REDUX ---------------------------
-  // -------------------------- EFFECT --------------------------
-  // -------------------------- FUNCTION ------------------------
-  // -------------------------- MAIN ----------------------------
+  // // -------------------------- VAR -----------------------------
+  // // -------------------------- STATE ---------------------------
+  // const [allowanceTypes, setAllowanceTypes] =
+  //   useState<AllowanceType[]>(ALLOWANCETYPE);
+  // const [allowances, setAllowances] = useState<Allowance[]>(ALLOWANCE);
+  // // -------------------------- REDUX ---------------------------
+  // // -------------------------- EFFECT --------------------------
+  // // -------------------------- FUNCTION ------------------------
+  // const allowanceList = allowances.filter(
+  //   (a) => a.contractId === contract.contractId
+  // );
+
   return (
     <Grid sx={{ paddingBottom: "10px" }}>
-      <Typography
+      {/* <Typography
         sx={{
           color: "#246DD6",
           fontWeight: "600",
@@ -194,7 +200,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

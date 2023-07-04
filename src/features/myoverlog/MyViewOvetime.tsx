@@ -24,9 +24,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import MyCreateOT from "./MyCreateOT";
 import axios from "axios";
-import { LogOvertime } from "../../app/models/logOvertime";
 import { FORMSTATUS } from "../../app/store/data";
 import { CiCircleMore } from "react-icons/ci";
+import { LogOt } from "../../app/models/logOt";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -105,7 +105,7 @@ function MyViewOvertime() {
     setOpen(false);
   };
 
-  const [list, setList] = useState<LogOvertime[]>();
+  const [list, setList] = useState<LogOt[]>();
 
   axios.defaults.baseURL = "http://localhost:5000/api";
   axios.defaults.withCredentials = true;
