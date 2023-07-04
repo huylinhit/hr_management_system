@@ -67,8 +67,9 @@ export default function EmployeeList() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>()
   // -------------------------- REDUX ---------------------------
-  const employees = useAppSelector(employeeSelectors.selectAll);
-  console.log(employees);
+  const employees = useAppSelector(employeeSelectors.selectAll);  
+  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);
+  console.log(activeEmployees);
   
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
@@ -145,7 +146,7 @@ export default function EmployeeList() {
           </TableHead>
 
           <TableBody>
-            {employees.map((employee) => (
+            {activeEmployees?.map((employee) => (
               <StyledTableRow
                 key={employee.staffId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

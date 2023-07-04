@@ -16,13 +16,14 @@ interface Props {
 
 export default function DetailInfo({ employee }: Props) {
   // -------------------------- VAR -----------------------------
+  console.log(employee);
+  
+  console.log(employee?.departmentName);
+  
   // -------------------------- STATE ---------------------------
-  const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const department = departments.find((d) => employee?.departmentId === d.departmentId)
-
   return (
     <Box sx={{ padding: "0 10px"}}>
       <Grid>

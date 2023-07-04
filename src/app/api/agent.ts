@@ -132,6 +132,7 @@ const Employees = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
   create: (values: any) => requests.post("userinfor", values),
+  delete: (id: number) => requests.delete(`userinfor/${id}`),
   update: (id: number, values: any) => requests.put(`userinfor/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };

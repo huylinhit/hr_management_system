@@ -21,5 +21,5 @@ export interface UserInfor {
     bankAccountName: string;
     bank: string;
     workTimeByYear: number;
-    accountStatus: number;
+    accountStatus: boolean;
 }

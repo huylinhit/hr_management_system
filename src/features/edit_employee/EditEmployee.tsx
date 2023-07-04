@@ -23,6 +23,7 @@ export default function EditEmployee() {
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
   const [editForm, setEditForm] = useState({})
+  const [formEdit, setFormEdit] = useState({})
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, id!)
