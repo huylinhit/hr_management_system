@@ -13,12 +13,14 @@ import RequireAuth from "./RequireAuth";
 // import EditEmployee from "../../features/employee/EditEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
+import EditEmployee from "../../features/edit_employee/EditEmployee";
 import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
 import EditContract from "../../features/contract/EditContract";
 import ContractDetail from "../../features/contract/ContractDetail";
+import ContractList from "../../features/list_contract/ContractList";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -66,6 +68,7 @@ import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -91,9 +94,11 @@ export const router = createBrowserRouter([
       { path: "/create-new-employee", element: <Firststep /> },
       { path: '/employeelist' , element: <EmployeeList />},
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
+      { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
-      { path: "/detail-contract", element: <DetailContract /> },
+      { path: "/list-contract", element: <ContractList /> },
+      { path: "/detail-contract/:id", element: <DetailContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
@@ -124,8 +129,6 @@ export const router = createBrowserRouter([
       
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      // { path: "/createcandidate", element: <CreateCandidate /> },
-      // { path: "/editcandidate/:id", element: <EditCandidate /> },
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },

@@ -8,11 +8,12 @@ import DetaiNote from "./DetilNote";
 // model
 import { Contract } from "../../../app/models/contract";
 import { Employee } from "../../../app/models/employee";
+import { UserInfor } from "../../../app/models/userInfor";
 
 // interface
 interface Props {
-  contract: Contract;
-  employee: Employee;
+  contract: Contract | undefined;
+  employee: UserInfor | undefined;
 }
 
 export default function DetailContractInfo({ contract, employee }: Props) {

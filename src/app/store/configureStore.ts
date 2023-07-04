@@ -8,12 +8,12 @@ import { ticketTypeSlice } from "../../features/othertypes/ticketTypeSlice";
 import { staffSkillSlice } from "../../features/skills/staffSkillSlice";
 import { payslipSlice } from "../../features/payslip/payslipSlice";
 import { logotSlice } from "../../features/overlog/overtimeSlice";
-import { contractSlice } from "../../features/detail_contract/contractSlice";
 import { logleaveSlice } from "../../features/detail_leavelog/logleaveSlice";
 import { employeeSlice } from "./employee/employeeSlice";
 import { candidateSlice } from "../../features/candidate/candidateSlice";
 import { candidateSkillSlice } from "../../features/candidate/candidateSkillSlice";
 import { headerSlice } from "../layout/headerSlice";
+import { contractSlice } from "./contract/contractSlice";
 
 export const store = configureStore({
     reducer: {

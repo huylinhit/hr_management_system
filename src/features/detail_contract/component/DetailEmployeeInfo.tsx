@@ -1,11 +1,12 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 // data
-import { Employee } from "../../../app/models/employee";
+import { UserInfor } from "../../../app/models/userInfor";
+import moment from "moment";
 
 // interface
 interface Props {
-  employee: Employee;
+  employee: UserInfor | undefined;
 }
 
 export default function DetailEmployeeInfo({ employee }: Props) {
@@ -35,7 +36,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={5}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.lastName} {employee.firstName}
+              {employee?.lastName} {employee?.firstName}
             </Typography>
           </Grid>
           <Grid item xs={2}>
@@ -43,7 +44,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.gender === 0 ? "Nữ" : "Nam"}
+              {employee?.gender === 0 ? "Nữ" : "Nam"}
             </Typography>
           </Grid>
         </Grid>
@@ -63,7 +64,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.dob}
+              {moment(employee?.dob).format("DD-MM-YYYY")}
             </Typography>
           </Grid>
         </Grid>
@@ -83,7 +84,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.citizenId} 
+              {employee?.citizenId} 
             </Typography>
           </Grid>
         </Grid>
@@ -103,7 +104,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.address}
+              {employee?.address}
             </Typography>
           </Grid>
         </Grid>
@@ -123,7 +124,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.phone} 
+              {employee?.phone} 
             </Typography>
           </Grid>
         </Grid>

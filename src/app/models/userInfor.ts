@@ -1,15 +1,16 @@
 export interface UserInfor {
     staffId: number;
     id: number;
+    lastName: string;
     firstName: string;
     fullName: string;
-    departmentName: string;
     email: string;
     position: string;
-    gioiTinh:string;
+    departmentName: string;
     dob: string;
     phone: string;
     gender: number;
+    gioiTinh:string;
     address: string;
     country: string;
     citizenId: string;
@@ -19,6 +20,6 @@ export interface UserInfor {
     bankAccount: string;
     bankAccountName: string;
     bank: string;
-    WorkTimeByYear: number;
-    accountStatus: number;
+    workTimeByYear: number;
+    accountStatus: boolean;
 }

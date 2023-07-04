@@ -71,6 +71,10 @@ const Account = {
 const Contract = {
   list: () => requests.get("contracts"),
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
+  details: (id: number) => requests.get(`contract/${id}`),
+  create: (values: any) => requests.post("contract", values),
+  update: (id: number, values: any) => requests.put(`contract/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`contract/${id}`, values),
 }
 
 const Department = {
@@ -165,13 +169,15 @@ const LogLeave = {
 }
 // -----------------------------------
 const Employees = {
-  list: () => requests.get("staffskill"),
-  details: (id: number) => requests.get(`staffskill/${id}`),
-  create: (values: any) => requests.post("staffskill", values),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
-  patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
+  list: () => requests.get("userinfor"),
+  details: (id: number) => requests.get(`userinfor/${id}`),
+  create: (values: any) => requests.post("userinfor", values),
+  delete: (id: number) => requests.delete(`userinfor/${id}`),
+  update: (id: number, values: any) => requests.put(`userinfor/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
+// -----------------------------------
 const agent = {
   Account,
   Contract,
@@ -186,7 +192,7 @@ const agent = {
   LogOt,
   LogLeave,
   Candidate,
-  CandidateSkill
+  CandidateSkill,
 };
 
 export default agent;
