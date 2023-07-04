@@ -12,7 +12,7 @@ import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
 import { OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/logOT";
+import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 
 export default function DetailOwnOvertime() {

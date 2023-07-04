@@ -13,7 +13,7 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-import { LogOT } from "../../app/models/logOT";
+import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 
 export default function DetailOvertime() {
@@ -46,7 +46,9 @@ export default function DetailOvertime() {
             fontSize: "30px",
             lineHeight: "39px",
           }}
-        >Phản hồi đơn làm thêm giờ</Typography>
+        >
+          Phản hồi đơn làm thêm giờ
+        </Typography>
       </Grid>
 
       <Container>
@@ -59,7 +61,7 @@ export default function DetailOvertime() {
             borderRadius: "30px",
             padding: "20px 45px",
             margin: "5px 0",
-          }}  
+          }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
             <DetailOvertimeContent logOt={logOt} staff={staff} types={types} />

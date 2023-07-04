@@ -81,9 +81,10 @@ const Ticket = {
   otherUsersList: () => requests.get("tickets/otheruserstickets"),
   details: (id: number) => requests.get(`tickets/${id}`),
   create: (values: any) => requests.post("tickets", values),
-  update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
+  update: (id: number, values: any) => requests.put(`tickets/update/${id}`, values),
   updateStatus: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
+  cancel: (id: number) => requests.delete(`tickets/${id}`)
 };
 const TicketType = {
   list: () => requests.get("tickettype"),

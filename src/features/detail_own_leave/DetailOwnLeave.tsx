@@ -12,7 +12,7 @@ import DetailLeaveFooter from "./component/DetailLeaveFooter";
 import { LEAVELOG, LEAVETYPE, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/logOT";
+import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 import { LeaveLog } from "../../app/models/leaveLog";
 import { LeaveType } from "../../app/models/leaveType";

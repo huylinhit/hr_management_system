@@ -35,6 +35,8 @@ import { ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { setCandidateAdded } from "./candidateSlice";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -74,6 +76,7 @@ interface Props {
 }
 export default function CreateCandidate({ open, onClose }: Props) {
   const dispatch = useAppDispatch();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -86,11 +89,41 @@ export default function CreateCandidate({ open, onClose }: Props) {
   const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(true);
   const [isEmailEmpty, setIsEmailEmpty] = useState(true);
 
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarTemp, setAvatarTemp] = useState<string | ArrayBuffer | null>(null);
   const [skillCount, setSkillCount] = useState(0);
   const [fields, setFields] = useState([{ skill: "", level: "" }]);
+  const [dragging, setDragging] = useState(false);
+
+  const handleDragEnter = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragging(true);
+  };
+
+  const handleDragLeave = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragging(false);
+  };
+
+  const handleDragOver = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleDrop = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragging(false);
+
+    const files = event.dataTransfer.files;
+    setSelectedFile(files[0]);
+    // Handle the dropped files here
+    console.log(files[0]);
+  };
 
   const debouncedFirstNameInput = debounce((event: any) => {
     setFirstName(event.target.value);
@@ -127,6 +160,11 @@ export default function CreateCandidate({ open, onClose }: Props) {
     setExpectedSalary(event.target.value);
   }, 500);
 
+  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
+    console.log("Selected file:", file);
+  };
   const handleAvatarSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setAvatar(file);
@@ -139,7 +177,11 @@ export default function CreateCandidate({ open, onClose }: Props) {
     }
     console.log(file);
   };
-
+  const handleAddAvatarButton = () => {
+    if (avatarInputRef.current) {
+      avatarInputRef.current.click();
+    }
+  };
   const handleAddFileButton = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -153,7 +195,13 @@ export default function CreateCandidate({ open, onClose }: Props) {
       console.log("GOOD");
     });
   };
-
+  const handleUploadFile = (id: number) => {
+    if (selectedFile == null) return;
+    const fileRef = ref(storage, `candidatesFile/${id}`);
+    uploadBytes(fileRef, selectedFile).then(() => {
+      console.log("GOOD");
+    });
+  };
   const handleAddField = () => {
     setFields([...fields, { skill: "", level: "" }]);
   };
@@ -182,6 +230,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
     agent.Candidate.create(candidateCreate)
       .then((response) => {
         handleUploadImage(response.candidateId);
+        handleUploadFile(response.candidateId);
         const candidateId = response.candidateId;
         fields.forEach((candidateSkill) => {
           const candidateSkillCreate = {
@@ -247,12 +296,12 @@ export default function CreateCandidate({ open, onClose }: Props) {
             </Avatar>
             <input
               type="file"
-              ref={fileInputRef}
+              ref={avatarInputRef}
               style={{ display: "none" }}
               onChange={handleAvatarSelected}
             />
-            <Button color="primary" sx={{ mt: 2 }} onClick={handleAddFileButton}>
-              Thêm/ Sửa ảnh
+            <Button color="primary" sx={{ mt: 2 }} onClick={handleAddAvatarButton}>
+              Thêm / Sửa ảnh
             </Button>
           </Box>
           <Typography sx={{ fontFamily: "Mulish", fontSize: "40px", fontWeight: 800, mb: "20px" }}>
@@ -304,7 +353,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
               </Grid>
             </Grid>
           </Box>
-
           <Box sx={fieldStyle}>
             <Grid container spacing={2} columns={16}>
               <Grid item xs={8} sx={{ py: "12px" }}>
@@ -327,7 +375,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
               </Grid>
             </Grid>
           </Box>
-
           <Box sx={fieldStyle}>
             <Grid container spacing={1} columns={16}>
               <Grid item xs={16} sx={{ py: "12px" }}>
@@ -341,7 +388,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
               </Grid>
             </Grid>
           </Box>
-
           <Box sx={fieldStyle}>
             <Grid container spacing={1} columns={16}>
               <Grid item xs={8} sx={{ py: "12px" }}>
@@ -355,6 +401,56 @@ export default function CreateCandidate({ open, onClose }: Props) {
               </Grid>
             </Grid>
           </Box>
+
+          {/* File Upload */}
+          <Box sx={fieldStyle}>
+            <Box
+              sx={{
+                width: "100%",
+                height: "250px",
+                border: `2px dashed ${dragging ? "green" : "gray"}`,
+                borderRadius: "5px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              <CloudUploadOutlinedIcon
+                sx={{ fontSize: "80px", color: `${dragging ? "green" : "gray"} ` }}
+              />
+              <Typography
+                sx={{ fontWeight: 600, fontSize: "22px", fontFamily: fontStyle, color: "#6A6A78" }}
+              >
+                {selectedFile ? selectedFile.name : "Kéo & thả vào đây"}
+              </Typography>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileSelected}
+              />
+              <Button
+                variant="outlined"
+                sx={{
+                  fontSize: "15px",
+                  mt: "10px",
+                  textTransform: "none",
+                  borderRadius: "10px",
+                }}
+                disableElevation={true}
+                onClick={handleAddFileButton}
+              >
+                Thêm File
+              </Button>
+            </Box>
+          </Box>
+          {/* File Upload */}
           <Typography
             sx={{ fontFamily: "Mulish", fontSize: "40px", fontWeight: 800, mb: "1%", mt: "5%" }}
           >
@@ -407,7 +503,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
               </Grid>
             </Grid>
           </Box>
-
           <Container sx={{ display: "flex", justifyContent: "right" }}>
             <Button
               onClick={handleCreateCandidate}

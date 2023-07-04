@@ -2,7 +2,7 @@ import { Button, Grid, IconButton, Typography } from "@mui/material";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 // api
-import { LogOT } from "../../../app/models/logOT";
+import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
 import DetailLeaveInfo from "./component/DetailLeaveInfo";
 import { LeaveLog } from "../../../app/models/leaveLog";

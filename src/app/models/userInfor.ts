@@ -2,6 +2,7 @@ export interface UserInfor {
     staffId: number;
     id: number;
     firstName: string;
+    fullName: string;
     departmentName: string;
     email: string;
     position: string;

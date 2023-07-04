@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // data
-import { LogOT } from "../../../app/models/logOT";
+import { LogOT } from "../../../app/models/LogOT";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // interface
