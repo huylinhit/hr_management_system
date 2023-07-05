@@ -68,9 +68,7 @@ export default function EmployeeList() {
   const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>()
   // -------------------------- REDUX ---------------------------
   const employees = useAppSelector(employeeSelectors.selectAll);  
-  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);
-  console.log(activeEmployees);
-  
+  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);  
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeesAsync());

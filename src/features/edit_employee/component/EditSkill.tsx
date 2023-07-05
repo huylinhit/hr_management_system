@@ -35,7 +35,7 @@ export default function EditSkill({ employee }: Props) {
       .selectAll(state)
       .filter((s) => s.staffId == employee?.staffId)
   );
-  console.log(skills);
+  // console.log(skills);
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function EditSkill({ employee }: Props) {
       <Grid>
         {skills.map((skill) => (
           <Grid
+          key={skill.skillId}
             container
             sx={{
               display: "flex",

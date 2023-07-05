@@ -5,9 +5,10 @@ import { UserInfor } from "../../../app/models/userInfor";
 
 interface Props {
   employee: UserInfor | undefined;
+  handleSubmit: Function
 }
 
-export default function EditEmployeeFooter({ employee }: Props) {
+export default function EditEmployeeFooter({ employee, handleSubmit }: Props) {
   const handleFinish = () => {};
 
   return (
@@ -42,6 +43,7 @@ export default function EditEmployeeFooter({ employee }: Props) {
             borderRadius: "20px",
             padding: "auto",
           }}
+          onClick={() => handleSubmit()}
         >
           Lưu
         </Button>

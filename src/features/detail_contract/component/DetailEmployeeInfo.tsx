@@ -44,7 +44,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.gender === 0 ? "Nữ" : "Nam"}
+              {employee?.gender === false ? "Nữ" : "Nam"}
             </Typography>
           </Grid>
         </Grid>

@@ -1,28 +1,38 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import moment from "moment";
 
 // data
-import { DEPARTMENT } from "../../../app/store/data";
-import { Department } from "../../../app/models/departments";
 import { UserInfor } from "../../../app/models/userInfor";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../app/store/configureStore";
+import {
+  departmentSelectors,
+  fetchDepartmentsAsync,
+} from "../../department/departmentSlice";
 
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  setForm: Function;
 }
 
-export default function EditInfo({ employee }: Props) {
+export default function EditInfo({ employee, setForm }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
-  const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
   // -------------------------- REDUX ---------------------------
-  // -------------------------- EFFECT --------------------------
-  // -------------------------- FUNCTION ------------------------
-  const department = departments.find(
-    (d) => employee?.departmentId === d.departmentId
+  const dispatch = useAppDispatch();
+  const departments = useAppSelector(departmentSelectors.selectAll);
+  const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
+    (state) => state.department
   );
-
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
+  }, [dispatch, departmentsLoaded]);
+  // -------------------------- FUNCTION ------------------------
   return (
     <Box sx={{ padding: "0 10px" }}>
       <Grid>
@@ -53,10 +63,16 @@ export default function EditInfo({ employee }: Props) {
               required
               select
               id="outlined-required"
-              sx={{ width: "15ch" }}
+              sx={{ width: "160px" }}
               size="small"
               label="Giới tính"
-              defaultValue={employee?.gioiTinh}
+              defaultValue={Number(employee?.gender)}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  gender: e.target.value,
+                }))
+              }
             >
               <MenuItem value={1}>Nam</MenuItem>
               <MenuItem value={0}>Nữ</MenuItem>
@@ -85,6 +101,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={moment(employee?.dob).format("DD-MM-YYYY")}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  dob: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -105,12 +127,24 @@ export default function EditInfo({ employee }: Props) {
           <Grid item xs={6}>
             <TextField
               required
+              select
               id="outlined-required"
               label="Phòng ban"
+              sx={{ width: "160px" }}
               size="small"
               margin="dense"
               defaultValue={employee?.departmentName}
-            />
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  departmentId: e.target.value,
+                }))
+              }
+            >
+              {departments.map((department) => (
+                <MenuItem value={department.departmentId}>{department.departmentName}</MenuItem>
+              ))}
+            </TextField>
           </Grid>
         </Grid>
 
@@ -135,6 +169,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={moment(employee?.hireDate).format("DD-MM-YYYY")}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  hireDate: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -160,6 +200,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.country}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  country: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -185,6 +231,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.citizenId}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  citizenId: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -210,6 +262,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.workTimeByYear}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  workTimeByYear: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -235,6 +293,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.bankAccount}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  bankAccount: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -260,6 +324,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.bankAccountName}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  bankAccountName: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>
@@ -285,6 +355,12 @@ export default function EditInfo({ employee }: Props) {
               size="small"
               margin="dense"
               defaultValue={employee?.bank}
+              onChange={(e) =>
+                setForm((prevForm: any) => ({
+                  ...prevForm,
+                  bank: e.target.value,
+                }))
+              }
             />
           </Grid>
         </Grid>

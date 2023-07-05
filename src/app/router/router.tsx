@@ -129,7 +129,7 @@ export const router = createBrowserRouter([
       
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/candidates", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 

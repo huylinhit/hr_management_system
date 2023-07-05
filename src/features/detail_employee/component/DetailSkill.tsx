@@ -47,7 +47,7 @@ export default function DetailSkill({ employee }: Props) {
       </Grid>
 
       {skills.map((skill) => (
-        <Grid>
+        <Grid key={skill.skillId}>
           <Grid
             container
             sx={{

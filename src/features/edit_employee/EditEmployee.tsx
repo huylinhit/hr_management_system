@@ -3,7 +3,6 @@ import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
-
 // component
 import EditAva from "./component/EditAva";
 import EditContact from "./component/EditContact";
@@ -16,23 +15,28 @@ import {
   employeeSelectors,
   fetchEmployeeAsync,
 } from "../../app/store/employee/employeeSlice";
+import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
 
 export default function EditEmployee() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  // -------------------------- STATE ---------------------------
-  const [editForm, setEditForm] = useState({})
-  const [formEdit, setFormEdit] = useState({})
-  // -------------------------- REDUX ---------------------------
+
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, id!)
   );
+  // -------------------------- STATE ---------------------------
+  const [form, setForm] = useState(employee);
+  const [openSubmit, setOpenSubmit] = useState(false)
+  // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  const handleSubmit = () => {
+    setOpenSubmit(true)
+  }
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -64,7 +68,7 @@ export default function EditEmployee() {
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
           >
-            <EditAva employee={employee} />
+            <EditAva employee={employee} setForm={setForm} />
           </Grid>
 
           <hr
@@ -87,7 +91,7 @@ export default function EditEmployee() {
             }}
           >
             <Grid item xs={5}>
-              <EditInfo employee={employee} />
+              <EditInfo employee={employee} setForm={setForm} />
             </Grid>
 
             <Grid item xs={1}>
@@ -103,14 +107,16 @@ export default function EditEmployee() {
             </Grid>
 
             <Grid item xs={6}>
-              <EditContact employee={employee} />
+              <EditContact employee={employee} setForm={setForm} />
               <EditSkill employee={employee} />
             </Grid>
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <EditEmployeeFooter employee={employee} />
+            <EditEmployeeFooter employee={employee} handleSubmit={handleSubmit} />
           </Grid>
         </Grid>
+
+        <ConfirmSubmitDialog open={openSubmit} setOpen={setOpenSubmit} item={form} />
       </Container>
     </Box>
   );

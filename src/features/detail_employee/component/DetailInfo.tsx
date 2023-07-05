@@ -47,7 +47,7 @@ export default function DetailInfo({ employee }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Giới tính:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "400" }}>{employee?.gender === 0 ? "Nữ" : "Nam"}</Typography>
+            <Typography sx={{ fontWeight: "400" }}>{employee?.gender === false ? "Nữ" : "Nam"}</Typography>
           </Grid>
         </Grid>
 
