@@ -23,9 +23,10 @@ import { StaffSkill } from "../../../app/models/staffSkill";
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  setSkillForm: Function
 }
 
-export default function EditSkill({ employee }: Props) {
+export default function EditSkill({ employee, setSkillForm }: Props) {
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
@@ -38,6 +39,9 @@ export default function EditSkill({ employee }: Props) {
       .selectAll(state)
       .filter((s) => s.staffId == employee?.staffId)
   );
+
+  setSkillForm(skills)
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchStaffSkillsAsync());
@@ -80,6 +84,12 @@ export default function EditSkill({ employee }: Props) {
                 size="small"
                 margin="dense"
                 defaultValue={skill.level}
+                onChange={(e) =>
+                  setSkillForm((prevForm: any) => ({
+                    ...prevForm,
+                    citizenId: e.target.value,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={1} sx={{ padding: "0 5px" }}>

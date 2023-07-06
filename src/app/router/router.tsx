@@ -60,16 +60,16 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-// import Payroll from "../../features/payslip/component/Payroll";
-// import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 import HomePage from "../../features/home/HomePage";
 import { useAppSelector } from "../store/configureStore";
-import Payroll from "../../features/payslip/component/payroll";
-import PayslipDetail from "../../features/payslip/component/payslipdetail";
+// import Payroll from "../../features/payslip/component/payroll";
+// import PayslipDetail from "../../features/payslip/component/payslipdetail";
 
 const PrivateRoute = ({ path, element }: any) => {
   const {user} = useAppSelector(state => state.account);

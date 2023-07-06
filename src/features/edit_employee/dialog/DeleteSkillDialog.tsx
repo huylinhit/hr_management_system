@@ -13,12 +13,12 @@ import { StaffSkill } from "../../../app/models/staffSkill";
 import agent from "../../../app/api/agent";
 
 interface Props {
-    open: boolean,
-    setOpen: Function,
-    item: StaffSkill | undefined,
+  open: boolean;
+  setOpen: Function;
+  item: StaffSkill | undefined;
 }
 
-export default function DeleteSkillDialog ({ open, setOpen, item}: Props) {
+export default function DeleteSkillDialog({ open, setOpen, item }: Props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -27,10 +27,17 @@ export default function DeleteSkillDialog ({ open, setOpen, item}: Props) {
   };
 
   const handleDelete = () => {
-    agent
-    
+    agent.StaffSkill.delete(Number(item?.uniqueId))
+      .then((response) => {
+        alert("Delete skill successfully")
+        setTimeout(() => window.location.reload(), 3000)
+      })
+      .catch((error) => {
+        console.error("Error delete skill ", error);
+      });
+
     setOpen(false);
-  }
+  };
 
   return (
     <Dialog
@@ -38,21 +45,32 @@ export default function DeleteSkillDialog ({ open, setOpen, item}: Props) {
       open={open}
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
-      sx={{ borderRadius:"10px", textAlign: "center"}}
+      sx={{ borderRadius: "10px", textAlign: "center" }}
     >
-      <DialogTitle id="responsive-dialog-title" sx={{ fontSize: "25px", color: "#B9B9B9"}}>
+      <DialogTitle
+        id="responsive-dialog-title"
+        sx={{ fontSize: "25px", color: "#B9B9B9" }}
+      >
         Bạn có chắc muốn xóa kĩ năng {item?.skillName} không?
       </DialogTitle>
       <DialogContent>
-        <DialogContentText sx={{ padding: "0 35%"}}>
+        <DialogContentText sx={{ padding: "0 35%" }}>
           <DeleteSharpIcon sx={{ color: "#B9B9B9", fontSize: "70px" }} />
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: "center", paddingBottom:"15px" }}>
-        <Button variant="outlined" sx={{ margin: "0 10px"}} onClick={handleClose}>
+      <DialogActions sx={{ justifyContent: "center", paddingBottom: "15px" }}>
+        <Button
+          variant="outlined"
+          sx={{ margin: "0 10px" }}
+          onClick={handleClose}
+        >
           Hủy
         </Button>
-        <Button variant="contained" sx={{ margin: "0 10px"}} onClick={handleDelete} >
+        <Button
+          variant="contained"
+          sx={{ margin: "0 10px" }}
+          onClick={handleDelete}
+        >
           Xác nhận
         </Button>
       </DialogActions>

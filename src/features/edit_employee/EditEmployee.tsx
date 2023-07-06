@@ -43,6 +43,7 @@ export default function EditEmployee() {
     bank: employee?.bank,
     accountStatus: employee?.accountStatus,
   });
+  const [skillForm, setSkillForm] = useState([])
   const [openSubmit, setOpenSubmit] = useState(false);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -124,7 +125,7 @@ export default function EditEmployee() {
 
             <Grid item xs={6}>
               <EditContact employee={employee} setForm={setForm} />
-              <EditSkill employee={employee} />
+              <EditSkill employee={employee} setSkillForm={setSkillForm}/>
             </Grid>
           </Grid>
           <Grid item sx={{ width: "100%" }}>
