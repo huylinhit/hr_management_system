@@ -5,6 +5,7 @@ import { useAppDispatch } from "../store/configureStore";
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import LoadingComponent from "./LoadingComponent";
+import { ToastContainer } from "react-toastify";
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
@@ -44,6 +45,7 @@ function App() {
     <Sidebar />
     <CssBaseline />
       <Box sx={{ mt: 0,ml: 37, backgroundColor:"#FFFFFF" }}>
+        <ToastContainer/>
         <Outlet />
       </Box>
     </Box>

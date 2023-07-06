@@ -31,7 +31,6 @@ axios.interceptors.response.use(
           for (var key in data.errors) {
             modelStateErrors.push(data.errors[key]);
           }
-
           throw modelStateErrors.flat();
         }
 
@@ -39,6 +38,9 @@ axios.interceptors.response.use(
         break;
       case 401:
         toast.error(data.title);
+        break;
+      case 403:
+        toast.error("You are not allowed to do that!");
         break;
       case 404:
         toast.error(data.title);
@@ -53,6 +55,14 @@ axios.interceptors.response.use(
     return Promise.reject(error.response);
   }
 );
+
+const Errors = {
+  get400Error: () => requests.get('buggy/bad-request'),
+  get401Error: () => requests.get('buggy/unauthorised'),
+  get404Error: () => requests.get('buggy/not-found'),
+  get500Error: () => requests.get('buggy/server-error'),
+  getValidationError: () => requests.get('buggy/validation-error'),
+}
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
@@ -193,6 +203,7 @@ const agent = {
   LogLeave,
   Candidate,
   CandidateSkill,
+  Errors
 };
 
 export default agent;
