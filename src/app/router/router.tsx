@@ -78,22 +78,17 @@ export const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "/", element: <HomePage /> },
 
-      // authenticated routes
-      {
-        element: <RequireAuth />,
-        children: [
-          { path: "/departments", element: <DepartmentList /> },
-          { path: "/departments/:id", element: <DepartmentDetails /> },
-        ]
-      },
-
       //HR Staff routes 
       {
         element: <RequireAuth roles={['HRStaff']} />, children: [
           // Allowance
 
+          // Department
+          { path: "/departments", element: <DepartmentList /> },
+          { path: "/departments/:id", element: <DepartmentDetails /> },
+
           // Employee
-          { path: "register", element: <Register /> },
+          { path: "/register", element: <Register /> },
           { path: "/create-new-employee", element: <Firststep /> },
           { path: '/employeelist', element: <EmployeeList /> },
           { path: "/detail-employee/:id", element: <DetailEmployee /> },

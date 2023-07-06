@@ -23,7 +23,6 @@ export default function Login() {
         await dispatch(signInUser(data));
         await dispatch(fetchCurrentUser());
         navigate('/departments');
-         
     }
 
     return (
