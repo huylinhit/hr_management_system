@@ -48,6 +48,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import "../../app/layout/App.css";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+import moment from "moment";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -70,15 +71,9 @@ export default function DepartmentDetails() {
   const columns: GridColDef[] = [
     {
       field: "button",
-      headerName: "Chức Vụ",
-      width: 75,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AccountCircleIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div></div>
-        </Typography>
-      ),
+      headerName: "",
+      width: 60,
+      align: "center",
       renderCell(params) {
         return (
           <>
@@ -92,7 +87,8 @@ export default function DepartmentDetails() {
     {
       field: "manager",
       headerName: "Chức Vụ",
-      width: 75,
+      width: 60,
+      align: "center",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <AccountCircleIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -246,6 +242,41 @@ export default function DepartmentDetails() {
       ),
     },
     {
+      field: "dob",
+      headerName: "Ngày sinh",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+        </Typography>
+      ),
+    },
+
+    {
+      field: "country",
+      headerName: "Quốc gia",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+        </Typography>
+      ),
+    },
+    {
       //bankAccount
       field: "bankAccount",
       headerName: "TK Ngân Hàng",
@@ -284,47 +315,20 @@ export default function DepartmentDetails() {
   const location = useLocation();
 
   useEffect(() => {
+    if (!department && id) dispatch(fetchDepartmentAsync(parseInt(id)));
+    console.log(department);
+  }, [id, department, dispatch]);
+  useEffect(() => {
     dispatch(
       setHeaderTitle([
         { title: "Danh sách phòng ban", path: "/departments" },
         { title: `${department?.departmentName}`, path: "" },
       ])
     );
-  }, [location, dispatch]);
-
-  useEffect(() => {
-    if (!department && id) dispatch(fetchDepartmentAsync(parseInt(id)));
-    console.log(department);
-  }, [id, department, dispatch]);
-
+  }, [location, dispatch, id, department]);
   return (
     <>
       <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
-        {/* <Grid container spacing={0} alignContent="center">
-        <Grid item>
-          <Button
-            variant="text"
-            sx={navStyle}
-            disableElevation={true}
-            component={NavLink}
-            to={`/departments`}
-            key={"/departments"}
-          >
-            Danh sách phòng ban
-          </Button>
-        </Grid>
-
-        <Grid item>
-          <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
-        </Grid>
-
-        <Grid item>
-          <Button variant="text" sx={navStyle} disableElevation={true}>
-            {department?.departmentName}
-          </Button>
-        </Grid>
-      </Grid> */}
-
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -408,6 +412,7 @@ export default function DepartmentDetails() {
               Thêm nhân viên
             </Button>
             <DepartmentForm
+              department={department ?? null}
               open={open}
               onClose={handleCloseDialog}
               createOrAdd={true}
@@ -479,7 +484,6 @@ export default function DepartmentDetails() {
               },
             }}
             pageSizeOptions={[5]}
-            checkboxSelection
             disableRowSelectionOnClick
           />
         ) : (
