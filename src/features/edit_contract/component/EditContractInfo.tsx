@@ -1,13 +1,12 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 // component
-import DetailJob from "./DetailJob";
-import DetailSalary from "./DetailSalary";
-import DetaiNote from "./DetailNote";
+import EditJob from "./EditJob";
+import EditSalary from "./EditSalary";
+import EditNote from "./EditNote";
 
 // model
 import { Contract } from "../../../app/models/contract";
-import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
 
 // interface
@@ -16,7 +15,7 @@ interface Props {
   employee: UserInfor | undefined;
 }
 
-export default function DetailContractInfo({ contract, employee }: Props) {
+export default function EditContractInfo({ contract, employee }: Props) {
   return (
     <Box sx={{ padding: "0 35px" }}>
       <Grid>
@@ -33,9 +32,9 @@ export default function DetailContractInfo({ contract, employee }: Props) {
       </Grid>
 
       <Grid>
-        <DetailJob contract={contract} employee={employee}/>
-        <DetailSalary contract={contract} employee={employee}/>
-        <DetaiNote contract={contract}/>
+        <EditJob contract={contract} employee={employee}/>
+        <EditSalary contract={contract} employee={employee}/>
+        <EditNote contract={contract}/>
       </Grid>
     </Box>
   );

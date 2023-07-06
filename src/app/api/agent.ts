@@ -71,10 +71,10 @@ const Account = {
 const Contract = {
   list: () => requests.get("contracts"),
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
-  details: (id: number) => requests.get(`contract/${id}`),
-  create: (values: any) => requests.post("contract", values),
-  update: (id: number, values: any) => requests.put(`contract/${id}`, values),
-  patch: (id: number, values: any) => requests.patch(`contract/${id}`, values),
+  details: (id: number) => requests.get(`contracts/${id}`),
+  create: (values: any) => requests.post("contracts", values),
+  update: (id: number, values: any) => requests.put(`contracts/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
 }
 
 const Department = {
@@ -117,6 +117,7 @@ const StaffSkill = {
   list: () => requests.get("staffskill"),
   details: (id: number) => requests.get(`staffskill/${id}`),
   create: (values: any) => requests.post("staffskill", values),
+  delete: (id: number) => requests.delete(`staffskill/${id}`),
   update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };

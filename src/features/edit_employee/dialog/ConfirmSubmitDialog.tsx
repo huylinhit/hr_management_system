@@ -8,45 +8,36 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-import { StaffSkill } from "../../../app/models/staffSkill";
-import { UserInfor } from "../../../app/models/userInfor";
+import SaveSharpIcon from '@mui/icons-material/SaveSharp';
 import agent from "../../../app/api/agent";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
   setOpen: Function;
-  item: UserInfor | undefined;
+  id: string | undefined;
+  item: Object
 }
 
-export default function ConfirmSubmitDialog({ open, setOpen, item }: Props) {
+export default function ConfirmSubmitDialog({ open, setOpen, id, item }: Props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const history = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleSubmit = () => {
-    const submitObject = Object.entries(Object(item));
-    submitObject.map((object) => {
-      const submit = {
-        operationType: 0,
-        path: "/" + object[0],
-        op: "replace",
-        from: "",
-        value: object[1],
-      };
-      console.log(submit);
-      
-      agent.Employees.patch(Number(item?.staffId), submit)
+    agent.Employees.update(Number(id), item)
         .then((response) => {
           console.log("Update successfully: ", response);
+          history(`/detail-employee/${id}`)
+          // window.location.reload()
         })
         .catch((error) => {
           console.error("Error update ", error);
         });
-    });
 
     setOpen(false);
   };
@@ -67,7 +58,7 @@ export default function ConfirmSubmitDialog({ open, setOpen, item }: Props) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText sx={{ padding: "0 35%" }}>
-          <DeleteSharpIcon sx={{ color: "#B9B9B9", fontSize: "70px" }} />
+          <SaveSharpIcon sx={{ color: "#B9B9B9", fontSize: "70px" }} />
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", paddingBottom: "15px" }}>

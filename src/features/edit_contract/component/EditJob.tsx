@@ -1,14 +1,9 @@
-import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 // model
 import { Contract } from "../../../app/models/contract";
-import { Department } from "../../../app/models/departments";
-import { Employee } from "../../../app/models/employee";
 
 // data
-import { CONTRACTTYPE, DEPARTMENT } from "../../../app/store/data";
-import { ContractType } from "../../../app/models/contractType";
 import { UserInfor } from "../../../app/models/userInfor";
 import moment from "moment";
 
@@ -19,7 +14,7 @@ interface Props {
   employee: UserInfor | undefined;
 }
 
-export default function DetailJob({ contract, employee }: Props) {
+export default function EditJob({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------  
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------

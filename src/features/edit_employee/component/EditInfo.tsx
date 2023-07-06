@@ -33,6 +33,10 @@ export default function EditInfo({ employee, setForm }: Props) {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
   // -------------------------- FUNCTION ------------------------
+  const department = departments.find(
+    (department) => department.departmentId === employee?.departmentId
+  );
+
   return (
     <Box sx={{ padding: "0 10px" }}>
       <Grid>
@@ -70,7 +74,7 @@ export default function EditInfo({ employee, setForm }: Props) {
               onChange={(e) =>
                 setForm((prevForm: any) => ({
                   ...prevForm,
-                  gender: e.target.value,
+                  gender: Number(e.target.value) === 0 ? false : true,
                 }))
               }
             >
@@ -125,7 +129,10 @@ export default function EditInfo({ employee, setForm }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Phòng ban:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <Typography sx={{ fontWeight: "400" }}>
+              {department?.departmentName}
+            </Typography>
+            {/* <TextField
               required
               select
               id="outlined-required"
@@ -144,7 +151,7 @@ export default function EditInfo({ employee, setForm }: Props) {
               {departments.map((department) => (
                 <MenuItem value={department.departmentId}>{department.departmentName}</MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
           </Grid>
         </Grid>
 
@@ -162,20 +169,9 @@ export default function EditInfo({ employee, setForm }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Ngày vào làm:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Ngày vào làm"
-              size="small"
-              margin="dense"
-              defaultValue={moment(employee?.hireDate).format("DD-MM-YYYY")}
-              onChange={(e) =>
-                setForm((prevForm: any) => ({
-                  ...prevForm,
-                  hireDate: e.target.value,
-                }))
-              }
-            />
+            <Typography sx={{ fontWeight: "400" }}>
+              {moment(employee?.hireDate).format("DD-MM-YYYY")}
+            </Typography>
           </Grid>
         </Grid>
 
@@ -255,20 +251,9 @@ export default function EditInfo({ employee, setForm }: Props) {
             <Typography sx={{ fontWeight: "600" }}>Số năm làm việc:</Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Số năm làm việc"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.workTimeByYear}
-              onChange={(e) =>
-                setForm((prevForm: any) => ({
-                  ...prevForm,
-                  workTimeByYear: e.target.value,
-                }))
-              }
-            />
+            <Typography sx={{ fontWeight: "400" }}>
+              {employee?.workTimeByYear}
+            </Typography>
           </Grid>
         </Grid>
 

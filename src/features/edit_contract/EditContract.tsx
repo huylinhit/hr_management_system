@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   Box,
   Container,
@@ -6,28 +6,29 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
-import DetailContractInfo from "./component/DetailContractInfo";
-import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
+import DetailContractInfo from "./component/EditContractInfo";
+import DetailEmployeeInfo from "./component/EditEmployeeInfo";
 
 // data
-import DetailContractFooter from "./component/DetailContractFooter";
+import DetailContractFooter from "./component/EditContractFooter";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
-import { contractSelectors, fetchContractAsync, fetchContractValidDetailASync } from "../../app/store/contract/contractSlice";
-import { Link } from "react-router-dom";
+import { contractSelectors, fetchContractValidDetailASync } from "../../app/store/contract/contractSlice";
 
-export default function DetailContract() {
+
+export default function EditContract() {
   // -------------------------- VAR -----------------------------
-  const id = 1
-  // const { id } = useParams();
+  // const id = 1
+  const { id } = useParams();
   const dispatch = useAppDispatch()
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, id));  
-  const contract = useAppSelector((state) => contractSelectors.selectById(state, id));
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(id)));  
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
   console.log(contract);
     
   // -------------------------- EFFECT --------------------------
@@ -49,12 +50,9 @@ export default function DetailContract() {
             lineHeight: "39px",
           }}
         >
-          Thông tin hợp đồng
+          Chỉnh sửa hợp đồng
         </Typography>
-        <IconButton aria-label="delete" sx={{ padding: "10px 10px 20px 10px" }} 
-         component={Link}
-                    to={`/edit-contract/${contract?.contractId}`}
-        >
+        <IconButton aria-label="delete" sx={{ padding: "10px 10px 20px 10px" }}>
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
       </Grid>

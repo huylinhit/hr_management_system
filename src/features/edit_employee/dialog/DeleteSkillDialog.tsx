@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import { StaffSkill } from "../../../app/models/staffSkill";
+import agent from "../../../app/api/agent";
 
 interface Props {
     open: boolean,
@@ -26,7 +27,8 @@ export default function DeleteSkillDialog ({ open, setOpen, item}: Props) {
   };
 
   const handleDelete = () => {
-    console.log(item);
+    agent
+    
     setOpen(false);
   }
 

@@ -4,6 +4,7 @@ import {
   Grid,
   IconButton,
   TextField,
+  Typography,
 } from "@mui/material";
 import { LuEdit } from "react-icons/lu";
 
@@ -106,17 +107,9 @@ export default function EditAva({ employee, setForm }: Props) {
             />
           </Grid>
           <Grid sx={{ padding: "10px 0" }}>
-            <TextField
-              required
-              id="outlined-required"
-              label="MSNV"
-              size="small"
-              defaultValue={employee?.staffId}
-              onChange={(e) => setForm((prevForm : any) => ({
-                ...prevForm, 
-                staffId: e.target.value
-              }))}
-            />
+          <Typography sx={{ fontWeight: "400" }}>
+              {employee?.staffId}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

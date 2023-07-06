@@ -9,13 +9,14 @@ import EditContact from "./component/EditContact";
 import EditInfo from "./component/EditInfo";
 import EditSkill from "./component/EditSkill";
 import EditEmployeeFooter from "./component/EditEmployeeFooter";
+import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
 
 // data
 import {
   employeeSelectors,
   fetchEmployeeAsync,
 } from "../../app/store/employee/employeeSlice";
-import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
+
 
 export default function EditEmployee() {
   // -------------------------- VAR -----------------------------
@@ -26,8 +27,23 @@ export default function EditEmployee() {
     employeeSelectors.selectById(state, id!)
   );
   // -------------------------- STATE ---------------------------
-  const [form, setForm] = useState(employee);
-  const [openSubmit, setOpenSubmit] = useState(false)
+  const [form, setForm] = useState({
+    lastName: employee?.lastName,
+    firstName: employee?.firstName,
+    email: employee?.email,
+    deparatmentId: employee?.departmentId,
+    dob: employee?.dob,
+    phone: employee?.phone,
+    gender: employee?.gender,
+    address: employee?.address,
+    country: employee?.country,
+    citizenId: employee?.citizenId,
+    bankAccount: employee?.bankAccount,
+    bankAccountName: employee?.bankAccountName,
+    bank: employee?.bank,
+    accountStatus: employee?.accountStatus,
+  });
+  const [openSubmit, setOpenSubmit] = useState(false);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
@@ -35,8 +51,8 @@ export default function EditEmployee() {
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
   const handleSubmit = () => {
-    setOpenSubmit(true)
-  }
+    setOpenSubmit(true);
+  };
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -112,11 +128,19 @@ export default function EditEmployee() {
             </Grid>
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <EditEmployeeFooter employee={employee} handleSubmit={handleSubmit} />
+            <EditEmployeeFooter
+              employee={employee}
+              handleSubmit={handleSubmit}
+            />
           </Grid>
         </Grid>
 
-        <ConfirmSubmitDialog open={openSubmit} setOpen={setOpenSubmit} item={form} />
+        <ConfirmSubmitDialog
+          open={openSubmit}
+          setOpen={setOpenSubmit}
+          id={id}
+          item={form}
+        />
       </Container>
     </Box>
   );

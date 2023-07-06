@@ -3,6 +3,10 @@ import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+// component
+import DeleteSkillDialog from "../dialog/DeleteSkillDialog";
+import AddSkillDialog from "../dialog/AddSkillDialog";
+
 // data
 import { UserInfor } from "../../../app/models/userInfor";
 import {
@@ -13,9 +17,8 @@ import {
   fetchStaffSkillsAsync,
   staffSkillsSelectors,
 } from "../../skills/staffSkillSlice";
-import DeleteSkillDialog from "../dialog/DeleteSkillDialog";
+
 import { StaffSkill } from "../../../app/models/staffSkill";
-import AddSkillDialog from "../dialog/AddSkillDialog";
 
 // interface
 interface Props {
@@ -30,13 +33,11 @@ export default function EditSkill({ employee }: Props) {
   const [openDeleteSkill, setOpenDeleteSkill] = useState(false);
   const [openAddSkill, setOpenAddSkill] = useState(false);
   // -------------------------- REDUX ---------------------------
-  const skills = useAppSelector((state) =>
+  const skills = useAppSelector((state : any) =>
     staffSkillsSelectors
       .selectAll(state)
       .filter((s) => s.staffId == employee?.staffId)
   );
-  // console.log(skills);
-
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchStaffSkillsAsync());
@@ -104,7 +105,7 @@ export default function EditSkill({ employee }: Props) {
 
       </Grid>
 
-      <AddSkillDialog open={openAddSkill} setOpen={setOpenAddSkill} />
+      <AddSkillDialog open={openAddSkill} setOpen={setOpenAddSkill} id={employee?.staffId} />
       <DeleteSkillDialog
         open={openDeleteSkill}
         setOpen={setOpenDeleteSkill}

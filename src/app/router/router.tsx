@@ -18,9 +18,8 @@ import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
-import EditContract from "../../features/contract/EditContract";
-import ContractDetail from "../../features/contract/ContractDetail";
 import ContractList from "../../features/list_contract/ContractList";
+import EditContract from "../../features/edit_contract/EditContract";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -99,6 +98,7 @@ export const router = createBrowserRouter([
       // Contract
       { path: "/list-contract", element: <ContractList /> },
       { path: "/detail-contract/:id", element: <DetailContract /> },
+      { path: "/edit-contract/:id", element: <EditContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
@@ -149,10 +149,6 @@ export const router = createBrowserRouter([
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
-
-      //Contract
-      { path: "/editcontract", element: <EditContract /> },
-      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);

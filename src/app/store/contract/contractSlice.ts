@@ -10,7 +10,7 @@ interface ContractState {
   }
 
 const contractAdapter = createEntityAdapter<Contract>({
-    selectId: (contract) => contract.contractId,
+    selectId: (contract) => contract.staffId,
   });
   
   export const fetchContractsAsync = createAsyncThunk<Contract[], void, { state: RootState }>(
@@ -38,10 +38,10 @@ const contractAdapter = createEntityAdapter<Contract>({
 )
   
 export const fetchContractAsync = createAsyncThunk<Contract, number>(
-    'employee/fetchContractAsync',
-    async(contractId, thunkAPI) => {
+    'contract/fetchContractAsync',
+    async(staffId, thunkAPI) => {
       try{
-        const contract = await agent.Contract.details(contractId);
+        const contract = await agent.Contract.details(staffId);
         return contract;
       }catch(error: any){
         return thunkAPI.rejectWithValue({error: error.data});
@@ -97,8 +97,7 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
    
             state.status = 'idle';
           });
-          builder.addCase(fetchContractAsync.rejected, (state,action) => {
-            console.log(action);
+          builder.addCase(fetchContractAsync.rejected, (state) => {
             state.status = 'idle';
           })
       })

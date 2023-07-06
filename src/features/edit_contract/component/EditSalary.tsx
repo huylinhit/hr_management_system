@@ -15,7 +15,7 @@ interface Props {
   employee: UserInfor | undefined;
 }
 
-export default function DetailSalary({ contract, employee }: Props) {
+export default function EditSalary({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
