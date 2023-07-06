@@ -387,6 +387,7 @@ export default function OtherUsersTicketList() {
   );
   const [rows, setRows] = useState<Candidate[]>([]);
   const [open, setOpen] = useState(false);
+  
   const location = useLocation();
   const handleOpenDialog = () => {
     setOpen(true);

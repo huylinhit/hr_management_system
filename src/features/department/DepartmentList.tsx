@@ -6,11 +6,6 @@ import { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   InputAdornment,
@@ -30,15 +25,11 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DepartmentForm from "./DepartmentForm";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
-import moment from "moment";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import SubjectIcon from "@mui/icons-material/Subject";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -153,8 +144,7 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Số nhân viên</div>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số nhân viên</div>
         </Typography>
       ),
     },
@@ -165,20 +155,18 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Email</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
         </Typography>
       ),
     },
     {
       field: "managerPhone",
       headerName: "Số Điện Thoại",
-      width:200,
+      width: 200,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Số điện thoại</div>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
         </Typography>
       ),
     },
@@ -199,6 +187,7 @@ export default function DepartmentList() {
   function ManagerAvatar(manager: any) {
     const [avatarUrl, setAvatarUrl] = useState("");
     const storageRef = ref(storage, `candidatesAvatar/${manager.managerId}`);
+
     useEffect(() => {
       getDownloadURL(storageRef)
         .then((url) => {
@@ -247,30 +236,10 @@ export default function DepartmentList() {
       setRows(departments);
     }
   }, [departmentsLoaded, departments]);
-  console.log(localStorage.getItem("user"));
+
   return (
     <>
       <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
-        {/* <Button
-          variant="text"
-          sx={{
-            fontSize: 25,
-            fontWeight: "bold",
-            textTransform: "none",
-            color: "#333333",
-            borderRadius: "10px",
-            padding: "0px 10px 0px 10px",
-            "&:hover": {
-              backgroundColor: "#F8F8F8", // Set the hover background color
-            },
-          }}
-          disableElevation={true}
-          component={NavLink}
-          to={`/departments`}
-          key={"/departments"}
-        >
-          Danh sách phòng ban
-        </Button> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -329,6 +298,7 @@ export default function DepartmentList() {
           </Grid>
 
           <DepartmentForm
+            department={null}
             open={open}
             onClose={handleCloseDialog}
             createOrAdd={false}
@@ -365,14 +335,15 @@ export default function DepartmentList() {
           loading={!departmentsLoaded}
           rows={rows}
           columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 15,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
+      
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 15,
+          //     },
+          //   },
+          // }}
+          //pageSizeOptions={[5]}
           disableRowSelectionOnClick
         />
       </Box>

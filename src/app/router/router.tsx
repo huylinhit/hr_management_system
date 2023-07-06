@@ -1,6 +1,6 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
 import App from "../layout/App";
-import HomePage from "../../features/home/HomePage";
+
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 
@@ -60,12 +60,27 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-import Payroll from "../../features/payslip/component/Payroll";
-import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+// import Payroll from "../../features/payslip/component/Payroll";
+// import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
+import HomePage from "../../features/home/HomePage";
+import { useAppSelector } from "../store/configureStore";
+import Payroll from "../../features/payslip/component/payroll";
+import PayslipDetail from "../../features/payslip/component/payslipdetail";
+
+const PrivateRoute = ({ path, element }: any) => {
+  const {user} = useAppSelector(state => state.account);
+  const navigate = useNavigate();
+  if (!user) {
+    return element;
+  } else {
+    navigate("/departments"); // Redirect to home page if not authenticated
+    return null;
+  }
+};
 
 
 export const router = createBrowserRouter([
@@ -78,12 +93,12 @@ export const router = createBrowserRouter([
         children: [
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
+          //{ path: "login", element: <PrivateRoute element={<Login />} /> },
         ],
       },
+      { path: "/", element: <HomePage /> },
 
-      { path: "", element: <HomePage /> },
-
-      { path: "login", element: <Login /> },
+      { path: "login", element: <PrivateRoute element={<Login />} /> },
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
@@ -91,7 +106,7 @@ export const router = createBrowserRouter([
 
       // Employee
       { path: "/create-new-employee", element: <Firststep /> },
-      { path: '/employeelist' , element: <EmployeeList />},
+      { path: "/employeelist", element: <EmployeeList /> },
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
       { path: "/edit-employee/:id", element: <EditEmployee /> },
 
@@ -117,8 +132,8 @@ export const router = createBrowserRouter([
       { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
 
       // Ticket
-      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-      { path: '/editothertype/:id' , element: <EditOtherType/>},
+      { path: "/viewothertypes", element: <ViewOtherTypes /> },
+      { path: "/editothertype/:id", element: <EditOtherType /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/mytickets/:id", element: <MyTicketDetails /> },
@@ -126,19 +141,19 @@ export const router = createBrowserRouter([
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
       { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },
-      
+
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
       { path: "/candidates", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 
-      // Department 
-      { path: '/departments' , element: <DepartmentList/>},
-      { path: '/departments/:id' , element: <DepartmentDetails />},
+      // Department
+      { path: "/departments", element: <DepartmentList /> },
+      { path: "/departments/:id", element: <DepartmentDetails /> },
 
-      { path: '/staffskills' , element: <StaffSkillsList />},
-      { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
+      { path: "/staffskills", element: <StaffSkillsList /> },
+      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
       //payslip
       { path: '/payslips' , element: <Payroll/>},
