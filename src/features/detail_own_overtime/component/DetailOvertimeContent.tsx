@@ -17,7 +17,9 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
-import { LogOT } from "../../../app/models/LogOT";
+
+import { LogOt } from "../../../app/models/logOt";
+
 import { OtType } from "../../../app/models/otType";
 
 // component
@@ -25,8 +27,8 @@ import DetailForm from "./DetailForm";
 
 // interface
 interface Props {
-  logOt: LogOT;
   types: OtType[];
+  logOt: LogOt;
 }
 
 export default function DetailOvertimeContent({ logOt, types }: Props) {

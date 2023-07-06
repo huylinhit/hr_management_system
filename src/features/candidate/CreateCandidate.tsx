@@ -245,7 +245,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
         toast.success("Đã thêm ứng viên 😊");
         dispatch(setCandidateAdded(true));
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log("error creating staff skill: ", error);
       });
   };

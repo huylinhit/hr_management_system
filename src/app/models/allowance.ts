@@ -1,6 +1,9 @@
+import { AllowanceType } from "./allowanceType"
+
 export interface Allowance {
-    allowanceId: number;
-	contractId: number;
-	allowanceTypeId: number;
-	allowanceSalary: number;
-}
+	contractId: number
+	allowanceId: number
+	allowanceTypeId: number
+	allowanceSalary: number
+	allowanceType: AllowanceType
+  }
