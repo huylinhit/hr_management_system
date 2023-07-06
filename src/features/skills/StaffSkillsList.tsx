@@ -26,7 +26,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 import { Ticket } from "../../app/models/ticket";
 
@@ -35,6 +35,7 @@ import { fetchStaffSkillsAsync, setStaffSkillAdded, staffSkillsSelectors } from 
 import { StaffSkill } from "../../app/models/staffSkill";
 import CreateStaffSkill from "./CreateStaffSkill";
 import { border } from "@mui/system";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 function CustomToolbar() {
   return (
@@ -135,6 +136,11 @@ export default function StaffSkillsList() {
   );
   const [rows, setRows] = useState<StaffSkill[]>([]);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Danh sách kỹ năng", path: "/staffskills" }]));
+  }, [dispatch, location]);
+
   console.log(staffSkills);
   const staffSkillsBySkillName = staffSkills.reduce<Record<string, StaffSkill[]>>(
     (acc, staffSkill: StaffSkill) => {
@@ -165,8 +171,8 @@ export default function StaffSkillsList() {
 
   return (
     <>
-      <Box sx={{paddingLeft:"10%", mt:"5%", paddingRight:"5%"}}>
-        <Grid container spacing={0} alignContent="center">
+      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+        {/* <Grid container spacing={0} alignContent="center">
           <Grid item>
             <Button
               variant="text"
@@ -179,36 +185,68 @@ export default function StaffSkillsList() {
               Danh sách kỹ năng
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Grid container justifyContent={"space-between"}>
-          <TextField
-            id="standard-basic"
-            label="Search"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),  
-            }}
-            variant="standard"
-          />
-
-          <Button
-            variant="text"
-            sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-            disableElevation={true}
-            startIcon={<AddIcon />}
-            onClick={handleOpenDialog}
-          >
-            Tạo kỹ năng mới
-          </Button>
+          <Grid item>
+            <TextField
+              id="standard-basic"
+              placeholder="Nhập để tìm..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+                style: { fontFamily: fontStyle },
+              }}
+              variant="standard"
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Mulish",
+                fontWeight: "600",
+                textTransform: "none",
+                color: "#7C7C7C",
+              }}
+              disableElevation={true}
+              onClick={handleOpenDialog}
+            >
+              Filter
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Mulish",
+                fontWeight: "600",
+                textTransform: "none",
+                color: "#7C7C7C",
+              }}
+              disableElevation={true}
+              onClick={handleOpenDialog}
+            >
+              Sort
+            </Button>
+            <Button
+              variant="text"
+              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
+              disableElevation={true}
+              startIcon={<AddIcon />}
+              onClick={handleOpenDialog}
+            >
+              Tạo kỹ năng mới
+            </Button>
+          </Grid>
         </Grid>
-     </Box>
+        <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
+      </Box>
 
       <CreateStaffSkill open={open} onClose={handleCloseDialog} />
 
-      <Box sx={{ overflowX: "auto", display: "flex", mt: "1%",paddingLeft: '10%' }}>
+      <Box sx={{ overflowX: "auto", display: "flex", mt: "1%", paddingLeft: "2%" }}>
         {Object.entries(staffSkillsBySkillName).map(([skillName, staffSkills], index) => {
           const { background, text } = colorOptions[index % colorOptions.length];
 

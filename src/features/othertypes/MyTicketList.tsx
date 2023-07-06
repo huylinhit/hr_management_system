@@ -500,6 +500,7 @@ export default function MyTicketList() {
           rows={rows}
           columns={columns}
           showCellVerticalBorder
+           
           initialState={{
             pagination: {
               paginationModel: {

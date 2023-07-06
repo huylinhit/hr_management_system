@@ -1,6 +1,6 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
 import App from "../layout/App";
-import HomePage from "../../features/home/HomePage";
+
 import ServerErrorPage from "../errors/ServerErrorPage";
 import NotFound from "../errors/NotFound";
 
@@ -24,7 +24,6 @@ import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
 import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
 import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
-
 
 // Leave
 import MyLeavetime from "../../features/leavelog/MyLeavetime";
@@ -61,6 +60,19 @@ import StaffSkillsList from "../../features/skills/StaffSkillsList";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
+import HomePage from "../../features/home/HomePage";
+import { useAppSelector } from "../store/configureStore";
+
+const PrivateRoute = ({ path, element }: any) => {
+  const {user} = useAppSelector(state => state.account);
+  const navigate = useNavigate();
+  if (!user) {
+    return element;
+  } else {
+    navigate("/departments"); // Redirect to home page if not authenticated
+    return null;
+  }
+};
 
 export const router = createBrowserRouter([
   {
@@ -72,18 +84,18 @@ export const router = createBrowserRouter([
         children: [
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
+          //{ path: "login", element: <PrivateRoute element={<Login />} /> },
         ],
       },
+      { path: "/", element: <HomePage /> },
 
-      { path: "", element: <HomePage /> },
-
-      { path: "login", element: <Login /> },
+      { path: "login", element: <PrivateRoute element={<Login />} /> },
       { path: "register", element: <Register /> },
 
       //Them router ngay vi tri nay nhe!!
       // Employee
       { path: "/create-new-employee", element: <Firststep /> },
-      { path: '/employeelist' , element: <EmployeeList />},
+      { path: "/employeelist", element: <EmployeeList /> },
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
 
       // Contract
@@ -106,8 +118,8 @@ export const router = createBrowserRouter([
       { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
       // Ticket
-      { path: '/viewothertypes' , element: <ViewOtherTypes/>},
-      { path: '/editothertype/:id' , element: <EditOtherType/>},
+      { path: "/viewothertypes", element: <ViewOtherTypes /> },
+      { path: "/editothertype/:id", element: <EditOtherType /> },
       { path: "/createtickettype", element: <CreateTicketTypeForm /> },
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/mytickets/:id", element: <MyTicketDetails /> },
@@ -115,7 +127,7 @@ export const router = createBrowserRouter([
       { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
       { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
       { path: "/approveticket", element: <ApproveTicketForm /> },
-      
+
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
 
@@ -126,12 +138,12 @@ export const router = createBrowserRouter([
       { path: "/candidates/", element: <CandidateList /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 
-      // Department 
-      { path: '/departments' , element: <DepartmentList/>},
-      { path: '/departments/:id' , element: <DepartmentDetails />},
+      // Department
+      { path: "/departments", element: <DepartmentList /> },
+      { path: "/departments/:id", element: <DepartmentDetails /> },
 
-      { path: '/staffskills' , element: <StaffSkillsList />},
-      { path: '/deletestaffskill' , element: <DeleteStaffSkillFormm />},
+      { path: "/staffskills", element: <StaffSkillsList /> },
+      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
