@@ -23,19 +23,11 @@ export default function Login() {
     mode: "onTouched",
   });
 
-<<<<<<< HEAD
-    async function submitForm(data: FieldValues){
-        await dispatch(signInUser(data));
-        await dispatch(fetchCurrentUser());
-        navigate('/departments');
-    }
-=======
   async function submitForm(data: FieldValues) {
     await dispatch(signInUser(data));
     await dispatch(fetchCurrentUser());
     navigate("/departments");
   }
->>>>>>> Linh07
 
   return (
     <Container
