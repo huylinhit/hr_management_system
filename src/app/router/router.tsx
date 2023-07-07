@@ -68,8 +68,8 @@ import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 import HomePage from "../../features/home/HomePage";
 import { useAppSelector } from "../store/configureStore";
-// import Payroll from "../../features/payslip/component/payroll";
-// import PayslipDetail from "../../features/payslip/component/payslipdetail";
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
 const PrivateRoute = ({ path, element }: any) => {
   const {user} = useAppSelector(state => state.account);
