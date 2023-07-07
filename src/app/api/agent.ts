@@ -128,7 +128,8 @@ const CandidateSkill = {
   details: (id: number) => requests.get(`candidateskills/${id}`),
   listByCandidateId: (id: number) => requests.get(`candidateskills/candidate/${id}`),
   create: (values: any) => requests.post("candidateskills", values),
-  update: (values: any) => requests.put(`candidateskills`, values)
+  update: (values: any) => requests.put(`candidateskills`, values),
+  delete: (id: number) => requests.delete(`candidateskills/${id}`),
 }
 
 const UserInfors = {

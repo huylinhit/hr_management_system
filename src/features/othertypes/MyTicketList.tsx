@@ -389,26 +389,6 @@ export default function MyTicketList() {
   return (
     <>
       <Box sx={{ paddingLeft: "2%", pt: "20px", paddingRight: "2%"}}>
-        {/* <Button
-          variant="text"
-          sx={{
-            fontSize: 25,
-            fontWeight: "bold",
-            textTransform: "none",
-            color: "#333333",
-            borderRadius: "10px",
-            padding: "0px 10px 0px 10px",
-            "&:hover": {
-              backgroundColor: "#F8F8F8", // Set the hover background color
-            },
-          }}
-          disableElevation={true}
-          component={NavLink}
-          to={`/departments`}
-          key={"/departments"}
-        >
-          Đơn khác của tôi
-        </Button> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField

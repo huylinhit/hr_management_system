@@ -1,11 +1,12 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { Box, CssBaseline, createTheme } from "@mui/material";
-import { useAppDispatch } from "../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import LoadingComponent from "./LoadingComponent";
 function App() {
+  const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const location = useLocation();

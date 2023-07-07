@@ -316,8 +316,8 @@ export default function DepartmentDetails() {
 
   useEffect(() => {
     if (!department && id) dispatch(fetchDepartmentAsync(parseInt(id)));
-    console.log(department);
   }, [id, department, dispatch]);
+
   useEffect(() => {
     dispatch(
       setHeaderTitle([
@@ -326,6 +326,7 @@ export default function DepartmentDetails() {
       ])
     );
   }, [location, dispatch, id, department]);
+  
   return (
     <>
       <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
