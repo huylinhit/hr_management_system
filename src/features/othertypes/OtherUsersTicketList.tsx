@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Avatar,
   Button,
@@ -67,6 +67,24 @@ const navStyle = {
     backgroundColor: "#F8F8F8", // Set the hover background color
   },
 };
+const colors = [
+  "#34BBE1",
+  "#CC941A",
+  "#32A772",
+  "#5945B5",
+  "#DB3535",
+  "#FF8C00",
+  "#008080",
+  "#800080",
+  "#FF69B4",
+  "#008000",
+  "#FF0000",
+  "#0000FF",
+  "#800000",
+  "#FF00FF",
+  "#00FFFF",
+  "#FFD700",
+];
 export default function OtherUsersTicketList() {
   const columns: GridColDef[] = [
     {
@@ -74,9 +92,6 @@ export default function OtherUsersTicketList() {
       headerName: "",
       width: 75,
       renderCell: (params) => (
-        // <IconButton onClick={() => handleButtonClick(params.row.id)}>
-        //   <MoreHorizIcon />
-        // </IconButton>
         <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
@@ -120,6 +135,19 @@ export default function OtherUsersTicketList() {
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        const rowIndex = params.row.ticketTypeId % colors.length;
+        const dotColor = colors[rowIndex];
+
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
+            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+              {params.value}
+            </Typography>
+          </Box>
+        );
+      },
     },
     {
       field: "ticketReason",
@@ -161,7 +189,10 @@ export default function OtherUsersTicketList() {
             {params.value === "Chấp nhận" ? (
               <Typography
                 sx={{
-                  backgroundColor: "#D9EFD6",
+                  backgroundColor: "#D0F9E5",
+                  color: "#2B8465",
+                  fontFamily: fontStyle,
+                  fontWeight: 700,
                   padding: "1px 10px ",
                   borderRadius: "6px",
                   alignItems: "center",
@@ -174,8 +205,11 @@ export default function OtherUsersTicketList() {
             ) : params.value === "Chờ duyệt" ? (
               <Typography
                 sx={{
-                  padding: "1px 10px ",
                   backgroundColor: "#FFF5D1",
+                  color: "#EF9423",
+                  fontFamily: fontStyle,
+                  fontWeight: 700,
+                  padding: "1px 10px ",
                   borderRadius: "6px",
                   alignItems: "center",
                   display: "flex",
@@ -187,12 +221,16 @@ export default function OtherUsersTicketList() {
             ) : (
               <Typography
                 sx={{
+                  backgroundColor: "#F4F6F7",
                   padding: "1px 10px ",
-                  backgroundColor: "#FFD1D1",
+                  fontFamily: fontStyle,
                   borderRadius: "6px",
+                  fontWeight: 700,
+                  color: "#9BA6B2",
                   alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
+                  display: "inline-block",
+                  width: "fit-content",
+                  ml: "5px",
                 }}
               >
                 {params.value}
@@ -243,6 +281,7 @@ export default function OtherUsersTicketList() {
   function CandidateAvatar(staff: any) {
     const [avatarUrl, setAvatarUrl] = useState("");
     const storageRef = ref(storage, `staffAvatars/${staff.staffId}`);
+
     useEffect(() => {
       getDownloadURL(storageRef)
         .then((url) => {
@@ -269,11 +308,15 @@ export default function OtherUsersTicketList() {
   const [gridHeight, setGridHeight] = useState(0);
   const tickets = useAppSelector(ticketsSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { ticketsLoaded, filtersLoaded, ticketAdded } = useAppSelector((state) => state.ticket);
+  const { ticketsLoaded, filtersLoaded, ticketAdded, status, othertickets } = useAppSelector(
+    (state) => state.ticket
+  );
   const [rows, setRows] = useState<Ticket[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  
+  const prevLocation = useRef(location);
+  const key = location.pathname;
+
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn khác của nhân viên", path: "/otheruserstickets" }]));
   }, [location, dispatch]);
@@ -298,11 +341,12 @@ export default function OtherUsersTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded) {
+    if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
       dispatch(fetchOtherUsersTicketsAsync());
       dispatch(setTicketAdded(false));
     }
-  }, [dispatch, ticketsLoaded, ticketAdded]);
+    prevLocation.current = location;
+  }, [dispatch, ticketsLoaded, ticketAdded, key]);
 
   useEffect(() => {
     if (ticketsLoaded) {
@@ -314,20 +358,6 @@ export default function OtherUsersTicketList() {
   return (
     <>
       <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
-        {/* <Grid container spacing={0} alignContent="center">
-          <Grid item>
-            <Button
-              variant="text"
-              sx={navStyle}
-              disableElevation={true}
-              component={NavLink}
-              to={`/otheruserstickets`}
-              key={"/otheruserstickets"}
-            >
-              Danh sách đơn khác
-            </Button>
-          </Grid>
-        </Grid> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -398,14 +428,6 @@ export default function OtherUsersTicketList() {
           sx={{
             height: 700,
             border: "none",
-            // ".MuiDataGrid-columnHeaderTitle": {
-            //   fontWeight: "bold !important",
-            //   overflow: "visible !important",
-            //   color: "#007FFF",
-            // },
-            // ".MuiDataGrid-columnHeaders": {
-            //   backgroundColor: "#E0F0FF",
-            // },
             fontSize: 16,
             fontWeight: 500,
             fontFamily: fontStyle,
