@@ -210,7 +210,7 @@ function ButtonField(props: ButtonFieldProps) {
         "&:active": {
           backgroundColor: "#DFDFDF",
           borderColor: "#DFDFDF",
-          color: "#858585",
+          color: "#000000",
         },
         justifyContent: "flex-start",
         fontFamily: "Mulish",
@@ -877,23 +877,11 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
 
         <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "20px", mb: "20px" }}></Box>
 
-        {/* <Grid item xs={3}>
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: 25,
-              fontFamily: "Mulish",
-              color: "#007FFF",
-              mb: "10px",
-            }}
-          >
-            Kỹ năng
-          </Typography>
-        </Grid> */}
         {candidateSkillsByCandidateId ? (
           <>
             {updatedSkills.map((option, index) => (
               <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+                <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
                 <BootstrapInput
                   InputProps={{
                     ...textFieldInputProps,
@@ -909,7 +897,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
                   onChange={(e) => debouncedUpdatedSkillChange(index, e.target.value)}
                   variant="standard"
                   placeholder="Trống"
-                  sx={{ width: "240px", paddingRight: "10px" }}
+                  sx={{ width: "250px", paddingRight: "10px" }}
                 />
 
                 <BootstrapInput
@@ -934,12 +922,13 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
         {fields.map((field, index) => (
           <React.Fragment key={index}>
             <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+              <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
               <BootstrapInput
                 InputProps={textFieldInputProps}
                 variant="standard"
                 placeholder="Tên kỹ năng..."
                 onChange={(e) => debouncedSkillChange(index, e.target.value)}
-                sx={{ width: "240px", paddingRight: "10px" }}
+                sx={{ width: "250px", paddingRight: "10px" }}
               />
               <BootstrapInput
                 fullWidth
