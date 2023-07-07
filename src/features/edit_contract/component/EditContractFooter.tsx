@@ -1,9 +1,14 @@
 import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
+import { Contract } from "../../../app/models/contract";
 
-interface Props {}
+interface Props {
+  contract: Contract | undefined
+  setOpenSubmitDialog: Function
+}
 
-export default function EditContractFooter({}: Props) {
+export default function EditContractFooter({ contract, setOpenSubmitDialog }: Props) {
   return (
     <Grid
       container
@@ -22,20 +27,22 @@ export default function EditContractFooter({}: Props) {
             padding: "auto",
           }}
           startIcon={<ArrowBackIcon />}
-          // component={Link}
-          //           to={`/detail-employee/${employee.staffId}`}
+          component={Link}
+                    to={`/detail-contract/${contract?.contractId}`}
         >
           Quay về
         </Button>
       </Grid>
       <Grid item >
         <Button
+        variant="contained"
           sx={{
             borderRadius: "20px",
             padding: "auto",
           }}
+          onClick={() => setOpenSubmitDialog(true)}
         >
-          
+          Lưu
         </Button>
       </Grid>
     </Grid>

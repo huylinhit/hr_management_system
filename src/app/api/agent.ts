@@ -118,7 +118,7 @@ const StaffSkill = {
   details: (id: number) => requests.get(`staffskill/${id}`),
   create: (values: any) => requests.post("staffskill", values),
   delete: (id: number) => requests.delete(`staffskill/${id}`),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+  update: (values: any) => requests.put(`staffskill/update`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
 
@@ -168,7 +168,7 @@ const LogLeave = {
   update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
   patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
 }
-// -----------------------------------
+
 const Employees = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
@@ -178,9 +178,21 @@ const Employees = {
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
+const AllowanceType = {
+  list: () => requests.get("allowance-types"),
+};
+
+const Allowance = {
+  list: () => requests.get("allowances"),
+  create: (id: number, values: any) => requests.post(`allowances/contracts/${id}`, values),
+  update: (allowanceId: number, contractId: number, values: any) => requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
+  patch: (allowanceId: number, contractId: number, values: any) => requests.patch(`allowances/${allowanceId}/contracts/${contractId}`, values),
+};
 // -----------------------------------
 const agent = {
   Account,
+  AllowanceType,
+  Allowance,
   Contract,
   Department,
   UserInfors,

@@ -11,50 +11,53 @@ import {
 import SaveSharpIcon from '@mui/icons-material/SaveSharp';
 import agent from "../../../app/api/agent";
 import { useNavigate } from "react-router-dom";
-import { StaffSkill } from "../../../app/models/staffSkill";
 
-interface Fields {
-  uniqueId: number
-  level: string
-  skillName: string
+interface AllowanceField {
+  allowanceTypeId: number;
+  allowanceSalary: number;
 }
 
 interface Props {
   open: boolean;
   setOpen: Function;
-  id: string | undefined;
+  id: number | undefined;
   item: Object;
-  skillForm: Array<Fields>
+  allowanceForm: Array<AllowanceField> | undefined;
 }
 
-export default function ConfirmSubmitDialog({ open, setOpen, id, item, skillForm }: Props) {
+export default function ConfirmSubmitDialog({ open, setOpen, id, item, allowanceForm }: Props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const history = useNavigate();
   console.log("***Submit");
+  console.log(item);
+  console.log(allowanceForm);
+  
+  
   // -------------------------- FUNCTION ------------------------
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleSubmit = () => {
-    skillForm.forEach((skill) => {
-      agent.StaffSkill.update(skill)
-      .then((response) => console.log("Update skill", skill.skillName, "successfully: ", response))
-      .catch((error) => {
-        console.error("Error update skill", error);
-      });
-    })
     
-    agent.Employees.update(Number(id), item)
-        .then((response) => {
-          console.log("Update employee successfully: ", response);
-          history(`/detail-employee/${id}`)
-          // window.location.reload()
-        })
-        .catch((error) => {
-          console.error("Error update ", error);
-        });
+    // skillForm.forEach((skill) => {
+    //   agent.StaffSkill.update(skill)
+    //   .then((response) => console.log("Update skill", skill.skillName, "successfully: ", response))
+    //   .catch((error) => {
+    //     console.error("Error update skill", error);
+    //   });
+    // })
+    
+    // agent.Employees.update(Number(id), item)
+    //     .then((response) => {
+    //       console.log("Update employee successfully: ", response);
+    //       history(`/detail-employee/${id}`)
+    //       // window.location.reload()
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error update ", error);
+    //     });
 
     setOpen(false);
   };

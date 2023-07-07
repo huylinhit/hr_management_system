@@ -5,7 +5,7 @@ import { Contract } from "../../models/contract";
 
 interface ContractState {
     contractsLoaded: boolean;
-    contracts: Contract | null;
+    contractAdded: boolean;
     status: string
   }
 
@@ -54,7 +54,7 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
       name: 'contracts',
       initialState: contractAdapter.getInitialState<ContractState>({
         contractsLoaded: false,
-        contracts: null,
+        contractAdded: false,
         status: "idle"
       }),
       reducers: {},

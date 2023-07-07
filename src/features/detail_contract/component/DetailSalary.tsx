@@ -97,12 +97,12 @@ export default function DetailSalary({ contract, employee }: Props) {
               padding: "0 30px 5px 30px",
             }}
           >
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
                 {a.allowanceType.allowanceName}:
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
                 {a.allowanceSalary}
               </Typography>

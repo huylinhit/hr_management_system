@@ -1,21 +1,36 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 // component
-import EditJob from "./EditJob";
-import EditSalary from "./EditSalary";
-import EditNote from "./EditNote";
+import EditJob from "./component/EditJob";
+import EditSalary from "./component/EditSalary";
+import EditNote from "./component/EditNote";
 
 // model
 import { Contract } from "../../../app/models/contract";
 import { UserInfor } from "../../../app/models/userInfor";
 
+//
+interface AllowanceField {
+  allowanceTypeId: number;
+  allowanceSalary: number;
+}
+
 // interface
 interface Props {
   contract: Contract | undefined;
   employee: UserInfor | undefined;
+  setContractForm: Function;
+  allowanceForm: Array<AllowanceField> | undefined;
+  setAllowanceForm: Function;
 }
 
-export default function EditContractInfo({ contract, employee }: Props) {
+export default function EditContractInfo({
+  contract,
+  employee,
+  setContractForm,
+  allowanceForm,
+  setAllowanceForm,
+}: Props) {
   return (
     <Box sx={{ padding: "0 35px" }}>
       <Grid>
@@ -27,14 +42,24 @@ export default function EditContractInfo({ contract, employee }: Props) {
             marginBottom: "5px",
           }}
         >
-          Hợp đồng lao động 
+          Hợp đồng lao động
         </Typography>
       </Grid>
 
       <Grid>
-        <EditJob contract={contract} employee={employee}/>
-        <EditSalary contract={contract} employee={employee}/>
-        <EditNote contract={contract}/>
+        <EditJob
+          contract={contract}
+          employee={employee}
+          setContractForm={setContractForm}
+        />
+        <EditSalary
+          contract={contract}
+          employee={employee}
+          setContractForm={setContractForm}
+          allowanceForm={allowanceForm}
+          setAllowanceForm={setAllowanceForm}
+        />
+        <EditNote contract={contract} setContractForm={setContractForm} />
       </Grid>
     </Box>
   );

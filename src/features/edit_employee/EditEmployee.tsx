@@ -16,16 +16,35 @@ import {
   employeeSelectors,
   fetchEmployeeAsync,
 } from "../../app/store/employee/employeeSlice";
-
+import {
+  staffSkillsSelectors,
+  fetchStaffSkillsAsync,
+} from "../skills/staffSkillSlice";
 
 export default function EditEmployee() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
+  // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, id!)
   );
+
+  const skills = useAppSelector((state: any) =>
+    staffSkillsSelectors
+      .selectAll(state)
+      .filter((s) => s.staffId == employee?.staffId)
+  );
+  
+  let skillUpdate = [{uniqueId: 0, level: "", skillName: ""}]
+  skillUpdate = skills.map((skill) => {
+    return {
+      uniqueId: skill.uniqueId,
+      level: skill.level,
+      skillName: skill.skillName,
+    };
+  });  
   // -------------------------- STATE ---------------------------
   const [form, setForm] = useState({
     lastName: employee?.lastName,
@@ -43,12 +62,15 @@ export default function EditEmployee() {
     bank: employee?.bank,
     accountStatus: employee?.accountStatus,
   });
-  const [skillForm, setSkillForm] = useState([])
+  const [skillForm, setSkillForm] = useState(skillUpdate);
   const [openSubmit, setOpenSubmit] = useState(false);
-  // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchStaffSkillsAsync());
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
   const handleSubmit = () => {
@@ -125,7 +147,12 @@ export default function EditEmployee() {
 
             <Grid item xs={6}>
               <EditContact employee={employee} setForm={setForm} />
-              <EditSkill employee={employee} setSkillForm={setSkillForm}/>
+              <EditSkill
+                employee={employee}
+                skills={skills}
+                skillForm={skillForm}
+                setSkillForm={setSkillForm}
+              />
             </Grid>
           </Grid>
           <Grid item sx={{ width: "100%" }}>
@@ -141,6 +168,7 @@ export default function EditEmployee() {
           setOpen={setOpenSubmit}
           id={id}
           item={form}
+          skillForm={skillForm}
         />
       </Container>
     </Box>
