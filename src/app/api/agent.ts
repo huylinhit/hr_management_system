@@ -73,7 +73,7 @@ const Contract = {
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
   details: (id: number) => requests.get(`contracts/${id}`),
   create: (values: any) => requests.post("contracts", values),
-  update: (id: number, values: any) => requests.put(`contracts/${id}`, values),
+  update: (contractId: number, staffId: number, values: any) => requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
   patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
 }
 
