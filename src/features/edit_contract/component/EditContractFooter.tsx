@@ -1,14 +1,14 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
-import { UserInfor } from "../../../app/models/userInfor";
+import { Contract } from "../../../app/models/contract";
 
 interface Props {
-  employee: UserInfor | undefined;
-  handleSubmit: Function;
+  contract: Contract | undefined
+  setOpenSubmitDialog: Function
 }
 
-export default function EditEmployeeFooter({ employee, handleSubmit }: Props) {
+export default function EditContractFooter({ contract, setOpenSubmitDialog }: Props) {
   return (
     <Grid
       container
@@ -16,10 +16,9 @@ export default function EditEmployeeFooter({ employee, handleSubmit }: Props) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
-        padding: "50px 40px 10px 40px",
       }}
     >
-      <Grid item>
+      <Grid item >
         <Button
           variant="outlined"
           sx={{
@@ -29,19 +28,19 @@ export default function EditEmployeeFooter({ employee, handleSubmit }: Props) {
           }}
           startIcon={<ArrowBackIcon />}
           component={Link}
-          to={`/detail-employee/${employee?.staffId}`}
+                    to={`/detail-contract/${contract?.contractId}`}
         >
           Quay về
         </Button>
       </Grid>
-      <Grid item>
+      <Grid item >
         <Button
-          variant="contained"
+        variant="contained"
           sx={{
             borderRadius: "20px",
             padding: "auto",
           }}
-          onClick={() => handleSubmit()}
+          onClick={() => setOpenSubmitDialog(true)}
         >
           Lưu
         </Button>

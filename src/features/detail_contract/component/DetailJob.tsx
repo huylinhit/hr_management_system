@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function DetailJob({ contract, employee }: Props) {
-  // -------------------------- VAR -----------------------------
+  // -------------------------- VAR -----------------------------  
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -58,7 +58,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.staff.departmentName}
+              {employee?.departmentName}
             </Typography>
           </Grid>
         </Grid>

@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Button,
   Grid,
   IconButton,
@@ -8,19 +7,18 @@ import {
   Typography,
 } from "@mui/material";
 import { LuEdit } from "react-icons/lu";
-import { Link } from "react-router-dom";
 
 // data
-import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
 import { useState } from "react";
 
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  setForm: Function
 }
 
-export default function EditAva({ employee }: Props) {
+export default function EditAva({ employee, setForm }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   const [openEditAva, setOpenEditAva] = useState(false);
@@ -81,23 +79,37 @@ export default function EditAva({ employee }: Props) {
           </IconButton>
         </Grid>
         <Grid item xs={8} sx={{ paddingLeft: "10px" }}>
-          <Grid sx={{ padding: "5px 0" }}>
+          <Grid sx={{ padding: "5px 0", display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center", }}>
+            <TextField
+              required
+              id="outlined-required"
+              label="Họ"
+              size="small"
+              sx={{ marginRight: "10px" }}
+              defaultValue={employee?.lastName}
+              onChange={(e) => setForm((prevForm : any) => ({
+                ...prevForm, 
+                lastName: e.target.value
+              }))}
+            />
             <TextField
               required
               id="outlined-required"
               label="Tên"
               size="small"
-              defaultValue={employee?.fullName}
+              defaultValue={employee?.firstName}
+              onChange={(e) => setForm((prevForm : any) => ({
+                ...prevForm, 
+                firstName: e.target.value
+              }))}
             />
           </Grid>
           <Grid sx={{ padding: "10px 0" }}>
-            <TextField
-              required
-              id="outlined-required"
-              label="MSNV"
-              size="small"
-              defaultValue={employee?.staffId}
-            />
+          <Typography sx={{ fontWeight: "400" }}>
+              {employee?.staffId}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

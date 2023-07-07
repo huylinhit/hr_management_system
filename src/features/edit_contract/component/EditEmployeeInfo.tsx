@@ -9,7 +9,7 @@ interface Props {
   employee: UserInfor | undefined;
 }
 
-export default function DetailEmployeeInfo({ employee }: Props) {
+export default function EditEmployeeInfo({ employee }: Props) {
   return (
     <Box sx={{ padding: "0 35px" }}>
       <Grid>

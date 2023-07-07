@@ -18,9 +18,8 @@ import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
-import EditContract from "../../features/contract/EditContract";
-import ContractDetail from "../../features/contract/ContractDetail";
 import ContractList from "../../features/list_contract/ContractList";
+import EditContract from "../../features/edit_contract/EditContract";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -61,16 +60,16 @@ import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
 import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
 import StaffSkillsList from "../../features/skills/StaffSkillsList";
-// import Payroll from "../../features/payslip/component/Payroll";
-// import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+import Payroll from "../../features/payslip/component/Payroll";
+import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 import HomePage from "../../features/home/HomePage";
 import { useAppSelector } from "../store/configureStore";
-import Payroll from "../../features/payslip/component/Payroll";
-import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+// import Payroll from "../../features/payslip/component/Payroll";
+// import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
 const PrivateRoute = ({ path, element }: any) => {
   const {user} = useAppSelector(state => state.account);
@@ -114,6 +113,7 @@ export const router = createBrowserRouter([
       // Contract
       { path: "/list-contract", element: <ContractList /> },
       { path: "/detail-contract/:id", element: <DetailContract /> },
+      { path: "/edit-contract/:id", element: <EditContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },
@@ -144,7 +144,7 @@ export const router = createBrowserRouter([
 
       // Candidate
       { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/candidates", element: <CandidateList /> },
       { path: "/candidates/:id", element: <CandidateDetails /> },
       { path: "/detailcandidate/:id", element: <Candidate /> },
 
@@ -164,10 +164,6 @@ export const router = createBrowserRouter([
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },
       { path: "*", element: <Navigate replace to="not-found" /> },
-
-      //Contract
-      { path: "/editcontract", element: <EditContract /> },
-      { path: "/contractdetail", element: <ContractDetail /> },
     ],
   },
 ]);
