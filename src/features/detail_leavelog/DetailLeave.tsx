@@ -5,11 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
-import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
 // data
-import { STAFF, LEAVELOG, LEAVETYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
@@ -29,6 +27,7 @@ export default function DetailLeave() {
   // const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
   const [staff, setStaff] = useState<Employee>(STAFF);
+
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
@@ -94,7 +93,7 @@ export default function DetailLeave() {
           }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter />

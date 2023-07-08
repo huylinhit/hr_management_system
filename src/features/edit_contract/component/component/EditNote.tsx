@@ -1,14 +1,15 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 
 // data
-import { Contract } from "../../../app/models/contract";
+import { Contract } from "../../../../app/models/contract";
 
 // interface
 interface Props {
-  contract: Contract;
+  contract: Contract | undefined;
+  setContractForm: Function
 }
 
-export default function DetaiNote({ contract }: Props) {
+export default function EditNote({ contract, setContractForm }: Props) {
   return (
     <Grid>
       <Typography
@@ -29,7 +30,7 @@ export default function DetaiNote({ contract }: Props) {
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "center",
             maxWidth: "100%",
             padding: "0 30px 10px 30px",
           }}
@@ -38,9 +39,20 @@ export default function DetaiNote({ contract }: Props) {
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Số ngày làm việc một tuần:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.workDatePerWeek}
-            </Typography>
+          <TextField
+              required
+              id="outlined-required"
+              label="Số ngày làm việc"
+              size="small"
+              margin="dense"
+              defaultValue={contract?.workDatePerWeek}
+              onChange={(e) =>
+                setContractForm((prevForm: any) => ({
+                  ...prevForm,
+                  workDatePerWeek: e.target.value,
+                }))
+              }
+            />
           </Grid>
         </Grid>
         
@@ -49,7 +61,7 @@ export default function DetaiNote({ contract }: Props) {
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "center",
             maxWidth: "100%",
             padding: "0 30px 10px 30px",
           }}
@@ -58,9 +70,19 @@ export default function DetaiNote({ contract }: Props) {
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Ghi chú:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.note}
-            </Typography>
+          <TextField
+              id="outlined-required"
+              label="Ghi chú"
+              size="small"
+              margin="dense"
+              defaultValue={contract?.note}
+              onChange={(e) =>
+                setContractForm((prevForm: any) => ({
+                  ...prevForm,
+                  note: e.target.value,
+                }))
+              }
+            />
           </Grid>
         </Grid>
 

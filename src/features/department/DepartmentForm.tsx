@@ -29,12 +29,25 @@ import { useEffect, useState } from "react";
 import { UserInfor } from "../../app/models/userInfor";
 import agent from "../../app/api/agent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Department } from "../../app/models/department";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+import moment from "moment";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import NumbersIcon from "@mui/icons-material/Numbers";
+import SubjectIcon from "@mui/icons-material/Subject";
+import PhoneIcon from "@mui/icons-material/Phone";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { Link } from "react-router-dom";
 
 interface Props {
   open: boolean;
   onClose: () => void;
   createOrAdd: boolean;
   departmentNameParam: string;
+  department: Department | null;
   departmentId: number;
 }
 
@@ -48,72 +61,191 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
-
+const headerStyle = {
+  color: "#7C7C7C",
+  fontWeight: 700,
+  fontFamily: "Mulish",
+  fontSize: 15,
+};
 export default function DepartmentForm({
   open,
   onClose,
   createOrAdd,
   departmentNameParam,
   departmentId,
+  department,
 }: Props) {
   const columns: GridColDef[] = [
     {
-      //staffId
-      field: "staffId",
-      headerName: "Id",
-      flex: 0.5,
-    },
-    {
-      //fullName
-      field: "fullName",
-      headerName: "Tên Nhân Viên",
-      flex: 1,
-      editable: true,
-      headerClassName: "custom-header-text",
-    },
-    {
-      //departmentName
-      field: "departmentName",
-      headerName: "Phòng Ban",
-      flex: 1,
-      editable: true,
-    },
-    {
-      //phone
-      field: "phone",
-      headerName: "Số Điện Thoại",
-      flex: 1,
-      editable: true,
-    },
-    {
-      //email
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      editable: true,
-    },
-    {
       field: "button",
       headerName: "",
-      flex: 0.5,
+      align: "center",
+      width: 50,
+      renderCell: (params) => (
+        <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
+          <MoreHorizIcon />
+        </IconButton>
+      ),
+    },
+    {
+      field: "manager",
+      headerName: "",
+      align:'center',
+      width: 50,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleAccountIconClick(params.row)}>
+          <IconButton onClick={() => handleAccountIconClick(params.row)} disabled={createOrAdd}>
             <Tooltip title={selectedId === params.row.id ? "Manager" : "Staff"}>
               <AccountCircleIcon
                 sx={{ color: selectedId === params.row.id ? "#F36554" : "#AEAEAE" }}
               />
             </Tooltip>
           </IconButton>
-
-          <IconButton onClick={() => handleButtonClick(params.row.id)}>
-            <MoreHorizIcon />
-          </IconButton>
         </>
       ),
     },
+    {
+      //staffId
+      field: "staffId",
+      headerName: "Id",
+      width: 100,
+    },
+    {
+      //fullName
+      field: "fullName",
+      headerName: "Tên Nhân Viên",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tên nhân viên</div>
+        </Typography>
+      ),
+    },
+    {
+      //departmentName
+      field: "departmentName",
+      headerName: "Phòng Ban",
+      width: 200,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Phòng ban</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: "Số điện thoại",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+        </Typography>
+      ),
+    },
+
+    {
+      field: "gioiTinh",
+      headerName: "Giới tính",
+      width: 150,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Giới tính</div>
+        </Typography>
+      ),
+
+      renderCell(params) {
+        return (
+          <>
+            {params.value === "Nam" ? (
+              <Typography
+                sx={{
+                  backgroundColor: "#D1F2FB",
+                  color: "#2E839A",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  padding: "1px 10px ",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor: "#F6D7D7",
+                  color: "#D85858",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "country",
+      headerName: "Quốc gia",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "dob",
+      headerName: "Ngày sinh",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+        </Typography>
+      ),
+    },
   ];
-  const userInfors = useAppSelector(userInforSelectors.selectAll);
+  const userInfors = useAppSelector((state) =>
+    userInforSelectors.selectAll(state).filter((u) => u.departmentId !== department?.departmentId)
+  );
   const dispatch = useAppDispatch();
   const { userInforsLoaded, filtersLoaded } = useAppSelector((state) => state.userInfor);
   const [rows, setRows] = useState<UserInfor[]>([]);
@@ -122,10 +254,9 @@ export default function DepartmentForm({
   const [selectedId, setSelectedId] = useState("");
   const [managerName, setManagerName] = useState("");
   const [managerId, setManagerId] = useState("");
-  
+
   const handleAccountIconClick = (row: any) => {
     setSelectedId((prevId) => (prevId === row.id ? "" : row.id));
-    // Handle any additional logic for the button click
     setManagerName(row.fullName);
     setManagerId(row.staffId);
   };
@@ -135,12 +266,12 @@ export default function DepartmentForm({
     if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
   }, [dispatch, userInforsLoaded]);
 
-  // If userInfors is loaded, set rows
+  // // If userInfors is loaded, set rows
   useEffect(() => {
     if (userInforsLoaded) {
       setRows(userInfors);
     }
-  }, [userInforsLoaded, userInfors]);
+  }, [userInforsLoaded]);
 
   const handleInputChange = (event: any) => {
     setDepartmentName(event.target.value);
@@ -153,7 +284,7 @@ export default function DepartmentForm({
     if (createOrAdd == false) {
       const departmentCreate = {
         DepartmentName: departmentName,
-        ManagerId: 0,
+        ManagerId: managerId ?? 0,
         UserInfors: selectedEmployees,
       };
       agent.Department.create(departmentCreate)
@@ -166,6 +297,7 @@ export default function DepartmentForm({
     } else {
       const departmentUpdate = {
         DepartmentName: departmentNameParam,
+        ManagerId: 0,
         UserInfors: selectedEmployees,
       };
       agent.Department.update(departmentId, departmentUpdate)
@@ -222,30 +354,22 @@ export default function DepartmentForm({
                   </Box>
                 </Typography>
               </Grid>
-              <Grid>
-                
-              </Grid>
+              <Grid></Grid>
             </Grid>
           </>
         )}
 
         <DataGrid
           sx={{
-            height: 500,
-            width: "100%",
-            marginTop: 3,
-            ".MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important",
-              overflow: "visible !important",
-              color: "#007FFF",
-            },
-            ".MuiDataGrid-columnHeaders": {
-              backgroundColor: "#E0F0FF",
-            },
+            height: "550px",
+            mt: "10px",
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: "Mulish",
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           //loading = {!departmentsLoaded}
           rows={rows}
@@ -263,7 +387,7 @@ export default function DepartmentForm({
           pageSizeOptions={[5]}
           checkboxSelection
           isRowSelectable={(params: GridRowParams) =>
-            params.row.departmentName != departmentNameParam
+            params.row.departmentName != department?.departmentName
           }
           disableRowSelectionOnClick
           onRowSelectionModelChange={(newRowSelectionModel) => {

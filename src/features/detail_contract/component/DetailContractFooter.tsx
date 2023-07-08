@@ -22,6 +22,8 @@ export default function DetailContractFooter({}: Props) {
             padding: "auto",
           }}
           startIcon={<ArrowBackIcon />}
+          // component={Link}
+          //           to={`/detail-employee/${employee.staffId}`}
         >
           Quay về
         </Button>

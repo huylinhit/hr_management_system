@@ -12,10 +12,11 @@ import DetailOvertimeFooter from "./component/DetailOvertimeFooter";
 import { OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/logOT";
+
+import { LogOt } from "../../app/models/logOt";
+
 import { OtType } from "../../app/models/otType";
 import axios from "axios";
-import { LogOvertime } from "../../app/models/logOvertime";
 
 export default function DetailOwnOvertime() {
   // -------------------------- VAR -----------------------------
@@ -36,7 +37,7 @@ export default function DetailOwnOvertime() {
 
     // navigate("/viewot");
   };
-  const [logOt, setLogOt] = useState<LogOvertime>();
+  const [logOt, setLogOt] = useState<LogOt>();
   useEffect(() => {
     axios.get(`/logots/${id}`).then((response) => setLogOt(response.data));
   }, [id]);

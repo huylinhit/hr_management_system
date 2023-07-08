@@ -7,7 +7,10 @@ import { UserInfo } from "os";
 import { TicketType } from "../../app/models/ticketType";
 
 interface TicketState {
+  mytickets: Ticket[];
+  othertickets: Ticket[];
   ticketsLoaded: boolean;
+  otherticketsLoaded: boolean;
   filtersLoaded: boolean;
   status: string;
   ticketAdded: boolean;
@@ -67,7 +70,10 @@ export const fetchTicketAsync = createAsyncThunk<Ticket, number>(
 export const ticketSlice = createSlice({
   name: "tickets",
   initialState: ticketsAdapter.getInitialState<TicketState>({
+    mytickets: [],
+    othertickets: [],
     ticketsLoaded: false,
+    otherticketsLoaded: false,
     filtersLoaded: false,
     status: "idle",
     ticketAdded: false,
@@ -97,6 +103,7 @@ export const ticketSlice = createSlice({
     });
     builder.addCase(fetchCurrentUserTicketsAsync.fulfilled, (state, action) => {
       ticketsAdapter.setAll(state, action.payload);
+      state.mytickets = action.payload;
       console.log(action.payload);
       state.status = "idle";
       state.ticketsLoaded = true;
@@ -112,6 +119,7 @@ export const ticketSlice = createSlice({
     builder.addCase(fetchOtherUsersTicketsAsync.fulfilled, (state, action) => {
       ticketsAdapter.setAll(state, action.payload);
       console.log(action.payload);
+      state.othertickets = action.payload;
       state.status = "idle";
       state.ticketsLoaded = true;
     });
@@ -125,7 +133,6 @@ export const ticketSlice = createSlice({
     });
     builder.addCase(fetchTicketAsync.fulfilled, (state, action) => {
       ticketsAdapter.upsertOne(state, action.payload);
-      console.log(ticketsAdapter);
       state.status = "idle";
     });
     builder.addCase(fetchTicketAsync.rejected, (state, action) => {
@@ -134,5 +141,5 @@ export const ticketSlice = createSlice({
     });
   },
 });
-export const {setTicketAdded} = ticketSlice.actions;
+export const { setTicketAdded } = ticketSlice.actions;
 export const ticketsSelectors = ticketsAdapter.getSelectors((state: RootState) => state.ticket);

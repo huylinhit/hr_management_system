@@ -13,14 +13,13 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-//import { LogOT } from "../../app/models/logOT";
+
 import { OtType } from "../../app/models/otType";
 import axios from "axios";
-import { LogOvertime } from "../../app/models/logOvertime";
+import { LogOt } from "../../app/models/logOt";
 
 export default function DetailOvertime() {
   // -------------------------- VAR -----------------------------
-  // const [logOt, setLogOt] = useState<LogOT>(OTLOG);
   const [types, setTypes] = useState<OtType[]>(OTTYPE);
 
   const { id } = useParams();
@@ -40,7 +39,7 @@ export default function DetailOvertime() {
   };
 
   
-  const [logOt, setLogOt] = useState<LogOvertime>();
+  const [logOt, setLogOt] = useState<LogOt>();
   useEffect(() => {
     axios.get(`/logots/${id}`).then((response) => setLogOt(response.data));
   }, [id]);

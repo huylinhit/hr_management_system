@@ -5,6 +5,7 @@ export interface Candidate{
   email: string;
   phone: string;
   dob: Date;
+  departmentId: number;
   gender: boolean;
   gioiTinh: string;
   address: string;

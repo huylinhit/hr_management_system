@@ -7,26 +7,20 @@ import { Contract } from "../../../app/models/contract";
 import { Employee } from "../../../app/models/employee";
 import { AllowanceType } from "../../../app/models/allowanceType";
 import { Allowance } from "../../../app/models/allowance";
+import { UserInfor } from "../../../app/models/userInfor";
 
 // interface
 interface Props {
-  contract: Contract;
-  employee: Employee;
+  contract: Contract | undefined;
+  employee: UserInfor | undefined;
 }
 
 export default function DetailSalary({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
-  const [allowanceTypes, setAllowanceTypes] =
-    useState<AllowanceType[]>(ALLOWANCETYPE);
-  const [allowances, setAllowances] = useState<Allowance[]>(ALLOWANCE);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const allowanceList = allowances.filter(
-    (a) => a.contractId === contract.contractId
-  );
-
   return (
     <Grid sx={{ paddingBottom: "10px" }}>
       <Typography
@@ -59,7 +53,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.salary}
+              {contract?.salary}
             </Typography>
           </Grid>
           <Grid item xs={3}>
@@ -69,7 +63,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract.taxableSalary}
+              {contract?.taxableSalary}
             </Typography>
           </Grid>
         </Grid>
@@ -91,9 +85,10 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}></Grid>
         </Grid>
-        {allowanceList?.map((a) => (
+        {contract?.allowances.map((a) => (
           <Grid
             container
+            key={a.allowanceId}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -102,20 +97,14 @@ export default function DetailSalary({ contract, employee }: Props) {
               padding: "0 30px 5px 30px",
             }}
           >
-            <Grid item xs={3}>
-              {allowanceTypes.map((type) => {
-                if (type.allowanceTypeId === a.allowanceTypeId) {
-                  return (
-                    <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
-                      {type.allowanceName}:
-                    </Typography>
-                  );
-                }
-              })}
+            <Grid item xs={4}>
+              <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
+                {a.allowanceType.allowanceName}:
+              </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-                {a?.allowanceSalary}
+                {a.allowanceSalary}
               </Typography>
             </Grid>
           </Grid>
@@ -159,7 +148,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.bankAccount}
+              {employee?.bankAccount}
             </Typography>
           </Grid>
         </Grid>
@@ -180,7 +169,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.bankAccountName}
+              {employee?.bankAccountName}
             </Typography>
           </Grid>
         </Grid>
@@ -201,11 +190,11 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee.bank}
+              {employee?.bank}
             </Typography>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> 
     </Grid>
   );
 }

@@ -5,15 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
-import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
 // data
-import { LEAVELOG, LEAVETYPE, OTLOG, OTTYPE } from "../../app/store/data";
+import { LEAVELOG } from "../../app/store/data";
 
 // api
-import { LogOT } from "../../app/models/logOT";
-import { OtType } from "../../app/models/otType";
+
+
 import { LeaveLog } from "../../app/models/leaveLog";
 import { LeaveType } from "../../app/models/leaveType";
 import axios from "axios";
@@ -27,6 +26,7 @@ export default function DetailOwnLeave() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { handleSubmit } = useForm();
+
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -80,7 +80,7 @@ export default function DetailOwnLeave() {
           }}  
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter logLeave={logLeave}/>

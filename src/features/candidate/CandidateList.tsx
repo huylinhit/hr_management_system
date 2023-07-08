@@ -22,10 +22,15 @@ import {
 } from "@mui/x-data-grid-pro";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 import moment from "moment";
-import { candidatesSelectors, fetchCandidatesAsync, setCandidateAdded } from "./candidateSlice";
+import {
+  candidatesSelectors,
+  fetchCandidatesAsync,
+  setCandidateAdded,
+  setCandidateUpdated,
+} from "./candidateSlice";
 import { Candidate } from "../../app/models/candidate";
 import { deepPurple } from "@mui/material/colors";
 import { storage } from "../../firebase";
@@ -36,7 +41,10 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateCandidate from "./CreateCandidate";
+import SubjectIcon from "@mui/icons-material/Subject";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { candidateSkillsSelectors, fetchCandidateSkillsAsync } from "./candidateSkillSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -66,7 +74,24 @@ const headerStyle = {
   fontFamily: "Mulish",
   fontSize: 15,
 };
-
+const colors = [
+  "#34BBE1",
+  "#CC941A",
+  "#32A772",
+  "#5945B5",
+  "#DB3535",
+  "#FF8C00",
+  "#008080",
+  "#800080",
+  "#FF69B4",
+  "#008000",
+  "#FF0000",
+  "#0000FF",
+  "#800000",
+  "#FF00FF",
+  "#00FFFF",
+  "#FFD700",
+];
 export default function OtherUsersTicketList() {
   const columns: GridColDef[] = [
     {
@@ -99,7 +124,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <FormatColorTextIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           <div>Tên ứng viên</div>
         </Typography>
       ),
@@ -120,7 +145,7 @@ export default function OtherUsersTicketList() {
       headerName: "Kết quả",
       width: 200,
       editable: true,
-      align: "right",
+      align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -133,7 +158,7 @@ export default function OtherUsersTicketList() {
             {params.value === "Đạt" ? (
               <Typography
                 sx={{
-                  backgroundColor: "#D9EFD6",
+                  backgroundColor: "#FFF7D5",
                   padding: "1px 10px ",
                   borderRadius: "6px",
                   alignItems: "center",
@@ -148,6 +173,9 @@ export default function OtherUsersTicketList() {
                 sx={{
                   padding: "1px 10px ",
                   backgroundColor: "#FFF5D1",
+                  color: "#FF9F28",
+                  fontWeight: 700,
+                  fontFamily: "Mulish",
                   borderRadius: "6px",
                   alignItems: "center",
                   display: "flex",
@@ -160,7 +188,10 @@ export default function OtherUsersTicketList() {
               <Typography
                 sx={{
                   padding: "1px 10px ",
-                  backgroundColor: "#EBDFF3",
+                  backgroundColor: "#EAE6FF",
+                  color: "#766EA3",
+                  fontWeight: 700,
+                  fontFamily: "Mulish",
                   borderRadius: "6px",
                   alignItems: "center",
                   display: "flex",
@@ -188,15 +219,91 @@ export default function OtherUsersTicketList() {
       },
     },
     {
+      field: "department",
+      headerName: "Phòng ban",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Phòng ban</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        const rowIndex = params.row.departmentId % colors.length;
+        const dotColor = colors[rowIndex];
+
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
+            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+              {params.value}
+            </Typography>
+          </Box>
+        );
+      },
+    },
+    {
       field: "email",
       headerName: "Email",
       width: 300,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <FormatColorTextIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
         </Typography>
       ),
+    },
+    {
+      field: "gioiTinh",
+      headerName: "Giới tính",
+      width: 150,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Giới tính</div>
+        </Typography>
+      ),
+      renderCell(params) {
+        return (
+          <>
+            {params.value === "Nam" ? (
+              <Typography
+                sx={{
+                  backgroundColor: "#D1F2FB",
+                  color: "#2E839A",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  padding: "1px 10px ",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor: "#F6D7D7",
+                  color: "#D85858",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            )}
+          </>
+        );
+      },
     },
     {
       field: "phone",
@@ -221,51 +328,7 @@ export default function OtherUsersTicketList() {
         </Typography>
       ),
     },
-    {
-      field: "gioiTinh",
-      headerName: "Giới tính",
-      width: 150,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Giới tính</div>
-        </Typography>
-      ),
-      renderCell(params) {
-        return (
-          <>
-            {params.value === "Nam" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#BCD9E5",
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            ) : (
-              <Typography
-                sx={{
-                  padding: "1px 10px ",
-                  backgroundColor: "#E5BCBC",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            )}
-          </>
-        );
-      },
-    },
+
     {
       field: "address",
       headerName: "Địa chỉ",
@@ -273,22 +336,11 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <FormatColorTextIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
         </Typography>
       ),
     },
-    {
-      field: "department",
-      headerName: "Phòng ban",
-      width: 200,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Phòng ban</div>
-        </Typography>
-      ),
-    },
+
     {
       field: "expectedSalary",
       headerName: "Lương mong muốn",
@@ -332,7 +384,7 @@ export default function OtherUsersTicketList() {
     }).format(value.value);
     return <span>{formattedValue}</span>;
   }
-  
+
   //Set avatar each row
   function CandidateAvatar(candidate: any) {
     const [avatarUrl, setAvatarUrl] = useState("");
@@ -346,9 +398,10 @@ export default function OtherUsersTicketList() {
     }, [candidatesLoaded]);
     return (
       <Avatar
+        // variant="rounded"
         sx={{
-          width: 28,
-          height: 28,
+          width: 32,
+          height: 32,
           marginRight: 2,
           fontSize: "14px",
           bgcolor: deepPurple[500],
@@ -363,7 +416,7 @@ export default function OtherUsersTicketList() {
   const candidates = useAppSelector(candidatesSelectors.selectAll);
   const candidateSkills = useAppSelector(candidateSkillsSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { candidateAdded, filtersLoaded, candidatesLoaded } = useAppSelector(
+  const { candidateAdded, filtersLoaded, candidatesLoaded, candidateUpdated } = useAppSelector(
     (state) => state.candidate
   );
   const { candidateSkillAdded, candidateSkillsLoaded } = useAppSelector(
@@ -372,6 +425,7 @@ export default function OtherUsersTicketList() {
   const [rows, setRows] = useState<Candidate[]>([]);
   const [open, setOpen] = useState(false);
 
+  const location = useLocation();
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -379,21 +433,24 @@ export default function OtherUsersTicketList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Toàn bộ ứng viên", path: "/candidates" }]));
+  }, [dispatch, location]);
   // Get all candidates
   useEffect(() => {
-    if (!candidatesLoaded || candidateAdded) {
+    if (!candidatesLoaded || candidateAdded || candidateUpdated) {
       dispatch(fetchCandidatesAsync());
       dispatch(setCandidateAdded(false));
+      dispatch(setCandidateUpdated(false));
     }
-  }, [dispatch, candidatesLoaded, candidateAdded]);
+  }, [dispatch, candidatesLoaded, candidateAdded, candidateUpdated]);
 
   //Get all candidate skills
   useEffect(() => {
-    if(!candidateSkillsLoaded) {
+    if (!candidateSkillsLoaded) {
       dispatch(fetchCandidateSkillsAsync());
     }
-  },[dispatch, candidateSkillsLoaded]);
+  }, [dispatch, candidateSkillsLoaded]);
 
   useEffect(() => {
     if (candidatesLoaded) {
@@ -404,9 +461,9 @@ export default function OtherUsersTicketList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "10%", mt: "5%", paddingRight: "10%" }}>
+      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
         <Grid container spacing={0} alignContent="center">
-          <Grid item>
+          {/* <Grid item>
             <Button
               variant="text"
               sx={navStyle}
@@ -417,7 +474,7 @@ export default function OtherUsersTicketList() {
             >
               Danh sách ứng viên
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
@@ -519,8 +576,3 @@ export default function OtherUsersTicketList() {
     </>
   );
 }
-
-const handleButtonClick = (id: any) => {
-  // Handle button click for the corresponding row ID
-  console.log(`Button clicked for ID ${id}`);
-};

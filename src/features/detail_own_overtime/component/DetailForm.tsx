@@ -1,13 +1,14 @@
 import { Grid, Typography } from "@mui/material";
 
 // api
-import { LogOT } from "../../../app/models/logOT";
+
+import { LogOt } from "../../../app/models/logOt";
+
 import { OtType } from "../../../app/models/otType";
-import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
-  logOt: LogOvertime;
+  logOt: LogOt;
   types: OtType[];
 }
 
