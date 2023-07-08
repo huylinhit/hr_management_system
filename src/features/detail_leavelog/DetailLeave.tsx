@@ -18,8 +18,6 @@ import { LEAVETYPE, STAFF } from "../../app/store/data";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
-  // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
   const { id } = useParams();
 
   const navigate = useNavigate();
