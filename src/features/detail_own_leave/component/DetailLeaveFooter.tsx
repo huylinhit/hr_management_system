@@ -7,7 +7,7 @@ import { FORMSTATUS } from "../../../app/store/data";
 
 // interface
 interface Props {
-  logLeave: LeaveLog;
+  logLeave: LeaveLog | undefined;
 }
 
 export default function DetailLeaveFooter({logLeave}: Props) {
@@ -38,7 +38,7 @@ export default function DetailLeaveFooter({logLeave}: Props) {
       </Grid>
 
       <Grid item >
-        {logLeave.status === FORMSTATUS.pending ? (
+        {logLeave?.status === FORMSTATUS.pending ? (
           <Button
           variant="contained"
           type="submit"

@@ -18,7 +18,7 @@ import {
   styled,
   tableCellClasses,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReactNode } from "react";
 import { BorderColor } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +26,9 @@ import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import CreateLeavetime from "./CreateLeavetime";
 import { FORMSTATUS } from "../../app/store/data";
+import axios from "axios";
+import { LeaveLog } from "../../app/models/leaveLog";
+import { LeaveType } from "../../app/models/leaveType";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -76,92 +79,92 @@ function LeavetimeList() {
     return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
-  const rows = [
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Từ chối",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Chờ duyệt",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Chấp nhận",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Từ chối",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Chờ duyệt",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Chấp nhận",
-      ""
-    ),
-    createData(
-      "HR0001",
-      1000001,
-      "Nguyen Hong Ngoc",
-      "Nghỉ thai sản",
-      "06/06/2023 18:00",
-      "09/09/2023 22:00",
-      "3",
-      "...",
-      "Chờ duyệt",
-      ""
-    ),
-  ];
+  // const rows = [
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Từ chối",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Chờ duyệt",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Chấp nhận",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Từ chối",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Chờ duyệt",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Chấp nhận",
+  //     ""
+  //   ),
+  //   createData(
+  //     "HR0001",
+  //     1000001,
+  //     "Nguyen Hong Ngoc",
+  //     "Nghỉ thai sản",
+  //     "06/06/2023 18:00",
+  //     "09/09/2023 22:00",
+  //     "3",
+  //     "...",
+  //     "Chờ duyệt",
+  //     ""
+  //   ),
+  // ];
 
   const styles = {
     marginBottom: "10px",
@@ -180,6 +183,37 @@ function LeavetimeList() {
   const handleClose = () => {
     setOpen(false);
   };
+  // call api
+  const [list, setList] = useState<LeaveLog[]>();
+  axios.defaults.baseURL = "http://localhost:5000/api";
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios
+      .get("/log-leaves")
+      .then((response) => {
+        setList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+   []);
+  //  const [] = useState<LeaveType[]>();
+  // axios.defaults.baseURL = "http://localhost:5000/api";
+  // axios.defaults.withCredentials = true;
+  //  useEffect(() => {
+  //   axios
+  //     .get("/leave-types")
+  //     .then((response) => {
+  //       setList(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // },
+  //  []);
+  // call api
   return (
     <>
       <Container sx={{ padding: "15px 0" }}>
@@ -251,47 +285,58 @@ function LeavetimeList() {
                 <StyledTableCell align="center">Lý do</StyledTableCell>
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Phản hồi</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.Doid}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.Doid}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.id}</StyledTableCell>
-                  <StyledTableCell align="center">{row.name}</StyledTableCell>
-                  <StyledTableCell align="center">{row.kind}</StyledTableCell>
-                  <StyledTableCell align="center">{row.to}</StyledTableCell>
-                  <StyledTableCell align="center">{row.from}</StyledTableCell>
-                  <StyledTableCell align="center">{row.times}</StyledTableCell>
-                  <StyledTableCell align="center">{row.reason}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Chip
-                      label={row.status}
-                      color={
-                        row.status === FORMSTATUS.agree
-                          ? "info"
-                          : row.status === FORMSTATUS.pending
-                          ? "default" // or 'disabled' if you want a grayed-out color
-                          : "error"
-                      }
-                      sx={{ width: "92px" }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Button
-                      // onClick={handleClickOpen}
-                      component={Link}
-                      to={`/detail-leave-log/${row.Doid}`}
-                    >
-                      {row.status === FORMSTATUS.pending
+            {list?.map((item) => (
+                <StyledTableRow key={item.leaveLogId}>
+                  <>
+                    {/* <Link to="/detail-leave-log/:id"> */}
+                      <StyledTableCell align="center">
+                        {item.leaveLogId}
+                      </StyledTableCell>
+                    {/* </Link> */}
+
+
+                    <StyledTableCell align="center">{item.staffId}</StyledTableCell>
+                    <StyledTableCell align="center">{item.staff.firstName}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveType.leaveTypeName}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveStart}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveEnd}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveDays}</StyledTableCell>
+                    <StyledTableCell align="center">{item.description}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Chip
+                        label={item.status}
+                        color={
+                          item.status === FORMSTATUS.agree
+                            ? "info"
+                            : item.status === FORMSTATUS.pending
+                              ? "default" // or 'disabled' if you want a grayed-out color
+                              : "error"
+                        }
+                        sx={{ width: "92px" }}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{item.processNote}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button
+                        component={Link}
+                        to={`/detail-leave-log/${item.leaveLogId}`}
+                      >
+                         {item.status === FORMSTATUS.pending
                           ? <BorderColor />
+                          
                           : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
                       }
-                      {row.reply}
-                    </Button>
-                  </StyledTableCell>
+                     
+                        {" "}
+                        
+                      </Button>
+                    </StyledTableCell>
+                  </>
                 </StyledTableRow>
               ))}
             </TableBody>

@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
+import { FieldValues, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
@@ -6,13 +10,61 @@ import DetailLeaveFooter from "./component/DetailLeaveFooter";
 // data
 
 // api
+import { Employee } from "../../app/models/employee";
+import { LeaveLog } from "../../app/models/leaveLog";
+import { LeaveType } from "../../app/models/leaveType";
+import axios from "axios";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
+  // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
+  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { handleSubmit } = useForm();
+  // const [form] = Form.useForm();
+  // -------------------------- STATE ---------------------------
+  const [staff, setStaff] = useState<Employee>(STAFF);
+
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
+  // const onSubmit = (data: FieldValues) => {
+  //   console.log("abc");
+
+  //   navigate("/myleavelist");
+  // };
+
+  // const [list, setList] = useState<LeaveLog[]>();
+
+  // axios.defaults.baseURL = "http://localhost:5000/api";
+  // axios.defaults.withCredentials = true;
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`/log-leaves/${logLeave?.leaveLogId}/staffs/${staff.staffId}`)
+  //     .then((response) => {
+  //       setList(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  const [logLeave, setlogLeave] = useState<LeaveLog>();
+  useEffect(() => {
+    axios.get(`/log-leaves/${id}/staffs/${staff.staffId}`).then((response) => setlogLeave(response.data));
+  }, [id]);
+  console.log(logLeave);
+  console.log(id);
+  console.log(staff);
+  
+  
+
   // -------------------------- MAIN ----------------------------
+
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid>

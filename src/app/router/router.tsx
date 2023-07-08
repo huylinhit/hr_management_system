@@ -85,15 +85,92 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      //Login dont need to Authen or Author
+      { path: "login", element: <Login /> },
+      { path: "/", element: <HomePage /> },
+
+      //HR Staff routes 
       {
-        element: <RequireAuth />,
-        children: [
+        element: <RequireAuth roles={['HRStaff']} />, children: [
+          // Allowance
+
+          // Department
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
-          // { path: "login", element: <PrivateRoute element={<Login />} /> },
-        ],
+
+          // Employee
+          { path: "/register", element: <Register /> },
+          { path: "/create-new-employee", element: <Firststep /> },
+          { path: '/employeelist', element: <EmployeeList /> },
+          { path: "/detail-employee/:id", element: <DetailEmployee /> },
+          { path: "/edit-employee/:id", element: <EditEmployee /> },
+
+          // Candidate
+          { path: "/viewcandidate", element: <ViewCandidate /> },
+          { path: "/candidates/", element: <CandidateList /> },
+          { path: "/candidates/:id", element: <CandidateDetails /> },
+          { path: "/detailcandidate/:id", element: <Candidate /> },
+
+          // Department 
+          { path: '/departments', element: <DepartmentList /> },
+          { path: '/departments/:id', element: <DepartmentDetails /> },
+          { path: '/staffskills', element: <StaffSkillsList /> },
+          { path: '/deletestaffskill', element: <DeleteStaffSkillFormm /> },
+
+          //payslip
+          { path: '/payslips', element: <Payroll /> },
+          { path: '/payslips/:payslipId/staffs/:staffId', element: <PayslipDetail /> },
+
+
+          // Contract
+          { path: "/list-contract", element: <ContractList /> },
+          { path: "/detail-contract/:id", element: <DetailContract /> },
+
+          // Overtime
+          { path: "/viewot", element: <ViewOvertimeLog /> },
+          { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
+          { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+
+          //MyOT
+          { path: "/myovertime", element: <MyViewOvertime /> },
+
+          //MyLeavetime
+          { path: "/myleavetime", element: <MyViewLeavetime /> },
+
+          // Leave
+          { path: "/myleavelist", element: <MyLeavetime /> },
+          { path: "/detail-leave-log/:id", element: <DetailLeave /> },
+          { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
+
+          // Ticket
+          { path: '/viewothertypes', element: <ViewOtherTypes /> },
+          { path: '/editothertype/:id', element: <EditOtherType /> },
+          { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+          { path: "/mytickets", element: <MyTicketList /> },
+          { path: "/mytickets/:id", element: <MyTicketDetails /> },
+          { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
+          { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
+          { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
+          { path: "/approveticket", element: <ApproveTicketForm /> },
+
+          // Others
+          { path: "server-error", element: <ServerErrorPage /> },
+          { path: "not-found", element: <NotFound /> },
+          { path: "*", element: <Navigate replace to="not-found" /> },
+
+          //Contract
+          { path: "/editcontract", element: <EditContract /> },
+          { path: "/contractdetail", element: <ContractDetail /> },
+        ]
       },
       { path: "/", element: <HomePage /> },
+
+      //Staff routes 
+      // {
+      //   element: <RequireAuth roles={['Staff']} />, children: [
+
+      //   ]
+      // },
 
       { path: "login", element: <PrivateRoute element={<Login />} /> },
       { path: "register", element: <Register /> },
