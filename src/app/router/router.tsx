@@ -100,7 +100,6 @@ export const router = createBrowserRouter([
 
           // Employee
           { path: "/register", element: <Register /> },
-          { path: "/create-new-employee", element: <Firststep /> },
           { path: '/employeelist', element: <EmployeeList /> },
           { path: "/detail-employee/:id", element: <DetailEmployee /> },
           { path: "/edit-employee/:id", element: <EditEmployee /> },
@@ -160,7 +159,7 @@ export const router = createBrowserRouter([
 
           //Contract
           { path: "/editcontract", element: <EditContract /> },
-          { path: "/contractdetail", element: <ContractDetail /> },
+          // { path: "/contractdetail", element: <ContractDetail /> },
         ]
       },
       { path: "/", element: <HomePage /> },
