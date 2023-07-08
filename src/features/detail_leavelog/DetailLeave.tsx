@@ -14,6 +14,7 @@ import { Employee } from "../../app/models/employee";
 import { LeaveLog } from "../../app/models/leaveLog";
 import { LeaveType } from "../../app/models/leaveType";
 import axios from "axios";
+import { LEAVETYPE, STAFF } from "../../app/store/data";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
