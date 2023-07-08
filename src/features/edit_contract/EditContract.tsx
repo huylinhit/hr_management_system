@@ -26,7 +26,6 @@ import {
 
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
-  // const id = 1
   const { id } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- REDUX ---------------------------

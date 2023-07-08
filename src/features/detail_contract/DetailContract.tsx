@@ -66,7 +66,6 @@ export default function DetailContract() {
 
       <Container
         sx={{
-          boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
           backgroundColor: "white",
           padding: "15px",
         }}

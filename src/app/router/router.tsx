@@ -10,11 +10,10 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
-// import EditEmployee from "../../features/employee/EditEmployee";
+import AddNewEmployee from "../../features/add_employee/AddNewEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import EditEmployee from "../../features/edit_employee/EditEmployee";
-import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
@@ -91,7 +90,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
-          //{ path: "login", element: <PrivateRoute element={<Login />} /> },
+          // { path: "login", element: <PrivateRoute element={<Login />} /> },
         ],
       },
       { path: "/", element: <HomePage /> },
@@ -103,7 +102,7 @@ export const router = createBrowserRouter([
       // Allowance
 
       // Employee
-      { path: "/create-new-employee", element: <Firststep /> },
+      { path: "/create-new-employee", element: <AddNewEmployee /> },
       { path: "/employeelist", element: <EmployeeList /> },
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
       { path: "/edit-employee/:id", element: <EditEmployee /> },

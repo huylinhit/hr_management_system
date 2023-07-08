@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Grid, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 // component
@@ -8,9 +7,6 @@ import AddAllowanceDialog from "../../dialog/AddAllowanceDialog";
 
 // data
 import { Contract } from "../../../../app/models/contract";
-import { Employee } from "../../../../app/models/employee";
-import { AllowanceType } from "../../../../app/models/allowanceType";
-import { Allowance } from "../../../../app/models/allowance";
 import { UserInfor } from "../../../../app/models/userInfor";
 
 interface AllowanceField {
