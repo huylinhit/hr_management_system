@@ -1,26 +1,48 @@
 import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+
+// component
+import AddAllowanceDialog from "../../dialog/AddAllowanceDialog";
 
 // data
-import { ALLOWANCE, ALLOWANCETYPE } from "../../../app/store/data";
-import { Contract } from "../../../app/models/contract";
-import { Employee } from "../../../app/models/employee";
-import { AllowanceType } from "../../../app/models/allowanceType";
-import { Allowance } from "../../../app/models/allowance";
-import { UserInfor } from "../../../app/models/userInfor";
+import { Contract } from "../../../../app/models/contract";
+import { Employee } from "../../../../app/models/employee";
+import { AllowanceType } from "../../../../app/models/allowanceType";
+import { Allowance } from "../../../../app/models/allowance";
+import { UserInfor } from "../../../../app/models/userInfor";
+
+interface AllowanceField {
+  allowanceTypeId: number;
+  allowanceSalary: number;
+}
 
 // interface
 interface Props {
   contract: Contract | undefined;
   employee: UserInfor | undefined;
+  setContractForm: Function;
+  allowanceForm: Array<AllowanceField> | undefined;
+  setAllowanceForm: Function;
 }
 
-export default function DetailSalary({ contract, employee }: Props) {
+export default function EditSalary({
+  contract,
+  employee,
+  setContractForm,
+  allowanceForm,
+  setAllowanceForm,
+}: Props) {
   // -------------------------- VAR -----------------------------
-  // -------------------------- STATE ---------------------------
+  const allowanceList: Array<AllowanceField> = allowanceForm!
+  //--------------------------- STATE ---------------------------
+  const [openDeleteAllowance, setOpenDeleteAllowance] = useState(false);
+  const [openAddAllowance, setOpenAddAllowance] = useState(false);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
+  // -------------------------- MAIN ----------------------------
   return (
     <Grid sx={{ paddingBottom: "10px" }}>
       <Typography
@@ -41,7 +63,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "center",
             maxWidth: "100%",
             padding: "0 30px 5px 30px",
           }}
@@ -52,9 +74,21 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.salary}
-            </Typography>
+            <TextField
+              required
+              id="outlined-required"
+              label="Lương căn bản"
+              size="small"
+              sx={{ width: "150px" }}
+              margin="dense"
+              defaultValue={contract?.salary}
+              onChange={(e) =>
+                setContractForm((prevForm: any) => ({
+                  ...prevForm,
+                  salary: e.target.value,
+                }))
+              }
+            />
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
@@ -62,9 +96,21 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.taxableSalary}
-            </Typography>
+            <TextField
+              required
+              id="outlined-required"
+              label="Lương tính thuế"
+              size="small"
+              sx={{ width: "150px" }}
+              margin="dense"
+              defaultValue={contract?.taxableSalary}
+              onChange={(e) =>
+                setContractForm((prevForm: any) => ({
+                  ...prevForm,
+                  taxableSalary: e.target.value,
+                }))
+              }
+            />
           </Grid>
         </Grid>
 
@@ -85,14 +131,14 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={7}></Grid>
         </Grid>
-        {contract?.allowances.map((a) => (
+        {contract?.allowances.map((a, index) => (
           <Grid
             container
             key={a.allowanceId}
             sx={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "flex-start",
+              alignItems: "center",
               maxWidth: "100%",
               padding: "0 30px 5px 30px",
             }}
@@ -103,12 +149,30 @@ export default function DetailSalary({ contract, employee }: Props) {
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-                {a.allowanceSalary}
-              </Typography>
+              <TextField
+                required
+                id="outlined-required"
+                size="small"
+                sx={{ width: "150px" }}
+                margin="dense"
+                defaultValue={a.allowanceSalary}
+                onChange={(e) =>{
+                  const updateField = [...allowanceList]
+                  updateField[index].allowanceSalary = Number(e.target.value)
+                  setAllowanceForm(updateField)
+                }}
+              />
             </Grid>
           </Grid>
         ))}
+
+        <IconButton
+          aria-label="delete"
+          sx={{ marginLeft: "100px" }}
+          onClick={() => setOpenAddAllowance(true)}
+        >
+          <AddCircleIcon sx={{ color: "#007FFF", fontSize: "35px" }} />
+        </IconButton>
 
         <Grid
           container
@@ -194,7 +258,14 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
         </Grid>
-      </Grid> 
+      </Grid>
+
+      <AddAllowanceDialog
+        open={openAddAllowance}
+        setOpen={setOpenAddAllowance}
+        id={employee?.staffId}
+        contract={contract}
+      />
     </Grid>
   );
 }

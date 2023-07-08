@@ -2,7 +2,6 @@ import { ConstructionOutlined, ExpandLess, ExpandMore } from "@mui/icons-materia
 import { ListItemButton, ListItemText, Collapse, TableContainer, TableRow, TableCell, Table, TableBody, TableHead, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { contractSelectors, fetchContractsAsync } from "../detail_contract/contractSlice";
 import axios from "axios";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Contract } from "../../app/models/contract";

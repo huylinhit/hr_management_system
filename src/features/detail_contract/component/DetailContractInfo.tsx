@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 // component
 import DetailJob from "./DetailJob";
 import DetailSalary from "./DetailSalary";
-import DetaiNote from "./DetilNote";
+import DetaiNote from "./DetailNote";
 
 // model
 import { Contract } from "../../../app/models/contract";

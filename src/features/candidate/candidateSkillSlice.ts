@@ -5,7 +5,7 @@ import { CandidateSkill } from "../../app/models/candidateskill";
 
 interface CandidateSkillState {
   candidateSkillsLoaded: boolean;
-  candidateSkillsByCandidateId: CandidateSkill[] | null
+  candidateSkillsByCandidateId: CandidateSkill[] | null;
   filtersLoaded: boolean;
   status: string;
   candidateSkillAdded: boolean;
@@ -85,7 +85,7 @@ export const candidateSkillSlice = createSlice({
       state.status = "pendingFetchStaffSkills";
     });
     builder.addCase(fetchCandidateSkillsByCandidateIdAsync.fulfilled, (state, action) => {
-      state.candidateSkillsByCandidateId = action.payload;
+      candidateSkillsAdapter.setAll(state, action.payload);
       state.status = "idle";
       state.candidateSkillsLoaded = true;
     });

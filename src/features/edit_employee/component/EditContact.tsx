@@ -7,9 +7,10 @@ import { UserInfor } from "../../../app/models/userInfor";
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  setForm: Function
 }
 
-export default function EditContact({ employee }: Props) {
+export default function EditContact({ employee, setForm }: Props) {
   return (
     <Box sx={{ padding: "0 10px 20px 10px" }}>
       <Grid>
@@ -42,6 +43,12 @@ export default function EditContact({ employee }: Props) {
             size="small"
             margin="dense"
             defaultValue={employee?.phone}
+            onChange={(e) =>
+              setForm((prevForm: any) => ({
+                ...prevForm,
+                phone: e.target.value,
+              }))
+            }
           />
           </Grid>
         </Grid>
@@ -66,6 +73,12 @@ export default function EditContact({ employee }: Props) {
             size="small"
             margin="dense"
             defaultValue={employee?.email}
+            onChange={(e) =>
+              setForm((prevForm: any) => ({
+                ...prevForm,
+                email: e.target.value,
+              }))
+            }
           />
           </Grid>
         </Grid>
@@ -90,6 +103,12 @@ export default function EditContact({ employee }: Props) {
             size="small"
             margin="dense"
             defaultValue={employee?.address}
+            onChange={(e) =>
+              setForm((prevForm: any) => ({
+                ...prevForm,
+                address: e.target.value,
+              }))
+            }
           /> 
           </Grid>
         </Grid>

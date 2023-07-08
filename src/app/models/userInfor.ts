@@ -9,7 +9,7 @@ export interface UserInfor {
     departmentName: string;
     dob: string;
     phone: string;
-    gender: number;
+    gender: boolean;
     gioiTinh:string;
     address: string;
     country: string;

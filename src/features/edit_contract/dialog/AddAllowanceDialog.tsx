@@ -2,31 +2,47 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
   useMediaQuery,
   useTheme,
   Grid,
   TextField,
-  Typography,
+  MenuItem,
 } from "@mui/material";
 import { useState } from "react";
 import agent from "../../../app/api/agent";
+import { useAppSelector } from "../../../app/store/configureStore";
+import { allowanceTypeSelectors } from "../../../app/store/allowanceType/allowanceTypeSlice";
+import { Contract } from "../../../app/models/contract";
 
 interface Props {
   open: boolean;
   setOpen: Function;
   id: number | undefined;
+  contract: Contract | undefined;
 }
 
-export default function AddSkillDialog({ open, setOpen, id }: Props) {
+export default function AddAllowanceDialog({
+  open,
+  setOpen,
+  id,
+  contract,
+}: Props) {
   // -------------------------- VAR -----------------------------
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   // -------------------------- STATE ---------------------------
-  const [form, setForm] = useState({ staffId: id, skillName: "", level: "" });
+  const [form, setForm] = useState({ allowanceTypeId: 0, allowanceSalary: 0 });
   // -------------------------- REDUX ---------------------------
+  const allowanceType = useAppSelector((state) =>
+    allowanceTypeSelectors.selectAll(state)
+  ).filter(
+    (type) =>
+      !contract?.allowances
+        .map((a) => a.allowanceTypeId)
+        .includes(type.allowanceTypeId)
+  );
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
   const handleClose = () => {
@@ -34,13 +50,13 @@ export default function AddSkillDialog({ open, setOpen, id }: Props) {
   };
 
   const handleAdd = () => {
-    agent.StaffSkill.create(form)
+    agent.Allowance.create(Number(contract?.contractId), form)
       .then((response) => {
-        console.log("Add new skill successfully: ", response);
+        console.log("Add new allowance successfully: ", response);
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Error add new skill ", error);
+        console.error("Error add new allowance ", error);
       });
 
     setOpen(false);
@@ -58,20 +74,25 @@ export default function AddSkillDialog({ open, setOpen, id }: Props) {
         id="responsive-dialog-title"
         sx={{ fontSize: "25px", color: "#B9B9B9", padding: "20px 75px" }}
       >
-        Thêm mới 1 kĩ năng
+        Thêm phụ cấp
       </DialogTitle>
 
       <DialogContent sx={{ padding: "auto 20px" }}>
         <Grid item>
           <TextField
             required
+            select
             id="outlined-required"
             size="small"
             margin="dense"
-            label="Tên kĩ năng"
+            label="Loại phụ cấp"
             sx={{ width: "100%" }}
-            onChange={(e) => setForm({ ...form, skillName: e.target.value })}
-          />
+            onChange={(e) => setForm({ ...form, allowanceTypeId: Number(e.target.value) })}
+          >
+            {allowanceType.map((type) => (
+              <MenuItem key={type.allowanceTypeId} value={type.allowanceTypeId}>{type.allowanceName}</MenuItem>
+            ))}
+          </TextField>
         </Grid>
         <Grid item>
           <TextField
@@ -79,9 +100,10 @@ export default function AddSkillDialog({ open, setOpen, id }: Props) {
             id="outlined-required"
             size="small"
             margin="dense"
-            label="Trình độ"
+            label="Mức phụ cấp"
+            type="number"
             sx={{ width: "100%" }}
-            onChange={(e) => setForm({ ...form, level: e.target.value })}
+            onChange={(e) => setForm({ ...form, allowanceSalary: Number(e.target.value) })}
           />
         </Grid>
       </DialogContent>

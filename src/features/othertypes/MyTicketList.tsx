@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Avatar,
   Button,
@@ -103,8 +103,8 @@ const staffNameColors = [
   "#E9F3F7",
   "#F6F3F8",
   "#F9F2F5",
-  "#FAECEC"
-]
+  "#FAECEC",
+];
 export default function MyTicketList() {
   const handleRowClick = () => {
     dispatch(
@@ -119,7 +119,7 @@ export default function MyTicketList() {
       field: "button",
       headerName: "",
       width: 60,
-      align:"center",
+      align: "center",
       renderCell: (params) => (
         <IconButton
           component={Link}
@@ -153,7 +153,11 @@ export default function MyTicketList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar candidateId={staffId} candidateName={staffName} color={staffNameColor}/>
+            <CandidateAvatar
+              candidateId={staffId}
+              candidateName={staffName}
+              color={staffNameColor}
+            />
             <Typography>{params.value}</Typography>
           </Box>
         );
@@ -176,7 +180,9 @@ export default function MyTicketList() {
         return (
           <Box display={"flex"} alignItems={"center"}>
             <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{textDecoration:"underline", fontWeight:600, fontFamily:"Mulish" }}>{params.value}</Typography>
+            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+              {params.value}
+            </Typography>
           </Box>
         );
       },
@@ -253,15 +259,16 @@ export default function MyTicketList() {
             ) : (
               <Typography
                 sx={{
-                  backgroundColor: "#FFE7E7",
-                  color: "#D03D3D",
-                  fontFamily: fontStyle,
-                  fontWeight: 700,
+                  backgroundColor: "#F4F6F7",
                   padding: "1px 10px ",
+                  fontFamily: fontStyle,
                   borderRadius: "6px",
+                  fontWeight: 700,
+                  color: "#9BA6B2",
                   alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
+                  display: "inline-block",
+                  width: "fit-content",
+                  ml: "5px",
                 }}
               >
                 {params.value}
@@ -321,7 +328,6 @@ export default function MyTicketList() {
     }, [ticketsLoaded]);
     return (
       <Avatar
-      
         sx={{
           width: 34,
           height: 34,
@@ -343,10 +349,14 @@ export default function MyTicketList() {
   const [gridHeight, setGridHeight] = useState(0);
   const tickets = useAppSelector(ticketsSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { ticketsLoaded, filtersLoaded, ticketAdded } = useAppSelector((state) => state.ticket);
+  const { ticketsLoaded, filtersLoaded, ticketAdded, mytickets, status } = useAppSelector(
+    (state) => state.ticket
+  );
   const [rows, setRows] = useState<Ticket[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const prevLocation = useRef(location);
+  const key = location.pathname;
   useLayoutEffect(() => {
     const handleResize = () => {
       setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
@@ -362,7 +372,7 @@ export default function MyTicketList() {
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
   }, [location, dispatch]);
-  
+
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -372,43 +382,23 @@ export default function MyTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded) {
+    if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
       dispatch(fetchCurrentUserTicketsAsync());
       dispatch(setTicketAdded(false));
     }
-  }, [dispatch, ticketsLoaded, ticketAdded, location]);
+    prevLocation.current = location;
+  }, [dispatch, ticketsLoaded, ticketAdded, key]);
 
   console.log(tickets);
   useEffect(() => {
     if (ticketsLoaded) {
-      // Update the rows when departments are loaded
       setRows(tickets);
     }
   }, [ticketsLoaded, tickets]);
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", pt: "20px", paddingRight: "2%"}}>
-        {/* <Button
-          variant="text"
-          sx={{
-            fontSize: 25,
-            fontWeight: "bold",
-            textTransform: "none",
-            color: "#333333",
-            borderRadius: "10px",
-            padding: "0px 10px 0px 10px",
-            "&:hover": {
-              backgroundColor: "#F8F8F8", // Set the hover background color
-            },
-          }}
-          disableElevation={true}
-          component={NavLink}
-          to={`/departments`}
-          key={"/departments"}
-        >
-          Đơn khác của tôi
-        </Button> */}
+      <Box sx={{ paddingLeft: "2%", pt: "20px", paddingRight: "2%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -471,7 +461,7 @@ export default function MyTicketList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%"}}>
+      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           autoHeight
           density="standard"
@@ -479,15 +469,7 @@ export default function MyTicketList() {
           sx={{
             height: 700,
             border: "none",
-            color:"#000000",
-            // ".MuiDataGrid-columnHeaderTitle": {
-            //   fontWeight: "bold !important",
-            //   overflow: "visible !important",
-            //   color: "#007FFF",
-            // },
-            // ".MuiDataGrid-columnHeaders": {
-            //   backgroundColor: "#E0F0FF",
-            // },
+            color: "#000000",
             fontSize: 16,
             fontWeight: 550,
             fontFamily: fontStyle,
@@ -500,7 +482,6 @@ export default function MyTicketList() {
           rows={rows}
           columns={columns}
           showCellVerticalBorder
-           
           initialState={{
             pagination: {
               paginationModel: {
