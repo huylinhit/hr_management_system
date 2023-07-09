@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
 import { LuEdit } from "react-icons/lu";
 
@@ -15,23 +15,21 @@ import {
 } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
-  fetchContractAsync,
   fetchContractValidDetailASync,
 } from "../../app/store/contract/contractSlice";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
-  const id = 1;
-  // const { id } = useParams();
+  const { id } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, id)
+    employeeSelectors.selectById(state, Number(id))
   );
   const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, id)
+    contractSelectors.selectById(state, Number(id))
   );
   // -------------------------- EFFECT --------------------------
   useEffect(() => {

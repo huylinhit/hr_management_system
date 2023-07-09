@@ -6,7 +6,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddAllowanceDialog from "../../dialog/AddAllowanceDialog";
 
 // data
-import { Contract } from "../../../../app/models/contract";
+import Contract from "../../../../app/models/contract";
 import { UserInfor } from "../../../../app/models/userInfor";
 
 interface AllowanceField {

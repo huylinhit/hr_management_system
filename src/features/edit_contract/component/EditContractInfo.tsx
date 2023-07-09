@@ -6,7 +6,7 @@ import EditSalary from "./component/EditSalary";
 import EditNote from "./component/EditNote";
 
 // model
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 import { UserInfor } from "../../../app/models/userInfor";
 
 //

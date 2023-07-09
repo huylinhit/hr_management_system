@@ -3,11 +3,9 @@ import { Container, Grid, TextField, Typography } from "@mui/material";
 // interface
 interface Props {
   setUserForm: Function;
-  skillForm: Object;
-  setSkillForm: Function;
 }
 
-export default function NewAccount({ setUserForm, skillForm, setSkillForm }: Props) {
+export default function NewAccount({ setUserForm }: Props) {
   return (
     <Container
       sx={{

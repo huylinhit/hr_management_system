@@ -43,9 +43,6 @@ export default function AddNewEmployee() {
     bankAccountName: "",
     bank: "",
   });
-  const [skillForm, setSkillForm] = useState([
-    { staffId: 0, skillName: "", level: "" },
-  ]);
   const [contractForm, setContractForm] = useState({
     startDate: "",
     endDate: "",
@@ -178,7 +175,7 @@ export default function AddNewEmployee() {
           ) : (
             <React.Fragment>
               <form onSubmit={handleSubmit}>
-                {step === 0 && <NewAccount setUserForm={setUserForm} skillForm={skillForm} setSkillForm={setSkillForm} />}
+                {step === 0 && <NewAccount setUserForm={setUserForm} />}
                 {step === 1 && (
                   <NewStaff
                     setUserForm={setUserForm}

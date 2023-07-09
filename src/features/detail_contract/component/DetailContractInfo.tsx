@@ -6,7 +6,7 @@ import DetailSalary from "./DetailSalary";
 import DetaiNote from "./DetailNote";
 
 // model
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
 

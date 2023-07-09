@@ -14,7 +14,7 @@ import { useState } from "react";
 import agent from "../../../app/api/agent";
 import { useAppSelector } from "../../../app/store/configureStore";
 import { allowanceTypeSelectors } from "../../../app/store/allowanceType/allowanceTypeSlice";
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 
 interface Props {
   open: boolean;

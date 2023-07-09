@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 
 // data
 import { ALLOWANCE, ALLOWANCETYPE } from "../../../app/store/data";
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 import { Employee } from "../../../app/models/employee";
 import { AllowanceType } from "../../../app/models/allowanceType";
 import { Allowance } from "../../../app/models/allowance";

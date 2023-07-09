@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import axios from "axios";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Contract } from "../../app/models/contract";
+import Contract from "../../app/models/contract";
 import { Allowance } from "../../app/models/allowance";
 
 interface Props {

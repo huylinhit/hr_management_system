@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
 // model
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 import { Department } from "../../../app/models/departments";
 import { Employee } from "../../../app/models/employee";
 

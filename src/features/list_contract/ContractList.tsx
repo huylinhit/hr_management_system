@@ -29,6 +29,7 @@ import {
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
 import moment from "moment";
+import { Allowance } from "../../app/models/allowance";
 
 const top100Films = [{ label: "1", year: 1994 }, ``];
 
@@ -64,8 +65,10 @@ export default function ContractList() {
     "Mức lương",
     "Tổng phụ cấp",
     "Ngày chỉnh sửa",
+    ""
   ];
   // -------------------------- STATE ---------------------------
+  const [totalAllowance, setTotalAllowance] = useState(0)
   // -------------------------- REDUX ---------------------------
   const contracts = useAppSelector(contractSelectors.selectAll);
   // -------------------------- EFFECT --------------------------
@@ -73,6 +76,15 @@ export default function ContractList() {
     dispatch(fetchContractsAsync());
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  const calcTotalAllowance = (allowances : Array<Allowance>) => {
+    let total = 0
+
+    allowances.forEach((allowance) => {
+      total = total + allowance.allowanceSalary
+    })
+
+    return total
+  }
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "15px 0" }}>
@@ -87,6 +99,8 @@ export default function ContractList() {
       >
         Danh sách hợp đồng
       </Typography>
+
+
       <Grid
         sx={{
           display: "flex",
@@ -144,7 +158,7 @@ export default function ContractList() {
                   {contract.staffId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {contract.staff.fullName}
+                  {contract.staff.lastName} {contract.staff.firstName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {moment(contract.startDate).format("DD-MM-YYYY")}
@@ -159,22 +173,11 @@ export default function ContractList() {
                   {contract.salary}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {/* {contract.allowances.map((allowance) => {
-                    let total += Number(allowance?.)
-                  })} */}
+                  {calcTotalAllowance(contract.allowances)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {contract.note}
+                  {contract.changeAt}
                 </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Button
-                    color="error"
-                    onClick={() => {}}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </StyledTableCell>
-
                 <StyledTableCell align="center">
                   <Button
                     sx={{ color: "black" }}
