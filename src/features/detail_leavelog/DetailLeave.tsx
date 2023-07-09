@@ -28,6 +28,7 @@ export default function DetailLeave() {
   // -------------------------- STATE ---------------------------
   // const [staff, setStaff] = useState<Employee>(STAFF);
 
+  // console.log(staff.staffId)
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
@@ -53,19 +54,23 @@ export default function DetailLeave() {
   //     });
   // }, []);
 
-  // const [logLeave, setlogLeave] = useState<LeaveLog>();
-  // useEffect(() => {
-  //   axios.get(`/log-leaves/${id}/staffs/${staff.staffId}`).then((response) => setlogLeave(response.data));
-  // }, [id]);
-  // console.log(logLeave);
-  // console.log(id);
-  // console.log(staff);
+  const [logLeave, setlogLeave] = useState<LeaveLog>();
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/log-leaves/${id}/staffs/2`).then((response) =>    
+    setlogLeave(response.data)).catch(e =>{
+      console.log(e)
+        alert("gfffff");
   
-  
+      });
+   
+  }, [id]);
+  console.log(logLeave)
 
   // -------------------------- MAIN ----------------------------
 
   return (
+    <>
+    {/* {logLeave &&( */}
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid>
         <Typography
@@ -101,5 +106,8 @@ export default function DetailLeave() {
         </Grid>
       </Container>
     </Box>
+   
+    {/* )} */}
+    </>
   );
 }
