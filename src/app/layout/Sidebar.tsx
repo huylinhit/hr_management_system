@@ -163,13 +163,13 @@ export default function Sidebar() {
                 {openStaff ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse in={openStaff} timeout="auto" unmountOnExit>
-                <ListItemButton dense>
+                <ListItemButton dense component={Link} to="/staffs">
                   <ListItemIcon sx={{ minWidth: "30px" }}>
                     <PeopleAltOutlinedIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText
                     primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Toàn bộ nhân viên"
+                    primary="Danh sách nhân viên"
                   />
                 </ListItemButton>
                 <ListItemButton component={Link} to="/departments">
@@ -277,7 +277,7 @@ export default function Sidebar() {
                   </ListItemIcon>
                   <ListItemText
                     primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Toàn bộ ứng viên"
+                    primary="Danh sách ứng viên"
                   />
                 </ListItemButton>
                 <ListItemButton>

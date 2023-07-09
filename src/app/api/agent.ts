@@ -118,7 +118,7 @@ const StaffSkill = {
   details: (id: number) => requests.get(`staffskill/${id}`),
   create: (values: any) => requests.post("staffskill", values),
   delete: (id: number) => requests.delete(`staffskill/${id}`),
-  update: (values: any) => requests.put(`staffskill/update`, values),
+  update: (values: any) => requests.put(`staffskill`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
 

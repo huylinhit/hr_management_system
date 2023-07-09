@@ -1,60 +1,54 @@
-import Box from "@mui/material/Box";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useState } from "react";
 import {
-  Avatar,
-  Button,
   Grid,
-  IconButton,
+  Button,
+  Typography,
+  TextField,
+  Autocomplete,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  styled,
+  tableCellClasses,
+  Container,
+  Box,
   InputAdornment,
   LinearProgress,
-  TextField,
-  Typography,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { useEffect, useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Link, useLocation } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
+import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
+import { UserInfor } from "../../app/models/userInfor";
+import DeleteDialog from "./component/DeleteDialog";
 import AddIcon from "@mui/icons-material/Add";
-import { Link, NavLink, useLocation } from "react-router-dom";
-
-import moment from "moment";
-import {
-  candidatesSelectors,
-  fetchCandidatesAsync,
-  setCandidateAdded,
-  setCandidateUpdated,
-} from "./candidateSlice";
-import { Candidate } from "../../app/models/candidate";
-import { deepPurple } from "@mui/material/colors";
-import { storage } from "../../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
+import CreateCandidate from "../candidate/CreateCandidate";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import NumbersOutlinedIcon from "@mui/icons-material/NumbersOutlined";
+import TextFormatOutlinedIcon from "@mui/icons-material/TextFormatOutlined";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
-import CreateCandidate from "./CreateCandidate";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { candidateSkillsSelectors, fetchCandidateSkillsAsync } from "./candidateSkillSlice";
+import moment from "moment";
+import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
+
 const fontStyle = "Mulish";
 const navStyle = {
   fontSize: 25,
@@ -92,134 +86,71 @@ const colors = [
   "#00FFFF",
   "#FFD700",
 ];
-export default function OtherUsersTicketList() {
+export default function StaffList() {
   const columns: GridColDef[] = [
     {
       field: "button",
       headerName: "",
-      width: 75,
-
-      renderCell: (params) => {
-        return (
-          <IconButton component={Link} to={`/candidates/${params.row.candidateId}`}>
-            <MoreHorizIcon />
-          </IconButton>
-        );
-      },
-    },
-    {
-      field: "candidateId",
-      headerName: "ID",
-      width: 100,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <div>ID</div>
-        </Typography>
-      ),
-    },
-    {
-      field: "name",
-      headerName: "Tên ứng viên",
-      width: 300,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tên ứng viên</div>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const candidateId = params.row.candidateId;
-        const candidateName = params.row.name;
-
-        return (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar candidateId={candidateId} candidateName={candidateName} />
-            <Typography>{params.value}</Typography>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "result",
-      headerName: "Kết quả",
-      width: 200,
-      editable: true,
-      align: "left",
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
-        </Typography>
-      ),
+      width: 60,
+      align: "center",
       renderCell(params) {
         return (
           <>
-            {params.value === "Đạt" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#FFF7D5",
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            ) : params.value === "Chờ duyệt" ? (
-              <Typography
-                sx={{
-                  padding: "1px 10px ",
-                  backgroundColor: "#FFF5D1",
-                  color: "#FF9F28",
-                  fontWeight: 700,
-                  fontFamily: "Mulish",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            ) : params.value === "Phỏng vấn" ? (
-              <Typography
-                sx={{
-                  padding: "1px 10px ",
-                  backgroundColor: "#EAE6FF",
-                  color: "#766EA3",
-                  fontWeight: 700,
-                  fontFamily: "Mulish",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            ) : (
-              <Typography
-                sx={{
-                  padding: "1px 10px ",
-                  backgroundColor: "#FFD1D1",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            )}
+            <IconButton component={Link} to={`/staffs/${params.row.staffId}`}>
+              <MoreHorizIcon />
+            </IconButton>
           </>
         );
       },
     },
     {
-      field: "department",
+      field: "manager",
+      headerName: "",
+      width: 60,
+      align: "center",
+
+      renderCell(params) {
+        return (
+          <>
+            <Tooltip title={params.row.isManager === true ? "Manager" : "Staff"}>
+              <AccountCircleIcon
+                sx={{
+                  color: params.row.isManager === true ? "#007FFF" : "#AEAEAE",
+                }}
+              />
+            </Tooltip>
+          </>
+        );
+      },
+    },
+    {
+      //staffId
+      field: "staffId",
+      headerName: "Id",
+      width: 75,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <div>ID</div>
+        </Typography>
+      ),
+    },
+    {
+      //fullName
+      field: "fullName",
+      headerName: "Tên Nhân Viên",
+      width: 200,
+      editable: true,
+      headerClassName: "custom-header-text",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Tên Nhân Viên</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "departmentName",
       headerName: "Phòng ban",
       width: 200,
       editable: true,
@@ -244,13 +175,15 @@ export default function OtherUsersTicketList() {
       },
     },
     {
-      field: "email",
-      headerName: "Email",
-      width: 300,
+      //phone
+      field: "phone",
+      headerName: "Số Điện Thoại",
+      width: 200,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
+          <div>Số Điện Thoại</div>
         </Typography>
       ),
     },
@@ -306,13 +239,30 @@ export default function OtherUsersTicketList() {
       },
     },
     {
-      field: "phone",
-      headerName: "Số điện thoại",
+      //email
+      field: "email",
+      headerName: "Email",
       width: 200,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Điện thoại</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Email</div>
+        </Typography>
+      ),
+    },
+    {
+      //bank
+      field: "bank",
+      headerName: "Ngân Hàng",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Ngân Hàng</div>
         </Typography>
       ),
     },
@@ -328,11 +278,10 @@ export default function OtherUsersTicketList() {
         </Typography>
       ),
     },
-
     {
       field: "address",
       headerName: "Địa chỉ",
-      width: 300,
+      width: 200,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -342,90 +291,65 @@ export default function OtherUsersTicketList() {
     },
 
     {
-      field: "expectedSalary",
-      headerName: "Lương mong muốn",
+      field: "country",
+      headerName: "Quốc gia",
       width: 200,
       editable: true,
-      align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+        </Typography>
+      ),
+    },
+    {
+      //bankAccount
+      field: "bankAccount",
+      headerName: "TK Ngân Hàng",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương mong muốn</div>
+          <div>TK Ngân Hàng</div>
         </Typography>
       ),
-      renderCell: (params) => <CurrencyFormatter value={params.row.expectedSalary} />,
-    },
-    {
-      field: "resumeFile",
-      headerName: "Hồ sơ",
-      width: 200,
-      editable: true,
-    },
-    {
-      field: "applyDate",
-      headerName: "Ngày ứng tuyển",
-      width: 200,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Ngày ứng tuyển</div>
-        </Typography>
-      ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
     },
   ];
-
-  function CurrencyFormatter(value: any) {
-    const formattedValue = new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(value.value);
-    return <span>{formattedValue}</span>;
-  }
-
-  //Set avatar each row
-  function CandidateAvatar(candidate: any) {
-    const [avatarUrl, setAvatarUrl] = useState("");
-    const storageRef = ref(storage, `candidatesAvatar/${candidate.candidateId}`);
-    useEffect(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          setAvatarUrl(url);
-        })
-        .catch((error) => {});
-    }, [candidatesLoaded]);
-    return (
-      <Avatar
-        // variant="rounded"
-        sx={{
-          width: 32,
-          height: 32,
-          marginRight: 2,
-          fontSize: "14px",
-          bgcolor: deepPurple[500],
-        }}
-        src={avatarUrl}
-        alt=""
-      >
-        {candidate.candidateName.charAt(0)}
-      </Avatar>
-    );
-  }
-  const candidates = useAppSelector(candidatesSelectors.selectAll);
-  const candidateSkills = useAppSelector(candidateSkillsSelectors.selectAll);
+  // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
-  const { candidateAdded, filtersLoaded, candidatesLoaded, candidateUpdated } = useAppSelector(
-    (state) => state.candidate
-  );
-  const { candidateSkillAdded, candidateSkillsLoaded } = useAppSelector(
-    (state) => state.candidateSkill
-  );
-  const [rows, setRows] = useState<Candidate[]>([]);
-  const [open, setOpen] = useState(false);
-
   const location = useLocation();
+  // -------------------------- STATE ---------------------------
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>();
+  const [rows, setRows] = useState<UserInfor[]>([]);
+  const [open, setOpen] = useState(false);
+  const { userInforsLoaded, userInforAdded } = useAppSelector((state) => state.userInfor);
+  // -------------------------- REDUX ---------------------------
+  const userInfors = useAppSelector(userInforSelectors.selectAll);
+  const activeEmployees = userInfors?.filter((e) => e.accountStatus !== false);
+
+  //#region -------------------------- EFFECT --------------------------
+  //Get userinfors
+  useEffect(() => {
+    if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
+  }, [dispatch, userInforsLoaded]);
+
+  //If userInfors is loaded, set rows
+  useEffect(() => {
+    if (userInforsLoaded) {
+      setRows(activeEmployees);
+    }
+  }, [userInforsLoaded]);
+
+  //Set header
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Danh sách nhân viên", path: "/staffs" }]));
+  }, [dispatch, location]);
+
+  //#endregion -------------------------- EFFECT --------------------------
+
+  //#region-------------------------- FUNCTION ------------------------
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -433,37 +357,13 @@ export default function OtherUsersTicketList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Toàn bộ ứng viên", path: "/candidates" }]));
-  }, [dispatch, location]);
-  // Get all candidates
-  useEffect(() => {
-    if (!candidatesLoaded || candidateAdded || candidateUpdated) {
-      dispatch(fetchCandidatesAsync());
-      dispatch(setCandidateAdded(false));
-      dispatch(setCandidateUpdated(false));
-    }
-  }, [dispatch, candidatesLoaded, candidateAdded, candidateUpdated]);
+  //#endregion -------------------------- FUNCTION --------------------------
 
-  //Get all candidate skills
-  useEffect(() => {
-    if (!candidateSkillsLoaded) {
-      dispatch(fetchCandidateSkillsAsync());
-    }
-  }, [dispatch, candidateSkillsLoaded]);
-
-  useEffect(() => {
-    if (candidatesLoaded) {
-      // Update the rows when departments are loaded
-      setRows(candidates);
-    }
-  }, [candidatesLoaded, candidates]);
-
+  // -------------------------- MAIN ----------------------------
   return (
     <>
       <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
-        <Grid container spacing={0} alignContent="center">
-        </Grid>
+        <Grid container spacing={0} alignContent="center"></Grid>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -513,9 +413,10 @@ export default function OtherUsersTicketList() {
               sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
               disableElevation={true}
               startIcon={<AddIcon />}
-              onClick={handleOpenDialog}
+              component={Link}
+              to="/create-new-employee"
             >
-              Tạo ứng viên
+              Thêm nhân viên
             </Button>
           </Grid>
           <CreateCandidate open={open} onClose={handleCloseDialog} />
@@ -526,7 +427,7 @@ export default function OtherUsersTicketList() {
       <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           density="standard"
-          getRowId={(row: any) => row.candidateId}
+          getRowId={(row: any) => row.staffId}
           autoHeight
           sx={{
             border: "none",
@@ -539,7 +440,7 @@ export default function OtherUsersTicketList() {
             loadingOverlay: LinearProgress,
             //toolbar: CustomToolbar,
           }}
-          loading={!candidatesLoaded || candidateAdded}
+          loading={!userInforsLoaded || userInforAdded}
           rows={rows}
           columns={columns}
           initialState={{

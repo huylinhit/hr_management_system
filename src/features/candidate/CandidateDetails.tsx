@@ -301,19 +301,13 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   const { candidateUpdated } = useAppSelector((state) => state.candidate);
   const [value, setValue] = useState<Dayjs | null>(null);
   const [candidateSkillToDelete, setCandidateSkillToDelete] = useState<number[]>([]);
-  const candidateSkillsByCandidateId = useAppSelector((state) =>
-    candidateSkillsSelectors.selectAll(state).filter((s) => s.candidateId == parseInt(id!))
-  );
+  // const candidateSkillsByCandidateId = useAppSelector((state) =>
+  //   candidateSkillsSelectors.selectAll(state).filter((s) => s.candidateId == parseInt(id!))
+  // );
 
   const location = useLocation();
   const [fields, setFields] = useState([{ skill: "", level: "" }]);
-  const [updatedSkills, setUpdatedSkills] = useState(
-    [...candidateSkillsByCandidateId].map((skill) => ({
-      id: skill.uniqueId,
-      skill: skill.skillName,
-      level: skill.level,
-    }))
-  );
+  const [updatedSkills, setUpdatedSkills] = useState([{ id: 0, skill: "", level: "" }]);
 
   //#region Handle Drag File
   const handleDragEnter = (event: any) => {
@@ -349,29 +343,6 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
     (state) => state.candidateSkill
   );
 
-  const handleAddField = () => {
-    setFields([...fields, { skill: "", level: "" }]);
-  };
-
-  //Delete candidate skill
-  const handleAddDeleteSkills = (candidateSkillId: number) => {
-    console.log(candidateSkillId);
-    setUpdatedSkills(
-      candidateSkillsByCandidateId
-        .filter((skill) => skill.uniqueId !== candidateSkillId)
-        .map((skill) => ({
-          id: skill.uniqueId,
-          skill: skill.skillName,
-          level: skill.level,
-        }))
-    );
-    console.log(`HANDLE DELETE `);
-
-    setCandidateSkillToDelete([...candidateSkillToDelete, candidateSkillId]);
-  };
-  console.log(updatedSkills);
-  //Delete candidate skill
-
   useEffect(() => {
     if (candidate) {
       dispatch(
@@ -390,17 +361,43 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   }, [id, candidate, dispatch, candidateUpdated]);
 
   useEffect(() => {
-    if (candidateSkillsByCandidateId.length === 0 && id) {
-      dispatch(fetchCandidateSkillsByCandidateIdAsync(parseInt(id)));
-    } else if (candidateSkillsByCandidateId.length > 0 && updatedSkills.length === 0) {
-      const updatedSkills = candidateSkillsByCandidateId.map((skill) => ({
+    if (candidate && id) {
+      const updatedSkills = candidate.candidateSkills.map((skill) => ({
         id: skill.uniqueId,
         skill: skill.skillName,
         level: skill.level,
       }));
       setUpdatedSkills(updatedSkills);
     }
-  }, [id, candidateSkillsByCandidateId, updatedSkills.length, dispatch, setUpdatedSkills]);
+  }, [id, candidate, dispatch, setUpdatedSkills]);
+  // useEffect(() => {
+  //   if (candidateSkillsByCandidateId.length === 0 && id) {
+  //     dispatch(fetchCandidateSkillsByCandidateIdAsync(parseInt(id)));
+  //   } else if (candidateSkillsByCandidateId.length > 0 && updatedSkills.length === 0) {
+  //     console.log("REFRESH");
+  //     const updatedSkills = candidateSkillsByCandidateId.map((skill) => ({
+  //       id: skill.uniqueId,
+  //       skill: skill.skillName,
+  //       level: skill.level,
+  //     }));
+  //     setUpdatedSkills(updatedSkills);
+  //   }
+  // }, [id, candidateSkillsByCandidateId, dispatch]);
+
+  useEffect(() => {
+    if (candidate) {
+      const remainingSkills = candidate?.candidateSkills.filter(
+        (skill) => !candidateSkillToDelete.includes(skill.uniqueId)
+      );
+      setUpdatedSkills(
+        remainingSkills.map((skill) => ({
+          id: skill.uniqueId,
+          skill: skill.skillName,
+          level: skill.level,
+        }))
+      );
+    }
+  }, [candidateSkillToDelete]);
 
   useEffect(() => {
     if (candidate) {
@@ -438,7 +435,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
       .catch((error) => {});
   }, [candidate]);
 
-  //#region debouncedInput
+  //#region ---------------------------------- DEBOUNCED INPUT ------------------------
   const debouncedNameInput = debounce((event: any) => {
     setName(event.target.value);
   }, 750);
@@ -484,7 +481,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
     updatedFields[index].level = value;
     setUpdatedSkills(updatedFields);
   }, 500);
-  //#endregion
+  //#endregion ---------------------------------- DEBOUNCED INPUT ------------------------
 
   const handleAddAvatarButton = () => {
     if (avatarInputRef.current) {
@@ -533,6 +530,16 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
       console.error("Error downloading the file:", error);
     }
   };
+  const handleAddField = () => {
+    setFields([...fields, { skill: "", level: "" }]);
+  };
+
+  //Delete candidate skill
+  const handleAddDeleteSkills = (candidateSkillId: number) => {
+    setCandidateSkillToDelete([...candidateSkillToDelete, candidateSkillId]);
+  };
+  console.log(updatedSkills);
+  //Delete candidate skill
   const handleCandidateUpdate = () => {
     const candidateUpdate = {
       name: name,
@@ -582,7 +589,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
         console.log("Error updating candidate: ", error);
       });
   };
-  if (!candidate) {
+  if (!candidate || !candidate.candidateSkills) {
     return <CandidateDetailSkeleton />; // Render a loading state while fetching candidate data
   }
   return (
@@ -646,11 +653,11 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
           </Box>
         </Grid>
         <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
-        {/* <Typography
-          sx={{ fontWeight: 600, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
+        <Typography
+          sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
         >
           Thông tin
-        </Typography> */}
+        </Typography>
         <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
           <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
           <Typography sx={{ ...headerStyle, ...headerColor }}>Trạng thái</Typography>
@@ -707,17 +714,6 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
               onChange={(newValue: any) => setDob(newValue)}
             />
           </LocalizationProvider>
-
-          {/* <BootstrapInput
-            fullWidth
-            disabled={false}
-            InputProps={textFieldInputProps}
-            defaultValue={moment(candidate?.dob).format("MMM Do, YYYY")}
-            variant="standard"
-            placeholder="Trống"
-            onChange={debouncedDobInput}
-            sx={infoStyle}
-          /> */}
         </Box>
 
         <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
@@ -876,49 +872,51 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
         {/* Upload File */}
 
         <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "20px", mb: "20px" }}></Box>
-
-        {candidateSkillsByCandidateId ? (
+        <Typography
+          sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
+        >
+          Kỹ năng
+        </Typography>
+        {candidate.candidateSkills && (
           <>
-            {updatedSkills.map((option, index) => (
-              <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
-                <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-                <BootstrapInput
-                  InputProps={{
-                    ...textFieldInputProps,
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={(e) => handleAddDeleteSkills(option.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={`${option.skill}`}
-                  onChange={(e) => debouncedUpdatedSkillChange(index, e.target.value)}
-                  variant="standard"
-                  placeholder="Trống"
-                  sx={{ width: "250px", paddingRight: "10px" }}
-                />
+            {updatedSkills.length > 0 ? (
+              updatedSkills.map((option, index) => (
+                <Box display="flex" alignItems="center" sx={verticalSpacing} key={option.id}>
+                  <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+                  <BootstrapInput
+                    InputProps={{
+                      ...textFieldInputProps,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={(e) => handleAddDeleteSkills(option.id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    defaultValue={option.skill}
+                    onChange={(e) => debouncedUpdatedSkillChange(index, e.target.value)}
+                    variant="standard"
+                    placeholder="Trống"
+                    sx={{ width: "250px", paddingRight: "10px" }}
+                  />
 
-                <BootstrapInput
-                  fullWidth
-                  InputProps={textFieldInputProps}
-                  onChange={(e) => debouncedUpdatedLevelChange(index, e.target.value)}
-                  defaultValue={option.level}
-                  variant="standard"
-                  placeholder="Trống"
-                />
-              </Box>
-            ))}
+                  <BootstrapInput
+                    fullWidth
+                    InputProps={textFieldInputProps}
+                    onChange={(e) => debouncedUpdatedLevelChange(index, e.target.value)}
+                    defaultValue={option.level}
+                    variant="standard"
+                    placeholder="Trống"
+                  />
+                </Box>
+              ))
+            ) : (
+              <Typography>No skills available</Typography>
+            )}
           </>
-        ) : (
-          <InforRow
-            onChange={debouncedExpectedSalaryInput}
-            header="React Js"
-            defaultValue={candidate?.expectedSalary}
-            disabled={false}
-          />
         )}
+
         {fields.map((field, index) => (
           <React.Fragment key={index}>
             <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
