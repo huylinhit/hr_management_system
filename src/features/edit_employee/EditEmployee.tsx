@@ -12,14 +12,8 @@ import EditEmployeeFooter from "./component/EditEmployeeFooter";
 import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
 
 // data
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
-import {
-  staffSkillsSelectors,
-  fetchStaffSkillsAsync,
-} from "../skills/staffSkillSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import { staffSkillsSelectors, fetchStaffSkillsAsync } from "../skills/staffSkillSlice";
 
 export default function EditEmployee() {
   // -------------------------- VAR -----------------------------
@@ -27,24 +21,20 @@ export default function EditEmployee() {
   const dispatch = useAppDispatch();
 
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, id!)
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, id!));
 
   const skills = useAppSelector((state: any) =>
-    staffSkillsSelectors
-      .selectAll(state)
-      .filter((s) => s.staffId == employee?.staffId)
+    staffSkillsSelectors.selectAll(state).filter((s) => s.staffId == employee?.staffId)
   );
-  
-  let skillUpdate = [{uniqueId: 0, level: "", skillName: ""}]
+
+  let skillUpdate = [{ uniqueId: 0, level: "", skillName: "" }];
   skillUpdate = skills.map((skill) => {
     return {
       uniqueId: skill.uniqueId,
       level: skill.level,
       skillName: skill.skillName,
     };
-  });  
+  });
   // -------------------------- STATE ---------------------------
   const [form, setForm] = useState({
     lastName: employee?.lastName,
@@ -78,99 +68,46 @@ export default function EditEmployee() {
   };
   // -------------------------- MAIN ----------------------------
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
-      <Grid container>
-        <Typography
-          sx={{
-            padding: "5px 0 15px 0",
-            fontStyle: "normal",
-            fontWeight: "700",
-            fontSize: "30px",
-            lineHeight: "39px",
-          }}
-        >
-          Chỉnh sửa thông tin nhân viên
-        </Typography>
-      </Grid>
-
-      <Container>
-        <Grid
-          container
-          sx={{
-            border: "1px solid #E2E1E5",
-            borderRadius: "20px",
-            backgroundColor: "white",
-            padding: "20px 45px 20px 45px",
-          }}
-        >
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
-          >
-            <EditAva employee={employee} setForm={setForm} />
-          </Grid>
-
-          <hr
-            style={{
-              background: "#E2E1E5",
-              color: "#E2E1E5",
-              borderColor: "#E2E1E5",
-              height: "1px",
-              width: "1000px",
-            }}
-          />
-          <Grid
-            item
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-start",
-              padding: "15px 30px 0 30px",
-            }}
-          >
-            <Grid item xs={5}>
-              <EditInfo employee={employee} setForm={setForm} />
-            </Grid>
-
-            <Grid item xs={1}>
-              <hr
-                style={{
-                  background: "#E2E1E5",
-                  color: "#E2E1E5",
-                  borderColor: "#E2E1E5",
-                  height: "610px",
-                  width: "1px",
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <EditContact employee={employee} setForm={setForm} />
-              <EditSkill
-                employee={employee}
-                skills={skills}
-                skillForm={skillForm}
-                setSkillForm={setSkillForm}
-              />
-            </Grid>
-          </Grid>
-          <Grid item sx={{ width: "100%" }}>
-            <EditEmployeeFooter
-              employee={employee}
-              handleSubmit={handleSubmit}
-            />
-          </Grid>
+    <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
+      <Grid
+        container
+        sx={{
+     
+          borderRadius: "20px",
+          backgroundColor: "white",
+        }}
+        xs={12}
+      >
+        <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}>
+          <EditAva employee={employee} setForm={setForm} />
+          <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
         </Grid>
 
-        <ConfirmSubmitDialog
-          open={openSubmit}
-          setOpen={setOpenSubmit}
-          id={id}
-          item={form}
-          skillForm={skillForm}
-        />
-      </Container>
-    </Box>
+        <Grid item xs={12}>
+          {/* <EditInfo employee={employee} setForm={setForm} /> */}
+        </Grid>
+
+        <Grid item xs={12}>
+          {/* <EditContact employee={employee} setForm={setForm} /> */}
+          <EditSkill
+            employee={employee}
+            skills={skills}
+            skillForm={skillForm}
+            setSkillForm={setSkillForm}
+          />
+        </Grid>
+        <Grid item sx={{ width: "100%" }}>
+          <EditEmployeeFooter employee={employee} handleSubmit={handleSubmit} />
+        </Grid>
+      </Grid>
+
+      <ConfirmSubmitDialog
+        open={openSubmit}
+        setOpen={setOpenSubmit}
+        id={id}
+        item={form}
+        skillForm={skillForm}
+      />
+    </Container>
   );
 }

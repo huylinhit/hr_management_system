@@ -68,8 +68,14 @@ import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
 import HomePage from "../../features/home/HomePage";
 import { useAppSelector } from "../store/configureStore";
 
+import StaffList from "../../features/employee/StaffList";
+import EditInfo from "../../features/edit_employee/component/EditInfo";
+// import Payroll from "../../features/payslip/component/Payroll";
+// import PayslipDetail from "../../features/payslip/component/PayslipDetail";
+
+
 const PrivateRoute = ({ path, element }: any) => {
-  const {user} = useAppSelector(state => state.account);
+  const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
   if (!user) {
     return element;
@@ -78,7 +84,6 @@ const PrivateRoute = ({ path, element }: any) => {
     return null;
   }
 };
-
 
 export const router = createBrowserRouter([
   {
@@ -159,7 +164,7 @@ export const router = createBrowserRouter([
 
           //Contract
           { path: "/editcontract", element: <EditContract /> },
-          { path: "/contractdetail", element: <DetailContract /> },
+          // { path: "/contractdetail", element: <ContractDetail /> },
         ]
       },
       { path: "/", element: <HomePage /> },
@@ -179,6 +184,8 @@ export const router = createBrowserRouter([
 
       // Employee
       { path: "/create-new-employee", element: <AddNewEmployee /> },
+      { path: "/staffs", element: <StaffList /> },
+      { path: "/staffs/:id", element: <EditInfo /> },
       { path: "/employeelist", element: <EmployeeList /> },
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
       { path: "/edit-employee/:id", element: <EditEmployee /> },
@@ -229,9 +236,8 @@ export const router = createBrowserRouter([
       { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
       //payslip
-      { path: '/payslips' , element: <Payroll/>},
-      { path: '/payslips/:payslipId/staffs/:staffId' , element: <PayslipDetail/>},
-
+      { path: "/payslips", element: <Payroll /> },
+      { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

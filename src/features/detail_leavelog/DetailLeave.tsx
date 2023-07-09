@@ -25,7 +25,7 @@ export default function DetailLeave() {
   const { handleSubmit } = useForm();
   // const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
-  const [staff, setStaff] = useState<Employee>(STAFF);
+  // const [staff, setStaff] = useState<Employee>(STAFF);
 
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -52,13 +52,13 @@ export default function DetailLeave() {
   //     });
   // }, []);
 
-  const [logLeave, setlogLeave] = useState<LeaveLog>();
-  useEffect(() => {
-    axios.get(`/log-leaves/${id}/staffs/${staff.staffId}`).then((response) => setlogLeave(response.data));
-  }, [id]);
-  console.log(logLeave);
-  console.log(id);
-  console.log(staff);
+  // const [logLeave, setlogLeave] = useState<LeaveLog>();
+  // useEffect(() => {
+  //   axios.get(`/log-leaves/${id}/staffs/${staff.staffId}`).then((response) => setlogLeave(response.data));
+  // }, [id]);
+  // console.log(logLeave);
+  // console.log(id);
+  // console.log(staff);
   
   
 
