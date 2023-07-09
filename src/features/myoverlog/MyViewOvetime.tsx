@@ -23,10 +23,11 @@ import { BorderColor } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import MyCreateOT from "./MyCreateOT";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { LogOvertime } from "../../app/models/logOvertime";
 import { FORMSTATUS } from "../../app/store/data";
 import { CiCircleMore } from "react-icons/ci";
+import moment from "moment";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -63,34 +64,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function MyViewOvertime() {
-  function createData(
-    kind: string,
-    to: string,
-    from: string,
-    times: string,
-    reason: string,
-    create: string,
-    status: string,
-    appr: string,
-    reply: ReactNode
-  ) {
-    return { kind, to, from, times, reason, create, status, appr, reply };
-  }
-
-  // const rows = [
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
-  //   createData("Ngày lễ", "30/04/2023", '01/05/2023', "3 giờ", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
-
-  // ];
   const styles = {
     marginBottom: "10px",
   };
-
+ 
+  const staffId = "8";
   function handleChange(
     event: SelectChangeEvent<unknown>,
     child: ReactNode
@@ -106,13 +84,14 @@ function MyViewOvertime() {
   };
 
   const [list, setList] = useState<LogOvertime[]>();
+  console.log(list);
 
   axios.defaults.baseURL = "http://localhost:5000/api";
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     axios
-      .get("/logots")
+      .get(`/logots/staffs/${staffId}`)
       .then((response) => {
         setList(response.data);
       })
@@ -120,6 +99,30 @@ function MyViewOvertime() {
         console.log(error);
       });
   }, []);
+
+  const handleRowClick = (row: LogOvertime) => {
+    console.log(row);
+    axios
+
+      .patch(`/logots/${row.otLogId}/staffs/${staffId}`, [
+        {
+          op: "replace",
+          path: "/enable",
+          value: "false",
+        },
+      ])
+      .then((response) => {
+        console.log("Response:", response);
+      })
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          console.error("Error Response:", error.response.data);
+        } else {
+          console.error("Error:", error.message);
+        }
+      });
+  };
+
   return (
     <>
       <Typography variant="h4" sx={headerStyle} style={styles}>
@@ -192,8 +195,12 @@ function MyViewOvertime() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list?.map((item) => (
-              <StyledTableRow key={item.otLogId}>
+            {list?.map((item) => item.enable ?(
+              <StyledTableRow
+              
+                // onClick={() => handleRowClick(item)}
+                key={item.otLogId}
+              >
                 <>
                   <StyledTableCell align="center">
                     {item.otLogId}
@@ -204,11 +211,14 @@ function MyViewOvertime() {
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {item.logStart}
+                    {/* {item.logStart} */}
+                    {moment(item.logStart).format("DD/MM/YYYY")}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
                     {item.logEnd}
+                    {moment(item.logEnd).format("DD/MM/YYYY")}
+
                   </StyledTableCell>
                   <StyledTableCell align="center"></StyledTableCell>
 
@@ -235,9 +245,13 @@ function MyViewOvertime() {
                     {item.changeStatusTime}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <Button color="error" onClick={handleClose}>
-                      <DeleteIcon />
-                    </Button>
+                    {item.status !== "rejected" ? (
+                      // ||
+                      // item?.status !== "approved"
+                      <Button color="error" onClick={handleClose}>
+                        <DeleteIcon onClick={() => handleRowClick(item)} />
+                      </Button>
+                    ) : null}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
@@ -258,7 +272,8 @@ function MyViewOvertime() {
                   </StyledTableCell>
                 </>
               </StyledTableRow>
-            ))}
+            ) : null
+            )}
           </TableBody>
         </Table>
       </TableContainer>

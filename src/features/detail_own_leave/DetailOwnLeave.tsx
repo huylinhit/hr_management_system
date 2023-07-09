@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
-import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
 // data
@@ -19,13 +18,14 @@ import axios from "axios";
 
 export default function DetailOwnLeave() {
   // -------------------------- VAR -----------------------------
- // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
+  // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
+  // const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
   const { id } = useParams();
-  
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { handleSubmit } = useForm();
+
   // -------------------------- STATE ---------------------------
   const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------
@@ -58,7 +58,9 @@ export default function DetailOwnLeave() {
             fontSize: "30px",
             lineHeight: "39px",
           }}
-        >Đơn xin nghỉ phép</Typography>
+        >
+          Đơn xin nghỉ phép
+        </Typography>
         <Typography
           sx={{
             paddingBottom: "15px",
@@ -67,7 +69,9 @@ export default function DetailOwnLeave() {
             fontSize: "20px",
             lineHeight: "20px",
           }}
-        >Mã đơn - {logLeave?.leaveLogId}</Typography>
+        >
+          Mã đơn - {logLeave?.leaveLogId}
+        </Typography>
       </Grid>
 
       <Container>
@@ -79,13 +83,13 @@ export default function DetailOwnLeave() {
             borderRadius: "30px",
             padding: "20px 45px",
             margin: "5px 0",
-          }}  
+          }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <DetailLeaveFooter logLeave={logLeave}/>
+            <DetailLeaveFooter logLeave={logLeave} />
           </Grid>
         </Grid>
       </Container>

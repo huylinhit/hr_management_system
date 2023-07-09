@@ -6,21 +6,33 @@ import { userInforSlice } from "../../features/department/userInforSlice";
 import { ticketSlice } from "../../features/othertypes/ticketSlice";
 import { ticketTypeSlice } from "../../features/othertypes/ticketTypeSlice";
 import { staffSkillSlice } from "../../features/skills/staffSkillSlice";
+import { payslipSlice } from "../../features/payslip/payslipSlice";
+import { logotSlice } from "../../features/overlog/overtimeSlice";
+import { logleaveSlice } from "../../features/detail_leavelog/logleaveSlice";
 import { employeeSlice } from "./employee/employeeSlice";
 import { candidateSlice } from "../../features/candidate/candidateSlice";
 import { candidateSkillSlice } from "../../features/candidate/candidateSkillSlice";
+import { headerSlice } from "../layout/headerSlice";
+import { contractSlice } from "./contract/contractSlice";
+import { allowanceTypeSlice } from "./allowanceType/allowanceTypeSlice";
 
 export const store = configureStore({
     reducer: {
         account: accountSlice.reducer,
+        contract: contractSlice.reducer,
         department: departmentSlice.reducer,
         userInfor: userInforSlice.reducer,
         ticket: ticketSlice.reducer,
         ticketType: ticketTypeSlice.reducer,
         staffSkill: staffSkillSlice.reducer,
+        payslip: payslipSlice.reducer,
+        logot: logotSlice.reducer,
+        logleave: logleaveSlice.reducer,
         candidateSkill: candidateSkillSlice.reducer,
         employee: employeeSlice.reducer,
-        candidate: candidateSlice.reducer
+        candidate: candidateSlice.reducer,
+        header: headerSlice.reducer,
+        allowanceType: allowanceTypeSlice.reducer,
     }
 })
 

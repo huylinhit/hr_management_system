@@ -1,9 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 
 // api
-import { LogOT } from "../../../app/models/logOT";
+// import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
 import { LogOvertime } from "../../../app/models/logOvertime";
+import moment from "moment";
 
 // interface
 interface Props {
@@ -70,7 +71,8 @@ export default function DetailForm({ logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logStart}
+            {/* {logOt.logStart} */}
+            {moment(logOt.logStart).format("DD/MM/YYYY")}
           </Typography>
         </Grid>
         <Grid item xs={1}>
@@ -101,7 +103,8 @@ export default function DetailForm({ logOt, types }: Props) {
           <Typography
             sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
           >
-            {logOt.logEnd}
+            {/* {logOt.logEnd} */}
+            {moment(logOt.logEnd).format("DD/MM/YYYY")}
           </Typography>
         </Grid>
       </Grid>

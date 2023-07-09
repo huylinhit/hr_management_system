@@ -4,7 +4,6 @@ import React, { ReactNode, useEffect, useState } from 'react';
 
 import { BorderColor } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
 import MyCreateLeavetime from './MyCreateLeavetime';
 import axios from 'axios';
 import { LeaveLog } from '../../app/models/leaveLog';

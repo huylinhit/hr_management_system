@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { router } from "../router/router";
 import { toast } from "react-toastify";
 import { store } from "../store/configureStore";
+import { request } from "http";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
@@ -30,7 +31,6 @@ axios.interceptors.response.use(
           for (var key in data.errors) {
             modelStateErrors.push(data.errors[key]);
           }
-
           throw modelStateErrors.flat();
         }
 
@@ -39,11 +39,14 @@ axios.interceptors.response.use(
       case 401:
         toast.error(data.title);
         break;
+      case 403:
+        toast.error("You are not allowed to do that!");
+        break;
       case 404:
         toast.error(data.title);
         break;
       case 500:
-        //router.navigate("/server-error", { state: { error: data } });
+        router.navigate("/server-error", { state: { error: data } });
         break;
       default:
         break;
@@ -52,6 +55,14 @@ axios.interceptors.response.use(
     return Promise.reject(error.response);
   }
 );
+
+const Errors = {
+  get400Error: () => requests.get('buggy/bad-request'),
+  get401Error: () => requests.get('buggy/unauthorised'),
+  get404Error: () => requests.get('buggy/not-found'),
+  get500Error: () => requests.get('buggy/server-error'),
+  getValidationError: () => requests.get('buggy/validation-error'),
+}
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
@@ -67,6 +78,15 @@ const Account = {
   currentUser: () => requests.get("account/currentUser"),
 };
 
+const Contract = {
+  list: () => requests.get("contracts"),
+  validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
+  details: (id: number) => requests.get(`contracts/${id}`),
+  create: (values: any) => requests.post("contracts", values),
+  update: (id: number, values: any) => requests.put(`contracts/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
+}
+
 const Department = {
   list: () => requests.get("departments"),
   details: (id: number) => requests.get(`departments/${id}`),
@@ -75,15 +95,17 @@ const Department = {
   patch: (id: number, values: any) => requests.patch(`departments/${id}`, values),
 };
 
+
 const Ticket = {
   list: () => requests.get("tickets"),
   currentUserList: () => requests.get("tickets/currentusertickets"),
   otherUsersList: () => requests.get("tickets/otheruserstickets"),
   details: (id: number) => requests.get(`tickets/${id}`),
   create: (values: any) => requests.post("tickets", values),
-  update: (id: number, values: any) => requests.put(`tickets/${id}`, values),
+  update: (id: number, values: any) => requests.put(`tickets/update/${id}`, values),
   updateStatus: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
+  cancel: (id: number) => requests.delete(`tickets/${id}`)
 };
 const TicketType = {
   list: () => requests.get("tickettype"),
@@ -105,7 +127,8 @@ const StaffSkill = {
   list: () => requests.get("staffskill"),
   details: (id: number) => requests.get(`staffskill/${id}`),
   create: (values: any) => requests.post("staffskill", values),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+  delete: (id: number) => requests.delete(`staffskill/${id}`),
+  update: (values: any) => requests.put(`staffskill`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
 
@@ -120,7 +143,8 @@ const CandidateSkill = {
   details: (id: number) => requests.get(`candidateskills/${id}`),
   listByCandidateId: (id: number) => requests.get(`candidateskills/candidate/${id}`),
   create: (values: any) => requests.post("candidateskills", values),
-  update: (values: any) => requests.put(`candidateskills`, values)
+  update: (values: any) => requests.put(`candidateskills`, values),
+  delete: (id: number) => requests.delete(`candidateskills/${id}`),
 }
 
 const UserInfors = {
@@ -128,17 +152,59 @@ const UserInfors = {
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
 
-// -----------------------------------
+
+const Payslip = {
+  list: () => requests.get("payslips"),
+  details: (id: number, staffId: number) => requests.get(`payslips/${id}/staffs/${staffId}`),
+  listOfStaff: (id: number, staffId: number) => requests.get(`payslips/staffs/${staffId}`),
+  create: (staffId: number, dateTime: any) => requests.post(`payslips/staffs/${staffId}`, dateTime),
+  update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
+}
+
+const LogOt = {
+  list: () => requests.get("logots"),
+  details: (id: number) => requests.get(`logots/${id}}`),
+  listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
+  create: (values: any) => requests.post("logots", values),
+  update: (id: number, values: any) => requests.put(`logots/${id}`, values),
+  patch: (staffId: number, values: any) => requests.patch(`logots/staffs/${staffId}`, values),
+}
+
+const LogLeave = {
+  list: () => requests.get("log-leaves"),
+  details: (id: number) => requests.get(`log-leaves/${id}`),
+  listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
+  create: (values: any) => requests.post("log-leaves", values),
+  update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
+  patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
+}
+
 const Employees = {
-  list: () => requests.get("staffskill"),
-  details: (id: number) => requests.get(`staffskill/${id}`),
-  create: (values: any) => requests.post("staffskill", values),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
-  patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
+  list: () => requests.get("userinfor"),
+  details: (id: number) => requests.get(`userinfor/${id}`),
+  create: (values: any) => requests.post("userinfor", values),
+  delete: (id: number) => requests.delete(`userinfor/${id}`),
+  update: (id: number, values: any) => requests.put(`userinfor/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
+const AllowanceType = {
+  list: () => requests.get("allowance-types"),
+};
+
+const Allowance = {
+  list: () => requests.get("allowances"),
+  create: (id: number, values: any) => requests.post(`allowances/contracts/${id}`, values),
+  update: (allowanceId: number, contractId: number, values: any) => requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
+  patch: (allowanceId: number, contractId: number, values: any) => requests.patch(`allowances/${allowanceId}/contracts/${contractId}`, values),
+};
+// -----------------------------------
 const agent = {
   Account,
+  AllowanceType,
+  Allowance,
+  Contract,
   Department,
   UserInfors,
   Employees,
@@ -146,8 +212,12 @@ const agent = {
   Skill,
   StaffSkill,
   TicketType,
+  Payslip,
+  LogOt,
+  LogLeave,
   Candidate,
-  CandidateSkill
+  CandidateSkill,
+  Errors
 };
 
 export default agent;

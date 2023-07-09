@@ -20,8 +20,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Employee } from "../../app/models/employee";
-import { employeeSelectors, employeeSlice, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
+import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
+import { UserInfor } from "../../app/models/userInfor";
+import DeleteDialog from "./component/DeleteDialog";
 
 const top100Films = [
   { label: "1", year: 1994 },
@@ -35,6 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    padding: "5px",
   },
 }));
 
@@ -63,8 +65,10 @@ export default function EmployeeList() {
   ];
   // -------------------------- STATE ---------------------------
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>()
   // -------------------------- REDUX ---------------------------
-  const employees = useAppSelector(employeeSelectors.selectAll);
+  const employees = useAppSelector(employeeSelectors.selectAll);  
+  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);  
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeesAsync());
@@ -94,7 +98,7 @@ export default function EmployeeList() {
           xs={10}
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Grid sx={{ margin: "0 5px", backgroundColor: "#FFFFFF" }}>
+          <Grid sx={{ margin: "0 5px" }}>
             <TextField size="small" label="Tìm kiếm..." />
           </Grid>
 
@@ -104,7 +108,7 @@ export default function EmployeeList() {
               id="combo-box-demo"
               size="small"
               options={top100Films}
-              sx={{ width: 200, margin: "0 5px", backgroundColor: "#FFFFFF" }}
+              sx={{ width: 200, margin: "0 5px" }}
               renderInput={(params) => (
                 <TextField {...params} label="Phòng ban" />
               )}
@@ -122,7 +126,7 @@ export default function EmployeeList() {
         </Grid>
       </Grid>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
           <TableHead>
@@ -140,21 +144,26 @@ export default function EmployeeList() {
           </TableHead>
 
           <TableBody>
-            {employees.map((employee) => (
+            {activeEmployees?.map((employee) => (
               <StyledTableRow
                 key={employee.staffId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell align="center" component="th" scope="row" >
                   {employee.staffId}
                 </StyledTableCell>
-                <StyledTableCell align="center"></StyledTableCell>
-                <StyledTableCell align="center">{employee.lastName} {employee.firstName}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {/* {employee.} */}
+                </StyledTableCell>
+                <StyledTableCell align="center">{employee.fullName}</StyledTableCell>
                 <StyledTableCell align="center">{employee.phone}</StyledTableCell>
                 <StyledTableCell align="center">{employee.hireDate}</StyledTableCell>
-                <StyledTableCell align="center">{employee.userId}</StyledTableCell>
+                <StyledTableCell align="center">{employee.email}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <Button color="error">
+                  <Button color="error" onClick={() => {
+                    setOpenDeleteDialog(true)
+                    setEmployeeDeleted(employee)
+                  }}>
                     <DeleteIcon />
                   </Button>
                 </StyledTableCell>
@@ -174,6 +183,7 @@ export default function EmployeeList() {
           </TableBody>
         </Table>
       </TableContainer>
+      <DeleteDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} item={employeeDeleted}/>
     </Container>
   );
 }

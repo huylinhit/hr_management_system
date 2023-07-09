@@ -13,7 +13,7 @@ import { STAFF, OTLOG, OTTYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
-//import { LogOT } from "../../app/models/logOT";
+// import { LogOT } from "../../app/models/LogOT";
 import { OtType } from "../../app/models/otType";
 import axios from "axios";
 import { LogOvertime } from "../../app/models/logOvertime";
@@ -71,7 +71,7 @@ export default function DetailOvertime() {
           container
           onSubmit={handleSubmit(onSubmit)}
           sx={{
-            border: "1px solid #E2E1E5",
+            boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.25)",
             backgroundColor: "white",
             borderRadius: "30px",
             padding: "20px 45px",
@@ -82,7 +82,7 @@ export default function DetailOvertime() {
             <DetailOvertimeContent logOt={logOt} staff={staff} types={types} />
           </Grid>
           <Grid item sx={{ width: "100%" }}>
-            <DetailOvertimeFooter />
+            {/* <DetailOvertimeFooter /> */}
           </Grid>
         </Grid>
       </Container>

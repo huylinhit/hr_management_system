@@ -28,6 +28,7 @@ export const fetchDepartmentsAsync = createAsyncThunk<Department[], void, { stat
         id: index + 1, // Generate a unique id
         departmentId: department.departmentId,
         departmentName: department.departmentName,
+        managerId: department.managerId,
         manager: department.manager,
         numberOfStaff: department.numberOfStaff,
         managerPhone: department.managerPhone,

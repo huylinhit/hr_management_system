@@ -28,6 +28,7 @@ import { Root } from "react-dom/client";
 import axios from "axios";
 import React from "react";
 import { LogOvertime } from "../../app/models/logOvertime";
+import moment from "moment";
 
 const headerStyle = {
   fontWeight: "bold",
@@ -79,92 +80,6 @@ function ViewOvertimeLog() {
     return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
-  // const rows = [
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Từ chối",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0002",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Chờ duyệt",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0003",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Chấp nhận",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0004",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Từ chối",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0005",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Chờ duyệt",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0006",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Chấp nhận",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0007",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Ngày lễ",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3:00",
-  //     "...",
-  //     "Từ chối",
-  //     ""
-  //   ),
-  // ];
   const styles = {
     marginBottom: "10px",
   };
@@ -204,7 +119,7 @@ function ViewOvertimeLog() {
   // call api
   return (
     <>
-      {/* <Container sx={{ px: "50px" }}> */}
+      <Container sx={{ px: "50px" }}>
       <Typography variant="h4" sx={headerStyle} style={styles}>
         Danh sách đơn làm thêm giờ
       </Typography>
@@ -287,27 +202,27 @@ function ViewOvertimeLog() {
             {list?.map((item) => (
               <StyledTableRow key={item.otLogId}>
                 <>
-                  <Link to="/detail-overtime-log/:id">
-                    <StyledTableCell align="center">
-                      {item.otLogId}
-                    </StyledTableCell>
-                  </Link>
+                  <StyledTableCell align="center">
+                    {item.otLogId}
+                  </StyledTableCell>
 
                   <StyledTableCell align="center">
                     {item.staffId}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {item.staff.firstName}
+                    {item.staff.firstName} {item.staff.lastName}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {item.otType.typeName}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {item.logStart}
+                    {/* {item.logStart} */}
+                    {moment(item.logStart).format("DD/MM/YYYY")}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {item.logEnd}
+                    {/* {item.logEnd} */}
+                    {moment(item.logEnd).format("DD/MM/YYYY")}
                   </StyledTableCell>
                   <StyledTableCell align="center"></StyledTableCell>
 
@@ -315,13 +230,26 @@ function ViewOvertimeLog() {
                     {item.reason}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <Chip
+                    {/* <Chip
                       label={item.status}
                       color={
                         item.status === FORMSTATUS.agree
                           ? "info"
                           : item.status === FORMSTATUS.pending
                           ? "default"
+                          : "error"
+                      }
+                      sx={{ width: "92px" }}
+                    /> */}
+                    <Chip
+                      label={item.status}
+                      color={
+                        // item.status === FORMSTATUS.agree
+                        item.status === "approved"
+                          ? "info"
+                          // : item.status === FORMSTATUS.pending
+                          : item.status === "pending"
+                          ? "default" // or 'disabled' if you want a grayed-out color
                           : "error"
                       }
                       sx={{ width: "92px" }}
@@ -332,9 +260,19 @@ function ViewOvertimeLog() {
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    <Button component={Link} to={`/detail-overtime-log/${item.otLogId}`}>
-                      {" "}
-                      Chỉnh sửa
+                    
+                    <Button
+                      component={Link}
+                      to={`/detail-overtime-log/${item.otLogId}`}
+                    >
+                      {item.status === FORMSTATUS.pending ? (
+                        <BorderColor />
+                      ) : (
+                        <CiCircleMore
+                          style={{ fontSize: "30px", color: "black" }}
+                        />
+                      )}
+                   
                     </Button>
                   </StyledTableCell>
                 </>
@@ -343,7 +281,7 @@ function ViewOvertimeLog() {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* </Container> */}
+      </Container>
     </>
   );
 }

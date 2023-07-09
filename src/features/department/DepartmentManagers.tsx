@@ -29,6 +29,18 @@ import { useEffect, useState } from "react";
 import { UserInfor } from "../../app/models/userInfor";
 import agent from "../../app/api/agent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+import moment from "moment";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import NumbersIcon from "@mui/icons-material/Numbers";
+import SubjectIcon from "@mui/icons-material/Subject";
+import PhoneIcon from "@mui/icons-material/Phone";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { Link } from "react-router-dom";
+
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -48,7 +60,13 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
-
+const headerStyle = {
+  color: "#7C7C7C",
+  fontWeight: 700,
+  fontFamily: "Mulish",
+  fontSize: 15,
+};
+const fontStyle = "Mulish";
 export default function DepartmentManagers({
   open,
   onClose,
@@ -59,44 +77,21 @@ export default function DepartmentManagers({
 }: Props) {
   const columns: GridColDef[] = [
     {
-      //staffId
-      field: "staffId",
-      headerName: "Id",
-      flex: 0.5,
-    },
-    {
-      //fullName
-      field: "fullName",
-      headerName: "Tên Nhân Viên",
-      flex: 1,
-      editable: true,
-      headerClassName: "custom-header-text",
-    },
-    {
-      //departmentName
-      field: "departmentName",
-      headerName: "Phòng Ban",
-      flex: 1,
-      editable: true,
-    },
-    {
-      //phone
-      field: "phone",
-      headerName: "Số Điện Thoại",
-      flex: 1,
-      editable: true,
-    },
-    {
-      //email
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      editable: true,
-    },
-    {
       field: "button",
       headerName: "",
-      flex: 0.5,
+      align: "center",
+      width: 50,
+      renderCell: (params) => (
+        <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
+          <MoreHorizIcon />
+        </IconButton>
+      ),
+    },
+    {
+      field: "manager",
+      headerName: "",
+      align: "center",
+      width: 50,
       renderCell: (params) => (
         <>
           <IconButton
@@ -116,11 +111,133 @@ export default function DepartmentManagers({
               />
             </Tooltip>
           </IconButton>
-
-          <IconButton>
-            <MoreHorizIcon />
-          </IconButton>
         </>
+      ),
+    },
+    {
+      //staffId
+      field: "staffId",
+      headerName: "ID",
+      width: 100,
+    },
+    {
+      //fullName
+      field: "fullName",
+      headerName: "Tên Nhân Viên",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tên nhân viên</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: "Số điện thoại",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "dob",
+      headerName: "Ngày sinh",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "gioiTinh",
+      headerName: "Giới tính",
+      width: 150,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Giới tính</div>
+        </Typography>
+      ),
+
+      renderCell(params) {
+        return (
+          <>
+            {params.value === "Nam" ? (
+              <Typography
+                sx={{
+                  backgroundColor: "#D1F2FB",
+                  color: "#2E839A",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  padding: "1px 10px ",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor: "#F6D7D7",
+                  color: "#D85858",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "country",
+      headerName: "Quốc gia",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+        </Typography>
       ),
     },
   ];
@@ -193,23 +310,18 @@ export default function DepartmentManagers({
             </Typography>
           </Grid>
         </Grid>
+
         <DataGrid
           sx={{
-            height: 500,
-            width: "100%",
-            marginTop: 2,
-            ".MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important",
-              overflow: "visible !important",
-              color: "#007FFF",
-            },
-            ".MuiDataGrid-columnHeaders": {
-              backgroundColor: "#E0F0FF",
-            },
+            height: "550px",
+            mt: "10px",
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: fontStyle,
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           //loading = {!departmentsLoaded}
           rows={rows}

@@ -30,17 +30,25 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import DepartmentForm from "./DepartmentForm";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DepartmentManagers from "./DepartmentManagers";
-import PhoneIcon from "@mui/icons-material/Phone";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import NumbersOutlinedIcon from "@mui/icons-material/NumbersOutlined";
 import TextFormatOutlinedIcon from "@mui/icons-material/TextFormatOutlined";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
+import PhoneIcon from "@mui/icons-material/Phone";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import NumbersIcon from "@mui/icons-material/Numbers";
+import SubjectIcon from "@mui/icons-material/Subject";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import "../../app/layout/App.css";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
+import moment from "moment";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -51,130 +59,41 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
+const fontStyle = "Mulish";
 const headerStyle = {
-  color: "#007FFF",
-  fontWeight: 600,
-  fontFamily: "Montserrat",
-  fontSize: 13,
+  color: "#7C7C7C",
+  fontWeight: 700,
+  fontFamily: "Mulish",
+  fontSize: 15,
 };
-const navStyle = {
-  fontSize: 25,
-  fontWeight: "bold",
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  fontFamily: "Montserrat",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
-};
+
 export default function DepartmentDetails() {
   const columns: GridColDef[] = [
     {
-      //staffId
-      field: "staffId",
-      headerName: "Id",
-      flex: 0.5,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <div>ID</div>
-        </Typography>
-      ),
-    },
-    {
-      //fullName
-      field: "fullName",
-      headerName: "Tên Nhân Viên",
-      flex: 1,
-      editable: true,
-      headerClassName: "custom-header-text",
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <TextFormatOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Tên Nhân Viên</div>
-        </Typography>
-      ),
-    },
-    {
-      //phone
-      field: "phone",
-      headerName: "Số Điện Thoại",
-      flex: 1,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
-          <div>Số Điện Thoại</div>
-        </Typography>
-      ),
-    },
-    {
-      //gioiTinh
-      field: "gioiTinh",
-      headerName: "Giới Tính",
-      flex: 1,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PermIdentityIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Giới Tính</div>
-        </Typography>
-      ),
-    },
-    {
-      //email
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <EmailOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Số Điện Thoại</div>
-        </Typography>
-      ),
-    },
-    {
-      //bank
-      field: "bank",
-      headerName: "Ngân Hàng",
-      flex: 1,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AccountBalanceOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Ngân Hàng</div>
-        </Typography>
-      ),
-    },
-    {
-      //bankAccount
-      field: "bankAccount",
-      headerName: "TK Ngân Hàng",
-      flex: 1,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>TK Ngân Hàng</div>
-        </Typography>
-      ),
-    },
-    {
       field: "button",
+      headerName: "",
+      width: 60,
+      align: "center",
+      renderCell(params) {
+        return (
+          <>
+            <IconButton onClick={() => handleButtonClick(params.row.id)}>
+              <MoreHorizIcon />
+            </IconButton>
+          </>
+        );
+      },
+    },
+    {
+      field: "manager",
       headerName: "Chức Vụ",
-      flex: 1,
+      width: 60,
+      align: "center",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <AccountCircleIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Chức Vụ</div>
+          <div></div>
         </Typography>
       ),
       renderCell(params) {
@@ -200,13 +119,176 @@ export default function DepartmentDetails() {
                 }}
               />
             </Tooltip>
-
-            <IconButton onClick={() => handleButtonClick(params.row.id)}>
-              <MoreHorizIcon />
-            </IconButton>
           </>
         );
       },
+    },
+    {
+      //staffId
+      field: "staffId",
+      headerName: "Id",
+      width: 75,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <div>ID</div>
+        </Typography>
+      ),
+    },
+    {
+      //fullName
+      field: "fullName",
+      headerName: "Tên Nhân Viên",
+      width: 200,
+      editable: true,
+      headerClassName: "custom-header-text",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Tên Nhân Viên</div>
+        </Typography>
+      ),
+    },
+    {
+      //phone
+      field: "phone",
+      headerName: "Số Điện Thoại",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
+          <div>Số Điện Thoại</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "gioiTinh",
+      headerName: "Giới tính",
+      width: 150,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Giới tính</div>
+        </Typography>
+      ),
+      renderCell(params) {
+        return (
+          <>
+            {params.value === "Nam" ? (
+              <Typography
+                sx={{
+                  backgroundColor: "#D1F2FB",
+                  color: "#2E839A",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  padding: "1px 10px ",
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  padding: "1px 10px ",
+                  backgroundColor: "#F6D7D7",
+                  color: "#D85858",
+                  fontFamily: "Mulish",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      //email
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Email</div>
+        </Typography>
+      ),
+    },
+    {
+      //bank
+      field: "bank",
+      headerName: "Ngân Hàng",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Ngân Hàng</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "dob",
+      headerName: "Ngày sinh",
+      width: 200,
+      editable: true,
+      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+        </Typography>
+      ),
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+        </Typography>
+      ),
+    },
+
+    {
+      field: "country",
+      headerName: "Quốc gia",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+        </Typography>
+      ),
+    },
+    {
+      //bankAccount
+      field: "bankAccount",
+      headerName: "TK Ngân Hàng",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>TK Ngân Hàng</div>
+        </Typography>
+      ),
     },
   ];
   const [selectedId, setSelectedId] = useState("");
@@ -230,60 +312,69 @@ export default function DepartmentDetails() {
   const handleCloseManagerDialog = () => setOpenManager(false);
 
   const { status: departmentStatus } = useAppSelector((state) => state.department);
+  const location = useLocation();
 
   useEffect(() => {
     if (!department && id) dispatch(fetchDepartmentAsync(parseInt(id)));
-    console.log(department);
   }, [id, department, dispatch]);
 
+  useEffect(() => {
+    dispatch(
+      setHeaderTitle([
+        { title: "Danh sách phòng ban", path: "/departments" },
+        { title: `${department?.departmentName}`, path: "" },
+      ])
+    );
+  }, [location, dispatch, id, department]);
+  
   return (
-    <Container maxWidth="xl">
-      <Grid container spacing={0} alignContent="center">
-        <Grid item>
-          <Button
-            variant="text"
-            sx={navStyle}
-            disableElevation={true}
-            component={NavLink}
-            to={`/departments`}
-            key={"/departments"}
-          >
-            Danh sách phòng ban
-          </Button>
-        </Grid>
-
-        <Grid item>
-          <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
-        </Grid>
-
-        <Grid item>
-          <Button
-            variant="text"
-            sx={navStyle}
-            disableElevation={true}
-          >
-            {department?.departmentName}
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Grid container justifyContent={"space-between"}>
-        <Grid container spacing={4} xs={6}>
+    <>
+      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+        <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
               id="standard-basic"
-              label="Search"
+              placeholder="Nhập để tìm..."
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchIcon />
                   </InputAdornment>
                 ),
+                disableUnderline: true,
+                style: { fontFamily: fontStyle },
               }}
               variant="standard"
             />
           </Grid>
+
           <Grid item>
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Mulish",
+                fontWeight: "600",
+                textTransform: "none",
+                color: "#7C7C7C",
+              }}
+              disableElevation={true}
+              onClick={handleOpenDialog}
+            >
+              Filter
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                fontFamily: "Mulish",
+                fontWeight: "600",
+                textTransform: "none",
+                color: "#7C7C7C",
+              }}
+              disableElevation={true}
+              onClick={handleOpenDialog}
+            >
+              Sort
+            </Button>
             <Tooltip title="Đổi quản lý">
               <Button
                 variant="text"
@@ -292,7 +383,7 @@ export default function DepartmentDetails() {
                   fontWeight: "bold",
                   textTransform: "none",
                   borderRadius: "10px",
-                  marginTop: 3,
+
                   marginRight: 0,
                   padding: "0px 10px 0px 10px",
                   color: "#007FFF",
@@ -304,20 +395,6 @@ export default function DepartmentDetails() {
                 Quản lý: {department?.manager}
               </Button>
             </Tooltip>
-          </Grid>
-
-          <DepartmentManagers
-            departmentId={department?.departmentId ?? 0}
-            open={openManager}
-            onClose={handleCloseManagerDialog}
-            departmentNameParam={department?.departmentName ?? ""}
-            rows={department?.userInfors}
-            oldManagerName={department?.manager ?? ""}
-          />
-        </Grid>
-
-        <Grid item>
-          <Grid item xs={12}>
             <Button
               variant="text"
               sx={{
@@ -336,14 +413,13 @@ export default function DepartmentDetails() {
               Thêm nhân viên
             </Button>
             <DepartmentForm
+              department={department ?? null}
               open={open}
               onClose={handleCloseDialog}
               createOrAdd={true}
               departmentNameParam={department?.departmentName ?? "none"}
               departmentId={department?.departmentId ?? 0}
             />
-          </Grid>
-          <Grid item xs={12}>
             <Button
               variant="text"
               sx={{
@@ -361,33 +437,42 @@ export default function DepartmentDetails() {
               Sửa phòng ban
             </Button>
           </Grid>
+
+          <DepartmentManagers
+            departmentId={department?.departmentId ?? 0}
+            open={openManager}
+            onClose={handleCloseManagerDialog}
+            departmentNameParam={department?.departmentName ?? ""}
+            rows={department?.userInfors}
+            oldManagerName={department?.manager ?? ""}
+          />
         </Grid>
-      </Grid>
+        <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
+      </Box>
 
       <Box sx={{ height: 600, width: "100%", margin: "0 auto", marginTop: "1%" }}>
         {department ? (
           <DataGrid
-            density="compact"
+            density="standard"
+            autoHeight
             sx={{
-              ".MuiDataGrid-columnHeaderTitle": {
-                fontWeight: "bold !important",
-                overflow: "visible !important",
-                color: "#007FFF",
-              },
-              ".MuiDataGrid-columnHeaders": {
-                backgroundColor: "#E0F0FF",
-              },
-              borderLeft: "none",
-              borderRadius: 0,
-              borderRight: "none",
-              fontFamily: "Montserrat",
-              color: "#2F2F2F",
-              fontWeight: "500",
-              fontSize: 15,
+              border: "none",
+              // ".MuiDataGrid-columnHeaderTitle": {
+              //   fontWeight: "bold !important",
+              //   overflow: "visible !important",
+              //   color: "#007FFF",
+              // },
+              // ".MuiDataGrid-columnHeaders": {
+              //   backgroundColor: "#E0F0FF",
+              // },
+              fontSize: 16,
+              fontWeight: 550,
+              fontFamily: fontStyle,
             }}
+            showCellVerticalBorder
             slots={{
               loadingOverlay: LinearProgress,
-              toolbar: CustomToolbar,
+              //toolbar: CustomToolbar,
             }}
             loading={departmentStatus.includes("pending")}
             rows={department.userInfors}
@@ -400,14 +485,13 @@ export default function DepartmentDetails() {
               },
             }}
             pageSizeOptions={[5]}
-            checkboxSelection
             disableRowSelectionOnClick
           />
         ) : (
           <AppBar />
         )}
       </Box>
-    </Container>
+    </>
   );
 }
 

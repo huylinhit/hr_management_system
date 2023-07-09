@@ -5,11 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 // component
-import DetailLeaveContent from "./component/DetailLeaveContent";
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
 // data
-import { STAFF, LEAVELOG, LEAVETYPE } from "../../app/store/data";
 
 // api
 import { Employee } from "../../app/models/employee";
@@ -20,7 +18,7 @@ import axios from "axios";
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
   // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
+  // const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -28,7 +26,8 @@ export default function DetailLeave() {
   const { handleSubmit } = useForm();
   // const [form] = Form.useForm();
   // -------------------------- STATE ---------------------------
-  const [staff, setStaff] = useState<Employee>(STAFF);
+  // const [staff, setStaff] = useState<Employee>(STAFF);
+
   console.log(staff.staffId)
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -99,7 +98,7 @@ export default function DetailLeave() {
           }}
         >
           <Grid item sx={{ width: "100%", padding: "30px 50px 0 50px" }}>
-            <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} />
+            {/* <DetailLeaveContent logLeave={logLeave} staff={staff} types={types} /> */}
           </Grid>
           <Grid item sx={{ width: "100%" }}>
             <DetailLeaveFooter />
