@@ -17,6 +17,7 @@ import moment from "moment";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Allowance } from "../../../app/models/allowance";
 import { fetchLogOtsAsync, logOvertimeSelectors } from "../../overlog/overtimeSlice";
+import { Contract } from "../../../app/models/contract";
 
 function PayslipDetail() {
     const { payslipId, staffId } = useParams();
@@ -29,45 +30,49 @@ function PayslipDetail() {
     const { payslipsLoaded, status: payslipStatus } = useAppSelector(state => state.payslip);
 
     //allowances 
-    const contracts = useAppSelector(contractSelectors.selectAll);
+    const contracts : Contract[] = useAppSelector(contractSelectors.selectAll);
     const { contractsLoaded, status: contractStatus } = useAppSelector(state => state.contract);
-    const contract = contracts.find(c =>
+    const contract : Contract | undefined = contracts.find(c =>
         c.staffId === parseInt(staffId!) &&
         c.contractStatus === true
     );
 
     const allowances: Allowance[] = contract ? contract.allowances : [];
     const totalAllowances = allowances?.reduce((total, item) => total + item.allowanceSalary, 0);
+    const date = payslip?.createAt;
 
     //log Ot 
     const logots = useAppSelector(logOvertimeSelectors.selectAll);
     const { logOtLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
+
+    console.log("LogOTs:", logots);
+
     const logotsStaff = logots
         .filter(c => {
-            const start = moment(c.logStart).month();
-            const end = moment(c.logEnd).month();
-            const now = moment(date).month()
+            const start = moment(c.logStart).month() + 1;
+            const end = moment(c.logEnd).month() + 1;
+            const now = moment(date).month() + 1
 
+            console.log("now: ", now);
             return c.staffId === parseInt(staffId!) &&
                 c.status === 'approved' &&
                 start <= now &&
                 now <= end;
         })
+
     const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
     const totalLogotDays = logotsStaff
         .reduce((total, item) => total +
-            (moment(item.logEnd).days() -
-                moment(item.logStart).days() + 1), 0)
+            item.days, 0)
     const totalLogotHours = logotsStaff.reduce((total, item) => total + item.logHours, 0);
 
     //log Leave
-    const date = payslip?.createAt;
     console.log(date);
     const logLeaves = useAppSelector(logleaveSelectors.selectAll);
     const logLeavesStaff = logLeaves.filter(c => {
         const start = moment(c.leaveStart).month();
         const end = moment(c.leaveEnd).month();
-        const now = moment(date).month()
+        const now = moment(date).month();
 
         return c.staffId === parseInt(staffId!) &&
             c.status === 'approved' &&
@@ -136,8 +141,12 @@ function PayslipDetail() {
                 <Box>
                     <Box textAlign="center" sx={{ py: "20px" }}>
                         <Typography variant="h4" fontWeight="bold">Phiếu lương</Typography>
-                        <Typography fontWeight="bold">{moment(date).format("DD-MM-YYYY")}</Typography>
-                        <PayslipInfo />
+                        <Typography fontWeight="bold">{moment(payslip.createAt).format("DD-MM-YYYY")}</Typography>
+                        <PayslipInfo
+                            staffInfor={payslip.staff}
+                            payslipId={payslip.payslipId}
+                            contract={contract}
+                        />
                     </Box>
                     <Typography align="center" variant="h4" fontWeight="bold">Nội dung</Typography>
 
@@ -148,38 +157,40 @@ function PayslipDetail() {
                         {/* Left Container */}
                         <Grid item xs={6} pr="12px">
                             <StatisticalPayslip
-                                actualGross={payslip?.actualSalary!}
+                                actualGross={payslip?.grossActualSalary!}
                                 standardWorkDays={payslip?.standardWorkDays!}
                                 otDays={totalLogotDays}
                                 paidLeaveDays={paidLeaveDays}
                                 unpaidLeaveDays={unpaidLeaveDays}
                                 actualWorkDays={payslip?.actualWorkDays!}
+                                actualNet={payslip.netActualSalary}
                             />
 
                             <PayslipDetailSalary
-                                negotiableGrossSalaryEmployee={payslip?.grossSalary!}
+                                negotiableGrossSalaryEmployee={payslip?.grossStandardSalary!}
                                 totalAllowance={totalAllowances}
-                                payCut={payslip?.grossSalary!} // Need Change
-                                actualGrossSalaryEmployee={payslip?.actualSalary!}
+                                payCut={payslip.paidByDate * unpaidLeaveDays} // Need Change
+                                actualGrossSalaryEmployee={payslip?.grossActualSalary!}
                                 bhxhEmp={payslip?.bhxhemp!}
                                 bhytEmp={payslip?.bhytemp!}
                                 bhtnEmp={payslip?.bhtnemp!}
                                 salaryBeforeTax={payslip?.salaryBeforeTax!}
-                                personalDeduction={payslip?.selfAllowances!}
-                                familyDedection={payslip?.familyAllowances!}
-                                taxableIncome={payslip?.salaryTaxable!} // Need Change
+                                personalDeduction={payslip?.selfDeduction!}
+                                familyDedection={payslip?.familyDeduction!}
+                                taxableIncome={payslip?.salaryBeforeTax - payslip?.selfDeduction - payslip?.familyDeduction}
                                 personalIncomeTax={payslip?.personalIncomeTax!}
-                                negotiableNetSalaryEmployee={payslip?.netSalary!}
+                                negotiableNetSalaryEmployee={payslip?.netStandardSalary!}
                                 overtimeSalary={totalLogotSalary}
-                                actualNetSalaryEmployee={payslip?.netSalary!} // Need Change 
+                                actualNetSalaryEmployee={payslip?.netActualSalary!} // Need Change 
                             />
 
                             <CompanyPaid
-                                actualGrossSalaryCompany={payslip?.actualSalary!}
+                                actualGrossSalaryCompany={payslip?.grossActualSalary!}
                                 bhxhComp={payslip?.bhxhcomp!}
                                 bhytComp={payslip?.bhytcomp!}
                                 bhtnComp={payslip?.bhtncomp!}
-                                actualNetSalaryCompany={payslip?.totalPaid!} // Need Change 
+                                otSalary={totalLogotSalary}
+                                actualNetSalaryCompany={payslip?.totalCompPaid!} // Need Change 
                             />
                         </Grid>
 

@@ -54,8 +54,13 @@ export const accountSlice = createSlice({
       router.navigate("/");
     },
     setUser: (state, action) => {
+
       let claims = JSON.parse(atob(action.payload.token.split('.')[1]));
       let roles = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      console.log("setUser:", roles)
+
+      console.log("Here", state.user);
+
       state.user = { ...action.payload, roles: typeof (roles) === 'string' ? [roles] : roles }
     },
   },
@@ -66,7 +71,14 @@ export const accountSlice = createSlice({
       (state, action) => {
         let claims = JSON.parse(atob(action.payload.token.split('.')[1]));
         let roles = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+        console.log("setUser:", roles)
+
+        console.log("Here", state.user);
+
         state.user = { ...action.payload, roles: typeof (roles) === 'string' ? [roles] : roles }
+        console.log("Here", state.user);
+
       }
     );
     builder.addMatcher(isAnyOf(signInUser.rejected), (state, action) => {

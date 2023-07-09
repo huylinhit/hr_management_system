@@ -10,6 +10,7 @@ interface Props {
     paidLeaveDays: number
     unpaidLeaveDays: number
     actualWorkDays: number
+    actualNet: number
 }
 
 
@@ -19,7 +20,8 @@ function StatisticalPayslip({
     otDays,
     paidLeaveDays,
     unpaidLeaveDays,
-    actualWorkDays
+    actualWorkDays,
+    actualNet
 }: Props) {
     const style = {
         fontSize: "16px",
@@ -40,13 +42,13 @@ function StatisticalPayslip({
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>Lương Net thực Tế</Typography>
                 </Grid>
                 <Grid item xs={6} sx={{ border: "1px solid black" }}>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualGross}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualGross.toLocaleString()}</Typography>
                     <Typography align="right" sx={style}>{standardWorkDays}</Typography>
                     <Typography align="right" sx={style}>{otDays}</Typography>
                     <Typography align="right" sx={style}>{paidLeaveDays}</Typography>
                     <Typography align="right" sx={style}>{unpaidLeaveDays}</Typography>
                     <Typography align="right" sx={style}>{actualWorkDays}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>20.000.000</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualNet.toLocaleString()}</Typography>
                 </Grid>
             </Grid>
         </>

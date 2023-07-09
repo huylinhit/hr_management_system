@@ -10,7 +10,7 @@ export interface UserInfor {
     dob: string;
     phone: string;
     gender: number;
-    gioiTinh:string;
+    gioiTinh: string;
     address: string;
     country: string;
     citizenId: string;

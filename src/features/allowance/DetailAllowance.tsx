@@ -35,25 +35,19 @@ function DetailAllowance({ allowances, totalAllowance }: Props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allowances.length !== 0 ? (
+                            {allowances.length !== 0 && (
                                 allowances.map(item => (
                                     <TableRow key={item.allowanceId}>
                                         <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>{item.allowanceType.allowanceName}</TableCell>
                                         <TableCell align="right" style={{ borderRight: '1px solid #e0e0e0' }}>{item.allowanceType.allowanceDetailSalary}</TableCell>
-                                        <TableCell align="right">{item.allowanceSalary}</TableCell>
+                                        <TableCell align="right">+ {item.allowanceSalary.toLocaleString()}</TableCell>
                                     </TableRow>
                                 ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>Không</TableCell>
-                                    <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>Không</TableCell>
-                                    <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>0</TableCell>
-                                </TableRow>
                             )}
                             <TableRow>
                                 <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Tổng cộng</TableCell>
                                 <TableCell></TableCell>
-                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{totalAllowance}</TableCell>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>+ {totalAllowance.toLocaleString()}</TableCell>
                             </TableRow>
 
 

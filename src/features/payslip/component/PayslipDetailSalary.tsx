@@ -63,21 +63,21 @@ function PayslipDetailSalary({
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>Lương Net thực tế</Typography>
                 </Grid>
                 <Grid item xs={6} sx={{ border: "1px solid black" }}>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{negotiableGrossSalaryEmployee}</Typography>
-                    <Typography align="right" sx={style}>{totalAllowance}</Typography>
-                    <Typography align="right" sx={style}>{payCut}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualGrossSalaryEmployee}</Typography>
-                    <Typography align="right" sx={style}>{bhxhEmp}</Typography>
-                    <Typography align="right" sx={style}>{bhytEmp}</Typography>
-                    <Typography align="right" sx={style}>{bhtnEmp}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{salaryBeforeTax}</Typography>
-                    <Typography align="right" sx={style}>{personalDeduction}</Typography>
-                    <Typography align="right" sx={style}>{familyDedection}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{taxableIncome}</Typography>
-                    <Typography align="right" sx={style}>{personalIncomeTax}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{negotiableNetSalaryEmployee}</Typography>
-                    <Typography align="right" sx={style}>{overtimeSalary}</Typography>
-                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualNetSalaryEmployee}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{negotiableGrossSalaryEmployee.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>+ {totalAllowance.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {payCut.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualGrossSalaryEmployee.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {bhxhEmp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {bhytEmp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {bhtnEmp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{salaryBeforeTax.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {personalDeduction.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {familyDedection.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{taxableIncome.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>- {personalIncomeTax.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{negotiableNetSalaryEmployee.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>+ {overtimeSalary.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualNetSalaryEmployee.toLocaleString()}</Typography>
                 </Grid>
             </Grid>
         </>
