@@ -69,8 +69,6 @@ export default function Header({ pageTitle }: Props) {
       })
       .catch((error) => {});
   }, [avatarUrl, dispatch]);
-
-  console.log(headerTitle);
   return (
     <Box
       display={"flex"}
@@ -178,7 +176,7 @@ export default function Header({ pageTitle }: Props) {
         >
           <IconButton
             component={Link}
-            to="/"
+            to="/login"
             size="large"
             sx={{
               mr: 2,
