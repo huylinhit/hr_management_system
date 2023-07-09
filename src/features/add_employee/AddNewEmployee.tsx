@@ -8,23 +8,26 @@ import {
   Button,
   Container,
 } from "@mui/material";
-import NewAccount from "./component/NewAccount";
-import NewStaff from "./component/NewStaff";
+
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import {
   departmentSelectors,
   fetchDepartmentsAsync,
 } from "../department/departmentSlice";
-import NewContract from "./component/NewContract";
-import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
+import agent from "../../app/api/agent";
+
+// component
+import NewAccount from "./component/NewAccount";
+import NewStaff from "./component/NewStaff";
 
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
-  const stepName = ["Tạo tài khoản", "Thông tin cá nhân", "Lưu hợp đồng"];
+  const stepName = ["Tạo tài khoản", "Thông tin cá nhân"];
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
+  const [isValid, setIsValid] = useState(true);
   const [userForm, setUserForm] = useState({
     username: "",
     password: "",
@@ -43,38 +46,16 @@ export default function AddNewEmployee() {
     bankAccountName: "",
     bank: "",
   });
-  const [contractForm, setContractForm] = useState({
-    startDate: "",
-    endDate: "",
-    taxableSalary: 0,
-    salary: 0,
-    workDatePerWeek: 0,
-    note: "",
-    noOfDependences: 0,
-    contractTypeId: 0,
-    salaryType: "",
-    paidDateNote: "",
-    contractFile: "",
-    contractStatus: true,
-  });
-  const [allowanceForm, setAllowanceForm] = useState([
-    { allowanceTypeId: 0, allowanceSalary: 0 },
-  ]);
   // -------------------------- REDUX ---------------------------
   const departments = useAppSelector((state) =>
     departmentSelectors.selectAll(state)
   );
-  const { departmentsLoaded } = useAppSelector(
-    (state) => state.department
-  );
-  const { allowanceTypesLoaded } = useAppSelector((state) => state.allowanceType)
-  console.log(departments);
-  
+  const { departmentsLoaded } = useAppSelector((state) => state.department);
   // -------------------------- EFFECT --------------------------
+
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
-    if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync())
-  }, [dispatch, departmentsLoaded, allowanceTypesLoaded]);
+  }, [dispatch, departmentsLoaded]);
   // -------------------------- FUNCTION ------------------------
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -84,6 +65,17 @@ export default function AddNewEmployee() {
     return skipped.has(step);
   };
 
+  const areAllFieldsNotNull = (object: any): boolean => {
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        if (object[key] === "" || object[key] === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(step)) {
@@ -91,28 +83,24 @@ export default function AddNewEmployee() {
       newSkipped.delete(step);
     }
 
-    let isInfoValid = false;
     switch (step) {
-      case 0:
-        if (userForm.username.trim() !== "") {
-          isInfoValid = true;
-        }
-        break;
-      case 1:
-        if (userForm.address.trim() !== "") {
-          isInfoValid = true;
-        }
-        break;
+      // case 0:
+      //     isInfoValid = areAllFieldsNotNull(userForm);
+
+      //   break;
+      // case 1:
+      //   isInfoValid = areAllFieldsNotNull(userForm);
+      //   break;
       default:
-        isInfoValid = true;
+        setIsValid(true);
         break;
     }
 
-    if (isInfoValid) {
+    if (isValid) {
       setStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
     } else {
-      alert("Bạn chưa hoàn thành bước 1");
+      alert(`Bạn chưa hoàn thành bước ${step + 1}`);
     }
   };
 
@@ -120,7 +108,15 @@ export default function AddNewEmployee() {
     setStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    agent.Account.register(userForm)
+      .then((response) => {
+        console.log("Add new employee successfully: ", response);
+      })
+      .catch((error) => {
+        console.error("Error add new employee ", error);
+      });
+  };
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 0 30px", width: "calc(100vh - 240)" }}>
@@ -166,7 +162,7 @@ export default function AddNewEmployee() {
             })}
           </Stepper>
 
-          {step === stepName.length ? (
+          {step === stepName.length && isValid ? (
             <React.Fragment>
               <Typography sx={{ mt: 2, mb: 1, fontSize: "20px" }}>
                 Bạn đã hoàn thành các bước
@@ -175,27 +171,35 @@ export default function AddNewEmployee() {
           ) : (
             <React.Fragment>
               <form onSubmit={handleSubmit}>
-                {step === 0 && <NewAccount setUserForm={setUserForm} />}
+                {step === 0 && (
+                  <NewAccount setUserForm={setUserForm} userForm={userForm} />
+                )}
                 {step === 1 && (
                   <NewStaff
                     setUserForm={setUserForm}
                     departments={departments}
+                    userForm={userForm}
                   />
                 )}
-                {step === 2 && <NewContract setUserForm={setUserForm} allowanceForm={allowanceForm} setAllowanceForm={setAllowanceForm} />}
 
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
-                    color="inherit"
+                    variant="outlined"
+                    size="small"
                     disabled={step === 0}
                     onClick={handleBack}
-                    sx={{ mr: 1, fontSize: "20px" }}
+                    sx={{ mr: 1, fontSize: "17px", borderRadius: "10px" }}
                   >
                     Quay về
                   </Button>
                   <Box sx={{ flex: "1 1 auto" }} />
 
-                  <Button sx={{ fontSize: "20px" }} onClick={handleNext}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{ fontSize: "17px", borderRadius: "10px" }}
+                    onClick={step === 2 ? handleSubmit : handleNext}
+                  >
                     {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
                   </Button>
                 </Box>

@@ -64,11 +64,10 @@ export default function ContractList() {
     "Loại hợp đồng",
     "Mức lương",
     "Tổng phụ cấp",
-    "Ngày chỉnh sửa",
+    "Số người phụ thuộc",
     ""
   ];
   // -------------------------- STATE ---------------------------
-  const [totalAllowance, setTotalAllowance] = useState(0)
   // -------------------------- REDUX ---------------------------
   const contracts = useAppSelector(contractSelectors.selectAll);
   // -------------------------- EFFECT --------------------------
@@ -176,7 +175,7 @@ export default function ContractList() {
                   {calcTotalAllowance(contract.allowances)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {contract.changeAt}
+                  {contract.noOfDependences}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Button

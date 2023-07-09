@@ -1,11 +1,13 @@
 import { Container, Grid, TextField, Typography } from "@mui/material";
+import { User } from "../model/user";
 
 // interface
 interface Props {
   setUserForm: Function;
+  userForm: User
 }
 
-export default function NewAccount({ setUserForm }: Props) {
+export default function NewAccount({ setUserForm, userForm }: Props) {
   return (
     <Container
       sx={{
@@ -29,7 +31,8 @@ export default function NewAccount({ setUserForm }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập tên đăng nhập"
+            placeholder={userForm.username === "" ? "Nhập tên đăng nhập" : ""}
+            defaultValue={userForm.username === "" ? "" : userForm.username}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -47,7 +50,8 @@ export default function NewAccount({ setUserForm }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập email"
+            placeholder={userForm.email === "" ? "Nhập email" : ""}
+            defaultValue={userForm.email === "" ? "" : userForm.email}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -65,13 +69,14 @@ export default function NewAccount({ setUserForm }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập mật khẩu"
+            placeholder={userForm.password === "" ? "Nhập mật khẩu" : ""}
+            defaultValue={userForm.password === "" ? "" : userForm.password}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
-                email: e.target.value,
+                password: e.target.value,
               }))
             }
           />
@@ -86,21 +91,18 @@ export default function NewAccount({ setUserForm }: Props) {
             placeholder="Nhập lại mật khẩu"
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
-            onChange={(e) =>
-              setUserForm((prevForm: any) => ({
-                ...prevForm,
-                email: e.target.value,
-              }))
-            }
+            onChange={(e) => {}}
           />
         </Grid>
 
         {/* NHẬP ROLE */}
-        <Grid item xs={10}>
+        {/* <Grid item xs={10}>
           <Typography sx={{ fontSize: "18px" }}>Vai trò</Typography>
           <TextField
             required
             type="text"
+            placeholder={userForm.role === "" ? "Nhập tên đăng nhập" : ""}
+            defaultValue={userForm.role === "" ? "" : userForm.role}
             placeholder="Nhập vai trò"
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
@@ -111,7 +113,7 @@ export default function NewAccount({ setUserForm }: Props) {
               }))
             }
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   );

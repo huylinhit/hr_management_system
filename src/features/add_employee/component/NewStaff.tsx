@@ -12,14 +12,21 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { Department } from "../../../app/models/department";
+import { User } from "../model/user";
+import dayjs from "dayjs";
 
 // interface
 interface Props {
   setUserForm: Function;
   departments: Department[];
+  userForm: User;
 }
 
-export default function NewStaff({ setUserForm, departments }: Props) {
+export default function NewStaff({
+  setUserForm,
+  departments,
+  userForm,
+}: Props) {
   return (
     <Container
       sx={{
@@ -44,7 +51,8 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập họ"
+            placeholder={userForm.lastName === "" ? "Nhập họ" : ""}
+            defaultValue={userForm.lastName === "" ? "" : userForm.lastName}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -60,13 +68,14 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập tên"
+            placeholder={userForm.firstName === "" ? "Nhập firstName" : ""}
+            defaultValue={userForm.firstName === "" ? "" : userForm.firstName}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
-                firstname: e.target.value,
+                firstName: e.target.value,
               }))
             }
           />
@@ -88,6 +97,7 @@ export default function NewStaff({ setUserForm, departments }: Props) {
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
+            defaultValue={userForm.gender}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
@@ -103,12 +113,14 @@ export default function NewStaff({ setUserForm, departments }: Props) {
             <FormControlLabel value={true} control={<Radio />} label="Male" />
           </RadioGroup>
         </Grid>
+
         <Grid item xs={5}>
           <Typography sx={{ fontSize: "18px" }}>Quốc tịch</Typography>
           <TextField
             required
             type="text"
-            placeholder="Nhập quốc tịch"
+            placeholder={userForm.country === "" ? "Nhập quốc tịch" : ""}
+            defaultValue={userForm.country === "" ? "" : userForm.country}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -135,7 +147,8 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập số điện thoại"
+            placeholder={userForm.phone === "" ? "Nhập số điện thoại" : ""}
+            defaultValue={userForm.phone === "" ? "" : userForm.phone}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -151,6 +164,7 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
+                // defaultValue={userForm.dob === "" ? "" : dayjs(userForm.dob).format("YYYY-MM-DD")}
                 onChange={(e: any) =>
                   setUserForm((prevForm: any) => ({
                     ...prevForm,
@@ -178,7 +192,8 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập địa chỉ"
+            placeholder={userForm.address === "" ? "Nhập địa chỉ" : ""}
+            defaultValue={userForm.address === "" ? "" : userForm.address}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -205,7 +220,8 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập CCCD|CMND"
+            placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
+            defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -234,10 +250,9 @@ export default function NewStaff({ setUserForm, departments }: Props) {
             select
             required
             type="text"
-            placeholder="Nhập phòng ban"
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
-            defaultValue={0}
+            defaultValue={userForm.departmentId}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
@@ -246,7 +261,9 @@ export default function NewStaff({ setUserForm, departments }: Props) {
             }
           >
             {departments.map((department, index) => (
-                <MenuItem value={index+1}>{department.departmentName}</MenuItem>
+              <MenuItem key={index} value={index + 1}>
+                {department.departmentName}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -256,10 +273,9 @@ export default function NewStaff({ setUserForm, departments }: Props) {
             select
             required
             type="text"
-            placeholder="Nhập chức vụ"
+            defaultValue={userForm.isManager}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
-            defaultValue="false"
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
@@ -289,7 +305,14 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập tên tài khoản ngân hàng"
+            placeholder={
+              userForm.bankAccountName === ""
+                ? "Nhập tên tài khoản ngân hàng"
+                : ""
+            }
+            defaultValue={
+              userForm.bankAccountName === "" ? "" : userForm.bankAccountName
+            }
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -307,7 +330,12 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập số tài khoản ngân hàng"
+            placeholder={
+              userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""
+            }
+            defaultValue={
+              userForm.bankAccount === "" ? "" : userForm.bankAccount
+            }
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
@@ -335,7 +363,8 @@ export default function NewStaff({ setUserForm, departments }: Props) {
           <TextField
             required
             type="text"
-            placeholder="Nhập ngân hàng"
+            placeholder={userForm.bank === "" ? "Nhập ngân hàng" : ""}
+            defaultValue={userForm.bank === "" ? "" : userForm.bank}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>

@@ -19,6 +19,7 @@ import EditEmployee from "../../features/edit_employee/EditEmployee";
 import DetailContract from "../../features/detail_contract/DetailContract";
 import ContractList from "../../features/list_contract/ContractList";
 import EditContract from "../../features/edit_contract/EditContract";
+import NewContract from "../../features/add_contract/NewContract";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -70,6 +71,7 @@ import { useAppSelector } from "../store/configureStore";
 
 import StaffList from "../../features/employee/StaffList";
 import EditInfo from "../../features/edit_employee/component/EditInfo";
+
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -194,6 +196,7 @@ export const router = createBrowserRouter([
       { path: "/list-contract", element: <ContractList /> },
       { path: "/detail-contract/:id", element: <DetailContract /> },
       { path: "/edit-contract/:id", element: <EditContract /> },
+      { path: "/add-contract/:id", element: <NewContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },

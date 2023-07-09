@@ -87,6 +87,7 @@ export default function AddAllowanceDialog({
             margin="dense"
             label="Loại phụ cấp"
             sx={{ width: "100%" }}
+            defaultValue={0}
             onChange={(e) => setForm({ ...form, allowanceTypeId: Number(e.target.value) })}
           >
             {allowanceType.map((type) => (
