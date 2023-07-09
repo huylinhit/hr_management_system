@@ -476,7 +476,7 @@ export const TICKET = {
 };
 
 export const FORMSTATUS = {
-  pending: "Chờ duyệt",
+  pending: "pending",
   agree: "Chấp nhận",
   disagree: "Từ chối",
 };

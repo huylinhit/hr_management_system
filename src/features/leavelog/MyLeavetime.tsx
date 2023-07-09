@@ -173,7 +173,7 @@ function LeavetimeList() {
   function handleChange(
     event: SelectChangeEvent<unknown>,
     child: ReactNode
-  ): void {}
+  ): void { }
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -183,6 +183,7 @@ function LeavetimeList() {
   const handleClose = () => {
     setOpen(false);
   };
+
   // call api
   const [list, setList] = useState<LeaveLog[]>();
   axios.defaults.baseURL = "http://localhost:5000/api";
@@ -198,7 +199,7 @@ function LeavetimeList() {
         console.log(error);
       });
   },
-   []);
+    []);
   //  const [] = useState<LeaveType[]>();
   // axios.defaults.baseURL = "http://localhost:5000/api";
   // axios.defaults.withCredentials = true;
@@ -290,13 +291,13 @@ function LeavetimeList() {
               </TableRow>
             </TableHead>
             <TableBody>
-            {list?.map((item) => (
+              {list?.map((item) => (
                 <StyledTableRow key={item.leaveLogId}>
                   <>
                     {/* <Link to="/detail-leave-log/:id"> */}
-                      <StyledTableCell align="center">
-                        {item.leaveLogId}
-                      </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.leaveLogId}
+                    </StyledTableCell>
                     {/* </Link> */}
 
 
@@ -322,19 +323,27 @@ function LeavetimeList() {
                     </StyledTableCell>
                     <StyledTableCell align="center">{item.processNote}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <Button
-                        component={Link}
-                        to={`/detail-leave-log/${item.leaveLogId}`}
-                      >
-                         {item.status === FORMSTATUS.pending
-                          ? <BorderColor />
-                          
-                          : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
+
+                      {item.status === FORMSTATUS.pending
+
+                        ? <Button
+                          component={Link}
+                          to={`/detail-leave-log/${item.leaveLogId}`}
+                      
+                        >
+
+                          <BorderColor />
+                        </Button>
+
+                        : <Button
+                          component={Link}
+                          to={`/detail-own-leave-log/${item.leaveLogId}`}
+                        >
+                          <CiCircleMore style={{ fontSize: "30px", color: "black" }} />
+                        </Button>
                       }
-                     
-                        {" "}
-                        
-                      </Button>
+                      {" "}
+
                     </StyledTableCell>
                   </>
                 </StyledTableRow>

@@ -1,11 +1,15 @@
 
 import { SelectChangeEvent, Container, Typography, Grid, TextField, Autocomplete, Button, TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell, styled, tableCellClasses, Chip } from '@mui/material';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import { BorderColor } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import MyCreateLeavetime from './MyCreateLeavetime';
+import axios from 'axios';
+import { LeaveLog } from '../../app/models/leaveLog';
+import { CiCircleMore } from 'react-icons/ci';
+import { FORMSTATUS } from '../../app/store/data';
 
 
 const headerStyle = {
@@ -61,20 +65,20 @@ function MyViewLeavetime() {
   }
 
 
-  const rows = [
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
-    createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+  // const rows = [
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chấp nhận", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Chờ duyệt", "09/09/2023 22:00", ""),
+  //   createData("Nghỉ thai sản", "30/04/2023", '01/05/2023', "1", "...", "06/06/2023 18:00", "Từ chối", "09/09/2023 22:00", ""),
 
 
 
 
 
-  ];
+  // ];
   const styles = {
     marginBottom: '10px',
   };
@@ -91,6 +95,21 @@ function MyViewLeavetime() {
   const handleClose = () => {
     setOpen(false);
   };
+  const [list, setList] = useState<LeaveLog[]>();
+  axios.defaults.baseURL = "http://localhost:5000/api";
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios
+      .get("/log-leaves")
+      .then((response) => {
+        setList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+   []);
   return (
     <>
       <Container>
@@ -141,10 +160,11 @@ function MyViewLeavetime() {
 
 
         <TableContainer component={Paper} >
-          <Table sx={{ minWidth: 1000 }} aria-label="customized table">
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Loại tăng ca</StyledTableCell>
+                <StyledTableCell>Mã đơn</StyledTableCell>
+                <StyledTableCell align="center">Loại đơn</StyledTableCell>
                 <StyledTableCell align="center">Từ</StyledTableCell>
                 <StyledTableCell align="center">Đến</StyledTableCell>
                 <StyledTableCell align="center">Số ngày nghỉ</StyledTableCell>
@@ -153,28 +173,30 @@ function MyViewLeavetime() {
                 <StyledTableCell align="center">Trạng thái</StyledTableCell>
                 <StyledTableCell align="center">Ngày duyệt</StyledTableCell>
                 <StyledTableCell align="center"></StyledTableCell>
-                <StyledTableCell align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.kind}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.kind}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.to}</StyledTableCell>
-                  <StyledTableCell align="center">{row.from}</StyledTableCell>
-                  <StyledTableCell align="center">{row.times}</StyledTableCell>
-                  <StyledTableCell align="center">{row.reason}</StyledTableCell>
-                  <StyledTableCell align="center">{row.create}</StyledTableCell>
+            {list?.map((item) => (
+                <StyledTableRow key={item.leaveLogId}>
+                  <>
+                    {/* <Link to="/detail-leave-log/:id"> */}
+                      <StyledTableCell align="center">
+                        {item.leaveLogId}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">{item.leaveType.leaveTypeName}</StyledTableCell>
+                      <StyledTableCell align="center">{item.leaveStart}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveEnd}</StyledTableCell>
+                    <StyledTableCell align="center">{item.leaveDays}</StyledTableCell>
+                    <StyledTableCell align="center">{item.description}</StyledTableCell>
+                    <StyledTableCell align="center">{item.createAt}</StyledTableCell>
                   <StyledTableCell align="center">
                     <Chip
-                      label={row.status}
+                      label={item.status}
                       color={
 
-                        row.status === 'Chấp nhận'
+                        item.status === 'Chấp nhận'
                           ? 'info'
-                          : row.status === 'Chờ duyệt'
+                          : item.status === 'Chờ duyệt'
                             ? 'default' // or 'disabled' if you want a grayed-out color
                             : 'error'
                       }
@@ -183,20 +205,42 @@ function MyViewLeavetime() {
                     />
                    
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.appr}</StyledTableCell>
                   <StyledTableCell align="center">
+                    {item.changeStatusTime}
+                  </StyledTableCell>
+                  {/* <StyledTableCell align="center">
                     <Button>
+                    
                     <BorderColor />
+
                       {row.reply}
+                      
                     </Button>
                     </StyledTableCell>
                   {/* <EditOtherTypes open={open} handleChange={handleChange} handleClose={handleClose} /> */}
 
-                  <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
+                  {/* <StyledTableCell align="center"><Button color='error' onClick={handleClose}><DeleteIcon />{row.reply}</Button>
 
 
                   </StyledTableCell>
+                   */} 
 
+                  <StyledTableCell align="center">
+                      <Button
+                        component={Link}
+                        to={`/detail-leave-log/${item.leaveLogId}`}
+                      >
+                         {item.status === FORMSTATUS.pending
+                          ? <BorderColor />
+                          
+                          : <CiCircleMore style={{ fontSize:"30px", color:"black"}}/>
+                      }
+                     
+                        {" "}
+                        
+                      </Button>
+                    </StyledTableCell>
+                  </>
                 </StyledTableRow>
               ))}
             </TableBody>

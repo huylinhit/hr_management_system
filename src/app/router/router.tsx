@@ -101,9 +101,9 @@ export const router = createBrowserRouter([
       { path: "/myleavetime", element: <MyViewLeavetime /> },
 
       // Leave
-      { path: "/myleavelist", element: <MyLeavetime /> },
+      { path: "/leavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
-      { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
+      { path: "/detail-own-leave-log/:id", element: <DetailOwnLeave /> },
 
       // Ticket
       { path: '/viewothertypes' , element: <ViewOtherTypes/>},
