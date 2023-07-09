@@ -45,7 +45,7 @@ export default function DetailAva({ employee }: Props) {
         </Grid>
       </Grid>
       <Grid item xs={3} sx={{ maxWidth: "100%" }}>
-        <Button variant="outlined" component={Link} to={"/detail-contract"}>
+        <Button variant="outlined" component={Link} to={"/detail-contract/1"}>
           Xem hợp đồng nhân viên
         </Button>
       </Grid>

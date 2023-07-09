@@ -1,294 +1,883 @@
-import { useState } from "react";
-import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  TextField,
+  Typography,
+  debounce,
+} from "@mui/material";
 import moment from "moment";
 
 // data
-import { DEPARTMENT } from "../../../app/store/data";
-import { Department } from "../../../app/models/departments";
 import { UserInfor } from "../../../app/models/userInfor";
-
+import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
+import { departmentSelectors, fetchDepartmentsAsync } from "../../department/departmentSlice";
+import { styled } from "@mui/material/styles";
+import SubjectIcon from "@mui/icons-material/Subject";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import React from "react";
+import PhoneIcon from "@mui/icons-material/Phone";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import NumbersIcon from "@mui/icons-material/Numbers";
+import DownloadIcon from "@mui/icons-material/Download";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  BaseSingleInputFieldProps,
+  DatePicker,
+  DatePickerProps,
+  DateValidationError,
+  FieldSection,
+  LocalizationProvider,
+  UseDateFieldProps,
+} from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { fetchUserInforAsync, userInforSelectors } from "../../department/userInforSlice";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../firebase";
+import agent from "../../../app/api/agent";
+import { ToastContainer, toast } from "react-toastify";
+import { deepPurple } from "@mui/material/colors";
+import CandidateDetailSkeleton from "../../candidate/CandidateDetailSkeleton";
+import { setHeaderTitle } from "../../../app/layout/headerSlice";
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  setForm: Function;
 }
-
-export default function EditInfo({ employee }: Props) {
-  // -------------------------- VAR -----------------------------
-  // -------------------------- STATE ---------------------------
-  const [departments, setDepartments] = useState<Department[]>(DEPARTMENT);
-  // -------------------------- REDUX ---------------------------
-  // -------------------------- EFFECT --------------------------
-  // -------------------------- FUNCTION ------------------------
-  const department = departments.find(
-    (d) => employee?.departmentId === d.departmentId
-  );
+const fontStyle = "Mulish";
+interface ButtonFieldProps
+  extends UseDateFieldProps<Dayjs>,
+    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function ButtonField(props: ButtonFieldProps) {
+  const {
+    setOpen,
+    label,
+    id,
+    disabled,
+    InputProps: { ref } = {},
+    inputProps: { "aria-label": ariaLabel } = {},
+  } = props;
 
   return (
-    <Box sx={{ padding: "0 10px" }}>
+    <Button
+      fullWidth
+      variant="text"
+      id={id}
+      disabled={disabled}
+      sx={{
+        textTransform: "none",
+        color: "#000000",
+        backgroundColor: "white",
+        borderColor: "#B8B8B8",
+        "&:hover": {
+          backgroundColor: "#E7E7E7",
+          color: "#000000",
+          borderColor: "#E7E7E7",
+        },
+        "&:active": {
+          backgroundColor: "#DFDFDF",
+          borderColor: "#DFDFDF",
+          color: "#000000",
+        },
+        justifyContent: "flex-start",
+        fontFamily: "Mulish",
+        fontWeight: 600,
+      }}
+      ref={ref}
+      aria-label={ariaLabel}
+      onClick={() => setOpen?.((prev) => !prev)}
+    >
+      {label ?? "Pick a date"}
+    </Button>
+  );
+}
+function ButtonDatePicker(props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" | "onClose">) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <DatePicker
+      slots={{ field: ButtonField, ...props.slots }}
+      slotProps={{ field: { setOpen } as any }}
+      {...props}
+      open={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+    />
+  );
+}
+const HeaderInput = styled(TextField)(({ theme }) => ({
+  "label + &": {
+    marginTop: theme.spacing(3),
+  },
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.mode === "light" ? "#FFFFFF" : "#1A2027",
+    //border: "1px solid",
+    borderColor: theme.palette.mode === "light" ? "#E0E3E7" : "#2D3843",
+    fontSize: 40,
+    fontWeight: 800,
+    width: "100%  ",
+    padding: "6px 8px",
+    transition: theme.transitions.create(["border-color", "background-color", "box-shadow"]),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: "Mulish",
+    "&:hover:not(:focus)": {
+      backgroundColor: "#E7E7E7",
+    },
+    "&:focus": {
+      boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
+      borderColor: "#505050",
+      backgroundColor: "FFFFFF",
+      "&:hover": {
+        backgroundColor: "FFFFFF", // Remove hover effect when focused
+      },
+    },
+    "&::placeholder": {
+      color: "#000000", // Replace with your desired placeholder color
+    },
+  },
+}));
+const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
+  "label + &": {
+    marginTop: theme.spacing(3),
+  },
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.mode === "light" ? "#FFFFFF" : "#1A2027",
+    //border: "1px solid",
+    borderColor: theme.palette.mode === "light" ? "#E0E3E7" : "#2D3843",
+    fontSize: 15,
+    width: "100%  ",
+    padding: "6px 8px",
+    transition: theme.transitions.create(["border-color", "background-color", "box-shadow"]),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: "Mulish",
+    "&:hover:not(:focus)": {
+      backgroundColor: disabled ? null : "#E7E7E7",
+    },
+    "&:focus": {
+      boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
+      borderColor: "#505050",
+      backgroundColor: "FFFFFF",
+      "&:hover": {
+        backgroundColor: "FFFFFF", // Remove hover effect when focused
+      },
+    },
+    "&::placeholder": {
+      color: "#000000", // Replace with your desired placeholder color
+    },
+    "&::disabled": {
+      color: "#000000",
+    },
+  },
+  "& .MuiInputAdornment-root": {
+    // Customize the Adornment styles as needed
+    position: "absolute",
+    right: 0,
+    visibility: "hidden", // Set the initial visibility to visible
+  },
+  "& .MuiIconButton-root": {
+    // Customize the IconButton styles as needed
+    padding: theme.spacing(1),
+    color: "#A9A9A9",
+  },
+  "&:focus-within .MuiInputAdornment-root": {
+    visibility: "hidden", // Hide the button when the field or any of its descendants is focused
+  },
+  "&:hover .MuiInputAdornment-root": {
+    visibility: "visible",
+  },
+}));
+const InforRow = (value: any) => {
+  return (
+    <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+      {value.icon}
+      <Typography sx={headerStyle}>{value.header}</Typography>
+      <BootstrapInput
+        fullWidth
+        disabled={value.disabled}
+        InputProps={textFieldInputProps}
+        defaultValue={value.defaultValue}
+        variant="standard"
+        placeholder="Trống"
+        onChange={value.onChange}
+        select={value.select}
+        sx={infoStyle}
+      />
+    </Box>
+  );
+};
+const headerColor = {
+  color: "#808080",
+};
+const headerStyle = {
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  width: "250px",
+};
+const infoStyle = {
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  fontSize: "15px",
+  color: "#000000",
+  "& .MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#000000",
+  },
+};
+const verticalSpacing = {
+  mb: "10px",
+};
+const textFieldInputProps = {
+  disableUnderline: true,
+  style: {
+    ...infoStyle,
+  },
+};
+export default function EditInfo() {
+  //-------------------------- VAR -----------------------------
+  const { id } = useParams<{ id: string }>();
+  const [avatarUrl, setAvatarUrl] = useState<string | ArrayBuffer | null>("");
+  const [dragging, setDragging] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const userInfor = useAppSelector((state) => userInforSelectors.selectById(state, id!));
+  const avatarStorageRef = ref(storage, `staffsAvatar/${userInfor?.staffId}`);
+  const fileStorageRef = ref(storage, `staffsFile/${userInfor?.staffId}`);
+  const [firstName, setFirstName] = useState(userInfor?.firstName);
+  const [lastName, setLastName] = useState(userInfor?.lastName);
+  const [email, setEmail] = useState(userInfor?.email);
+  const [phone, setPhone] = useState(userInfor?.phone);
+  const [dob, setDob] = useState(userInfor?.dob);
+  const [gender, setGender] = useState(userInfor?.gender);
+  const [address, setAddress] = useState(userInfor?.address);
+  const [hireDate, setHireDate] = useState(userInfor?.hireDate);
+  const [country, setCountry] = useState(userInfor?.country);
+  const [citizenId, setCitizenId] = useState(userInfor?.citizenId);
+  const [bankAccount, setBankAccount] = useState(userInfor?.bankAccount);
+  const [bankAccountName, setBankAccountName] = useState(userInfor?.bankAccountName);
+  const [bank, setBank] = useState(userInfor?.bank);
+  const [accountStatus, setAccountStatus] = useState(userInfor?.accountStatus);
+  const [fullName, setFullName] = useState("");
+  const [value, setValue] = useState<Dayjs | null>(null);
+  const [staffSkillToDelete, setStaffSkillToDelete] = useState<number[]>([]);
+  const location = useLocation();
+  const [updatedSkills, setUpdatedSkills] = useState([{ id: 0, skill: "", level: "" }]);
+
+  // -------------------------- STATE ---------------------------
+  const [fields, setFields] = useState([{ skill: "", level: "" }]);
+
+  // -------------------------- REDUX ---------------------------
+  const dispatch = useAppDispatch();
+  const departments = useAppSelector(departmentSelectors.selectAll);
+  const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
+    (state) => state.department
+  );
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if (userInfor) {
+      dispatch(
+        setHeaderTitle([
+          { title: "Toàn bộ ứng viên", path: "/candidates" },
+          { title: `${userInfor.lastName} ${userInfor.firstName}`, path: "" },
+        ])
+      );
+    }
+  }, [dispatch, location, userInfor, updatedSkills]);
+  useEffect(() => {
+    if (!userInfor && id) {
+      dispatch(fetchUserInforAsync(parseInt(id)));
+    }
+  }, [id, userInfor, dispatch]);
+  useEffect(() => {
+    if (userInfor) {
+      setFullName(`${userInfor.lastName} ${userInfor.firstName}`);
+      setFirstName(userInfor.firstName);
+      setLastName(userInfor.lastName);
+      setEmail(userInfor.email);
+      setPhone(userInfor.phone);
+      setDob(userInfor.dob);
+      setGender(userInfor.gender);
+      setAddress(userInfor.address);
+      setHireDate(userInfor.hireDate);
+      setCountry(userInfor.country);
+      setCitizenId(userInfor.citizenId);
+      setBankAccount(userInfor.bankAccount);
+      setBankAccountName(userInfor.bankAccountName);
+      setBank(userInfor.bank);
+      setAccountStatus(userInfor.accountStatus);
+    }
+  }, [userInfor]);
+  useEffect(() => {
+    if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
+  }, [dispatch, departmentsLoaded]);
+
+  useEffect(() => {
+    if (userInfor && id) {
+      const updatedSkills = userInfor.staffSkills.map((skill) => ({
+        id: skill.uniqueId,
+        skill: skill.skillName,
+        level: skill.level,
+      }));
+      setUpdatedSkills(updatedSkills);
+    }
+  }, [id, userInfor, dispatch, setUpdatedSkills]);
+
+  // Re-render when delete skill
+  useEffect(() => {
+    if (userInfor) {
+      const remainingSkills = userInfor.staffSkills.filter(
+        (skill) => !staffSkillToDelete.includes(skill.uniqueId)
+      );
+
+      setUpdatedSkills(
+        remainingSkills.map((skill) => ({
+          id: skill.uniqueId,
+          skill: skill.skillName,
+          level: skill.level,
+        }))
+      );
+    }
+    console.log(updatedSkills);
+  }, [staffSkillToDelete, userInfor]);
+  //#region ------------------------------------ DEBOUNCED INPUT -------------------------
+  const debouncedFullNameInput = debounce((event: any) => {
+    setFullName(event.target.value);
+  }, 750);
+  const debouncedFirstNameInput = debounce((event: any) => {
+    setFirstName(event.target.value);
+  }, 750);
+  const debouncedLastNameInput = debounce((event: any) => {
+    setLastName(event.target.value);
+  }, 750);
+  const debouncedEmailInput = debounce((event: any) => {
+    setEmail(event.target.value);
+  }, 750);
+  const debouncedPhoneInput = debounce((event: any) => {
+    setPhone(event.target.value);
+  }, 750);
+  const debouncedDobInput = debounce((event: any) => {
+    setDob(event.target.value);
+  }, 750);
+  const debouncedGenderInput = debounce((event: any) => {
+    setGender(event.target.value);
+  }, 750);
+  const debouncedAddressInput = debounce((event: any) => {
+    setAddress(event.target.value);
+  }, 750);
+  const debouncedHireDateInput = debounce((event: any) => {
+    setHireDate(event.target.value);
+  }, 750);
+  const debouncedCountryInput = debounce((event: any) => {
+    setCountry(event.target.value);
+  }, 750);
+  const debouncedCitizenIdInput = debounce((event: any) => {
+    setCitizenId(event.target.value);
+  }, 750);
+  const debouncedBankAccountInput = debounce((event: any) => {
+    setBankAccount(event.target.value);
+  }, 750);
+  const debouncedBankAccountNameInput = debounce((event: any) => {
+    setBankAccountName(event.target.value);
+  }, 750);
+  const debouncedBankInput = debounce((event: any) => {
+    setBank(event.target.value);
+  }, 750);
+  const debouncedSkillChange = debounce((index: number, value: string) => {
+    const updatedFields = [...fields];
+    updatedFields[index].skill = value;
+    setFields(updatedFields);
+  }, 500);
+  const debouncedLevelChange = debounce((index: number, value: string) => {
+    const updatedFields = [...fields];
+    updatedFields[index].level = value;
+    setFields(updatedFields);
+  }, 500);
+  const debouncedUpdatedSkillChange = debounce((index: number, value: string) => {
+    const updatedFields = [...updatedSkills];
+    updatedFields[index].skill = value;
+    console.log(updatedFields[index].skill);
+    setUpdatedSkills(updatedFields);
+  }, 500);
+  const debouncedUpdatedLevelChange = debounce((index: number, value: string) => {
+    const updatedFields = [...updatedSkills];
+    updatedFields[index].level = value;
+    setUpdatedSkills(updatedFields);
+  }, 500);
+  //#endregion ------------------------------------ DEBOUNCED INPUT -------------------------
+  // -------------------------- FUNCTION ------------------------
+  const handleAddAvatarButton = () => {
+    if (avatarInputRef.current) {
+      avatarInputRef.current.click();
+    }
+  };
+
+  const handleAvatarSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setAvatarFile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    console.log(`FILE ${file}`);
+  };
+
+  const handleUploadImage = () => {
+    if (avatarFile == null) return;
+    const avatarRef = ref(storage, `staffsAvatar/${id}`);
+    uploadBytes(avatarRef, avatarFile).then(() => {
+      console.log("GOOD");
+    });
+  };
+  const department = departments.find(
+    (department) => department.departmentId === userInfor?.departmentId
+  );
+  const handleAddField = () => {
+    setFields([...fields, { skill: "", level: "" }]);
+  };
+  //Delete candidate skill
+  const handleAddDeleteSkills = (staffSkillId: number) => {
+    console.log(staffSkillId);
+    setStaffSkillToDelete([...staffSkillToDelete, staffSkillId]);
+  };
+
+  const handleStaffUpdate = () => {
+    const [firstNameUpdate, lastNameUpdate] = fullName.split(` `);
+    console.log(staffSkillToDelete);
+    const userInforUpdate = {
+      firstName: firstNameUpdate,
+      lastName: lastNameUpdate,
+      email: email,
+      phone: phone,
+      dob: dob,
+      gender: gender,
+      address: address,
+      hireDate: hireDate,
+      country: country,
+      citizenId: citizenId,
+      bankAccount: bankAccount,
+      bankAccountName: bankAccountName,
+      bank: bank,
+      accountStatus: accountStatus,
+    };
+    agent.Employees.update(parseInt(id!), userInforUpdate)
+      .then((response) => {
+        // Delete skills
+        staffSkillToDelete.forEach((uniqueId) => {
+          agent.StaffSkill.delete(uniqueId);
+        });
+        //Update old skills
+        updatedSkills.forEach((staffSkill) => {
+          const staffSkillUpdate = {
+            uniqueId: staffSkill.id,
+            skillName: staffSkill.skill.trim(),
+            level: staffSkill.level.trim(),
+          };
+          agent.StaffSkill.update(staffSkillUpdate);
+        });
+        //Add more skills
+        fields.forEach((staffSkill) => {
+          if (staffSkill.skill.length > 0) {
+            const staffSkillCreate = {
+              staffId: parseInt(id!),
+              skillName: staffSkill.skill,
+              level: staffSkill.level,
+            };
+            agent.StaffSkill.create(staffSkillCreate);
+          }
+        });
+        //handleUploadImage();
+        console.log("Candidate updated successfully: ", response);
+        toast.success("Cập nhật nhân viên thành công 😊");
+        //  dispatch(setCandidateUpdated(true));
+        console.log(dob);
+      })
+      .catch((error) => {
+        toast.error("Xãy ra lỗi khi cập nhật 😥");
+        console.log("Error updating candidate: ", error);
+      });
+  };
+
+  if (!userInfor) {
+    return <CandidateDetailSkeleton />; // Render a loading state while fetching candidate data
+  }
+  return (
+    <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
+      <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
+      <input
+        type="file"
+        ref={avatarInputRef}
+        style={{ display: "none" }}
+        onChange={handleAvatarSelected}
+      />
+      <IconButton onClick={handleAddAvatarButton}>
+        <Avatar
+          src={avatarUrl as string}
+          sx={{ bgcolor: deepPurple[500], width: 150, height: 150 }}
+        >
+          A
+        </Avatar>
+      </IconButton>
+
+      <Grid container justifyContent={"space-between"} sx={{ mt: "30px" }}>
+        <HeaderInput
+          InputProps={{
+            disableUnderline: true,
+            style: { fontFamily: fontStyle, fontWeight: 700, fontSize: "40px", color: "#3B3B3B" },
+          }}
+          fullWidth
+          variant="standard"
+          defaultValue={`${userInfor?.firstName} ${userInfor?.lastName}`}
+          onChange={debouncedFullNameInput}
+        />
+
+        <Box display={"flex"} alignItems={"flex-end"}>
+          <Button
+            variant="text"
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              color: "#8A8A8A",
+              fontFamily: fontStyle,
+            }}
+            disableElevation={true}
+          >
+            Quay lại
+          </Button>
+          <Button
+            variant="text"
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              color: "#007FFF",
+              fontFamily: fontStyle,
+            }}
+            disableElevation={true}
+            onClick={handleStaffUpdate}
+          >
+            Xác nhận
+          </Button>
+        </Box>
+        <Button
+          variant="contained"
+          component={Link}
+          to={"/detail-contract/1"}
+          sx={{
+            fontWeight: "bold",
+            textTransform: "none",
+            //color: "#8A8A8A",
+            fontFamily: fontStyle,
+          }}
+          disableElevation={true}
+        >
+          Xem hợp đồng
+        </Button>
+      </Grid>
+      <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
+      <Grid>
+      <Typography
+          sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
+        >
+          Liên lạc
+        </Typography>
+      </Grid>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <PhoneIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Số điện thoại</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.phone}
+          onChange={debouncedPhoneInput}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Mail</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.email}
+          onChange={debouncedEmailInput}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Địa chỉ</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.address}
+          onChange={debouncedAddressInput}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
       <Grid>
         <Typography
-          variant="h5"
-          sx={{ color: "#246DD6", fontWeight: "600", marginBottom: "10px" }}
+          sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
         >
           Thông tin
         </Typography>
       </Grid>
 
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Phòng ban</Typography>
+        <BootstrapInput
+          fullWidth
+          disabled
+          value={department?.departmentName}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <CalendarMonthIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Ngày vào làm</Typography>
+        <BootstrapInput
+          fullWidth
+          disabled
+          defaultValue={moment(userInfor?.hireDate).format("DD-MM-YYYY")}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <NumbersIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Số năm làm việc</Typography>
+        <BootstrapInput
+          fullWidth
+          disabled
+          defaultValue={userInfor?.workTimeByYear}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Giới tính</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.gender ? 1 : 0}
+          InputProps={textFieldInputProps}
+          variant="standard"
+          onChange={(e: any) => setGender(e.target.value)}
+          select
+        >
+          <MenuItem value={1}>Nam</MenuItem>
+          <MenuItem value={0}>Nữ</MenuItem>
+        </BootstrapInput>
+      </Box>
+      <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+        <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
+        <Typography sx={headerStyle}>Ngày sinh</Typography>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ButtonDatePicker
+            label={`${dayjs(dob) === null ? "Trống" : dayjs(dob).format("MMM DD, YYYY")}`}
+            value={dayjs(
+              new Date(
+                dayjs(dob)
+                  .toDate()
+                  .setMinutes(
+                    dayjs(dob).toDate().getMinutes() + dayjs(dob).toDate().getTimezoneOffset()
+                  )
+              )
+            )}
+            onChange={(newValue: any) => setDob(newValue)}
+          />
+        </LocalizationProvider>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Quốc tịch</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.country}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedCountryInput}
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>CMND|CCCD</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.citizenId}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedCitizenIdInput}
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <NumbersIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Tk ngân hàng</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.bankAccount}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedBankAccountInput}
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Tên tài khoản</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.bankAccountName}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedBankAccountNameInput}
+        ></BootstrapInput>
+      </Box>
+
+      <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+        <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+        <Typography sx={{ ...headerStyle, ...headerColor }}>Ngân hàng</Typography>
+        <BootstrapInput
+          fullWidth
+          defaultValue={userInfor?.bank}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedBankInput}
+        ></BootstrapInput>
+      </Box>
+
+      <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "20px", mb: "20px" }}></Box>
+
       <Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
+      <Typography
+          sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
         >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Giới tính:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              select
-              id="outlined-required"
-              sx={{ width: "15ch" }}
-              size="small"
-              label="Giới tính"
-              defaultValue={employee?.gioiTinh}
-            >
-              <MenuItem value={1}>Nam</MenuItem>
-              <MenuItem value={0}>Nữ</MenuItem>
-            </TextField>
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Ngày sinh:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Ngày sinh"
-              size="small"
-              margin="dense"
-              defaultValue={moment(employee?.dob).format("DD-MM-YYYY")}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Phòng ban:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Phòng ban"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.departmentName}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Ngày vào làm:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Ngày vào làm"
-              size="small"
-              margin="dense"
-              defaultValue={moment(employee?.hireDate).format("DD-MM-YYYY")}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Quốc tịch:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Quốc tịch"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.country}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>CMND|CCCD:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="CMND|CCCD"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.citizenId}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Số năm làm việc:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Số năm làm việc"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.workTimeByYear}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Tk ngân hàng:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Tk ngân hàng"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.bankAccount}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Tên tài khoản:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Tên tài khoản"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.bankAccountName}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            maxWidth: "100%",
-            padding: "0 30px",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography sx={{ fontWeight: "600" }}>Ngân hàng:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Ngân hàng"
-              size="small"
-              margin="dense"
-              defaultValue={employee?.bank}
-            />
-          </Grid>
-        </Grid>
+          Kỹ năng
+        </Typography>
       </Grid>
-    </Box>
+
+      {userInfor.staffSkills && (
+        <>
+          {updatedSkills.length > 0 ? (
+            updatedSkills.map((option, index) => (
+              <Box display="flex" alignItems="center" sx={verticalSpacing} key={option.id}>
+                <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+                <BootstrapInput
+                  InputProps={{
+                    ...textFieldInputProps,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={(e) => handleAddDeleteSkills(option.id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  defaultValue={option.skill}
+                  onChange={(e) => debouncedUpdatedSkillChange(index, e.target.value)}
+                  variant="standard"
+                  placeholder="Trống"
+                  sx={{ width: "250px", paddingRight: "10px" }}
+                />
+
+                <BootstrapInput
+                  fullWidth
+                  InputProps={textFieldInputProps}
+                  onChange={(e) => debouncedUpdatedLevelChange(index, e.target.value)}
+                  defaultValue={option.level}
+                  variant="standard"
+                  placeholder="Trống"
+                />
+              </Box>
+            ))
+          ) : (
+            <Typography>No skills available</Typography>
+          )}
+        </>
+      )}
+      {fields.map((field, index) => (
+        <React.Fragment key={index}>
+          <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+            <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+            <BootstrapInput
+              InputProps={textFieldInputProps}
+              variant="standard"
+              placeholder="Tên kỹ năng..."
+              onChange={(e) => debouncedSkillChange(index, e.target.value)}
+              sx={{ width: "250px", paddingRight: "10px" }}
+            />
+            <BootstrapInput
+              fullWidth
+              InputProps={textFieldInputProps}
+              onChange={(e) => debouncedLevelChange(index, e.target.value)}
+              variant="standard"
+              placeholder="Trình độ..."
+            />
+          </Box>
+        </React.Fragment>
+      ))}
+      <Grid item xs={16}>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={handleAddField}
+          sx={{
+            color: "#A9A9A9",
+            backgroundColor: "white",
+            borderColor: "#B8B8B8",
+            "&:hover": {
+              backgroundColor: "#E2E2E2",
+              color: "#A9A9A9",
+              borderColor: "#E2E2E2",
+            },
+            "&:active": {
+              backgroundColor: "#DFDFDF",
+              borderColor: "#DFDFDF",
+              color: "#858585",
+            },
+          }}
+        >
+          Thêm kỹ năng
+        </Button>
+      </Grid>
+    </Container>
   );
 }

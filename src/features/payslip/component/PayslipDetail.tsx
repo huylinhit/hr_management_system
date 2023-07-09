@@ -10,7 +10,6 @@ import { fetchPayslipsAsync, payslipSelectors } from "../payslipSlice";
 import CompanyPaid from "./CompanyPaid";
 import PayslipDetailSalary from "./PayslipDetailSalary";
 import TaxDetailList from "./TaxDetailList";
-import { contractSelectors, fetchContractValidDetailASync } from "../../detail_contract/contractSlice";
 import LogOvertimeTable from "../../overlog/LogOvertimeTable";
 import { fetchLogLeavesAsync, logleaveSelectors } from "../../detail_leavelog/logleaveSlice";
 import moment from "moment";
@@ -18,6 +17,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Allowance } from "../../../app/models/allowance";
 import { fetchLogOtsAsync, logOvertimeSelectors } from "../../overlog/overtimeSlice";
 import { Contract } from "../../../app/models/contract";
+import { contractSelectors, fetchContractValidDetailASync } from "../../../app/store/contract/contractSlice";
 
 function PayslipDetail() {
     const { payslipId, staffId } = useParams();

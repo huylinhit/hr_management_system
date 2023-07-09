@@ -27,8 +27,6 @@ export default function DetailSkill({ employee }: Props) {
       .selectAll(state)
       .filter((s) => s.staffId == employee?.staffId)
   );
-  console.log(skills);
-
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchStaffSkillsAsync());
@@ -47,7 +45,7 @@ export default function DetailSkill({ employee }: Props) {
       </Grid>
 
       {skills.map((skill) => (
-        <Grid>
+        <Grid key={skill.skillId}>
           <Grid
             container
             sx={{

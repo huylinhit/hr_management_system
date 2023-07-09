@@ -1,15 +1,14 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import { UserInfor } from "../../../app/models/userInfor";
 
 interface Props {
   employee: UserInfor | undefined;
+  handleSubmit: Function;
 }
 
-export default function EditEmployeeFooter({ employee }: Props) {
-  const handleFinish = () => {};
-
+export default function EditEmployeeFooter({ employee, handleSubmit }: Props) {
   return (
     <Grid
       container
@@ -36,12 +35,13 @@ export default function EditEmployeeFooter({ employee }: Props) {
         </Button>
       </Grid>
       <Grid item>
-      <Button
+        <Button
           variant="contained"
           sx={{
             borderRadius: "20px",
             padding: "auto",
           }}
+          onClick={() => handleSubmit()}
         >
           Lưu
         </Button>

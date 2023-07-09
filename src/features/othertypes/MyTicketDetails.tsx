@@ -15,9 +15,9 @@ import {
   debounce,
 } from "@mui/material";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
-import { useAppSelector } from "../../app/store/configureStore";
-import { ticketsSelectors } from "./ticketSlice";
+import { NavLink, useLocation, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchTicketAsync, ticketsSelectors } from "./ticketSlice";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
@@ -35,6 +35,11 @@ import { storage } from "../../firebase";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import MyTicketDetailSkeleon from "./MyTicketDetailSkeleton";
+import { fetchTicketTypesAsync } from "./ticketTypeSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
+import { ToastContainer, toast } from "react-toastify";
+import ConfirmDialog from "../../app/layout/ConfirmDialog";
 const fontStyle = "Mulish";
 
 const menuItemStyle = {
@@ -170,12 +175,73 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [ticketFile, setTicketFile] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [ticketChanged, setTicketChanged] = useState(false);
+  const dispatch = useAppDispatch();
+  const location = useLocation();
   const storageRef = ref(
     storage,
     `staffsTicketFile/STF${ticket?.staffId.toString().padStart(5, "0")}TK-${ticket?.ticketId
       .toString()
       .padStart(5, "0")}`
   );
+
+  //#region ==============================USE EFFECT=====================================
+  //Set header title
+  useEffect(() => {
+    if (ticket) {
+      dispatch(
+        setHeaderTitle([
+          { title: "Đơn khác của tôi", path: "/mytickets" },
+          { title: "Chỉnh sửa đơn", path: "" },
+        ])
+      );
+    }
+  }, [dispatch, location, ticket]);
+
+  //Set default value when reload page
+  useEffect(() => {
+    if (ticket) {
+      setTicketStatus(ticket.ticketStatus);
+      setSelectedTicketTypeId(ticket.ticketTypeId);
+      setTicketReason(ticket.ticketReason);
+    }
+  }, [ticket]);
+
+  //Get ticket file
+  useEffect(() => {
+    getDownloadURL(storageRef)
+      .then((url) => {
+        setTicketFile(url);
+      })
+      .catch((error) => {});
+  }, [ticket]);
+  console.log(ticketFile);
+
+  //Get this ticket
+  useEffect(() => {
+    if ((!ticket && id) || ticketChanged) {
+      dispatch(fetchTicketAsync(parseInt(id!)));
+      setTicketChanged(false);
+    }
+  }, [id, ticket, dispatch, ticketChanged]);
+
+  //Get ticket types
+  useEffect(() => {
+    if (!ticketTypes) {
+      dispatch(fetchTicketTypesAsync());
+    }
+  }, [ticketTypesLoaded]);
+  //#endregion ==============================USE EFFECT=====================================
+
+  //#region ===========================HANDLE ACTION======================================
+  const handleClickOpenConfirm = () => {
+    setOpenConfirm(true);
+  };
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+
   const handleDragEnter = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
@@ -208,14 +274,6 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
   }, 750);
 
   //Initially get ticket on Firebase
-  useEffect(() => {
-    getDownloadURL(storageRef)
-      .then((url) => {
-        setTicketFile(url);
-      })
-      .catch((error) => {});
-  }, [ticket]);
-  console.log(ticketFile);
 
   const handleTicketChange = (event: any) => {
     const selectedOption = ticketTypes!.find((option) => option.ticketName === event.target.value);
@@ -244,10 +302,13 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
     agent.Ticket.update(parseInt(id!), ticketUpdate)
       .then((response) => {
         handleUploadFile(response.staffId);
+        setTicketChanged(true);
         console.log("Ticket updated successfully: ", response);
+        toast.success("Cập nhật đơn thành công 😊");
       })
       .catch((error) => {
         console.log("Error updating ticket: ", error);
+        toast.error("Xảy ra lỗi khi cập nhật 😥");
       });
   };
 
@@ -274,66 +335,68 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
     agent.Ticket.cancel(parseInt(id!))
       .then((response) => {
         console.log("Ticket cancelled successfully: ", response);
+        setTicketChanged(true);
+        toast.success("Hủy đơn thành công 😊");
       })
       .catch((error) => {
         console.log("Error cancelling ticket", error);
+        toast.error("Xảy ra lỗi khi hủy đơn 😥");
       });
+    handleCloseConfirm();
   };
-
+  if (!ticket || !ticketTypes) {
+    return <MyTicketDetailSkeleon />;
+  }
+  //#endregion ===========================HANDLE ACTION======================================
   return (
     <>
-      <Box sx={{ paddingLeft: "10%", mt: "0%", paddingRight: "10%" }}>
-      </Box>
-
+      <Box sx={{ paddingLeft: "10%", mt: "0%", paddingRight: "10%" }}></Box>
+      <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
           <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
             Đơn của {ticket?.staffName}
           </Typography>
           <Box display={"flex"} alignItems={"flex-end"}>
-            <Button
-              variant="text"
-              sx={{
-                fontWeight: "bold",
-                textTransform: "none",
-                color: "#8A8A8A",
-                fontFamily: fontStyle,
-              }}
-              disableElevation={true}
-            >
-              Quay lại
-            </Button>
             {ticket?.enable ? (
-              <Button
-                variant="text"
-                color="error"
-                sx={{
-                  fontWeight: "bold",
-                  textTransform: "none",
-                  fontFamily: fontStyle,
-                }}
-                disableElevation={true}
-                onClick={handleCancelTicket}
-              >
-                Hủy đơn
-              </Button>
+              <>
+                <Button
+                  variant="text"
+                  color="error"
+                  sx={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    fontFamily: fontStyle,
+                  }}
+                  disableElevation={true}
+                  onClick={handleClickOpenConfirm}
+                >
+                  Hủy đơn
+                </Button>
+                <Button
+                  variant="text"
+                  sx={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    color: "#007FFF",
+                    fontFamily: fontStyle,
+                  }}
+                  disableElevation={true}
+                  onClick={handleTicketApproval}
+                >
+                  Xác nhận
+                </Button>
+              </>
             ) : (
               <Typography />
             )}
-
-            <Button
-              variant="text"
-              sx={{
-                fontWeight: "bold",
-                textTransform: "none",
-                color: "#007FFF",
-                fontFamily: fontStyle,
-              }}
-              disableElevation={true}
-              onClick={handleTicketApproval}
-            >
-              Xác nhận
-            </Button>
+            <ConfirmDialog
+              open={openConfirm}
+              onClose={handleCloseConfirm}
+              title={`Hủy ${ticket.ticketName.toLowerCase()}`}
+              content="Bạn sẽ không thể chỉnh sửa đơn này sau khi đã hủy"
+              action={handleCancelTicket}
+            />
           </Box>
         </Grid>
 

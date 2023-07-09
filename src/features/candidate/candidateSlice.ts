@@ -9,6 +9,7 @@ interface CandidateState {
   filtersLoaded: boolean;
   status: string;
   candidateAdded: boolean;
+  candidateUpdated: boolean;
 }
 
 const candidatesAdapter = createEntityAdapter<Candidate>({
@@ -46,10 +47,14 @@ export const candidateSlice = createSlice({
     filtersLoaded: false,
     status: "idle",
     candidateAdded: false,
+    candidateUpdated: false,
   }),
   reducers: {
     setCandidateAdded: (state, action) => {
       state.candidateAdded = action.payload;
+    },
+    setCandidateUpdated: (state, action) => {
+      state.candidateUpdated = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -81,7 +86,7 @@ export const candidateSlice = createSlice({
   },
 });
 
-export const { setCandidateAdded } = candidateSlice.actions;
+export const { setCandidateAdded, setCandidateUpdated } = candidateSlice.actions;
 export const candidatesSelectors = candidatesAdapter.getSelectors(
   (state: RootState) => state.candidate
 );

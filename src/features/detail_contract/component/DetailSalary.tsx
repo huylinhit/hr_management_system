@@ -16,21 +16,14 @@ interface Props {
 }
 
 export default function DetailSalary({ contract, employee }: Props) {
-  // // -------------------------- VAR -----------------------------
-  // // -------------------------- STATE ---------------------------
-  // const [allowanceTypes, setAllowanceTypes] =
-  //   useState<AllowanceType[]>(ALLOWANCETYPE);
-  // const [allowances, setAllowances] = useState<Allowance[]>(ALLOWANCE);
-  // // -------------------------- REDUX ---------------------------
-  // // -------------------------- EFFECT --------------------------
-  // // -------------------------- FUNCTION ------------------------
-  // const allowanceList = allowances.filter(
-  //   (a) => a.contractId === contract.contractId
-  // );
-
+  // -------------------------- VAR -----------------------------
+  // -------------------------- STATE ---------------------------
+  // -------------------------- REDUX ---------------------------
+  // -------------------------- EFFECT --------------------------
+  // -------------------------- FUNCTION ------------------------
   return (
     <Grid sx={{ paddingBottom: "10px" }}>
-      {/* <Typography
+      <Typography
         sx={{
           color: "#246DD6",
           fontWeight: "600",
@@ -95,6 +88,7 @@ export default function DetailSalary({ contract, employee }: Props) {
         {contract?.allowances.map((a) => (
           <Grid
             container
+            key={a.allowanceId}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -103,12 +97,12 @@ export default function DetailSalary({ contract, employee }: Props) {
               padding: "0 30px 5px 30px",
             }}
           >
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
                 {a.allowanceType.allowanceName}:
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
                 {a.allowanceSalary}
               </Typography>
@@ -200,7 +194,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
         </Grid>
-      </Grid> */}
+      </Grid> 
     </Grid>
   );
 }

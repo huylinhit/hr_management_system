@@ -1,46 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+// component
+import DeleteSkillDialog from "../dialog/DeleteSkillDialog";
+import AddSkillDialog from "../dialog/AddSkillDialog";
+
 // data
 import { UserInfor } from "../../../app/models/userInfor";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../app/store/configureStore";
-import {
-  fetchStaffSkillsAsync,
-  staffSkillsSelectors,
-} from "../../skills/staffSkillSlice";
-import DeleteSkillDialog from "../dialog/DeleteSkillDialog";
+
 import { StaffSkill } from "../../../app/models/staffSkill";
-import AddSkillDialog from "../dialog/AddSkillDialog";
+
+interface Fields {
+  uniqueId: number
+  level: string
+  skillName: string
+}
 
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  skills: StaffSkill[]
+  skillForm: Array<Fields>
+  setSkillForm: Function
 }
 
-export default function EditSkill({ employee }: Props) {
+export default function EditSkill({ employee, skills, skillForm, setSkillForm }: Props) {
   // -------------------------- VAR -----------------------------
-  const dispatch = useAppDispatch();
-  // -------------------------- STATE ---------------------------
+  //--------------------------- STATE ---------------------------
   const [skillDeleted, setSkillDeleted] = useState<StaffSkill>();
   const [openDeleteSkill, setOpenDeleteSkill] = useState(false);
   const [openAddSkill, setOpenAddSkill] = useState(false);
   // -------------------------- REDUX ---------------------------
-  const skills = useAppSelector((state) =>
-    staffSkillsSelectors
-      .selectAll(state)
-      .filter((s) => s.staffId == employee?.staffId)
-  );
-  console.log(skills);
-
   // -------------------------- EFFECT --------------------------
-  useEffect(() => {
-    dispatch(fetchStaffSkillsAsync());
-  }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
   return (
@@ -55,8 +48,9 @@ export default function EditSkill({ employee }: Props) {
       </Grid>
 
       <Grid>
-        {skills.map((skill) => (
+        {skills.map((skill, index) => (
           <Grid
+          key={skill.uniqueId}
             container
             sx={{
               display: "flex",
@@ -78,6 +72,11 @@ export default function EditSkill({ employee }: Props) {
                 size="small"
                 margin="dense"
                 defaultValue={skill.level}
+                onChange={(e) =>{
+                  const updateField = [...skillForm]
+                  updateField[index].level = e.target.value
+                  setSkillForm(updateField)
+                }}
               />
             </Grid>
             <Grid item xs={1} sx={{ padding: "0 5px" }}>
@@ -103,7 +102,7 @@ export default function EditSkill({ employee }: Props) {
 
       </Grid>
 
-      <AddSkillDialog open={openAddSkill} setOpen={setOpenAddSkill} />
+      <AddSkillDialog open={openAddSkill} setOpen={setOpenAddSkill} id={employee?.staffId} />
       <DeleteSkillDialog
         open={openDeleteSkill}
         setOpen={setOpenDeleteSkill}

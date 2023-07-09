@@ -6,6 +6,7 @@ import { fetchDepartmentsAsync } from "./departmentSlice";
 
 interface UserInforState {
   userInforsLoaded: boolean;
+  userInforAdded: boolean;
   filtersLoaded: boolean;
   status: string;
 }
@@ -42,6 +43,7 @@ export const userInforSlice = createSlice({
   name: "userInfors",
   initialState: userInforsAdapter.getInitialState<UserInforState>({
     userInforsLoaded: false,
+    userInforAdded: false,
     filtersLoaded: false,
     status: "idle",
   }),

@@ -81,10 +81,10 @@ const Account = {
 const Contract = {
   list: () => requests.get("contracts"),
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
-  details: (id: number) => requests.get(`contract/${id}`),
-  create: (values: any) => requests.post("contract", values),
-  update: (id: number, values: any) => requests.put(`contract/${id}`, values),
-  patch: (id: number, values: any) => requests.patch(`contract/${id}`, values),
+  details: (id: number) => requests.get(`contracts/${id}`),
+  create: (values: any) => requests.post("contracts", values),
+  update: (id: number, values: any) => requests.put(`contracts/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
 }
 
 const Department = {
@@ -127,7 +127,8 @@ const StaffSkill = {
   list: () => requests.get("staffskill"),
   details: (id: number) => requests.get(`staffskill/${id}`),
   create: (values: any) => requests.post("staffskill", values),
-  update: (id: number, values: any) => requests.put(`staffskill/${id}`, values),
+  delete: (id: number) => requests.delete(`staffskill/${id}`),
+  update: (values: any) => requests.put(`staffskill`, values),
   patch: (id: number, values: any) => requests.patch(`staffskill/${id}`, values),
 };
 
@@ -142,7 +143,8 @@ const CandidateSkill = {
   details: (id: number) => requests.get(`candidateskills/${id}`),
   listByCandidateId: (id: number) => requests.get(`candidateskills/candidate/${id}`),
   create: (values: any) => requests.post("candidateskills", values),
-  update: (values: any) => requests.put(`candidateskills`, values)
+  update: (values: any) => requests.put(`candidateskills`, values),
+  delete: (id: number) => requests.delete(`candidateskills/${id}`),
 }
 
 const UserInfors = {
@@ -177,7 +179,7 @@ const LogLeave = {
   update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
   patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
 }
-// -----------------------------------
+
 const Employees = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
@@ -187,9 +189,21 @@ const Employees = {
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
+const AllowanceType = {
+  list: () => requests.get("allowance-types"),
+};
+
+const Allowance = {
+  list: () => requests.get("allowances"),
+  create: (id: number, values: any) => requests.post(`allowances/contracts/${id}`, values),
+  update: (allowanceId: number, contractId: number, values: any) => requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
+  patch: (allowanceId: number, contractId: number, values: any) => requests.patch(`allowances/${allowanceId}/contracts/${contractId}`, values),
+};
 // -----------------------------------
 const agent = {
   Account,
+  AllowanceType,
+  Allowance,
   Contract,
   Department,
   UserInfors,

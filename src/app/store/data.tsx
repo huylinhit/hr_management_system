@@ -434,7 +434,8 @@ export const LEAVETYPE = [
   },
 ];
 
-export const LEAVELOG = {
+export const LEAVELOG = [
+  {
   leaveLogId: 1,
   staffId: 1,
   leaveTypeId: 1,
@@ -449,7 +450,8 @@ export const LEAVELOG = {
   respondencesId: 0,
   changeStatusTime: "",
   enable: 1,
-};
+},
+];
 
 export const TICKETYPES = [
   { ticketTypeId: 1, ticketName: "Đơn xin nghỉ việc" },
