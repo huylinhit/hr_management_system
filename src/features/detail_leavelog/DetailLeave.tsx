@@ -28,7 +28,7 @@ export default function DetailLeave() {
   // -------------------------- STATE ---------------------------
   // const [staff, setStaff] = useState<Employee>(STAFF);
 
-  console.log(staff.staffId)
+  // console.log(staff.staffId)
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
