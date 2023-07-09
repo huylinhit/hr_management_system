@@ -161,7 +161,7 @@ export const router = createBrowserRouter([
 
           //Contract
           { path: "/editcontract", element: <EditContract /> },
-          { path: "/contractdetail", element: <ContractDetail /> },
+          // { path: "/contractdetail", element: <ContractDetail /> },
         ]
       },
       { path: "/", element: <HomePage /> },
