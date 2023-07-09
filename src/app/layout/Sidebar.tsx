@@ -161,6 +161,7 @@ export default function Sidebar() {
           <Box flex="1" overflow="auto">
             <List sx={{ pl: "10px" }}>
 
+
               {user && user.roles?.includes('HRStaff') && (
                 <>
                   <ListItemButton onClick={handleOpenStaff}>
@@ -363,6 +364,37 @@ export default function Sidebar() {
                       />
                     </ListItemButton>
 
+
+              <ListItemButton onClick={handleOpenCandidate}>
+                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="TUYỂN DỤNG" />
+                {openCandidate ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={openCandidate} timeout="auto" unmountOnExit>
+                <ListItemButton
+                  dense
+                  component={Link}
+                  to="/candidates"
+                  onClick={setCandidateHeader}
+                >
+                  <ListItemIcon sx={{ minWidth: "30px" }}>
+                    <PeopleAltOutlinedIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primaryTypographyProps={{ ...listItemStyle }}
+                    primary="Danh sách ứng viên"
+                  />
+                </ListItemButton>
+                <ListItemButton>
+                  <ListItemIcon sx={{ minWidth: "30px" }}>
+                    <PersonAddAltOutlinedIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primaryTypographyProps={{ ...listItemStyle }}
+                    primary="Tạo ứng viên mới"
+                  />
+                </ListItemButton>
+              </Collapse>
+
                     <ListItemButton
                       component={Link}
                       to="/otheruserstickets">
@@ -377,6 +409,7 @@ export default function Sidebar() {
                   </Collapse>
                 </>
               )}
+
 
 
 

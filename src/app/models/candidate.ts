@@ -1,4 +1,6 @@
-export interface Candidate{
+import { CandidateSkill } from "./candidateskill";
+
+export interface Candidate {
   candidateId: number;
   imageFile: string;
   name: string;
@@ -14,4 +16,5 @@ export interface Candidate{
   resumeFile: string;
   applyDate: string;
   result: string;
+  candidateSkills: CandidateSkill[];
 }
