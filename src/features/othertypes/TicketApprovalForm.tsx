@@ -21,7 +21,6 @@ import { ticketsSelectors } from "./ticketSlice";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
-import "../../app/layout/App.css";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import DownloadIcon from "@mui/icons-material/Download";
 import { getDownloadURL, ref } from "firebase/storage";

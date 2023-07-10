@@ -1,29 +1,29 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box, TextField, Avatar, Chip, IconButton, Button, Grid } from "@mui/material";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
-import { fetchPayslipsAsync, payslipSelectors } from "../payslipSlice";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { Box, Typography, Grid, TextField, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from "@mui/material";
+import moment from "moment";
 import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
-import styles from './payslip.module.scss';
-import classNames from "classnames/bind";
+import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
+import classNames from "classnames";
+import styles from './payslip.module.scss'
+import { useEffect, useState } from "react";
+import { Payslip } from "../../../app/models/payslip";
+import agent from "../../../app/api/agent";
+import { fetchPayslipsStaffAsync, payslipSelectors } from "../payslipSlice";
 
 const cx = classNames.bind(styles);
 
-function Payroll() {
-    const dispatch = useAppDispatch();
-    const payslips = useAppSelector(payslipSelectors.selectAll);
-    const { payslipsLoaded, status } = useAppSelector(state => state.payslip);
 
-    useEffect(() => {
-        if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
-    }, [payslipsLoaded]);
+function MyPayroll() {
+    const { user } = useAppSelector(state => state.account);
+    const [payslips, setPayslips] = useState<Payslip[]>([]);
 
-    if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
+    useEffect(() =>{
+        agent.Payslip.listOfStaff(user?.userInfor.staffId!)
+            .then(response  => setPayslips(response));
+    }, [user]);
+
     return (
-
         <Box className={cx("wrapper")}>
             <Typography variant="h4">Danh sách lương nhân viên</Typography>
 
@@ -70,40 +70,30 @@ function Payroll() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {payslips?.map(item => {
+                        {payslips.length !== 0 && payslips?.map(item => {
                             const date = new Date(item.changeAt);
                             return (
                                 <TableRow
                                     key={item.payslipId}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell align="center">
-                                        <Link
-                                            to={`${item.payslipId}/staffs/${item.staffId}`}>
-                                            {item.payslipId}
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Link
-                                            to={`${item.payslipId}/staffs/${item.staffId}`}>
-                                            {item.staffId}
-                                        </Link>
-                                    </TableCell>
+                                    <TableCell align="center">{item.payslipId}</TableCell>
+                                    <TableCell align="center">{item.staffId}</TableCell>
                                     {/* <TableCell align="center">
                                     <Avatar alt={item.staff.firstName} src="/static/images/avatar/1.jpg" />
                                 </TableCell> */}
                                     <TableCell align="center">{`${item.staff.lastName} ${item.staff.firstName}`}</TableCell>
                                     <TableCell align="center">Gross To Net</TableCell>
-                                    <TableCell align="center">{item.grossStandardSalary.toLocaleString()}</TableCell>
-                                    <TableCell align="center">{item.grossActualSalary.toLocaleString()}</TableCell>
-                                    <TableCell align="center">{item.netStandardSalary.toLocaleString()}</TableCell>
+                                    <TableCell align="center">{item.grossStandardSalary}</TableCell>
+                                    <TableCell align="center">{item.grossActualSalary}</TableCell>
+                                    <TableCell align="center">{item.netStandardSalary}</TableCell>
                                     <TableCell align="center">
-                                        {item.netActualSalary.toLocaleString()}
+                                        {item.netActualSalary}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.totalCompInsured.toLocaleString()}
+                                        {item.totalCompInsured}
                                     </TableCell>
-                                    <TableCell align="center">{item.totalCompPaid.toLocaleString()}</TableCell>
+                                    <TableCell align="center">{item.totalCompPaid}</TableCell>
                                     <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
                                     <TableCell align="center">
                                         {item.payslipStatus ? (
@@ -132,4 +122,4 @@ function Payroll() {
     );
 }
 
-export default Payroll;
+export default MyPayroll;
