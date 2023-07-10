@@ -30,7 +30,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             id="outlined-required"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue={0}
+            defaultValue={1}
             onChange={(e) =>
               setContractForm((prevForm: any) => ({
                 ...prevForm,

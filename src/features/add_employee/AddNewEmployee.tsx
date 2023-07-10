@@ -19,11 +19,13 @@ import agent from "../../app/api/agent";
 // component
 import NewAccount from "./component/NewAccount";
 import NewStaff from "./component/NewStaff";
+import { useNavigate } from "react-router-dom";
 
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
   const stepName = ["Tạo tài khoản", "Thông tin cá nhân"];
   const dispatch = useAppDispatch();
+  const history = useNavigate();
   // -------------------------- STATE ---------------------------
   const [step, setStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
@@ -65,17 +67,6 @@ export default function AddNewEmployee() {
     return skipped.has(step);
   };
 
-  const areAllFieldsNotNull = (object: any): boolean => {
-    for (const key in object) {
-      if (object.hasOwnProperty(key)) {
-        if (object[key] === "" || object[key] === 0) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(step)) {
@@ -83,25 +74,8 @@ export default function AddNewEmployee() {
       newSkipped.delete(step);
     }
 
-    switch (step) {
-      // case 0:
-      //     isInfoValid = areAllFieldsNotNull(userForm);
-
-      //   break;
-      // case 1:
-      //   isInfoValid = areAllFieldsNotNull(userForm);
-      //   break;
-      default:
-        setIsValid(true);
-        break;
-    }
-
-    if (isValid) {
-      setStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped(newSkipped);
-    } else {
-      alert(`Bạn chưa hoàn thành bước ${step + 1}`);
-    }
+    setStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -112,9 +86,12 @@ export default function AddNewEmployee() {
     agent.Account.register(userForm)
       .then((response) => {
         console.log("Add new employee successfully: ", response);
+        setStep((prevActiveStep) => prevActiveStep + 1);
+        setTimeout(() => history("/employeelist"), 2000);
       })
       .catch((error) => {
         console.error("Error add new employee ", error);
+        setStep(0)
       });
   };
   // -------------------------- MAIN ----------------------------
@@ -198,7 +175,7 @@ export default function AddNewEmployee() {
                     variant="contained"
                     size="small"
                     sx={{ fontSize: "17px", borderRadius: "10px" }}
-                    onClick={step === 2 ? handleSubmit : handleNext}
+                    onClick={step === 1 ? handleSubmit : handleNext}
                   >
                     {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
                   </Button>

@@ -13,7 +13,6 @@ export default function NewContract() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  let disabled = true;
   // -------------------------- REDUX ---------------------------
   // -------------------------- STATE ---------------------------
   const [contractForm, setContractForm] = useState({
@@ -24,52 +23,55 @@ export default function NewContract() {
     workDatePerWeek: 0,
     note: "",
     noOfDependences: 0,
-    contractTypeId: 0,
+    contractTypeId: 1,
     salaryType: "",
     paidDateNote: "",
     contractFile: "",
     contractStatus: true,
   });
   // -------------------------- EFFECT --------------------------
-  useEffect(() => {
-    disabled = !areAllFieldsNotNull(contractForm);
-  }, [contractForm]);
   // -------------------------- FUNCTION ------------------------
   const areAllFieldsNotNull = (object: any): boolean => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
         if (object[key] === "" || object[key] === 0) {
           if (
-            key === "paidDateNote" ||
-            key === "contractFile" ||
-            key === "note"
-          ) {
+            key !== "paidDateNote" &&
+            key !== "contractFile" &&
+            key !== "note" &&
+            key !== "noOfDependences" 
+          ) {            
+            console.log(key);
+            
             return false;
-          }
+          } 
         }
       }
     }
     return true;
   };
-  console.log(contractForm);
-
-  console.log(disabled);
 
   const handleSubmit = () => {
     console.log(contractForm);
 
-    // agent.Contract.create(Number(id), contractForm)
-    //   .then((response) => {
-    //     console.log("Add new contract successfully: ", response);
-    //     window.location.reload();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error add new contract ", error);
-    //   });
+    agent.Contract.create(Number(id), contractForm)
+      .then((response) => {
+        console.log("Add new contract successfully: ", response);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error add new contract ", error);
+      });
 
-    // history(`/detail-employee/${id}`)
+    history(`/detail-employee/${id}`)
   };
   // -------------------------- MAIN ----------------------------
+  const disabled = !areAllFieldsNotNull(contractForm);
+  console.log(disabled);
+  console.log(contractForm);
+  
+  
+
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
