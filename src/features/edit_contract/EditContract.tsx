@@ -26,7 +26,6 @@ import {
 
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
-  // const id = 1
   const { id } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- REDUX ---------------------------
@@ -40,6 +39,7 @@ export default function EditContract() {
 
   const allowanceUpdate = contract?.allowances.map((allowance) => {
     return {
+      allowanceId: allowance.allowanceId,
       allowanceTypeId: allowance.allowanceTypeId,
       allowanceSalary: allowance.allowanceSalary,
     };
@@ -139,7 +139,8 @@ export default function EditContract() {
       <ConfirmSubmitDialog
         open={openSubmitDialog}
         setOpen={setOpenSubmitDialog}
-        id={contract?.contractId}
+        contractId={contract?.contractId}
+        staffId = {contract?.staffId}
         item={contractForm}
         allowanceForm={allowanceForm}
       />

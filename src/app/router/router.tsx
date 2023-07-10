@@ -10,16 +10,16 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 
 // Employee
-// import EditEmployee from "../../features/employee/EditEmployee";
+import AddNewEmployee from "../../features/add_employee/AddNewEmployee";
 import DetailEmployee from "../../features/detail_employee/DetailEmployee";
 import EmployeeList from "../../features/employee/EmployeeList";
 import EditEmployee from "../../features/edit_employee/EditEmployee";
-import Firststep from "../../features/employee/Firststep";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
 import ContractList from "../../features/list_contract/ContractList";
 import EditContract from "../../features/edit_contract/EditContract";
+import NewContract from "../../features/add_contract/NewContract";
 
 // Overtime
 import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
@@ -71,6 +71,7 @@ import { useAppSelector } from "../store/configureStore";
 
 import StaffList from "../../features/employee/StaffList";
 import EditInfo from "../../features/edit_employee/component/EditInfo";
+
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -106,7 +107,6 @@ export const router = createBrowserRouter([
 
           // Employee
           { path: "/register", element: <Register /> },
-          { path: "/create-new-employee", element: <Firststep /> },
           { path: '/employeelist', element: <EmployeeList /> },
           { path: "/detail-employee/:id", element: <DetailEmployee /> },
           { path: "/edit-employee/:id", element: <EditEmployee /> },
@@ -185,7 +185,7 @@ export const router = createBrowserRouter([
       // Allowance
 
       // Employee
-      { path: "/create-new-employee", element: <Firststep /> },
+      { path: "/create-new-employee", element: <AddNewEmployee /> },
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },
       { path: "/employeelist", element: <EmployeeList /> },
@@ -196,6 +196,7 @@ export const router = createBrowserRouter([
       { path: "/list-contract", element: <ContractList /> },
       { path: "/detail-contract/:id", element: <DetailContract /> },
       { path: "/edit-contract/:id", element: <EditContract /> },
+      { path: "/add-contract/:id", element: <NewContract /> },
 
       // Overtime
       { path: "/viewot", element: <ViewOvertimeLog /> },

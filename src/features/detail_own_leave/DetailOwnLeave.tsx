@@ -13,13 +13,10 @@ import {LEAVETYPE, STAFF} from "../../app/store/data";
 // api
 import { Employee } from "../../app/models/employee";
 import { LeaveLog } from "../../app/models/leaveLog";
-import { LeaveType } from "../../app/models/leaveType";
 import axios from "axios";
 
 export default function DetailOwnLeave() {
   // -------------------------- VAR -----------------------------
-  // const [logLeave, setLogLeave] = useState<LeaveLog>(LEAVELOG);
-  // const [types, setTypes] = useState<LeaveType[]>(LEAVETYPE);
   const { id } = useParams();
 
   const navigate = useNavigate();
