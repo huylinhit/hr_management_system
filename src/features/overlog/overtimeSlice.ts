@@ -10,18 +10,17 @@ const logOvertimesAdapter = createEntityAdapter<LogOt>({
 
 export const fetchLogOtsAsync = createAsyncThunk<LogOt[]>(
     'logot/fetchLogOtsAsync',
-    async (_, thunkAPI) =>{
-        try{
+    async (_, thunkAPI) => {
+        try {
             return await agent.LogOt.list();
-        }catch(error: any)
-        {
-            return thunkAPI.rejectWithValue({error: error.data});
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 )
 
 export const fetchLogOtAsync = createAsyncThunk<LogOt, { logOtId: number }>(
-    'logot/fetchLogosAsync',
+    'logot/fetchLogOtAsync',
     async ({ logOtId }, thunkAPI) => {
         try {
             return await agent.LogOt.details(logOtId);
@@ -38,17 +37,30 @@ export const logotSlice = createSlice({
         status: 'idle'
     }),
     reducers: {},
-    extraReducers: (builder =>{
+    extraReducers: (builder => {
+        //list
+        builder.addCase(fetchLogOtsAsync.pending, (state) => {
+            state.status = 'pendinngFetchLogots'
+        });
+        builder.addCase(fetchLogOtsAsync.fulfilled, (state, action) => {
+            logOvertimesAdapter.setAll(state, action.payload)
+            state.status = 'idle';
+            state.logOtLoaded = true;
+        });
+        builder.addCase(fetchLogOtsAsync.rejected, state => {
+            state.status = 'idle';
+        })
+
         //details
-        builder.addCase(fetchLogOtAsync.pending, (state) =>{
+        builder.addCase(fetchLogOtAsync.pending, (state) => {
             state.status = 'pendinngFetchLogot'
         });
-        builder.addCase(fetchLogOtAsync.fulfilled, (state, action) =>{
+        builder.addCase(fetchLogOtAsync.fulfilled, (state, action) => {
             logOvertimesAdapter.upsertOne(state, action.payload)
             state.status = 'idle';
             state.logOtLoaded = true;
         });
-        builder.addCase(fetchLogOtAsync.rejected, state =>{
+        builder.addCase(fetchLogOtAsync.rejected, state => {
             state.status = 'idle';
         })
     })

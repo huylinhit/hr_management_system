@@ -7,7 +7,11 @@ import { useAppDispatch } from "../../app/store/configureStore";
 // component
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
 
+// data
+import {LEAVETYPE, STAFF} from "../../app/store/data";
+
 // api
+import { Employee } from "../../app/models/employee";
 import { LeaveLog } from "../../app/models/leaveLog";
 import axios from "axios";
 
@@ -20,25 +24,27 @@ export default function DetailOwnLeave() {
   const { handleSubmit } = useForm();
 
   // -------------------------- STATE ---------------------------
+  const [staff, setStaff] = useState<Employee>(STAFF);
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
-  const onSubmit = (data: FieldValues) => {
-    console.log("abc");
+  // const onSubmit = (data: FieldValues) => {
+  //   console.log("abc");
 
-    navigate("/myleavelist");
-  };
+  //   navigate("/myleavelist");
+  // };
 
+  
   const [logLeave, setlogLeave] = useState<LeaveLog>();
   useEffect(() => {
-    axios
-      .get(`/log-leaves/${id}`)
-      .then((response) => setlogLeave(response.data));
+    axios.get(`/log-leaves/${id}/staffs/${staff.staffId}`).then((response) => setlogLeave(response.data)
+    )
   }, [id]);
-  console.log(logLeave);
 
   // -------------------------- MAIN ----------------------------
   return (
+    <>
+    {logLeave &&(
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid>
         <Typography
@@ -85,5 +91,7 @@ export default function DetailOwnLeave() {
         </Grid>
       </Container>
     </Box>
+    )}
+    </>
   );
 }

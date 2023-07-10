@@ -2,6 +2,9 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme, responsiveFontSizes, Dialog, DialogTitle, DialogContent, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Container, DialogActions, Button } from "@mui/material";
 import { LocalizationProvider, DateRangePicker } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+import axios from "axios";
+import { url } from "inspector";
+import { useEffect } from "react";
 
 const headerStyle = {
     fontWeight: 'bold'
@@ -13,8 +16,8 @@ const styles = {
     borderBottom: '1px solid rgba(0, 0, 0)',
     marginBottom: '20px',
 };
-
 function MyCreateLeavetime({ open, handleClose, handleChange }: any) {
+    
     return (
         <Dialog open={open} onClose={handleClose}>
             <ThemeProvider theme={theme}>
@@ -48,7 +51,7 @@ function MyCreateLeavetime({ open, handleClose, handleChange }: any) {
                             <Grid item xs={2}><Typography sx={headerStyle}>Chọn ngày</Typography></Grid>
                             <Grid item xs={10}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateRangePicker localeText={{ start: 'Từ', end: 'Đến' }} />
+                                    <DateRangePicker localeText={{ start: 'Từ', end: 'Đến' }} />
                                 </LocalizationProvider>
                             </Grid>
                         </Grid>
