@@ -22,41 +22,41 @@ The Human Resource Management System (HRMS) is a comprehensive solution designed
 
 ### 4. Project Scope and Exclusions
 ##### 1. HR Manager
-UC-HRM-1: Login/Logout HR manager
-UC-HRM-2: Manage user/role of HR Staff and Staff, assign roles and permissions
-UC-HRM-3: Manage Payslips (Official)
-UC-HRM-4: Manage Payroll (Official)
-UC-HRM-5: Manage tickets of HR Staff
-UC-HRM-6: Manage overtimeLog, leaveLog of HR Staff
-UC-HRM-7: Manage personnel contract details for HR Staff, Staff
-UC-HRM-8: View statistics: Number of employees in the company, gender ratio, average age,...
+- UC-HRM-1: Login/Logout HR manager
+- UC-HRM-2: Manage user/role of HR Staff and Staff, assign roles and permissions
+- UC-HRM-3: Manage Payslips (Official)
+- UC-HRM-4: Manage Payroll (Official)
+- UC-HRM-5: Manage tickets of HR Staff
+- UC-HRM-6: Manage overtimeLog, leaveLog of HR Staff
+- UC-HRM-7: Manage personnel contract details for HR Staff, Staff
+- UC-HRM-8: View statistics: Number of employees in the company, gender ratio, average age,...
 
 ##### 2. HR Staff
-UC-HRS-1: Login/Logout HR Staff
-UC-HRS-2: Manage Staff
-UC-HRS-3: Manage Candidates 
-UC-HRS-4: Manage personnel contract details 
-UC-HRS-5: Manage OvertimeLog of Staff
-UC-HRS-6: Manage LeaveLog of Staff
-UC-HRS-7: View payslips of Staff
-UC-HRS-8: View payroll of Staff
-UC-HRS-9: Create payslips for Staff (Temporary)
-UC-HRS-10: Self-Created Payslip (Temporary)
-UC-HRS-11: Manage tickets of Staff
-UC-HRS-12: Send tickets for HR Manager
+- UC-HRS-1: Login/Logout HR Staff
+- UC-HRS-2: Manage Staff
+- UC-HRS-3: Manage Candidates 
+- UC-HRS-4: Manage personnel contract details 
+- UC-HRS-5: Manage OvertimeLog of Staff
+- UC-HRS-6: Manage LeaveLog of Staff
+- UC-HRS-7: View payslips of Staff
+- UC-HRS-8: View payroll of Staff
+- UC-HRS-9: Create payslips for Staff (Temporary)
+- UC-HRS-10: Self-Created Payslip (Temporary)
+- UC-HRS-11: Manage tickets of Staff
+- UC-HRS-12: Send tickets for HR Manager
 
 ##### 3. Staff
-UC-S-1: Login/Logout Staff
-UC-S-2: Send Ticket for HR manager (OvertimeLog, LeaveLog, personal information, contract information, other)
-UC-S-3; View OvertimeLog
-UC-S-4: View LeaveLog
-UC-S-5: View Personal Information
-UC-S-6: View Contract Information
-UC-S-7: View Ticket
-UC-S-8: View own payslip
+- UC-S-1: Login/Logout Staff
+- UC-S-2: Send Ticket for HR manager (OvertimeLog, LeaveLog, personal information, contract information, other)
+- UC-S-3; View OvertimeLog
+- UC-S-4: View LeaveLog
+- UC-S-5: View Personal Information
+- UC-S-6: View Contract Information
+- UC-S-7: View Ticket
+- UC-S-8: View own payslip
 
 ### 4. Diagram
-[Untitled Diagram.drawio.pdf](https://github.com/huylinhit/hr_management_system/files/11995754/Untitled.Diagram.drawio.pdf)
+![Untitled Diagram.drawio.pdf](https://github.com/huylinhit/hr_management_system/files/11995754/Untitled.Diagram.drawio.pdf)
 ![UML diagram](https://github.com/huylinhit/hr_management_system/assets/110725621/b3e7a013-2632-4056-8852-10c80fad9759)
 
 ### 5. Design
