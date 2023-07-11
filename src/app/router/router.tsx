@@ -74,6 +74,9 @@ import EditInfo from "../../features/edit_employee/component/EditInfo";
 
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
+ 
+import OtherLeaveList from "../../features/detail_leavelog/OtherLeaveList";
+import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
@@ -215,11 +218,12 @@ export const router = createBrowserRouter([
 
       { path: "/myleaves", element: <MyLeaveList /> },
       { path: "/myleaves/:id", element: <MyLeaveDetails /> },
+      { path: "/othersleaves", element: <OtherLeaveList /> },
+      { path: "/othersleaves/:id", element: <LeaveApproval /> },
       { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
       { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
     
-
       // Ticket
       { path: "/viewothertypes", element: <ViewOtherTypes /> },
       { path: "/editothertype/:id", element: <EditOtherType /> },

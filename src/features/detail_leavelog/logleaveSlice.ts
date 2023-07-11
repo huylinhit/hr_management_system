@@ -28,40 +28,27 @@ export const fetchLogLeavesAsync = createAsyncThunk<LogLeave[]>(
   }
 );
 
-// export const fetchLeaveDayDetailAsync = createAsyncThunk<
-//   LeaveDayDetail[],
-//   number,
-//   { state: RootState }
-// >("leavedaydetail/fetchLeaveDayDetailAsync", async (staffId, thunkAPI) => {
-//   try {
-//      const response = await agent.LeaveDayDetail.list(4);
-//      console.log(response);
-//      return response;
-//   } catch (error: any) {
-//     thunkAPI.rejectWithValue({ error: error.data });
-//   }
-// });
 export const fetchLogLeavesStaffAsync = createAsyncThunk<LogLeave, number>(
-  "logleaves/fetchLogLeaveAsync",
+  "logleaves/fetchLogLeavesStaffAsync",
   async (staffId, thunkAPI) => {
     try {
       return await agent.LogLeave.listOfStaff(staffId);
     } catch (error: any) {
       thunkAPI.rejectWithValue({ error: error.data });
     }
-  }
+  } 
 );
 
-export const fetchLogLeaveAsync = createAsyncThunk<LogLeave, number>(
-  "logleaves/fetchLogLeaveAsync",
-  async (logLeaveId, thunkAPI) => {
-    try {
-      return await agent.LogLeave.details(logLeaveId);
-    } catch (error: any) {
-      thunkAPI.rejectWithValue({ error: error.data });
-    }
+export const fetchLogLeaveAsync = createAsyncThunk<
+  LogLeave,
+  { logLeaveId: number; staffId: number }
+>("logleaves/fetchLogLeaveAsync", async ({ logLeaveId, staffId }, thunkAPI) => {
+  try {
+    return await agent.LogLeave.details(logLeaveId, staffId);
+  } catch (error: any) {
+    thunkAPI.rejectWithValue({ error: error.data });
   }
-);
+});
 
 export const logleaveSlice = createSlice({
   name: "logleaves",
@@ -90,16 +77,16 @@ export const logleaveSlice = createSlice({
       state.status = "idle";
     });
 
-    // builder.addCase(fetchLogLeaveAsync.pending, (state) => {
-    //   state.status = "pendingFetchLogLeave";
-    // });
-    // builder.addCase(fetchLogLeaveAsync.fulfilled, (state, action) => {
-    //   logleaveAdapter.upsertOne(state, action.payload);
-    //   state.status = "idle";
-    // });
-    // builder.addCase(fetchLogLeaveAsync.rejected, (state) => {
-    //   state.status = "idle";
-    // });
+    builder.addCase(fetchLogLeaveAsync.pending, (state) => {
+      state.status = "pendingFetchLogLeave";
+    });
+    builder.addCase(fetchLogLeaveAsync.fulfilled, (state, action) => {
+      logleaveAdapter.upsertOne(state, action.payload);
+      state.status = "idle";
+    });
+    builder.addCase(fetchLogLeaveAsync.rejected, (state) => {
+      state.status = "idle";
+    });
 
     //listOfStaff
     builder.addCase(fetchLogLeavesStaffAsync.pending, (state) => {

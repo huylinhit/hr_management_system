@@ -174,7 +174,8 @@ const LeaveDayDetail = {
 };
 const LogLeave = {
   list: () => requests.get("log-leaves"),
-  details: (id: number) => requests.get(`log-leaves/${id}`),
+  details: (logLeaveId: number, staffId: number) =>
+    requests.get(`log-leaves/${logLeaveId}/staffs/${staffId}`),
   listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
   create: (id: number, values: any) => requests.post(`log-leaves/staffs/${id}`, values),
   update: (logLeaveId: number, staffId: number, values: any) =>
