@@ -413,6 +413,7 @@ export default function OtherUsersTicketList() {
       </Avatar>
     );
   }
+  
   const candidates = useAppSelector(candidatesSelectors.selectAll);
   const candidateSkills = useAppSelector(candidateSkillsSelectors.selectAll);
   const dispatch = useAppDispatch();

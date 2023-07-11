@@ -38,20 +38,19 @@ import MailIcon from "@mui/icons-material/Mail";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
-import styles from './Sidebar.module.scss'
+import styles from "./Sidebar.module.scss";
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-
-const drawerWidth = 300;
+const drawerWidth = 320;
 const headerStyle = {
   // color: "#A2A2A2",
 
   // color: "#000",
   fontWeight: 700,
   fontFamily: "Mulish",
-  fontSize: 16,
+  fontSize: 14,
 };
 const listItemStyle = {
   // color: "#6A6A78",
@@ -62,7 +61,7 @@ const listItemStyle = {
   // "& .MuiTypography-root": {
 
   // },
-  fontSize: 15,
+  fontSize: 16,
 };
 const fontStyle = "Mulish";
 
@@ -71,7 +70,7 @@ export default function Sidebar() {
 
   const handleActiveClick = (buttonName: string) => {
     setActive(buttonName);
-  }
+  };
 
   const dispatch = useAppDispatch();
   const [openLeaveLog, setOpenLeaveLog] = useState(true);
@@ -92,7 +91,7 @@ export default function Sidebar() {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, [avatarUrl, dispatch]);
 
   const handleOpenLeaveLog = () => {
@@ -104,7 +103,7 @@ export default function Sidebar() {
   const handleOpenOT = () => {
     setOpenOT(!openOT);
   };
-  
+
   const handleOpenContract = () => {
     setOpenContract(!openContract);
   };
@@ -134,7 +133,6 @@ export default function Sidebar() {
       <CssBaseline />
       <Header pageTitle={pageTitle} />
 
-
       <Drawer
         sx={{
           width: drawerWidth,
@@ -143,18 +141,23 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: "border-box",
             // backgroundColor: "#F7F7F7",
-            background: "#f9f9f9",
+            background: "#ffffff",
           },
         }}
         variant="permanent"
         anchor="left"
       >
-        <Box className={cx("container-content")} display="flex" flexDirection="column" height="100%">
+        <Box
+          className={cx("container-content")}
+          display="flex"
+          flexDirection="column"
+          height="100%"
+        >
           <Box>
-            <List
-              className={cx('container')}
-            >
+            <List className={cx("container")}>
               <ListItemButton
+                component={Link}
+                to={`/staffs/${user?.userInfor.staffId}`}
                 className={cx("header")}
               >
                 <Avatar
@@ -163,7 +166,7 @@ export default function Sidebar() {
                     width: 32,
                     height: 32,
                     bgcolor: deepPurple[500],
-                    mr: "12px"
+                    mr: "12px",
                   }}
                   src={avatarUrl}
                   alt=""
@@ -191,55 +194,56 @@ export default function Sidebar() {
             </List>
           </Box>
 
-
           {/*Nhân viên, Employee*/}
           <Box flex="1" overflow="auto">
-            <List
-            >
-              {user && user.roles?.includes('HRStaff') && (
+            <List>
+              {user && user.roles?.includes("HRStaff") && (
                 <>
-                  <ListItemButton
-                    className={cx("header")}
-                    onClick={handleOpenStaff}>
+                  <ListItemButton className={cx("header")} onClick={handleOpenStaff}>
                     <ListItemText
                       className={cx("list-item-content")}
-
-                      primaryTypographyProps={{ ...headerStyle }} primary="NHÂN VIÊN" />
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="NHÂN VIÊN"
+                    />
                     {/* {openStaff ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
                   <Collapse in={openStaff} timeout="auto" unmountOnExit>
-
                     {/*Department*/}
                     <ListItemButton
                       className={cx("list-item", { activeButton: active === "department-list" })}
                       onClick={() => handleActiveClick("department-list")}
                       component={Link}
-                      to="/departments">
-                      <ListItemIcon sx={{ minWidth: "30px" }}
-                        className={cx("list-item-content")}
-                      >
+                      to="/departments"
+                    >
+                      <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
                         <PeopleAltOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
                         className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }} primary="Phòng ban" />
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Phòng ban"
+                      />
                     </ListItemButton>
 
                     <ListItemButton
-                      className={cx("list-item", { activeButton: active === "department-employee-list" })}
+                      className={cx("list-item", {
+                        activeButton: active === "department-employee-list",
+                      })}
                       onClick={() => handleActiveClick("department-employee-list")}
                       dense
                       component={Link}
-                      to='/employeelist'>
+                      to="/staffs"
+                    >
                       <ListItemIcon sx={{ minWidth: "30px" }}>
                         <PeopleAltOutlinedIcon
                           className={cx("list-item-content")}
-                          fontSize="small" />
+                          fontSize="small"
+                        />
                       </ListItemIcon>
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Toàn bộ nhân viên"
+                        primary="Danh sách nhân viên"
                       />
                     </ListItemButton>
 
@@ -250,11 +254,7 @@ export default function Sidebar() {
                       component={Link}
                       to="/create-new-employee"
                     >
-                      <ListItemIcon sx={{ minWidth: "30px" }}
-                        className={cx("list-item-content")}
-
-                      >
-
+                      <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
                         <PersonAddAltOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
@@ -270,12 +270,12 @@ export default function Sidebar() {
               {/*Log Leave*/}
 
               <>
-                <ListItemButton
-                  className={cx("header")}
-                  onClick={handleOpenLeaveLog}>
+                <ListItemButton className={cx("header")} onClick={handleOpenLeaveLog}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="NGHỈ PHÉP" />
+                    primaryTypographyProps={{ ...headerStyle }}
+                    primary="NGHỈ PHÉP"
+                  />
                   {/* {openLeaveLog ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
@@ -287,31 +287,26 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "leave-list" })}
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
-                      to="/myleaves"
+                      to="/othersleaves"
                     >
-                      <ListItemIcon
-                        className={cx("list-item-content")}
-                        sx={{ minWidth: "30px" }}>
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
                       </ListItemIcon>
 
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn nghỉ phép nhân viên"
+                        primary="Đơn nghỉ của nhân viên"
                       />
                     </ListItemButton>
-
 
                     <ListItemButton
                       className={cx("list-item", { activeButton: active === "myleavelist" })}
                       onClick={() => handleActiveClick("myleavelist")}
                       component={Link}
-                      to="/myleavelist"
+                      to="/myleaves"
                     >
-                      <ListItemIcon
-                        className={cx("list-item-content")}
-                        sx={{ minWidth: "30px" }}>
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
@@ -327,12 +322,12 @@ export default function Sidebar() {
               {/*Log Overtime*/}
 
               <>
-                <ListItemButton
-                  className={cx("header")}
-                  onClick={handleOpenOT}>
+                <ListItemButton className={cx("header")} onClick={handleOpenOT}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="TĂNG CA" />
+                    primaryTypographyProps={{ ...headerStyle }}
+                    primary="TĂNG CA"
+                  />
                   {/* {openOT ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openOT} timeout="auto" unmountOnExit>
@@ -343,9 +338,7 @@ export default function Sidebar() {
                       component={Link}
                       to="/viewot"
                     >
-                      <ListItemIcon
-                        className={cx("list-item-content")}
-                        sx={{ minWidth: "30px" }}>
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
@@ -361,14 +354,11 @@ export default function Sidebar() {
                       component={Link}
                       to="/viewot"
                     >
-                      <ListItemIcon
-                        className={cx("list-item-content")}
-                        sx={{ minWidth: "30px" }}>
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
                         className={cx("list-item-content")}
-
                         primaryTypographyProps={{ ...listItemStyle }}
                         primary="Đơn tăng ca của tôi"
                       />
@@ -377,18 +367,15 @@ export default function Sidebar() {
                 </Collapse>
               </>
 
-
-
               {/*Ứng viên Candidates*/}
-              {user && user.roles?.includes('HRStaff') && (
+              {user && user.roles?.includes("HRStaff") && (
                 <>
-                  <ListItemButton
-                    className={cx("header")}
-                    onClick={handleOpenCandidate}>
+                  <ListItemButton className={cx("header")} onClick={handleOpenCandidate}>
                     <ListItemText
                       className={cx("list-item-content")}
-
-                      primaryTypographyProps={{ ...headerStyle }} primary="TUYỂN DỤNG" />
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="TUYỂN DỤNG"
+                    />
                     {/* {openCandidate ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
                   <Collapse in={openCandidate} timeout="auto" unmountOnExit>
@@ -399,9 +386,7 @@ export default function Sidebar() {
                       component={Link}
                       to="/candidates"
                     >
-                      <ListItemIcon
-                        className={cx("list-item-content")}
-                        sx={{ minWidth: "30px" }}>
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <PeopleAltOutlinedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText
@@ -410,23 +395,19 @@ export default function Sidebar() {
                         primary="Toàn bộ ứng viên"
                       />
                     </ListItemButton>
-
                   </Collapse>
                 </>
               )}
 
-
-
               {/*Other Tickets*/}
 
               <>
-                <ListItemButton
-                  className={cx("header")}
-
-                  onClick={handleOpenTicket}>
+                <ListItemButton className={cx("header")} onClick={handleOpenTicket}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="ĐƠN KHÁC" />
+                    primaryTypographyProps={{ ...headerStyle }}
+                    primary="ĐƠN KHÁC"
+                  />
                   {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openTicket} timeout="auto" unmountOnExit>
@@ -435,10 +416,9 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("employeeList")}
                     dense
                     component={Link}
-                    to="/otheruserstickets ">
-                    <ListItemIcon
-                      className={cx("list-item-content")}
-                      sx={{ minWidth: "30px" }}>
+                    to="/otheruserstickets "
+                  >
+                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText
@@ -453,10 +433,9 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("mytickets")}
                     dense
                     component={Link}
-                    to="/mytickets">
-                    <ListItemIcon
-                      className={cx("list-item-content")}
-                      sx={{ minWidth: "30px" }}>
+                    to="/mytickets"
+                  >
+                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText
@@ -465,18 +444,16 @@ export default function Sidebar() {
                       primary="Đơn khác của tôi"
                     />
                   </ListItemButton>
-
                 </Collapse>
               </>
 
-
               <>
-                <ListItemButton
-                  className={cx("header")}
-                  onClick={handleOpenSalary}>
+                <ListItemButton className={cx("header")} onClick={handleOpenSalary}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="QUẢN LÍ LƯƠNG" />
+                    primaryTypographyProps={{ ...headerStyle }}
+                    primary="QUẢN LÍ LƯƠNG"
+                  />
                   {/* {openSalary ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openSalary} timeout="auto" unmountOnExit>
@@ -487,9 +464,7 @@ export default function Sidebar() {
                     component={Link}
                     to="/payslips"
                   >
-                    <ListItemIcon
-                      className={cx("list-item-content")}
-                      sx={{ minWidth: "30px" }}>
+                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <PeopleAltOutlinedIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText
@@ -498,19 +473,17 @@ export default function Sidebar() {
                       primary="Danh sách lương nhân viên"
                     />
                   </ListItemButton>
-
                 </Collapse>
               </>
 
               {/*Contract */}
               <>
-                <ListItemButton
-                  className={cx("header")}
-
-                  onClick={handleOpenContract}>
+                <ListItemButton className={cx("header")} onClick={handleOpenContract}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="HỢP ĐỒNG" />
+                    primaryTypographyProps={{ ...headerStyle }}
+                    primary="HỢP ĐỒNG"
+                  />
                   {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openContract} timeout="auto" unmountOnExit>
@@ -519,10 +492,9 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("contract-list")}
                     dense
                     component={Link}
-                    to="/list-contract">
-                    <ListItemIcon
-                      className={cx("list-item-content")}
-                      sx={{ minWidth: "30px" }}>
+                    to="/list-contract"
+                  >
+                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText
@@ -531,11 +503,8 @@ export default function Sidebar() {
                       primary="Danh sách hợp đồng"
                     />
                   </ListItemButton>
-
                 </Collapse>
               </>
-
-
             </List>
           </Box>
         </Box>
