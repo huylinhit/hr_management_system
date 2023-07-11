@@ -36,6 +36,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
+import TypeCustome from "../../app/components/Custom/Type/TypeCustome";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 const colors = [
   "#34BBE1",
   "#CC941A",
@@ -111,6 +113,11 @@ export default function DepartmentList() {
           <div>Tên phòng ban</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        const index = params.row.departmentId;
+        const departmentName = params.row.departmentName;
+        return <TypeCustome typeId={index}>{departmentName}</TypeCustome>;
+      },
     },
     {
       field: "manager",
@@ -124,13 +131,15 @@ export default function DepartmentList() {
         </Typography>
       ),
       renderCell: (params) => {
-        const managerId = params.row.managerId;
-        const managerName = params.row.manager;
-        const rowIndex = managerId % staffNameColors.length;
-        const staffNameColor = staffNameColors[rowIndex];
+        if (params.row.manager == null) return;
+        console.log(params.row.manager);
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <ManagerAvatar managerId={managerId} managerName={managerName} />
+            <AvatarCustome
+              id={params.row.managerId}
+              name={params.row.manager}
+              dependency={departmentsLoaded}
+            />
             <Typography>{params.value}</Typography>
           </Box>
         );
@@ -146,6 +155,13 @@ export default function DepartmentList() {
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số nhân viên</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>{params.value}</Typography>
+          </Box>
+        );
+      },
     },
     {
       field: "managerMail",
@@ -154,7 +170,7 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email quản lý</div>
         </Typography>
       ),
     },
@@ -170,6 +186,7 @@ export default function DepartmentList() {
       ),
     },
   ];
+
   const currentUser = useAppSelector((state) => state.account);
   const departments = useAppSelector(departmentSelectors.selectAll);
   const dispatch = useAppDispatch();
@@ -314,14 +331,7 @@ export default function DepartmentList() {
           autoHeight
           sx={{
             border: "none",
-            // ".MuiDataGrid-columnHeaderTitle": {
-            //   fontWeight: "bold !important",
-            //   overflow: "visible !important",
-            //   color: "#007FFF",
-            // },
-            // ".MuiDataGrid-columnHeaders": {
-            //   backgroundColor: "#E0F0FF",
-            // },
+
             fontSize: 16,
             fontWeight: 550,
             fontFamily: fontStyle,
@@ -334,15 +344,14 @@ export default function DepartmentList() {
           loading={!departmentsLoaded}
           rows={rows}
           columns={columns}
-      
-          // initialState={{
-          //   pagination: {
-          //     paginationModel: {
-          //       pageSize: 15,
-          //     },
-          //   },
-          // }}
-          //pageSizeOptions={[5]}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 15,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
           disableRowSelectionOnClick
         />
       </Box>
