@@ -75,7 +75,7 @@ const Contract = {
   create: (values: any) => requests.post("contracts", values),
   update: (id: number, values: any) => requests.put(`contracts/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
-}
+};
 
 const Department = {
   list: () => requests.get("departments"),
@@ -84,7 +84,6 @@ const Department = {
   update: (id: number, values: any) => requests.put(`departments/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`departments/${id}`, values),
 };
-
 
 const Ticket = {
   list: () => requests.get("tickets"),
@@ -95,7 +94,7 @@ const Ticket = {
   update: (id: number, values: any) => requests.put(`tickets/update/${id}`, values),
   updateStatus: (id: number, values: any) => requests.put(`tickets/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`tickets/${id}`, values),
-  cancel: (id: number) => requests.delete(`tickets/${id}`)
+  cancel: (id: number) => requests.delete(`tickets/${id}`),
 };
 const TicketType = {
   list: () => requests.get("tickettype"),
@@ -103,7 +102,7 @@ const TicketType = {
   create: (values: any) => requests.post("tickettype", values),
   update: (id: number, values: any) => requests.put(`tickettype/${id}`, values),
   delete: (id: number) => requests.delete(`tickettype/${id}`),
-}
+};
 
 const Skill = {
   list: () => requests.get("skill"),
@@ -127,7 +126,7 @@ const Candidate = {
   details: (id: number) => requests.get(`candidates/${id}`),
   create: (values: any) => requests.post("candidates", values),
   update: (id: number, values: any) => requests.put(`candidates/${id}`, values),
-}
+};
 const CandidateSkill = {
   list: () => requests.get("candidateskills"),
   details: (id: number) => requests.get(`candidateskills/${id}`),
@@ -135,13 +134,12 @@ const CandidateSkill = {
   create: (values: any) => requests.post("candidateskills", values),
   update: (values: any) => requests.put(`candidateskills`, values),
   delete: (id: number) => requests.delete(`candidateskills/${id}`),
-}
+};
 
 const UserInfors = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
 };
-
 
 const Payslip = {
   list: () => requests.get("payslips"),
@@ -150,7 +148,7 @@ const Payslip = {
   create: (staffId: number, dateTime: any) => requests.post(`payslips/staffs/${staffId}`, dateTime),
   update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
-}
+};
 
 const LogOt = {
   list: () => requests.get("logots"),
@@ -159,16 +157,21 @@ const LogOt = {
   create: (values: any) => requests.post("logots", values),
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
   patch: (staffId: number, values: any) => requests.patch(`logots/staffs/${staffId}`, values),
-}
+};
 
+const LeaveDayDetail = {
+  list: (staffId: number) => requests.get(`leave-day-detail/${staffId}`),
+};
 const LogLeave = {
   list: () => requests.get("log-leaves"),
   details: (id: number) => requests.get(`log-leaves/${id}`),
   listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
-  create: (values: any) => requests.post("log-leaves", values),
-  update: (id: number, values: any) => requests.put(`log-leaves/${id}`, values),
-  patch: (staffId: number, values: any) => requests.patch(`log-leaves/staffs/${staffId}`, values),
-}
+  create: (id: number, values: any) => requests.post(`log-leaves/staffs/${id}`, values),
+  update: (logLeaveId: number, staffId: number, values: any) =>
+    requests.put(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
+  patch: (logLeaveId: number, staffId: number, values: any) =>
+    requests.patch(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
+};
 
 const Employees = {
   list: () => requests.get("userinfor"),
@@ -186,8 +189,10 @@ const AllowanceType = {
 const Allowance = {
   list: () => requests.get("allowances"),
   create: (id: number, values: any) => requests.post(`allowances/contracts/${id}`, values),
-  update: (allowanceId: number, contractId: number, values: any) => requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
-  patch: (allowanceId: number, contractId: number, values: any) => requests.patch(`allowances/${allowanceId}/contracts/${contractId}`, values),
+  update: (allowanceId: number, contractId: number, values: any) =>
+    requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
+  patch: (allowanceId: number, contractId: number, values: any) =>
+    requests.patch(`allowances/${allowanceId}/contracts/${contractId}`, values),
 };
 // -----------------------------------
 const agent = {
@@ -207,6 +212,7 @@ const agent = {
   LogLeave,
   Candidate,
   CandidateSkill,
+  LeaveDayDetail,
 };
 
 export default agent;

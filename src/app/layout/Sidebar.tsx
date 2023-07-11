@@ -195,7 +195,7 @@ export default function Sidebar() {
               </ListItemButton>
               <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
                 <List disablePadding>
-                  <ListItemButton>
+                  <ListItemButton component={Link} to="/myleaves"> 
                     <ListItemIcon sx={{ minWidth: "30px" }}>
                       <HotelOutlinedIcon fontSize="small" />
                     </ListItemIcon>
