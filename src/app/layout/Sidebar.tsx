@@ -397,7 +397,7 @@ export default function Sidebar() {
                       onClick={() => handleActiveClick("candidate-list")}
                       dense
                       component={Link}
-                      to="/viewcandidate"
+                      to="/candidates"
                     >
                       <ListItemIcon
                         className={cx("list-item-content")}
