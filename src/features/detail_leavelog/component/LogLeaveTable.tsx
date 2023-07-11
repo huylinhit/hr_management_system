@@ -46,7 +46,7 @@ function LogLeaveTable({ logLeavesStaff, unpaidLeaveDays, paidLeaveDays, unpaidL
                                         <TableCell align="center">{moment(item.leaveEnd).format("DD-MM-YYYY")}</TableCell>
                                         <TableCell align="center">{item.leaveDays}</TableCell>
                                         <TableCell align="center">{item.leaveHours}</TableCell>
-                                        <TableCell align="center">0</TableCell> {/*Need Change*/}
+                                        <TableCell align="center">- {item.amount.toLocaleString()}</TableCell>
                                     </TableRow>
                                 ))
                             )}
@@ -56,8 +56,8 @@ function LogLeaveTable({ logLeavesStaff, unpaidLeaveDays, paidLeaveDays, unpaidL
                                 <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{moment(now).startOf("month").format("DD-MM-YYYY")}</TableCell>
                                 <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{moment(now).endOf("month").format("DD-MM-YYYY")}</TableCell>
                                 <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{unpaidLeaveDays + paidLeaveDays}</TableCell>
-                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{unpaidLeaveHours + paidLeaveHours}</TableCell>  {/*Need Change*/}
-                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>0</TableCell> {/*Need Change*/}
+                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>{unpaidLeaveHours + paidLeaveHours}</TableCell> 
+                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>- {logLeavesStaff.reduce((total, item) => total + item.amount, 0).toLocaleString()}</TableCell> 
                             </TableRow>
 
                         </TableBody>

@@ -29,7 +29,7 @@ import { LeaveLog } from "../../../app/models/leaveLog";
 
 // interface
 interface Props {
-  logLeave: LeaveLog;
+  logLeave: LeaveLog | undefined;
   types: LeaveType[];
 }
 
@@ -76,7 +76,7 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
             Trạng thái:{" "}
           </Typography>
         </Grid>
-        {logLeave.status === FORMSTATUS.pending ? (
+        {logLeave?.status === FORMSTATUS.pending ? (
           <Grid
             item
             xs={8}
@@ -105,8 +105,8 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
         ) : (
           <Grid item xs={8}>
             <Chip
-              label={logLeave.status}
-              color={logLeave.status === FORMSTATUS.agree ? "info" : "error"}
+              label={logLeave?.status}
+              color={logLeave?.status === FORMSTATUS.agree ? "info" : "error"}
             />
           </Grid>
         )}
@@ -133,7 +133,7 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
             Phản hồi:{" "}
           </Typography>
         </Grid>
-        {logLeave.status === FORMSTATUS.pending ? (
+        {logLeave?.status === FORMSTATUS.pending ? (
           <Grid item xs={8}>
             <TextField
               id="outlined-multiline-flexible"
@@ -151,7 +151,7 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "20px " }}
             >
-              {logLeave.processNote}
+              {logLeave?.processNote}
             </Typography>
           </Grid>
         )}
@@ -179,7 +179,7 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          {logLeave.status === FORMSTATUS.pending ? (
+          {logLeave?.status === FORMSTATUS.pending ? (
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
             >
@@ -189,7 +189,7 @@ export default function DetailLeaveContent({ logLeave, types }: Props) {
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", fontSize: "18px " }}
             >
-              {logLeave.changeStatusTime}
+              {logLeave?.changeStatusTime}
             </Typography>
           )}
         </Grid>

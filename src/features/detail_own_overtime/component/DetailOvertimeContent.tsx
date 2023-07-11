@@ -17,18 +17,17 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FORMSTATUS } from "../../../app/store/data";
 
 // api
-
-import { LogOt } from "../../../app/models/logOt";
-
+// import { LogOT } from "../../../app/models/LogOT";
 import { OtType } from "../../../app/models/otType";
 
 // component
 import DetailForm from "./DetailForm";
+import { LogOvertime } from "../../../app/models/logOvertime";
 
 // interface
 interface Props {
   types: OtType[];
-  logOt: LogOt;
+  logOt: LogOvertime;
 }
 
 export default function DetailOvertimeContent({ logOt, types }: Props) {

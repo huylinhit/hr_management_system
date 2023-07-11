@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../configureStore";
 import agent from "../../api/agent";
-import { Contract } from "../../models/contract";
+import Contract from "../../models/contract";
 
 interface ContractState {
     contractsLoaded: boolean;

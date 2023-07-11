@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 
 // data
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 
 // interface
 interface Props {

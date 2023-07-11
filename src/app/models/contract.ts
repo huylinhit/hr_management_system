@@ -1,7 +1,8 @@
 import { Allowance } from "./allowance"
 import { ContractType } from "./contractType"
+import { UserInfor } from "./userInfor"
 
-export interface Contract {
+export default interface Contract {
 	contractId: number
 	staffId: number
 	startDate: string
@@ -20,6 +21,6 @@ export interface Contract {
 	changeAt: string
 	allowances: Allowance[]
 	contractType: ContractType
-	staff: any
+	staff: UserInfor
   }
   
