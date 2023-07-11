@@ -1,3 +1,4 @@
+import { Department } from "./departments"
 
 export interface Staff {
   staffId: number
@@ -23,4 +24,5 @@ export interface Staff {
   bank: string
   workTimeByYear: number
   accountStatus: boolean
+  department: Department
 }

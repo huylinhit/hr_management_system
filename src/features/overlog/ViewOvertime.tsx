@@ -149,7 +149,7 @@ function ViewOvertimeLog() {
             >
               Tạo đơn mới
             </Button>
-            <CreateOvertimeForm isOwn={true} open={open} onClose={handleCloseDialog} />
+            <CreateOvertimeForm isOwn={false} open={open} onClose={handleCloseDialog} />
           </Grid>
         </Grid>
 

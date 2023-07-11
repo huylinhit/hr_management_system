@@ -380,7 +380,7 @@ export default function CreatePayslipMainForm({ isOwn, open, onClose }: Props) {
                     {selectedOption === 2 &&
                         <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
                             <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-                            <Typography sx={{ ...headerStyle, ...headerColor }}>Phòng Ban</Typography>
+                            <Typography sx={{ ...headerStyle, ...headerColor }}>Nhân Viên</Typography>
 
                             <BootstrapInput
                                 fullWidth

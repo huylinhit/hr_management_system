@@ -37,6 +37,9 @@ import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import styles from './ViewMyOvertime.module.scss'
 import classNames from "classnames/bind";
+import CreateOvertimeForm from "./CreateOvertime2";
+import AddIcon from "@mui/icons-material/Add";
+
 
 const cx = classNames.bind(styles);
 
@@ -59,18 +62,21 @@ function ViewMyOvertime() {
     ): void { }
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
+    const handleOpenDialog = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleCloseDialog = () => {
         setOpen(false);
     };
 
     const dispatch = useAppDispatch();
-    const list = useAppSelector(logOvertimeSelectors.selectAll);
+    const listAll = useAppSelector(logOvertimeSelectors.selectAll);
     const { user } = useAppSelector(state => state.account);
-    console.log("User ne: ", user?.userInfor.staffId);
+    const list = listAll.filter(c => c.staffId === user?.userInfor.staffId);
+
+
+
     const { logOtAdded, logOtsLoaded, status } = useAppSelector(state => state.logot);
     useEffect(() => {
         if (!logOtsLoaded)
@@ -101,16 +107,16 @@ function ViewMyOvertime() {
                         </Grid>
                     </Grid>
                     <Grid item xs={10}>
-                        <div>
-                            <Button variant="contained" onClick={handleClickOpen}>
-                                + Tạo đơn tăng ca
-                            </Button>
-                            <CreateOvertime
-                                open={open}
-                                handleChange={handleChange}
-                                handleClose={handleClose}
-                            />
-                        </div>
+                        <Button
+                            variant="contained"
+                            sx={{ fontWeight: "bold", textTransform: "none", color: "#FFF" }}
+                            disableElevation={true}
+                            startIcon={<AddIcon />}
+                            onClick={handleOpenDialog}
+                        >
+                            Tạo đơn mới
+                        </Button>
+                        <CreateOvertimeForm isOwn={true} open={open} onClose={handleCloseDialog} />
                     </Grid>
                 </Grid>
 

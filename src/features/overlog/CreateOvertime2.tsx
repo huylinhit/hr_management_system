@@ -44,7 +44,7 @@ const verticalSpacing = {
 const headerStyle = {
     fontWeight: 600,
     fontFamily: fontStyle,
-    width: "250px",
+    width: "200px",
 };
 const infoStyle = {
     fontWeight: 600,
@@ -186,7 +186,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
 
     const currentUser = useAppSelector((state) => state.account);
 
-    const [selectedUser, setSelectedUser] = useState<number>(0);
+    const [selectedUser, setSelectedUser] = useState<number>(1);
 
     const user = useAppSelector(state => state.account.user);
 
@@ -217,6 +217,11 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
         setIsReasonEmpty(false);
     }, 500);
 
+    const handleSelectedUser = (e: any) => {
+        setSelectedUser(e.target.value)
+    }
+
+
     const handleCreateTicket = async () => {
         // console.log("Here: ", selectedUser);
         // console.log("Here: ", startDate);
@@ -235,15 +240,28 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
         }
         if (!currentUser.user) return;
 
-        await agent.LogOt.create(selectedUser, logOvertimeCreate)
-            .then((response) => {
-                toast.success("Tạo đơn thành công 😊");
-                dispatch(fetchLogOtsAsync())
-                dispatch(setLogOvertimeAdded(true));
-            })
-            .catch((error) => {
-                toast.error(`${error.data} 😥`)
-            });
+        if (isOwn) {
+            await agent.LogOt.create(user?.userInfor.staffId!, logOvertimeCreate)
+                .then((response) => {
+                    toast.success("Tạo đơn thành công 😊");
+                    dispatch(fetchLogOtsAsync())
+                    dispatch(setLogOvertimeAdded(true));
+                })
+                .catch((error) => {
+                    toast.error(`${error.data} 😥`)
+                });
+        } else {
+            await agent.LogOt.create(selectedUser, logOvertimeCreate)
+                .then((response) => {
+                    toast.success("Tạo đơn thành công 😊");
+                    dispatch(fetchLogOtsAsync())
+                    dispatch(setLogOvertimeAdded(true));
+                })
+                .catch((error) => {
+                    toast.error(`${error.data} 😥`)
+                });
+        }
+
         onClose();
     };
 
@@ -267,41 +285,51 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
                     display={"flex"}
                     alignItems={"center"}
                 >
-                    Tạo mới đơn nghỉ phép
+                    Tạo Đơn Tăng Ca
                 </DialogTitle>
 
                 <DialogContent>
                     <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
                         <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-                        <Typography sx={{ ...headerStyle, ...headerColor }}>Nhân viên</Typography>
-                        {isOwn === true && <>
-                            <Typography sx={{ ...headerStyle, ...headerColor }}>{user?.userInfor.lastName} {user?.userInfor.firstName} MSNV: {user?.userInfor.staffId}</Typography>
-                        </>}
+                        {isOwn === true ? (
+                            <>
+                                <Typography sx={{ width: "148px" }}>Nhân viên</Typography>
+                            </>
+                        ) : (
 
-                        
+                            <>
+                                <Typography sx={{ ...headerStyle, ...headerColor }}>Nhân viên</Typography>
+                            </>
+                        )}
+                        {isOwn === true ? <>
+                            <Typography >
+                                {user?.userInfor.lastName} {user?.userInfor.firstName} MSNV: {user?.userInfor.staffId}
+                            </Typography>
+                        </>
+                            : (
+                                // <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+                                <>
+                                    {users.length !== 0 && (
+                                        <BootstrapInput
+                                            fullWidth
+                                            InputProps={textFieldInputProps}
+                                            variant="standard"
+                                            onChange={handleSelectedUser}
+                                            value={selectedUser}
+                                            select
+                                        >
+                                            {users.map((item) => (
+                                                <MenuItem key={item.staffId} value={item.staffId}>
+                                                    {`${item.lastName} ${item.firstName} (MSNV: ${item.staffId})`}
+                                                </MenuItem>
+                                            ))}
+                                        </BootstrapInput>
+                                    )}
+                                </>
+                                // </Box>
+                            )
+                        }
 
-                        {/* <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
-                            {users.length !== 0 ? (
-                                <BootstrapInput
-                                    fullWidth
-                                    InputProps={textFieldInputProps}
-                                    // defaultValue={leaveDayDetail[0].leaveType.leaveTypeName.trim()}
-                                    defaultValue={users[2].staffId}
-                                    variant="standard"
-                                    onChange={handleCreateOvertime}
-                                    value={selectedUser}
-                                    select
-                                >
-                                    {users.map((item) => (
-                                        <MenuItem key={item.staffId} value={item.staffId}>
-                                            {`${item.lastName} ${item.firstName} (MSNV: ${item.staffId})`}
-                                        </MenuItem>
-                                    ))}
-                                </BootstrapInput>
-                            ) : (
-                                <></>
-                            )}
-                        </Box> */}
 
                     </Box>
 
@@ -373,7 +401,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
                         Tạo
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog >
         </>
     );
 }
