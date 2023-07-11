@@ -20,3 +20,4 @@ export interface LeaveLog {
   staff: Staff;
 	leaveType: LeaveType
 }
+

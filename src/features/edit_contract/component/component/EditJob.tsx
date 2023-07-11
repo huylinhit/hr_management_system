@@ -1,7 +1,7 @@
 import { Grid, MenuItem, TextField, Typography } from "@mui/material";
 
 // model
-import { Contract } from "../../../../app/models/contract";
+import Contract from "../../../../app/models/contract";
 
 // data
 import { UserInfor } from "../../../../app/models/userInfor";

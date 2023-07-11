@@ -3,7 +3,7 @@ import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, T
 import { useState } from "react";
 import { TaxDetail } from "../../../app/models/taxDetail";
 
-interface Props{
+interface Props {
     taxDetails: TaxDetail[]
 }
 
@@ -27,18 +27,25 @@ function TaxDetailList({
                     <Table>
                         <TableHead sx={{ bgcolor: "#F2F2F2" }}>
                             <TableRow>
-                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Mức chịu thuế</TableCell>
-                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Thuế suất</TableCell>
-                                <TableCell align="center" style={{ fontWeight: "bold" }}>Tiền nộp</TableCell>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Mức chịu thuế</TableCell>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Thuế suất</TableCell>
+                                <TableCell align="right" style={{ fontWeight: "bold" }}>Tiền nộp</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell align="center" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>Row 1, Column 1</TableCell>
-                                <TableCell align="center" style={{ borderRight: '1px solid #e0e0e0' }}>Row 1, Column 2</TableCell>
-                                <TableCell align="center">Row 1, Column 3</TableCell>
-                            </TableRow>
+                            {taxDetails.map(item => (
+                                <TableRow>
+                                    <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>{item.taxLevelNavigation.description}</TableCell>
+                                    <TableCell align="right" style={{ borderRight: '1px solid #e0e0e0' }}>{item.taxLevelNavigation.taxPercentage}%</TableCell>
+                                    <TableCell align="right">- {item.amount.toLocaleString()}</TableCell>
+                                </TableRow>
+                            ))}
 
+                            <TableRow>
+                                <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0', fontWeight: "bold" }}>Tổng cộng</TableCell>
+                                <TableCell align="right" ></TableCell>
+                                <TableCell align="right" style={{ fontWeight: "bold" }}>- {taxDetails.reduce((total, item) => total + item.amount, 0).toLocaleString()}</TableCell>
+                            </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>

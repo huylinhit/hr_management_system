@@ -13,6 +13,7 @@ import DetailEmployeeFooter from "./component/DetailEmployeeFooter";
 
 // data
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
 
 export default function DetailEmployee() {
   // -------------------------- VAR -----------------------------
@@ -21,10 +22,17 @@ export default function DetailEmployee() {
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, id!));  
+  const contracts = useAppSelector(contractSelectors.selectAll);
+  const { contractsLoaded } = useAppSelector((state) => state.contract)
+  const isExistContract = contracts.find((contract) => contract.staffId === Number(id))  
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
   }, [dispatch]);
+
+  useEffect(() => {
+    if(!contractsLoaded) dispatch(fetchContractsAsync());
+  }, [dispatch, contractsLoaded]);
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
   return (
@@ -65,7 +73,7 @@ export default function DetailEmployee() {
             item
             sx={{ width: "100%", paddingTop: "10px", paddingBottom: "15px" }}
           >
-            <DetailAva employee={employee} />
+            <DetailAva employee={employee} isExistContract={!!isExistContract} />
           </Grid>
 
           <hr

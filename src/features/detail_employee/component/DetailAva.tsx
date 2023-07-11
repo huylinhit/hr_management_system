@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 // interface
 interface Props {
   employee: UserInfor | undefined;
+  isExistContract: boolean
 }
 
-export default function DetailAva({ employee }: Props) {
+export default function DetailAva({ employee, isExistContract }: Props) {
   return (
     <Grid
       container
@@ -45,9 +46,16 @@ export default function DetailAva({ employee }: Props) {
         </Grid>
       </Grid>
       <Grid item xs={3} sx={{ maxWidth: "100%" }}>
-        <Button variant="outlined" component={Link} to={"/detail-contract/1"}>
+        {isExistContract? (
+          <Button variant="outlined" component={Link} to={`/detail-contract/${employee?.staffId}`}>
           Xem hợp đồng nhân viên
         </Button>
+        ): (
+          <Button variant="contained" component={Link} to={`/add-contract/${employee?.staffId}`}>
+          Thêm hợp đòng 
+        </Button>
+        )}
+        
       </Grid>
     </Grid>
   );

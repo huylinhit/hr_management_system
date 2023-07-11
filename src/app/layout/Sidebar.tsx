@@ -74,7 +74,7 @@ export default function Sidebar() {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, [avatarUrl, dispatch]);
 
   const handleOpenLeaveLog = () => {
@@ -156,110 +156,215 @@ export default function Sidebar() {
             </List>
           </Box>
 
+
+          {/*Nhân viên, Employee*/}
           <Box flex="1" overflow="auto">
             <List sx={{ pl: "10px" }}>
-              <ListItemButton onClick={handleOpenStaff}>
-                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="NHÂN VIÊN" />
-                {openStaff ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openStaff} timeout="auto" unmountOnExit>
-                <ListItemButton dense component={Link} to="/staffs">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <PeopleAltOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Danh sách nhân viên"
-                  />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/departments">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <PeopleAltOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{ ...listItemStyle }} primary="Phòng ban" />
-                </ListItemButton>
-                <ListItemButton>
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <PersonAddAltOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Tạo nhân viên mới"
-                  />
-                </ListItemButton>
-              </Collapse>
 
-              <ListItemButton onClick={handleOpenLeaveLog}>
-                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="NGHỈ PHÉP" />
-                {openLeaveLog ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
-                <List disablePadding>
-                  <ListItemButton component={Link} to="/myleaves"> 
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <HotelOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn nghỉ phép của tôi"
-                    />
-                  </ListItemButton>
-                  <ListItemButton>
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <HotelOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn nghỉ phép nhân viên"
-                    />
-                  </ListItemButton>
-                  <ListItemButton>
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <HotelOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Các loại nghỉ phép"
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
 
-              <ListItemButton onClick={handleOpenOT}>
-                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="TĂNG CA" />
-                {openOT ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openOT} timeout="auto" unmountOnExit>
-                <List disablePadding>
-                  <ListItemButton onClick={handleOpenMyOT}>
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <WatchLaterOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn tăng ca của tôi"
-                    />
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenStaff}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="NHÂN VIÊN" />
+                    {openStaff ? <ExpandLess /> : <ExpandMore />}
+
                   </ListItemButton>
-                  <ListItemButton>
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <WatchLaterOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn tăng của nhân viên"
-                    />
+                  <Collapse in={openStaff} timeout="auto" unmountOnExit>
+                    <ListItemButton
+                      dense
+                      component={Link}
+                      to='/employeelist'>
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Toàn bộ nhân viên"
+                      />
+
+                      {/*Department*/}
+                    </ListItemButton>
+                    <ListItemButton
+                      component={Link}
+                      to="/departments">
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText primaryTypographyProps={{ ...listItemStyle }} primary="Phòng ban" />
+                    </ListItemButton>
+                    <ListItemButton
+                      component={Link}
+                      to="/create-new-employee"
+                    >
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <PersonAddAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Tạo nhân viên mới"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+              )}
+
+
+
+              {/*Log Leave*/}
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenLeaveLog}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="NGHỈ PHÉP" />
+                    {openLeaveLog ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
-                  <ListItemButton>
-                    <ListItemIcon sx={{ minWidth: "30px" }}>
-                      <WatchLaterOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Các loại tăng ca"
-                    />
+                  <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                      <ListItemButton
+                      // component={Link}
+                      // to="/myleavelist"
+                      >
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <HotelOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn nghỉ phép của tôi"
+                        />
+                      </ListItemButton>
+                      <ListItemButton>
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <HotelOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn nghỉ phép nhân viên"
+                        />
+                      </ListItemButton>
+                      <ListItemButton>
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <HotelOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Các loại nghỉ phép"
+                        />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+                </>
+              )}
+
+              {/*Log Overtime*/}
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenOT}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="TĂNG CA" />
+                    {openOT ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
-                </List>
-              </Collapse>
+                  <Collapse in={openOT} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                      <ListItemButton
+                        onClick={handleOpenMyOT}
+                      // component={Link}
+                      // to="/viewot"
+                      >
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <WatchLaterOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn tăng ca của tôi"
+                        />
+                      </ListItemButton>
+                      <ListItemButton
+                        component={Link}
+                        to="/viewot"
+                      >
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <WatchLaterOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn tăng của nhân viên"
+                        />
+                      </ListItemButton>
+                      <ListItemButton>
+                        <ListItemIcon sx={{ minWidth: "30px" }}>
+                          <WatchLaterOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Các loại tăng ca"
+                        />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+                </>
+              )}
+
+
+
+              {/*Ứng viên Candidates*/}
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenCandidate}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="TUYỂN DỤNG" />
+                    {openCandidate ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                  <Collapse in={openCandidate} timeout="auto" unmountOnExit>
+                    <ListItemButton
+                      dense
+                      component={Link}
+                      to="/candidates"
+                      onClick={setCandidateHeader}
+                    >
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Toàn bộ ứng viên"
+                      />
+                    </ListItemButton>
+                    <ListItemButton
+                      component={Link}
+                      to="/candidates"
+                    >
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <PersonAddAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Tạo ứng viên mới"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+              )}
+
+
+
+              {/*Other Tickets*/}
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenTicket}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="ĐƠN KHÁC" />
+                    {openTicket ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                  <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                    <ListItemButton dense
+                      component={Link}
+                      to="/mytickets">
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Đơn khác của tôi"
+                      />
+                    </ListItemButton>
+
 
               <ListItemButton onClick={handleOpenCandidate}>
                 <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="TUYỂN DỤNG" />
@@ -291,57 +396,54 @@ export default function Sidebar() {
                 </ListItemButton>
               </Collapse>
 
-              <ListItemButton onClick={handleOpenTicket}>
-                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="ĐƠN KHÁC" />
-                {openTicket ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openTicket} timeout="auto" unmountOnExit>
-                <ListItemButton dense component={Link} to="/mytickets">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <MailOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Đơn khác của tôi"
-                  />
-                </ListItemButton>
+                    <ListItemButton
+                      component={Link}
+                      to="/otheruserstickets">
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Đơn khác của nhân viên"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+              )}
 
-                <ListItemButton component={Link} to="/otheruserstickets">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <MailOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Đơn khác của nhân viên"
-                  />
-                </ListItemButton>
-              </Collapse>
 
-              <ListItemButton onClick={handleOpenTicket}>
-                <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="ĐƠN KHÁC" />
-                {openTicket ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openTicket} timeout="auto" unmountOnExit>
-                <ListItemButton dense component={Link} to="/mytickets">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <MailOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Đơn khác của tôi"
-                  />
-                </ListItemButton>
 
-                <ListItemButton component={Link} to="/otheruserstickets">
-                  <ListItemIcon sx={{ minWidth: "30px" }}>
-                    <MailOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ ...listItemStyle }}
-                    primary="Đơn khác của nhân viên"
-                  />
-                </ListItemButton>
-              </Collapse>
+
+              {/*Other Ticket*/}
+              {user && user.roles?.includes('HRStaff') && (
+                <>
+                  <ListItemButton onClick={handleOpenTicket}>
+                    <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="ĐƠN KHÁC" />
+                    {openTicket ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                  <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                    <ListItemButton dense component={Link} to="/mytickets">
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Đơn khác của tôi"
+                      />
+                    </ListItemButton>
+
+                    <ListItemButton component={Link} to="/otheruserstickets">
+                      <ListItemIcon sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Đơn khác của nhân viên"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+              )}
             </List>
           </Box>
         </Box>
