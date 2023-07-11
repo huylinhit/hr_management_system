@@ -510,7 +510,7 @@ export default function Sidebar() {
                   onClick={handleOpenContract}>
                   <ListItemText
                     className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }} primary="Hợp Đồng" />
+                    primaryTypographyProps={{ ...headerStyle }} primary="HỢP ĐỒNG" />
                   {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                 </ListItemButton>
                 <Collapse in={openContract} timeout="auto" unmountOnExit>

@@ -14,6 +14,9 @@ import {
   styled,
   tableCellClasses,
   Container,
+  IconButton,
+  Box,
+  Avatar,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
@@ -23,32 +26,20 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
 import { UserInfor } from "../../app/models/userInfor";
 import DeleteDialog from "./component/DeleteDialog";
+import moment from "moment";
+import { CiCircleMore } from "react-icons/ci";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import styles from '../payslip/component/payslip.module.scss';
+import classNames from "classnames/bind";
+import { deepOrange } from "@mui/material/colors";
+import { Height } from "@mui/icons-material";
+
+const cx = classNames.bind(styles);
 
 const top100Films = [
   { label: "1", year: 1994 },
   ``,
 ];
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    padding: "5px",
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 export default function EmployeeList() {
   // -------------------------- VAR -----------------------------
@@ -58,8 +49,11 @@ export default function EmployeeList() {
     "Hình ảnh",
     "Tên",
     "Số điện thoại",
-    "Giới tính",
     "Mail",
+    "Chức danh",
+    "Trạng thái",
+    "Giới tính",
+    "Sinh nhật",
     "Xóa",
     "Xem thêm",
   ];
@@ -67,8 +61,8 @@ export default function EmployeeList() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>()
   // -------------------------- REDUX ---------------------------
-  const employees = useAppSelector(employeeSelectors.selectAll);  
-  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);  
+  const employees = useAppSelector(employeeSelectors.selectAll);
+  const activeEmployees = employees?.filter((e) => e.accountStatus !== false);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeesAsync());
@@ -76,21 +70,19 @@ export default function EmployeeList() {
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
   return (
-    <Container sx={{ padding: "15px 0" }}>
+    <Box className={cx("wrapper")}>
       <Typography sx={{
-            paddingTop: "5px",
-            fontStyle: "normal",
-            fontWeight: "700",
-            fontSize: "30px",
-            lineHeight: "39px",
-          }}>
+        paddingTop: "5px",
+        fontStyle: "normal",
+        fontWeight: "700",
+        fontSize: "30px",
+      }}>
         Danh sách nhân viên
       </Typography>
       <Grid
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: " 20px 0 5px 0",
         }}
       >
         <Grid
@@ -98,7 +90,7 @@ export default function EmployeeList() {
           xs={10}
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Grid sx={{ margin: "0 5px" }}>
+          <Grid>
             <TextField size="small" label="Tìm kiếm..." />
           </Grid>
 
@@ -108,7 +100,7 @@ export default function EmployeeList() {
               id="combo-box-demo"
               size="small"
               options={top100Films}
-              sx={{ width: 200, margin: "0 5px" }}
+              // sx={{ width: 200, margin: "0 5px" }}
               renderInput={(params) => (
                 <TextField {...params} label="Phòng ban" />
               )}
@@ -126,25 +118,98 @@ export default function EmployeeList() {
         </Grid>
       </Grid>
 
-      <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
+      <TableContainer component={Paper} className={cx("container")}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
-
-          <TableHead>
-            <TableRow sx={{ background: "black" }}>
-              {tableHeadTitle.map((title, index) => (                
-                <StyledTableCell
+          <TableHead className={cx("header")}>
+            <TableRow>
+              {tableHeadTitle.map((title, index) => (
+                <TableCell
                   key={index}
-                  sx={{ color: "white", fontSize: "15px" }}
                   align="center"
+                  sx={{ fontWeight: "bold" }}
                 >
                   {title}
-                </StyledTableCell>
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {activeEmployees?.map((employee) => (
+            {activeEmployees?.map(item => {
+              return (
+                <TableRow
+                  key={item.staffId}
+                >
+                  <TableCell align="center" >
+                    <Typography
+                      sx={{ textDecoration: "none", color: "#000", fontSize: "14px" }}
+                      component={Link}
+                      to="">
+                      {item.staffId}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <TableCell align="center" sx={{ border: "none" }}>
+                      <Avatar sx={{ width: "32px", height: "32px" ,bgcolor: deepOrange[500] }}>{item.firstName.charAt(0).toUpperCase()}</Avatar>
+                    </TableCell>
+                  </TableCell>
+
+                  <TableCell align="center">
+                    {`${item.lastName} ${item.firstName}`}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.phone}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.email}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.isManager === false ?
+                      (
+                        <ChipCustome status="cancel">Nhân Viên</ChipCustome>
+                      ) : (
+                        <ChipCustome status="payment">Quản Lí</ChipCustome>
+                      )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.accountStatus === true ? (
+                      <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
+                    ) : (
+                      <ChipCustome status="rejected">Hết hạn</ChipCustome>
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.gender === true ? (
+                      <ChipCustome status="approved">Nam</ChipCustome>
+                    ) : (
+                      <ChipCustome status="rejected">Nữ</ChipCustome>
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {moment(item.dob).format("DD-MM-YYYY")}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button color="error" onClick={() => {
+                      setOpenDeleteDialog(true)
+                    }}>
+                      <ChipCustome status="rejected">
+                        <DeleteIcon />
+                      </ChipCustome>
+                    </Button>
+                  </TableCell>
+
+                  <TableCell align="center">
+                    <IconButton
+                      component={Link}
+                      to="" //need change
+                    >
+                      <CiCircleMore style={{ fontSize: "30px", color: "black" }} />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+            {/* {activeEmployees?.map((employee) => (
               <StyledTableRow
                 key={employee.staffId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -153,7 +218,7 @@ export default function EmployeeList() {
                   {employee.staffId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {/* {employee.} */}
+                  
                 </StyledTableCell>
                 <StyledTableCell align="center">{employee.fullName}</StyledTableCell>
                 <StyledTableCell align="center">{employee.phone}</StyledTableCell>
@@ -177,13 +242,12 @@ export default function EmployeeList() {
                     <MoreHorizIcon />
                   </Button>
                 </StyledTableCell>
-
               </StyledTableRow>
-            ))}
+            ))} */}
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} item={employeeDeleted}/>
-    </Container>
+      <DeleteDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} item={employeeDeleted} />
+    </Box>
   );
 }
