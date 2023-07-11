@@ -277,26 +277,32 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
                         {isOwn === true && <>
                             <Typography sx={{ ...headerStyle, ...headerColor }}>{user?.userInfor.lastName} {user?.userInfor.firstName} MSNV: {user?.userInfor.staffId}</Typography>
                         </>}
-                        {/* {users.length !== 0 ? (
-                            <BootstrapInput
-                                fullWidth
-                                InputProps={textFieldInputProps}
-                                // defaultValue={leaveDayDetail[0].leaveType.leaveTypeName.trim()}
-                                defaultValue={users[2].staffId}
-                                variant="standard"
-                                onChange={handleCreateOvertime}
-                                value={selectedUser}
-                                select
-                            >
-                                {users.map((item) => (
-                                    <MenuItem key={item.staffId} value={item.staffId}>
-                                        {`${item.lastName} ${item.firstName} (MSNV: ${item.staffId})`}
-                                    </MenuItem>
-                                ))}
-                            </BootstrapInput>
-                        ) : (
-                            <></>
-                        )} */}
+
+                        
+
+                        {/* <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+                            {users.length !== 0 ? (
+                                <BootstrapInput
+                                    fullWidth
+                                    InputProps={textFieldInputProps}
+                                    // defaultValue={leaveDayDetail[0].leaveType.leaveTypeName.trim()}
+                                    defaultValue={users[2].staffId}
+                                    variant="standard"
+                                    onChange={handleCreateOvertime}
+                                    value={selectedUser}
+                                    select
+                                >
+                                    {users.map((item) => (
+                                        <MenuItem key={item.staffId} value={item.staffId}>
+                                            {`${item.lastName} ${item.firstName} (MSNV: ${item.staffId})`}
+                                        </MenuItem>
+                                    ))}
+                                </BootstrapInput>
+                            ) : (
+                                <></>
+                            )}
+                        </Box> */}
+
                     </Box>
 
                     <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>

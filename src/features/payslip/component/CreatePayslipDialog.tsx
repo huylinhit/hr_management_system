@@ -38,27 +38,13 @@ function CreatePayslipDialog({ open, handleClose }: any) {
   const [month, setMonth] = useState<Time>();
   console.log(time);
   const navigate = useNavigate();
-
-
-
-
-
   const types = [
     "Tạo bảng lương cho toàn bộ nhân viên",
     "Tạo bảng lương theo phòng ban",
     "Tạo bảng lương cho một cá nhân"
   ]
-
-  //Date and Month
-
-
-  useEffect(() => {
-
-  }, []);
-
   const handleChange = (event: SelectChangeEvent) => {
     setTypes(event.target.value as string);
-
   };
 
   const handleMonth = (e: any) => {
@@ -68,8 +54,6 @@ function CreatePayslipDialog({ open, handleClose }: any) {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(month)
-
-
     agent.Payslip.createAllStaff(
       { month: month, year: 2023 }
     )
@@ -80,8 +64,7 @@ function CreatePayslipDialog({ open, handleClose }: any) {
         console.log(error)
       }
       )
-
-      navigate('/payslips ');
+    navigate('/payslips ');
   }
 
 
@@ -116,9 +99,6 @@ function CreatePayslipDialog({ open, handleClose }: any) {
               </MenuItem>
             ))}
           </Select>
-
-
-
           <TextField
             margin="normal"
             required
@@ -148,7 +128,6 @@ function CreatePayslipDialog({ open, handleClose }: any) {
             onClick={handleSubmit}
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
           >
             Tạo bảng lương
           </Button>

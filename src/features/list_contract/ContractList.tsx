@@ -50,16 +50,17 @@ export default function ContractList() {
     "Id",
     "MSNV",
     "Tên",
-    "Ngày kí hđ",
-    "Ngày hết hạn",
-    "Loại hợp đồng",
-    "Mức lương thỏa thuận",
-    "Mức lương đóng thuế",
-    "Số người phụ thuộc",
-    "Trạng thái",
-    "Tổng phụ cấp",
-    "Ngày thay đổi",
-    "Ghi chú",
+    "Ngày Kí HĐ",
+    "Ngày Hết Hạn",
+    "Loại Hợp Đồng",
+    "Loại Lương",
+    "Mức Lương Thỏa Thuận",
+    "Mức Lương Đóng Thuế",
+    "Người Phụ Thuộc",
+    "Trạng Thái",
+    "Tổng Phụ Cấp",
+    "Ngày Thay Đổi",
+    "Ghi Chú",
   ];
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
@@ -182,6 +183,12 @@ export default function ContractList() {
                     <ChipCustome status="payment">
                       {moment(item.endDate).format("DD-MM-YYYY")}
                     </ChipCustome>
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.contractId === 1 &&
+                      <ChipCustome status="approved">{item.contractType.name}</ChipCustome>}
+                    {item.contractId === 2 &&
+                      <ChipCustome status="waiting">{item.contractType.name}</ChipCustome>}
                   </TableCell>
                   <TableCell align="center">
                     {item.salaryType === 'Gross To Net' &&

@@ -72,7 +72,6 @@ export default function EmployeeList() {
   return (
     <Box className={cx("wrapper")}>
       <Typography sx={{
-        paddingTop: "5px",
         fontStyle: "normal",
         fontWeight: "700",
         fontSize: "30px",
@@ -148,10 +147,8 @@ export default function EmployeeList() {
                       {item.staffId}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
-                    <TableCell align="center" sx={{ border: "none" }}>
-                      <Avatar sx={{ width: "32px", height: "32px" ,bgcolor: deepOrange[500] }}>{item.firstName.charAt(0).toUpperCase()}</Avatar>
-                    </TableCell>
+                  <TableCell align="center" >
+                    {/* <Box display="flex" justifyContent="center"><Avatar sx={{  bgcolor: deepOrange[500] }}>{item.firstName.charAt(0).toUpperCase()}</Avatar></Box> */}
                   </TableCell>
 
                   <TableCell align="center">
@@ -193,7 +190,8 @@ export default function EmployeeList() {
                       setOpenDeleteDialog(true)
                     }}>
                       <ChipCustome status="rejected">
-                        <DeleteIcon />
+                        {/* <DeleteIcon sx={{fontSize:"14px"}}/> */}
+                        Xóa
                       </ChipCustome>
                     </Button>
                   </TableCell>
@@ -203,7 +201,7 @@ export default function EmployeeList() {
                       component={Link}
                       to="" //need change
                     >
-                      <CiCircleMore style={{ fontSize: "30px", color: "black" }} />
+                      <CiCircleMore style={{ fontSize: "14px", color: "black" }} />
                     </IconButton>
                   </TableCell>
                 </TableRow>
