@@ -22,5 +22,5 @@ export default interface Contract {
 	allowances: Allowance[]
 	contractType: ContractType
 	staff: UserInfor
-  }
+}
   

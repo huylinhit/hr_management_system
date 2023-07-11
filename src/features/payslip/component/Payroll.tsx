@@ -1,17 +1,24 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box, TextField, Avatar, Chip, IconButton, Button, Grid } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
 import { fetchPayslipsAsync, payslipSelectors } from "../payslipSlice";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
+import styles from './payslip.module.scss';
+import classNames from "classnames/bind";
+import CreatePayslipDialog from "./CreatePayslipDialog";
 
+const cx = classNames.bind(styles);
 
 function Payroll() {
     const dispatch = useAppDispatch();
     const payslips = useAppSelector(payslipSelectors.selectAll);
     const { payslipsLoaded, status } = useAppSelector(state => state.payslip);
+    const [open, setOpen] = useState(false);
+
 
     useEffect(() => {
         if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
@@ -19,8 +26,19 @@ function Payroll() {
 
     if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
     return (
-        <Box sx={{ p: "32px" }}>
+
+        <Box className={cx("wrapper")}>
             <Typography variant="h4">Danh sách lương nhân viên</Typography>
 
             <Grid
@@ -41,27 +59,32 @@ function Payroll() {
                     />
                 </Grid>
                 <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button variant="contained">Tạo bảng lương cho nhân viên</Button>
+                    <Button
+                        onClick={handleClickOpen}
+                        variant="contained">
+                        Tạo bảng lương
+                    </Button>
+                    <CreatePayslipDialog open={open} handleClose={handleClose} />
+
                 </Grid>
             </Grid>
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+            <TableContainer component={Paper} className={cx("container")}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+                    <TableHead className={cx("header")}>
                         <TableRow>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Id</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>MSNV</TableCell>
                             {/* <TableCell align="center"  sx={{fontWeight: "bold"}}>Ảnh</TableCell> */}
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Tên</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Lương thỏa thuận</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Lương căn bản</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Lương Gross</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Lương Net</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Lương Thực Nhận</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Bảo Hiểm Công Ty</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Công Ty Trả</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Thời gian thay đổi</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross thỏa thuận</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross thực tế</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Net Thỏa Thuận</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Net Thực Tế</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Trạng Thái</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Bảo Hiểm Công Ty</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Công ty chi trả</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Thời gian tạo</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Chi Tiết</TableCell>
                         </TableRow>
                     </TableHead>
@@ -73,32 +96,66 @@ function Payroll() {
                                     key={item.payslipId}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell align="center">{item.payslipId}</TableCell>
-                                    <TableCell align="center">{item.staffId}</TableCell>
+                                    <TableCell align="center" >
+                                        <Typography
+                                            sx={{ textDecoration: "none", color: "#000", fontSize: "14px" }}
+                                            component={Link}
+                                            to={`${item.payslipId}/staffs/${item.staffId}`}>
+                                            {item.payslipId}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ textDecoration: "none", color: "#000" }}>
+                                        <Typography
+                                            sx={{ textDecoration: "none", color: "#000", fontSize: "14px" }}
+                                            component={Link}
+                                            to={`${item.payslipId}/staffs/${item.staffId}`}>
+                                            {item.staffId}
+                                        </Typography>
+                                    </TableCell>
                                     {/* <TableCell align="center">
                                     <Avatar alt={item.staff.firstName} src="/static/images/avatar/1.jpg" />
                                 </TableCell> */}
                                     <TableCell align="center">{`${item.staff.lastName} ${item.staff.firstName}`}</TableCell>
-                                    <TableCell align="center">Gross To Net</TableCell>
-                                    <TableCell align="center">{item.grossStandardSalary}</TableCell>
-                                    <TableCell align="center">{item.grossActualSalary}</TableCell>
-                                    <TableCell align="center">{item.netStandardSalary}</TableCell>
+                                    {/* <TableCell align="center">Gross To Net</TableCell> */}
                                     <TableCell align="center">
-                                        {item.netActualSalary}
+                                        <ChipCustome status="payment">
+                                            {item.grossStandardSalary.toLocaleString()}
+                                        </ChipCustome>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.totalCompInsured}
+                                        <ChipCustome status="payment">
+                                            {item.grossActualSalary.toLocaleString()}
+                                        </ChipCustome>
                                     </TableCell>
-                                    <TableCell align="center">{item.totalCompPaid}</TableCell>
-                                    <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
+                                    <TableCell align="center">
+                                        <ChipCustome status="withdrawn">
+                                            {item.netStandardSalary.toLocaleString()}
+                                        </ChipCustome>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <ChipCustome status="withdrawn">
+                                            {item.netActualSalary.toLocaleString()}
+                                        </ChipCustome>
+                                    </TableCell>
                                     <TableCell align="center">
                                         {item.payslipStatus ? (
-                                            <Chip color="success" label="Hợp lệ" />
+                                            <ChipCustome status="approved">Đã thanh toán</ChipCustome>
                                         ) : (
-                                            <Chip color="error" label="Đã hủy" />
+                                            <ChipCustome status="rejected">Đã hủy</ChipCustome>
                                         )}
-
                                     </TableCell>
+                                    <TableCell align="center">
+                                        <ChipCustome status="waiting">
+                                            {item.totalCompInsured.toLocaleString()}
+                                        </ChipCustome>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <ChipCustome status="waiting">
+                                            {item.totalCompPaid.toLocaleString()}
+                                        </ChipCustome>
+                                    </TableCell>
+                                    <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
+
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
@@ -112,7 +169,8 @@ function Payroll() {
                         })}
                     </TableBody>
                 </Table>
-            </TableContainer></Box>
+            </TableContainer>
+        </Box>
     );
 }
 

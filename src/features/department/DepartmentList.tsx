@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import "./DepartmentList.css";
 import {
   GridToolbarColumnsButton,
   GridToolbarContainer,

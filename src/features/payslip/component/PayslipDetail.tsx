@@ -16,8 +16,8 @@ import moment from "moment";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Allowance } from "../../../app/models/allowance";
 import { fetchLogOtsAsync, logOvertimeSelectors } from "../../overlog/overtimeSlice";
-import { Contract } from "../../../app/models/contract";
 import { contractSelectors, fetchContractValidDetailASync } from "../../../app/store/contract/contractSlice";
+import Contract from "../../../app/models/contract";
 
 function PayslipDetail() {
     const { payslipId, staffId } = useParams();
@@ -43,7 +43,7 @@ function PayslipDetail() {
 
     //log Ot 
     const logots = useAppSelector(logOvertimeSelectors.selectAll);
-    const { logOtLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
+    const { logOtsLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
 
     console.log("LogOTs:", logots);
 
@@ -109,9 +109,9 @@ function PayslipDetail() {
 
     //useEffect Log Ot
     useEffect(() => {
-        if (!logOtLoaded)
+        if (!logOtsLoaded)
             dispatch(fetchLogOtsAsync());
-    }, [logOtLoaded]);
+    }, [logOtsLoaded]);
 
     //useEffect Log Leave
     useEffect(() => {

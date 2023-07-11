@@ -28,7 +28,6 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
-import "../../app/layout/App.css";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
