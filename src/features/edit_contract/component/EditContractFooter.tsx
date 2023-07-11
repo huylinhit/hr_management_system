@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 
 interface Props {
   contract: Contract | undefined

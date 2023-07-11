@@ -13,6 +13,7 @@ import agent from "../../../app/api/agent";
 import { useNavigate } from "react-router-dom";
 
 interface AllowanceField {
+  allowanceId: number;
   allowanceTypeId: number;
   allowanceSalary: number;
 }
@@ -20,44 +21,43 @@ interface AllowanceField {
 interface Props {
   open: boolean;
   setOpen: Function;
-  id: number | undefined;
+  contractId: number | undefined;
+  staffId: number | undefined;
   item: Object;
   allowanceForm: Array<AllowanceField> | undefined;
 }
 
-export default function ConfirmSubmitDialog({ open, setOpen, id, item, allowanceForm }: Props) {
+export default function ConfirmSubmitDialog({ open, setOpen, contractId, staffId, item, allowanceForm }: Props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const history = useNavigate();
-  console.log("***Submit");
-  console.log(item);
-  console.log(allowanceForm);
-  
-  
+
+  const allowanceList: Array<AllowanceField> = allowanceForm!
   // -------------------------- FUNCTION ------------------------
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleSubmit = () => {
+    allowanceList.forEach((allowance) => {
+      const allowanceUpdate = {allowanceTypeId: allowance.allowanceTypeId,
+        allowanceSalary: allowance.allowanceSalary,}
+
+      agent.Allowance.update(Number(allowance.allowanceId), Number(contractId), allowanceUpdate)
+        .then((response) => console.log("Update allowance successfully: ", response))
+        .catch((error) => {
+          console.error("Error update allowance", error);
+        });
+    })
     
-    // skillForm.forEach((skill) => {
-    //   agent.StaffSkill.update(skill)
-    //   .then((response) => console.log("Update skill", skill.skillName, "successfully: ", response))
-    //   .catch((error) => {
-    //     console.error("Error update skill", error);
-    //   });
-    // })
-    
-    // agent.Employees.update(Number(id), item)
-    //     .then((response) => {
-    //       console.log("Update employee successfully: ", response);
-    //       history(`/detail-employee/${id}`)
-    //       // window.location.reload()
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error update ", error);
-    //     });
+    agent.Contract.update(Number(contractId), Number(staffId), item)
+        .then((response) => {
+          console.log("Update contract successfully: ", response);
+          history(`/detail-contract/${contractId}`)
+        })
+        .catch((error) => {
+          console.error("Error update ", error);
+        });
 
     setOpen(false);
   };

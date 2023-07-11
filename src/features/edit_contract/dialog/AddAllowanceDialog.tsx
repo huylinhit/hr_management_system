@@ -14,7 +14,7 @@ import { useState } from "react";
 import agent from "../../../app/api/agent";
 import { useAppSelector } from "../../../app/store/configureStore";
 import { allowanceTypeSelectors } from "../../../app/store/allowanceType/allowanceTypeSlice";
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 
 interface Props {
   open: boolean;
@@ -87,6 +87,7 @@ export default function AddAllowanceDialog({
             margin="dense"
             label="Loại phụ cấp"
             sx={{ width: "100%" }}
+            defaultValue={0}
             onChange={(e) => setForm({ ...form, allowanceTypeId: Number(e.target.value) })}
           >
             {allowanceType.map((type) => (

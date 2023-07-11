@@ -5,6 +5,7 @@ import { fetchPayslipsAsync, payslipSelectors } from "../payslipSlice";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 
 function Payroll() {
@@ -67,7 +68,6 @@ function Payroll() {
                     <TableBody>
                         {payslips?.map(item => {
                             const date = new Date(item.changeAt);
-                            const formattedDate = date.toLocaleDateString();
                             return (
                                 <TableRow
                                     key={item.payslipId}
@@ -80,17 +80,17 @@ function Payroll() {
                                 </TableCell> */}
                                     <TableCell align="center">{`${item.staff.lastName} ${item.staff.firstName}`}</TableCell>
                                     <TableCell align="center">Gross To Net</TableCell>
-                                    <TableCell align="center">{item.basicSalary}</TableCell>
-                                    <TableCell align="center">{item.grossSalary}</TableCell>
-                                    <TableCell align="center">{item.netSalary}</TableCell>
+                                    <TableCell align="center">{item.grossStandardSalary}</TableCell>
+                                    <TableCell align="center">{item.grossActualSalary}</TableCell>
+                                    <TableCell align="center">{item.netStandardSalary}</TableCell>
                                     <TableCell align="center">
-                                        {item.totalInsured}
+                                        {item.netActualSalary}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.totalPaid}
+                                        {item.totalCompInsured}
                                     </TableCell>
-                                    <TableCell align="center">{item.totalInsured}</TableCell>
-                                    <TableCell align="center">{formattedDate}</TableCell>
+                                    <TableCell align="center">{item.totalCompPaid}</TableCell>
+                                    <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
                                     <TableCell align="center">
                                         {item.payslipStatus ? (
                                             <Chip color="success" label="Hợp lệ" />

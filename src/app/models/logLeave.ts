@@ -2,6 +2,7 @@ import { LeaveType } from "./leaveType";
 import { Staff } from "./staff";
 
 export interface LogLeave {
+
   leaveLogId: number;
   staffId: number;
   leaveTypeId: number;
@@ -19,4 +20,5 @@ export interface LogLeave {
   leaveType: LeaveType;
   staff: Staff;
   respondenceName: string;
+
 }
