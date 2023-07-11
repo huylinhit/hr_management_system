@@ -16,6 +16,7 @@ import {
   styled,
   tableCellClasses,
   Chip,
+  Box,
 } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 import { BorderColor } from "@mui/icons-material";
@@ -29,41 +30,24 @@ import axios from "axios";
 import React from "react";
 import { LogOvertime } from "../../app/models/logOvertime";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchLogOtsAsync, logOvertimeSelectors } from "./overtimeSlice";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import styles from '../payslip/component/payslip.module.scss';
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
+
 
 const headerStyle = {
   fontWeight: "bold",
 };
 
-const top100Films = [
-  { label: "1", year: 1994 },
-  { label: "2", year: 1972 },
-  { label: "3", year: 1974 },
-  { label: "4", year: 2008 },
-  { label: "5", year: 1957 },
-  { label: "6", year: 1993 },
-  { label: "7", year: 1994 },
-  ``,
-];
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
+const contentStyles = {
+  fontSize: "14px",
+}
 function ViewOvertimeLog() {
   function createData(
     Doid: string,
@@ -87,7 +71,7 @@ function ViewOvertimeLog() {
   function handleChange(
     event: SelectChangeEvent<unknown>,
     child: ReactNode
-  ): void {}
+  ): void { }
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -98,190 +82,142 @@ function ViewOvertimeLog() {
     setOpen(false);
   };
 
-  //call api
-
-  const [list, setList] = useState<LogOvertime[]>();
-
-  axios.defaults.baseURL = "http://localhost:5000/api";
-  axios.defaults.withCredentials = true;
-
+  const dispatch = useAppDispatch();
+  const list = useAppSelector(logOvertimeSelectors.selectAll);
+  const { logOtLoaded, status } = useAppSelector(state => state.logot);
   useEffect(() => {
-    axios
-      .get("/logots")
-      .then((response) => {
-        setList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (!logOtLoaded)
+      dispatch(fetchLogOtsAsync());
+  }, [dispatch, logOtLoaded]);
 
-  // call api
+  if (status.includes('pending')) return <LoadingComponent message="Đang tải đơn làm thêm" />
+
   return (
     <>
-      <Container sx={{ px: "50px" }}>
-      <Typography variant="h4" sx={headerStyle} style={styles}>
-        Danh sách đơn làm thêm giờ
-      </Typography>
-      <Grid
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: " 20px 0 5px 0",
-        }}
-      >
+      <Box className={cx("wrapper")}>
+        <Typography variant="h4" sx={headerStyle} >
+          Danh sách đơn làm thêm giờ
+        </Typography>
         <Grid
-          item
-          xs={10}
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            my: "28px"
+          }}
         >
-          <Grid sx={{ margin: "0 5px" }}>
-            <TextField size="small" label="Tìm kiếm..." />
+          <Grid
+            item
+            xs={10}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Grid>
+              <TextField size="small" label="Tìm kiếm..." />
+            </Grid>
           </Grid>
-
-          <Grid>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 200, margin: "0 5px" }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  size="small"
-                  label="Loại"
-                  style={styles}
-                />
-              )}
-            />
-          </Grid>
-          <Grid>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 200, margin: "0 5px" }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" label="Phòng" />
-              )}
-            />
+          <Grid item xs={10}>
+            <div>
+              <Button variant="contained" onClick={handleClickOpen}>
+                + Tạo đơn tăng ca
+              </Button>
+              <CreateOvertime
+                open={open}
+                handleChange={handleChange}
+                handleClose={handleClose}
+              />
+            </div>
           </Grid>
         </Grid>
-        <Grid item xs={10}>
-          <div>
-            <Button variant="contained" onClick={handleClickOpen}>
-              + Tạo đơn tăng ca
-            </Button>
-            <CreateOvertime
-              open={open}
-              handleChange={handleChange}
-              handleClose={handleClose}
-            />
-          </div>
-        </Grid>
-      </Grid>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Mã đơn</StyledTableCell>
-              <StyledTableCell align="center">Mã nhân viên</StyledTableCell>
-              <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-              <StyledTableCell align="center">Loại tăng ca</StyledTableCell>
-              <StyledTableCell align="center">Từ</StyledTableCell>
-              <StyledTableCell align="center">Đến</StyledTableCell>
-              <StyledTableCell align="center">Thời gian</StyledTableCell>
-              <StyledTableCell align="center">Lý do</StyledTableCell>
-              <StyledTableCell align="center">Trạng thái</StyledTableCell>
-              <StyledTableCell align="center">Phản hồi</StyledTableCell>
-              <StyledTableCell align="center">Chỉnh sửa</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {list?.map((item) => (
-              <StyledTableRow key={item.otLogId}>
-                <>
-                  <StyledTableCell align="center">
-                    {item.otLogId}
-                  </StyledTableCell>
+        <TableContainer component={Paper} className={cx("container")}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Mã đơn</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Mã NV</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Tên NV</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Loại tăng ca</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Từ</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Đến</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Ngày</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Giờ</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Lương một ngày</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Tổng lương làm thêm</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Trạng thái</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Lý do</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Phản hồi</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Thời gian tạo</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Thời gian được duyệt</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {list?.map(item => {
+                return (
+                  <TableRow
+                    key={item.otLogId}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="center">
+                      <Link
+                        style={{ textDecoration: "none", color: "#000 " }}
+                        to={`${item.otLogId}/staffs/${item.staffId}`}>
+                        {item.otLogId}
+                      </Link>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Link
+                        style={{ textDecoration: "none", color: "#000 " }}
+                        to={`${item.otLogId}/staffs/${item.staffId}`}>
+                        {item.staffId}
+                      </Link>
+                    </TableCell>
+                    {/* <TableCell align="center">
+                                    <Avatar alt={item.staff.firstName} src="/static/images/avatar/1.jpg" />
+                                </TableCell> */}
+                    <TableCell align="center" style={contentStyles}>{item.staff.lastName} {item.staff.firstName}</TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      {item.otTypeId === 1 && <ChipCustome status="approved">{item.otType.typeName}</ChipCustome>}
+                      {item.otTypeId === 2 && <ChipCustome status="waiting">{item.otType.typeName}</ChipCustome>}
+                      {item.otTypeId === 3 && <ChipCustome status="rejected">{item.otType.typeName}</ChipCustome>}
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      {moment(item.logStart).format("DD-MM-YYYY")}
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>{moment(item.logEnd).format("DD-MM-YYYY")}</TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      <ChipCustome status="approved">{item.days} ngày</ChipCustome>
 
-                  <StyledTableCell align="center">
-                    {item.staffId}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {item.staff.firstName} {item.staff.lastName}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {item.otType.typeName}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {/* {item.logStart} */}
-                    {moment(item.logStart).format("DD/MM/YYYY")}
-                  </StyledTableCell>
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      <ChipCustome status="approved">{item.logHours} giờ</ChipCustome>
 
-                  <StyledTableCell align="center">
-                    {/* {item.logEnd} */}
-                    {moment(item.logEnd).format("DD/MM/YYYY")}
-                  </StyledTableCell>
-                  <StyledTableCell align="center"></StyledTableCell>
-
-                  <StyledTableCell align="center">
-                    {item.reason}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {/* <Chip
-                      label={item.status}
-                      color={
-                        item.status === FORMSTATUS.agree
-                          ? "info"
-                          : item.status === FORMSTATUS.pending
-                          ? "default"
-                          : "error"
-                      }
-                      sx={{ width: "92px" }}
-                    /> */}
-                    <Chip
-                      label={item.status}
-                      color={
-                        // item.status === FORMSTATUS.agree
-                        item.status === "approved"
-                          ? "info"
-                          // : item.status === FORMSTATUS.pending
-                          : item.status === "pending"
-                          ? "default" // or 'disabled' if you want a grayed-out color
-                          : "error"
-                      }
-                      sx={{ width: "92px" }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {item.processNote}
-                  </StyledTableCell>
-
-                  <StyledTableCell align="center">
-                    
-                    <Button
-                      component={Link}
-                      to={`/detail-overtime-log/${item.otLogId}`}
-                    >
-                      {item.status === FORMSTATUS.pending ? (
-                        <BorderColor />
-                      ) : (
-                        <CiCircleMore
-                          style={{ fontSize: "30px", color: "black" }}
-                        />
-                      )}
-                   
-                    </Button>
-                  </StyledTableCell>
-                </>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      </Container>
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      <ChipCustome status="payment">
+                        {item.salaryPerDay.toLocaleString()}
+                      </ChipCustome>
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>
+                      <ChipCustome status="payment">
+                        {item.amount.toLocaleString()}
+                      </ChipCustome>
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles} sx={{ fontSize: "8px" }}>
+                      {item.status === 'pending' && <ChipCustome status="pending">Chờ duyệt</ChipCustome>}
+                      {item.status === 'approved' && <ChipCustome status="payment">Chấp nhận</ChipCustome>}
+                      {item.status === 'rejected' && <ChipCustome status="rejected">Từ chối</ChipCustome>}
+                      {item.status === 'cancel' && <ChipCustome status="cancel">Hủy</ChipCustome>}
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>{item.reason}</TableCell>
+                    <TableCell align="center" style={contentStyles}>{item.processNote}</TableCell>
+                    <TableCell align="center" style={contentStyles}>{moment(item.createAt).format("DD-MM-YYYY")}</TableCell>
+                    <TableCell align="center" style={contentStyles}>{moment(item.changeStatusTime).format("DD-MM-YYYY")}</TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </>
   );
 }

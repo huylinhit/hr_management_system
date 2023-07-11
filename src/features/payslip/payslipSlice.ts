@@ -19,6 +19,18 @@ export const fetchPayslipsAsync = createAsyncThunk<Payslip[]>(
     }
 )
 
+export  const fetchPayslipsStaffAsync = createAsyncThunk<Payslip[], number>(
+    'payslips/fetchPayslipsStaffAsync',
+    async(staffId, thunkAPI) =>{
+        try{
+            return await agent.Payslip.listOfStaff(staffId);
+        }catch(error: any){
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
+
+
 export const fetchPayslipAsync = createAsyncThunk<Payslip, {payslipId: number, staffId: number}>(
     'payslips/fetchPayslipAsync',
     async ( {payslipId, staffId}, thunkAPI) =>{
@@ -49,6 +61,19 @@ export const payslipSlice = createSlice({
             state.payslipsLoaded = true;
         });
         builder.addCase(fetchPayslipsAsync.rejected, (state) =>{
+            state.status = 'idle';
+        })
+
+        //list payslips of Staff
+        builder.addCase(fetchPayslipsStaffAsync.pending, (state) =>{
+            state.status = 'pendingFetchPayslips'
+        });
+        builder.addCase(fetchPayslipsStaffAsync.fulfilled, (state, action) =>{
+            payslipAdapter.upsertMany(state, action.payload)
+            state.status = 'idle';
+            state.payslipsLoaded = true;
+        });
+        builder.addCase(fetchPayslipsStaffAsync.rejected, (state) =>{
             state.status = 'idle';
         })
 

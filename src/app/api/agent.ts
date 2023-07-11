@@ -156,8 +156,10 @@ const UserInfors = {
 const Payslip = {
   list: () => requests.get("payslips"),
   details: (id: number, staffId: number) => requests.get(`payslips/${id}/staffs/${staffId}`),
-  listOfStaff: (id: number, staffId: number) => requests.get(`payslips/staffs/${staffId}`),
-  create: (staffId: number, dateTime: any) => requests.post(`payslips/staffs/${staffId}`, dateTime),
+  listOfStaff: (staffId: number) => requests.get(`payslips/${staffId}`),
+  CreateByStaffId: (staffId: number, time: any) => requests.post(`payslips/staffs/${staffId}`, time),
+  createAllStaff: (time: any) => requests.post(`payslips/staffs/`, time),
+  createByDepartment: (departmentId: number, time: any) => requests.post(`payslips/staffs/departments/${departmentId}`, time),
   update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
 }

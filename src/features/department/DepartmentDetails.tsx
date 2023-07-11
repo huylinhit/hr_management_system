@@ -19,7 +19,6 @@ import {
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import "./DepartmentList.css";
 import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
@@ -46,7 +45,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import "../../app/layout/App.css";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import moment from "moment";
 function CustomToolbar() {
