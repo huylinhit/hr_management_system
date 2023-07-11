@@ -102,14 +102,9 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function MyLeaveList() {
+export default function OthersLeaveList() {
   const handleRowClick = () => {
-    dispatch(
-      setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
-        { title: "Chỉnh sửa đơn", path: `` },
-      ])
-    );
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/othersleaves" }]));
   };
   const columns: GridColDef[] = [
     {
@@ -120,7 +115,7 @@ export default function MyLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/myleaves/${params.row.leaveLogId}`}
+          to={`/othersleaves/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -436,8 +431,16 @@ export default function MyLeaveList() {
   //   );
   // }
   const [gridHeight, setGridHeight] = useState(0);
+  const currentUser = useAppSelector((state) => state.account);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
+  const otherUsersLogLeaves = logLeaves.filter(
+    (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId 
+    && logLeave.status === "Pending"
+    && logLeave.enable
+  );
+  console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();
+
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
   );
@@ -459,7 +462,7 @@ export default function MyLeaveList() {
     };
   }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/othersleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -481,7 +484,7 @@ export default function MyLeaveList() {
   console.log(logLeaves);
   useEffect(() => {
     if (logleavesLoaded) {
-      setRows(logLeaves);
+      setRows(otherUsersLogLeaves);
     }
   }, [logleavesLoaded, logLeaves]);
 
