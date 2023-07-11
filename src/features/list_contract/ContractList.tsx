@@ -14,6 +14,8 @@ import {
   styled,
   tableCellClasses,
   Container,
+  IconButton,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -30,42 +32,34 @@ import {
 } from "../../app/store/contract/contractSlice";
 import moment from "moment";
 import { Allowance } from "../../app/models/allowance";
+import { CiCircleMore } from "react-icons/ci";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import styles from '../payslip/component/payslip.module.scss'
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
+
+
 
 const top100Films = [{ label: "1", year: 1994 }, ``];
-
-// style
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 export default function ContractList() {
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
   const tableHeadTitle = [
+    "Id",
     "MSNV",
     "Tên",
     "Ngày kí hđ",
     "Ngày hết hạn",
     "Loại hợp đồng",
-    "Mức lương",
-    "Tổng phụ cấp",
+    "Mức lương thỏa thuận",
+    "Mức lương đóng thuế",
     "Số người phụ thuộc",
-    ""
+    "Trạng thái",
+    "Tổng phụ cấp",
+    "Ngày thay đổi",
+    "Ghi chú",
   ];
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
@@ -75,7 +69,7 @@ export default function ContractList() {
     dispatch(fetchContractsAsync());
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
-  const calcTotalAllowance = (allowances : Array<Allowance>) => {
+  const calcTotalAllowance = (allowances: Array<Allowance>) => {
     let total = 0
 
     allowances.forEach((allowance) => {
@@ -86,7 +80,7 @@ export default function ContractList() {
   }
   // -------------------------- MAIN ----------------------------
   return (
-    <Container sx={{ padding: "15px 0" }}>
+    <Box className={cx("wrapper")}>
       <Typography
         sx={{
           paddingTop: "5px",
@@ -131,24 +125,104 @@ export default function ContractList() {
         </Grid>
       </Grid>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow sx={{ background: "black" }}>
+      <TableContainer component={Paper} className={cx("container")}>
+        <Table sx={{ minWidth: 700 }} >
+          <TableHead className={cx("header")}>
+            <TableRow>
               {tableHeadTitle.map((title, index) => (
-                <StyledTableCell
+                <TableCell
                   key={index}
-                  sx={{ color: "white", fontSize: "15px" }}
                   align="center"
+                  sx={{ fontWeight: "bold" }}
                 >
                   {title}
-                </StyledTableCell>
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {contracts.map((contract) => (
+            {contracts?.map(item => {
+              const date = new Date(item.changeAt);
+              const allowances = item.allowances.reduce((total, c) =>
+                total + c.allowanceSalary,
+                0)
+              return (
+                <TableRow
+                  key={item.contractId}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="center" >
+                    <Typography
+                      sx={{ textDecoration: "none", color: "#000", fontSize: "14px" }}
+                      component={Link}
+                      to={`${item.contractId}/staffs/${item.staffId}`}>
+                      {item.contractId}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ textDecoration: "none", color: "#000" }}>
+                    <Typography
+                      sx={{ textDecoration: "none", color: "#000", fontSize: "14px" }}
+                      component={Link}
+                      to={`${item.contractId}/staffs/${item.staffId}`}>
+                      {item.staffId}
+                    </Typography>
+                  </TableCell>
+                  {/* <TableCell align="center">
+                                    <Avatar alt={item.staff.firstName} src="/static/images/avatar/1.jpg" />
+                                </TableCell> */}
+                  <TableCell align="center">{`${item.staff.lastName} ${item.staff.firstName}`}</TableCell>
+                  {/* <TableCell align="center">Gross To Net</TableCell> */}
+                  <TableCell align="center">
+                    <ChipCustome status="payment">
+                      {moment(item.startDate).format("DD-MM-YYYY")}
+                    </ChipCustome>
+                  </TableCell>
+                  <TableCell align="center">
+                    <ChipCustome status="payment">
+                      {moment(item.endDate).format("DD-MM-YYYY")}
+                    </ChipCustome>
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.salaryType === 'Gross To Net' &&
+                      <ChipCustome status="approved">{item.salaryType}</ChipCustome>}
+                    {item.salaryType === 'Net To Gross' &&
+                      <ChipCustome status="waiting">{item.salaryType}</ChipCustome>}
+                  </TableCell>
+                  <TableCell align="center">
+                    <ChipCustome status="withdrawn">
+                      {item.salary.toLocaleString()}
+                    </ChipCustome>
+                  </TableCell>
+                  <TableCell align="center">
+                    <ChipCustome status="withdrawn">
+                      {item.taxableSalary.toLocaleString()}
+                    </ChipCustome>
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.noOfDependences}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.contractStatus === true ? (
+                      <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
+                    ) : (
+                      <ChipCustome status="rejected">Hết Hạn</ChipCustome>
+                    )
+                    }
+                  </TableCell>
+                  <TableCell align="center">
+                    {allowances.toLocaleString()}
+                  </TableCell>
+                  <TableCell align="center">
+                    {moment(item.createAt).format("DD-MM-YYYY")}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item.note}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+            {/* {contracts.map((contract) => (
               <StyledTableRow
                 key={contract.staffId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -187,10 +261,10 @@ export default function ContractList() {
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
+            ))} */}
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </Box>
   );
 }

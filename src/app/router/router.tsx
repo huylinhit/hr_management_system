@@ -78,12 +78,13 @@ import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
 import ChipCustome from "../components/Custom/Chip/ChipCustome";
 import MyPayroll from "../../features/payslip/component/MyPayroll";
 import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
+import TypeCustome from "../components/Custom/Type/TypeCustome";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
 
 const PrivateRoute = ({ path, element }: any) => {
-  const { user } = useAppSelector((state) => state.account);
+  const { user } = useAppSelector(state => state.account);
   const navigate = useNavigate();
   if (!user) {
     return element;
@@ -102,6 +103,7 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       
       { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome>},
+      { path: "/type", element: <TypeCustome typeId={3}>Làm thêm ngày nghỉ và ngày lễ</TypeCustome>},
       { path: "/my-overtime", element: <ViewMyOvertime /> },
 
       //HR Staff routes 

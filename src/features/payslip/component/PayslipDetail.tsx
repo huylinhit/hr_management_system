@@ -43,7 +43,7 @@ function PayslipDetail() {
 
     //log Ot 
     const logots = useAppSelector(logOvertimeSelectors.selectAll);
-    const { logOtLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
+    const { logOtsLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
 
     console.log("LogOTs:", logots);
 
@@ -109,9 +109,9 @@ function PayslipDetail() {
 
     //useEffect Log Ot
     useEffect(() => {
-        if (!logOtLoaded)
+        if (!logOtsLoaded)
             dispatch(fetchLogOtsAsync());
-    }, [logOtLoaded]);
+    }, [logOtsLoaded]);
 
     //useEffect Log Leave
     useEffect(() => {

@@ -3,6 +3,12 @@ import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
 import { LogOt } from "../../app/models/logOt";
 
+interface LogOvertimeState {
+    logOtsLoaded: boolean;
+    filtersLoaded: boolean;
+    status: string;
+    logOtAdded: boolean;
+}
 
 const logOvertimesAdapter = createEntityAdapter<LogOt>({
     selectId: logot => logot.otLogId
@@ -43,11 +49,18 @@ export const fetchLogOtsStaffAsync = createAsyncThunk<LogOt[], number>(
 
 export const logotSlice = createSlice({
     name: 'logot',
-    initialState: logOvertimesAdapter.getInitialState({
-        logOtLoaded: false,
-        status: 'idle'
+    initialState: logOvertimesAdapter.getInitialState<LogOvertimeState>({
+        filtersLoaded: false,
+        logOtsLoaded: false,
+        status: 'idle',
+        logOtAdded: false,
     }),
-    reducers: {},
+    reducers: {
+        setLogOvertimeAdded: (state, action) => {
+            console.log("Initial State: ", state.logOtAdded)
+            state.logOtAdded = action.payload;
+        },
+    },
     extraReducers: (builder => {
         //list
         builder.addCase(fetchLogOtsAsync.pending, (state) => {
@@ -56,7 +69,7 @@ export const logotSlice = createSlice({
         builder.addCase(fetchLogOtsAsync.fulfilled, (state, action) => {
             logOvertimesAdapter.setAll(state, action.payload)
             state.status = 'idle';
-            state.logOtLoaded = true;
+            state.logOtsLoaded = true;
         });
         builder.addCase(fetchLogOtsAsync.rejected, state => {
             state.status = 'idle';
@@ -70,7 +83,7 @@ export const logotSlice = createSlice({
             console.log("Here: ", action.payload);
             logOvertimesAdapter.setAll(state, action.payload)
             state.status = 'idle';
-            state.logOtLoaded = true;
+            state.logOtsLoaded = true;
         });
         builder.addCase(fetchLogOtsStaffAsync.rejected, state => {
             state.status = 'idle';
@@ -83,12 +96,14 @@ export const logotSlice = createSlice({
         builder.addCase(fetchLogOtAsync.fulfilled, (state, action) => {
             logOvertimesAdapter.upsertOne(state, action.payload)
             state.status = 'idle';
-            state.logOtLoaded = true;
+            state.logOtsLoaded = true;
         });
         builder.addCase(fetchLogOtAsync.rejected, state => {
             state.status = 'idle';
         })
     })
 })
+
+export const { setLogOvertimeAdded } = logotSlice.actions;
 
 export const logOvertimeSelectors = logOvertimesAdapter.getSelectors((state: RootState) => state.logot);

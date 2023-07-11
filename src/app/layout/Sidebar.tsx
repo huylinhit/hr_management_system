@@ -287,7 +287,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "leave-list" })}
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
-                      to="/myleavelist"
+                      to="/myleaves"
                     >
                       <ListItemIcon
                         className={cx("list-item-content")}
@@ -351,7 +351,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn tăng của nhân viên"
+                        primary="Đơn tăng ca của nhân viên"
                       />
                     </ListItemButton>
 

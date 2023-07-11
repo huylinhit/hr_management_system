@@ -71,12 +71,11 @@ function ViewMyOvertime() {
     const list = useAppSelector(logOvertimeSelectors.selectAll);
     const { user } = useAppSelector(state => state.account);
     console.log("User ne: ", user?.userInfor.staffId);
-    const { logOtLoaded, status } = useAppSelector(state => state.logot);
+    const { logOtAdded, logOtsLoaded, status } = useAppSelector(state => state.logot);
     useEffect(() => {
-        if (!logOtLoaded)
+        if (!logOtsLoaded)
             dispatch(fetchLogOtsStaffAsync(user?.userInfor.staffId!));
-    }, [dispatch, logOtLoaded]);
-
+    }, [dispatch, logOtAdded, logOtsLoaded]);
     if (status.includes('pending')) return <LoadingComponent message="Đang tải đơn làm thêm" />
 
     return (

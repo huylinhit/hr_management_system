@@ -18,6 +18,7 @@ import {
   Chip,
   Box,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { ReactNode, useEffect, useState } from "react";
 import { BorderColor } from "@mui/icons-material";
 import { CiCircleMore } from "react-icons/ci";
@@ -37,6 +38,9 @@ import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import styles from '../payslip/component/payslip.module.scss';
 import classNames from "classnames/bind";
+import TypeCustome from "../../app/components/Custom/Type/TypeCustome";
+import CreateLeaveForm from "../detail_leavelog/CreateLeaveForm";
+import CreateOvertimeForm from "./CreateOvertime2";
 
 const cx = classNames.bind(styles);
 
@@ -82,13 +86,24 @@ function ViewOvertimeLog() {
     setOpen(false);
   };
 
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
   const dispatch = useAppDispatch();
   const list = useAppSelector(logOvertimeSelectors.selectAll);
-  const { logOtLoaded, status } = useAppSelector(state => state.logot);
+  const { logOtAdded, logOtsLoaded, status } = useAppSelector(state => state.logot);
   useEffect(() => {
-    if (!logOtLoaded)
+    if (!logOtsLoaded ){
       dispatch(fetchLogOtsAsync());
-  }, [dispatch, logOtLoaded]);
+    }
+  }, [dispatch, logOtsLoaded]);
+  
 
   if (status.includes('pending')) return <LoadingComponent message="Đang tải đơn làm thêm" />
 
@@ -115,7 +130,7 @@ function ViewOvertimeLog() {
             </Grid>
           </Grid>
           <Grid item xs={10}>
-            <div>
+            {/* <div>
               <Button variant="contained" onClick={handleClickOpen}>
                 + Tạo đơn tăng ca
               </Button>
@@ -124,7 +139,17 @@ function ViewOvertimeLog() {
                 handleChange={handleChange}
                 handleClose={handleClose}
               />
-            </div>
+            </div> */}
+            <Button
+              variant="contained"
+              sx={{ fontWeight: "bold", textTransform: "none", color: "#FFF" }}
+              disableElevation={true}
+              startIcon={<AddIcon />}
+              onClick={handleOpenDialog}
+            >
+              Tạo đơn mới
+            </Button>
+            <CreateOvertimeForm isOwn={true} open={open} onClose={handleCloseDialog} />
           </Grid>
         </Grid>
 

@@ -53,7 +53,6 @@ function ChipCustome({ status, children}: Props) {
                 break;
             }
     }
-    console.log(activeStatus);
 
     return (
         <div className={cx("wrapper")}>
