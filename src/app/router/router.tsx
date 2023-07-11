@@ -74,6 +74,7 @@ import EditInfo from "../../features/edit_employee/component/EditInfo";
 
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
+ 
 import OtherLeaveList from "../../features/detail_leavelog/OtherLeaveList";
 import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 
