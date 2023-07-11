@@ -167,6 +167,7 @@ export default function Sidebar() {
                   <ListItemButton onClick={handleOpenStaff}>
                     <ListItemText primaryTypographyProps={{ ...headerStyle }} primary="NHÂN VIÊN" />
                     {openStaff ? <ExpandLess /> : <ExpandMore />}
+
                   </ListItemButton>
                   <Collapse in={openStaff} timeout="auto" unmountOnExit>
                     <ListItemButton

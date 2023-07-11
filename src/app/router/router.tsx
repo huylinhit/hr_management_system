@@ -72,6 +72,9 @@ import { useAppSelector } from "../store/configureStore";
 import StaffList from "../../features/employee/StaffList";
 import EditInfo from "../../features/edit_employee/component/EditInfo";
 
+import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
+import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
+
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -82,8 +85,7 @@ const PrivateRoute = ({ path, element }: any) => {
   if (!user) {
     return element;
   } else {
-    navigate("/departments"); // Redirect to home page if not authenticated
-    return null;
+    return <Navigate to="/departments" replace={true} />;
   }
 };
 
@@ -210,9 +212,13 @@ export const router = createBrowserRouter([
       { path: "/myleavetime", element: <MyViewLeavetime /> },
 
       // Leave
-      { path: "/leavelist", element: <MyLeavetime /> },
+
+      { path: "/myleaves", element: <MyLeaveList /> },
+      { path: "/myleaves/:id", element: <MyLeaveDetails /> },
+      { path: "/myleavelist", element: <MyLeavetime /> },
       { path: "/detail-leave-log/:id", element: <DetailLeave /> },
-      { path: "/detail-own-leave-log/:id", element: <DetailOwnLeave /> },
+      { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
+    
 
       // Ticket
       { path: "/viewothertypes", element: <ViewOtherTypes /> },

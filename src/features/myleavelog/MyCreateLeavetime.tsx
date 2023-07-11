@@ -1,5 +1,21 @@
 import { ThemeProvider } from "@emotion/react";
-import { createTheme, responsiveFontSizes, Dialog, DialogTitle, DialogContent, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Container, DialogActions, Button } from "@mui/material";
+import {
+  createTheme,
+  responsiveFontSizes,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Grid,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Container,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import { LocalizationProvider, DateRangePicker } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import axios from "axios";
@@ -7,16 +23,17 @@ import { url } from "inspector";
 import { useEffect } from "react";
 
 const headerStyle = {
-    fontWeight: 'bold'
-}
+  fontWeight: "bold",
+};
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 const styles = {
-    borderBottom: '1px solid rgba(0, 0, 0)',
-    marginBottom: '20px',
+  borderBottom: "1px solid rgba(0, 0, 0)",
+  marginBottom: "20px",
 };
 function MyCreateLeavetime({ open, handleClose, handleChange }: any) {
+
     
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -84,6 +101,7 @@ function MyCreateLeavetime({ open, handleClose, handleChange }: any) {
             </DialogActions>
         </Dialog>
     );
+
 }
 
 export default MyCreateLeavetime;

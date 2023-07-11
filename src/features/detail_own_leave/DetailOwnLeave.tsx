@@ -11,12 +11,15 @@ import DetailLeaveFooter from "./component/DetailLeaveFooter";
 import {LEAVETYPE, STAFF} from "../../app/store/data";
 
 // api
+
 import { Employee } from "../../app/models/employee";
+
 import { LeaveLog } from "../../app/models/leaveLog";
 import axios from "axios";
 
 export default function DetailOwnLeave() {
   // -------------------------- VAR -----------------------------
+
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -43,6 +46,7 @@ export default function DetailOwnLeave() {
 
   // -------------------------- MAIN ----------------------------
   return (
+
     <>
     {logLeave &&(
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
