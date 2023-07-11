@@ -44,6 +44,7 @@ import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateLeaveForm from "./CreateLeaveForm";
 import { ToastContainer } from "react-toastify";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -150,11 +151,11 @@ export default function MyLeaveList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* <CandidateAvatar
-              candidateId={staffId}
-              candidateName={staffName}
-              color={staffNameColor}
-            /> */}
+            <AvatarCustome
+              id={params.row.staffId}
+              name={staffName}
+              dependency={logleavesLoaded}
+            />
             <Typography>{staffName}</Typography>
           </Box>
         );
@@ -405,38 +406,13 @@ export default function MyLeaveList() {
     }).format(value.value);
     return <span>{formattedValue}</span>;
   }
-  // function CandidateAvatar(candidate: any) {
-  //   const [avatarUrl, setAvatarUrl] = useState("");
-  //   const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-  //   useEffect(() => {
-  //     getDownloadURL(storageRef)
-  //       .then((url) => {
-  //         setAvatarUrl(url);
-  //       })
-  //       .catch((error) => {});
-  //   }, [logleavesLoaded]);
-  //   return (
-  //     <Avatar
-  //       sx={{
-  //         width: 34,
-  //         height: 34,
-  //         marginRight: 2,
-  //         fontSize: "14px",
-  //         bgcolor: "#BFBFBF",
-  //         display: "flex",
-  //         alignItems: "center", // Center the content vertically
-  //         justifyContent: "center", // Center the content horizontally
-  //         textAlign: "center", // Center the text horizontally
-  //       }}
-  //       src={avatarUrl}
-  //       alt=""
-  //     >
-  //       {candidate.candidateName.charAt(0)}
-  //     </Avatar>
-  //   );
-  // }
   const [gridHeight, setGridHeight] = useState(0);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.account);
+  const myLogLeaves = logLeaves.filter(
+    (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId 
+
+  );
   const dispatch = useAppDispatch();
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
@@ -459,7 +435,7 @@ export default function MyLeaveList() {
     };
   }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của tôi", path: "/myleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -481,7 +457,7 @@ export default function MyLeaveList() {
   console.log(logLeaves);
   useEffect(() => {
     if (logleavesLoaded) {
-      setRows(logLeaves);
+      setRows(myLogLeaves);
     }
   }, [logleavesLoaded, logLeaves]);
 

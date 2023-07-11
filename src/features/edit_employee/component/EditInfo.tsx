@@ -41,7 +41,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { fetchUserInforAsync, userInforSelectors } from "../../department/userInforSlice";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase";
 import agent from "../../../app/api/agent";
 import { ToastContainer, toast } from "react-toastify";
@@ -291,7 +291,7 @@ export default function EditInfo() {
     if (userInfor) {
       dispatch(
         setHeaderTitle([
-          { title: "Toàn bộ ứng viên", path: "/candidates" },
+          { title: "Danh sách nhân viên", path: "/staffs" },
           { title: `${userInfor.lastName} ${userInfor.firstName}`, path: "" },
         ])
       );
@@ -321,6 +321,15 @@ export default function EditInfo() {
       setAccountStatus(userInfor.accountStatus);
     }
   }, [userInfor]);
+  
+  useEffect(() => {
+    getDownloadURL(avatarStorageRef)
+      .then((url) => {
+        setAvatarUrl(url);
+      })
+      .catch((error) => {});
+  }, [userInfor]);
+  
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
@@ -502,7 +511,7 @@ export default function EditInfo() {
             agent.StaffSkill.create(staffSkillCreate);
           }
         });
-        //handleUploadImage();
+        handleUploadImage();
         console.log("Candidate updated successfully: ", response);
         toast.success("Cập nhật nhân viên thành công 😊");
         //  dispatch(setCandidateUpdated(true));
@@ -519,7 +528,6 @@ export default function EditInfo() {
   }
   return (
     <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
-      <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
       <input
         type="file"
         ref={avatarInputRef}
@@ -591,7 +599,7 @@ export default function EditInfo() {
       </Grid>
       <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
       <Grid>
-      <Typography
+        <Typography
           sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
         >
           Liên lạc
@@ -787,7 +795,7 @@ export default function EditInfo() {
       <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "20px", mb: "20px" }}></Box>
 
       <Grid>
-      <Typography
+        <Typography
           sx={{ fontWeight: 700, fontSize: 25, fontFamily: "Mulish", color: "#007FFF", mb: "10px" }}
         >
           Kỹ năng
@@ -829,7 +837,7 @@ export default function EditInfo() {
               </Box>
             ))
           ) : (
-            <Typography>No skills available</Typography>
+            <></>
           )}
         </>
       )}

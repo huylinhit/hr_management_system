@@ -19,6 +19,7 @@ import {
   LinearProgress,
   IconButton,
   Tooltip,
+  Avatar,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
@@ -48,6 +49,9 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import moment from "moment";
 import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+import { storage } from "../../firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { deepPurple } from "@mui/material/colors";
 
 const fontStyle = "Mulish";
 const navStyle = {
@@ -138,7 +142,7 @@ export default function StaffList() {
       //fullName
       field: "fullName",
       headerName: "Tên Nhân Viên",
-      width: 200,
+      width: 250,
       editable: true,
       headerClassName: "custom-header-text",
       renderHeader: () => (
@@ -148,6 +152,17 @@ export default function StaffList() {
           <div>Tên Nhân Viên</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        const staffId = params.row.staffId;
+        const staffName = params.row.fullName;
+
+        return (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <CandidateAvatar candidateId={staffId} candidateName={staffName} />
+            <Typography>{params.value}</Typography>
+          </Box>
+        );
+      },
     },
     {
       field: "departmentName",
@@ -316,6 +331,33 @@ export default function StaffList() {
       ),
     },
   ];
+  function CandidateAvatar(candidate: any) {
+    const [avatarUrl, setAvatarUrl] = useState("");
+    const storageRef = ref(storage, `staffsAvatar/${candidate.candidateId}`);
+    useEffect(() => {
+      getDownloadURL(storageRef)
+        .then((url) => {
+          setAvatarUrl(url);
+        })
+        .catch((error) => {});
+    }, [userInforsLoaded]);
+    return (
+      <Avatar
+        // variant="rounded"
+        sx={{
+          width: 32,
+          height: 32,
+          marginRight: 2,
+          fontSize: "14px",
+          bgcolor: deepPurple[500],
+        }}
+        src={avatarUrl}
+        alt=""
+      >
+        {candidate.candidateName.charAt(0)}
+      </Avatar>
+    );
+  }
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
   const location = useLocation();

@@ -28,7 +28,6 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
-import "../../app/layout/App.css";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
@@ -265,7 +264,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
       dispatch(
         setHeaderTitle([
           { title: "Đơn nghỉ của nhân viên", path: "/othersleaves" },
-          { title: "Chỉnh sửa đơn", path: "" },
+          { title: `Phản hồi đơn`, path: "" },
         ])
       );
     }
@@ -377,7 +376,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
           <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
-            Đơn của {`${logLeave?.staff.firstName} ${logLeave?.staff.lastName}`}
+            Đơn của {`${logLeave?.staff.lastName} ${logLeave?.staff.firstName}`}
           </Typography>
           <Box display={"flex"} alignItems={"flex-end"}>
             {logLeave?.enable ? (
@@ -435,7 +434,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          // defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
           disabled={true}
         />
 
