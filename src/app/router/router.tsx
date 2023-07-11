@@ -75,6 +75,9 @@ import EditInfo from "../../features/edit_employee/component/EditInfo";
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
 
+import ChipCustome from "../components/Custom/Chip/ChipCustome";
+import MyPayroll from "../../features/payslip/component/MyPayroll";
+import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -97,6 +100,9 @@ export const router = createBrowserRouter([
       //Login dont need to Authen or Author
       { path: "login", element: <Login /> },
       { path: "/", element: <HomePage /> },
+      
+      { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome>},
+      { path: "/my-overtime", element: <ViewMyOvertime /> },
 
       //HR Staff routes 
       {
@@ -136,11 +142,12 @@ export const router = createBrowserRouter([
 
           // Overtime
           { path: "/viewot", element: <ViewOvertimeLog /> },
+          { path: "/my-overtime", element: <ViewMyOvertime /> },
           { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
           { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
 
           //MyOT
-          { path: "/myovertime", element: <MyViewOvertime /> },
+          // { path: "/myovertime", element: <MyViewOvertime /> },
 
           //MyLeavetime
           { path: "/myleavetime", element: <MyViewLeavetime /> },
@@ -172,6 +179,8 @@ export const router = createBrowserRouter([
         ]
       },
       { path: "/", element: <HomePage /> },
+      { path: "/my-payroll", element: <MyPayroll /> },
+
 
       //Staff routes 
       // {
@@ -212,7 +221,6 @@ export const router = createBrowserRouter([
       { path: "/myleavetime", element: <MyViewLeavetime /> },
 
       // Leave
-
       { path: "/myleaves", element: <MyLeaveList /> },
       { path: "/myleaves/:id", element: <MyLeaveDetails /> },
       { path: "/myleavelist", element: <MyLeavetime /> },

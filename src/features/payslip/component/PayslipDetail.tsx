@@ -16,8 +16,8 @@ import moment from "moment";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Allowance } from "../../../app/models/allowance";
 import { fetchLogOtsAsync, logOvertimeSelectors } from "../../overlog/overtimeSlice";
-import { Contract } from "../../../app/models/contract";
 import { contractSelectors, fetchContractValidDetailASync } from "../../../app/store/contract/contractSlice";
+import Contract from "../../../app/models/contract";
 
 function PayslipDetail() {
     const { payslipId, staffId } = useParams();

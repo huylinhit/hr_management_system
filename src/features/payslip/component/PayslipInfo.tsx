@@ -1,7 +1,7 @@
 import { Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from "@mui/material";
 import { useAppSelector } from "../../../app/store/configureStore";
 import { Staff } from "../../../app/models/staff";
-import { Contract } from "../../../app/models/contract";
+import Contract from "../../../app/models/contract";
 
 
 interface Props {

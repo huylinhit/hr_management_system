@@ -17,7 +17,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import moment from "moment";
-import "../../app/layout/App.css";
 import { deepPurple } from "@mui/material/colors";
 import { candidatesSelectors, fetchCandidateAsync } from "./candidateSlice";
 import { storage } from "../../firebase";

@@ -28,8 +28,6 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
-import "../../app/layout/App.css";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -363,12 +361,12 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           disabled={true}
         />
 
-        <InforRow
+        {/* <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
           defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
           disabled={true}
-        />
+        /> */}
 
         <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
           <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
