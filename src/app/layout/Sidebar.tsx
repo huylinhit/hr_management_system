@@ -220,9 +220,9 @@ export default function Sidebar() {
                       </ListItemIcon>
                       <ListItemText
                         className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Phòng ban"
-                      />
+
+                        primaryTypographyProps={{ ...listItemStyle }} primary="Phòng Ban" />
+
                     </ListItemButton>
 
                     <ListItemButton
@@ -243,7 +243,9 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Danh sách nhân viên"
+
+                        primary="Toàn Bộ Nhân Viên"
+
                       />
                     </ListItemButton>
 
@@ -260,7 +262,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Tạo nhân viên mới"
+                        primary="Tạo Nhân Viên Mới"
                       />
                     </ListItemButton>
                   </Collapse>
@@ -287,7 +289,9 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "leave-list" })}
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
-                      to="/othersleaves"
+
+                      to="/leave-list"
+
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
@@ -296,7 +300,9 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn nghỉ của nhân viên"
+
+                        primary="Đơn Nghỉ Phép Nhân Viên"
+
                       />
                     </ListItemButton>
 
@@ -304,7 +310,9 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "myleavelist" })}
                       onClick={() => handleActiveClick("myleavelist")}
                       component={Link}
-                      to="/myleaves"
+
+                      to="/own-leave-list"
+
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
@@ -312,7 +320,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn nghỉ phép của tôi"
+                        primary="Đơn Nghỉ Phép Của Tôi"
                       />
                     </ListItemButton>
                   </List>
@@ -336,7 +344,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "overtime-list" })}
                       onClick={() => handleActiveClick("overtime-list")}
                       component={Link}
-                      to="/viewot"
+                      to="/list-overtime"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
@@ -344,7 +352,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn tăng ca của nhân viên"
+                        primary="Đơn Tăng Ca Nhân Viên"
                       />
                     </ListItemButton>
 
@@ -352,7 +360,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "my-overtime-list" })}
                       onClick={() => handleActiveClick("my-overtime-list")}
                       component={Link}
-                      to="/viewot"
+                      to="/own-list-overtime"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
@@ -360,7 +368,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn tăng ca của tôi"
+                        primary="Đơn Tăng Ca Của Tôi"
                       />
                     </ListItemButton>
                   </List>
@@ -392,7 +400,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Toàn bộ ứng viên"
+                        primary="Toàn Bộ Ứng Viên"
                       />
                     </ListItemButton>
                   </Collapse>
@@ -424,7 +432,7 @@ export default function Sidebar() {
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Danh sách đơn khác"
+                      primary="Danh Sách Đơn Khác"
                     />
                   </ListItemButton>
 
@@ -441,7 +449,7 @@ export default function Sidebar() {
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn khác của tôi"
+                      primary="Đơn Khác Của Tôi"
                     />
                   </ListItemButton>
                 </Collapse>
@@ -470,7 +478,7 @@ export default function Sidebar() {
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Danh sách lương nhân viên"
+                      primary="Lương Nhân Viên"
                     />
                   </ListItemButton>
                 </Collapse>
@@ -500,7 +508,7 @@ export default function Sidebar() {
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Danh sách hợp đồng"
+                      primary="Hợp Đồng Nhân Viên"
                     />
                   </ListItemButton>
                 </Collapse>

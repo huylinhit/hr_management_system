@@ -9,7 +9,10 @@ import moment from "moment";
 import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
 import styles from './payslip.module.scss';
 import classNames from "classnames/bind";
+import AddIcon from "@mui/icons-material/Add";
 import CreatePayslipDialog from "./CreatePayslipDialog";
+import CreatePayslipMainForm from "./CreatePayslipMainForm";
+import { fetchUserInforsAsync, userInforSelectors } from "../../department/userInforSlice";
 
 const cx = classNames.bind(styles);
 
@@ -18,23 +21,28 @@ function Payroll() {
     const payslips = useAppSelector(payslipSelectors.selectAll);
     const { payslipsLoaded, status } = useAppSelector(state => state.payslip);
     const [open, setOpen] = useState(false);
-
+    const users = useAppSelector(userInforSelectors.selectAll);
+    const {userInforsLoaded, status: userInforLoaded} = useAppSelector(state => state.userInfor);
 
     useEffect(() => {
         if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
     }, [payslipsLoaded]);
 
+    useEffect(() =>{
+        if(!userInforLoaded)
+            dispatch(fetchUserInforsAsync());
+    },[userInforLoaded])
+
+
     if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
 
-    const handleClickOpen = () => {
+    const handleOpenDialog = () => {
         setOpen(true);
     };
 
-
-    const handleClose = () => {
+    const handleCloseDialog = () => {
         setOpen(false);
     };
-
 
     return (
 
@@ -60,12 +68,15 @@ function Payroll() {
                 </Grid>
                 <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
                     <Button
-                        onClick={handleClickOpen}
-                        variant="contained">
-                        Tạo bảng lương
+                        variant="contained"
+                        sx={{ fontWeight: "bold", textTransform: "none", color: "#FFF" }}
+                        disableElevation={true}
+                        startIcon={<AddIcon />}
+                        onClick={handleOpenDialog}
+                    >
+                        Tạo Bảng Lương
                     </Button>
-                    <CreatePayslipDialog open={open} handleClose={handleClose} />
-
+                    <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
                 </Grid>
             </Grid>
 
@@ -77,20 +88,23 @@ function Payroll() {
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>MSNV</TableCell>
                             {/* <TableCell align="center"  sx={{fontWeight: "bold"}}>Ảnh</TableCell> */}
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Tên</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross thỏa thuận</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross thực tế</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross Thỏa Thuận</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Gross Thực Tế</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Net Thỏa Thuận</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Net Thực Tế</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Trạng Thái</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Bảo Hiểm Công Ty</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Công ty chi trả</TableCell>
-                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Thời gian tạo</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Công Ty Chi Trả</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Phòng ban</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: "bold" }}>Thời Gian Tạo</TableCell>
                             <TableCell align="center" sx={{ fontWeight: "bold" }}>Chi Tiết</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {payslips?.map(item => {
                             const date = new Date(item.changeAt);
+                            const currentUserInfor = users.find(c => c.staffId === item.staffId);
+                            
                             return (
                                 <TableRow
                                     key={item.payslipId}
@@ -154,6 +168,9 @@ function Payroll() {
                                             {item.totalCompPaid.toLocaleString()}
                                         </ChipCustome>
                                     </TableCell>
+                                    <TableCell align="center">
+                                        {currentUserInfor?.departmentName}
+                                        </TableCell>
                                     <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
 
                                     <TableCell align="center">
