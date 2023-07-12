@@ -504,15 +504,6 @@ export default function MyTicketList() {
             >
               Tạo đơn mới
             </Button>
-            {/* <Button
-              variant="contained"
-              //  sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
-              startIcon={<AddIcon />}
-              onClick={handleOpenDialog}
-            >
-              Tạo đơn mới
-            </Button> */}
           </Grid>
 
           <CreateTicketForm open={open} onClose={handleCloseDialog} />
@@ -520,13 +511,40 @@ export default function MyTicketList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <DatagridCustome
-        rows={rows}
-        columns={columns}
-        dependency1={!ticketsLoaded}
-        dependency2={ticketAdded}
-      />
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
+        <DataGrid
+          autoHeight
+          density="standard"
+          getRowId={(row: any) => row.ticketId}
+          sx={{
+            height: 700,
+            //border: "none",
+            color: "#000000",
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
+          }}
+          slots={{
+            loadingOverlay: LinearProgress,
+            //toolbar: CustomToolbar,
+          }}
+          loading={!ticketsLoaded || ticketAdded}
+          rows={rows}
+          columns={columns}
+          //showCellVerticalBorder
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 20,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+        />
+      </Box>
     </>
   );
 }
-  
