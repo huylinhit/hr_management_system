@@ -41,8 +41,8 @@ const rightLinks = [
 ];
 const fontStyle = "Mulish";
 const navStyle = {
-  fontSize: 20,
-  fontWeight: 700,
+  fontSize: 18,
+  fontWeight: 600,
   fontFamily: fontStyle,
   textTransform: "none",
   color: "#333333",
@@ -71,6 +71,11 @@ export default function Header({ pageTitle }: Props) {
   }, [avatarUrl, dispatch]);
   return (
     <Box
+      position="fixed" // Fix the position of the header
+      top={0} // Position it at the top of the viewport
+      left={0} // Position it at the left side
+      right={0} // Position it at the right side
+      zIndex={1} // Set a higher z-index to make sure it appears above other elements
       display={"flex"}
       alignItems={"center"}
       justifyContent={"space-between"}
@@ -79,8 +84,9 @@ export default function Header({ pageTitle }: Props) {
         backgroundColor: "#FFFFFF",
         opacity: "100%",
         width: `calc(100% - ${325}px)`,
-        ml: `${325}px`,
-        mt: "5px",
+        ml: `${320}px`,
+        boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)", // Add shadow effect
+
         height: "48px",
         pl: "10px",
         pr: "10px",
