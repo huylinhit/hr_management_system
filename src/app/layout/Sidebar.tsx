@@ -104,7 +104,7 @@ export default function Sidebar() {
   const handleOpenOT = () => {
     setOpenOT(!openOT);
   };
-  
+
   const handleOpenContract = () => {
     setOpenContract(!openContract);
   };
@@ -143,7 +143,8 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: "border-box",
             // backgroundColor: "#F7F7F7",
-            background: "#f9f9f9",
+            // background: "#f9f9f9",
+            background: "#FFF"
           },
         }}
         variant="permanent"

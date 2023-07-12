@@ -53,12 +53,17 @@ function PayslipDetail() {
             const end = moment(c.logEnd).month() + 1;
             const now = moment(date).month() + 1
 
+            console.log("Start: ", start);
+            console.log("End: ", end);
+            console.log("Now: ", now);
+
             console.log("now: ", now);
             return c.staffId === parseInt(staffId!) &&
                 c.status === 'approved' &&
                 start <= now &&
                 now <= end;
         })
+        console.log(logotsStaff);
 
     const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
     const totalLogotDays = logotsStaff

@@ -103,6 +103,7 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function MyLeaveList() {
+
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
@@ -421,6 +422,10 @@ export default function MyLeaveList() {
   const [gridHeight, setGridHeight] = useState(0);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const dispatch = useAppDispatch();
+  const leaveDayDetail = useAppSelector(state => state.leaveDayDetail);
+ 
+
+
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
   );
