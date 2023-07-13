@@ -50,7 +50,7 @@ const headerStyle = {
   // color: "#000",
   fontWeight: 700,
   fontFamily: "Mulish",
-  fontSize: 14,
+  fontSize: 13,
 };
 const listItemStyle = {
   // color: "#6A6A78",
@@ -286,6 +286,7 @@ export default function Sidebar() {
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
                       to="/leave-list"
+
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />

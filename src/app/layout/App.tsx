@@ -47,7 +47,7 @@ function App() {
       {location.pathname !== "/" && location.pathname !== "/login" && <Sidebar />} <CssBaseline />
       <Box
         sx={{
-          mt: 0,
+          pt: '70px',
           ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 39 : 0) : 0,
           backgroundColor: "#FFFFFF",
         }}

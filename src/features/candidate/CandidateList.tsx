@@ -462,7 +462,7 @@ export default function OtherUsersTicketList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container spacing={0} alignContent="center">
         </Grid>
         <Grid container justifyContent={"space-between"}>
@@ -524,18 +524,21 @@ export default function OtherUsersTicketList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
+          autoHeight
           density="standard"
           getRowId={(row: any) => row.candidateId}
-          autoHeight
           sx={{
-            border: "none",
+            height: 700,
+            //border: "none",
+            color: "#000000",
             fontSize: 16,
             fontWeight: 550,
-            fontFamily: fontStyle,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
-          showCellVerticalBorder
           slots={{
             loadingOverlay: LinearProgress,
             //toolbar: CustomToolbar,
@@ -543,10 +546,11 @@ export default function OtherUsersTicketList() {
           loading={!candidatesLoaded || candidateAdded}
           rows={rows}
           columns={columns}
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 15,
+                pageSize: 20,
               },
             },
           }}
