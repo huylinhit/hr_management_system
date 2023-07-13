@@ -46,6 +46,7 @@ import CreateTicketForm from "./CreateTicketForm";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
 
 function CustomToolbar() {
   return (
@@ -64,17 +65,11 @@ const headerStyle = {
   fontSize: 15,
 };
 const fontStyle = "Mulish";
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
   fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
+  color: "#36434E",
 };
 const colors = [
   "#34BBE1",
@@ -134,6 +129,11 @@ export default function MyTicketList() {
       field: "ticketId",
       headerName: "ID",
       flex: 100,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          ID
+        </Typography>
+      ),
     },
     {
       field: "staffName",
@@ -158,7 +158,7 @@ export default function MyTicketList() {
               candidateName={staffName}
               color={staffNameColor}
             />
-            <Typography>{params.value}</Typography>
+            <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
       },
@@ -179,8 +179,11 @@ export default function MyTicketList() {
 
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
+              ●
+            </Typography>
+            {/* <span style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>●</span> */}
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {params.value}
             </Typography>
           </Box>
@@ -197,18 +200,23 @@ export default function MyTicketList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
         </Typography>
       ),
-    },
-    {
-      field: "ticketFile",
-      headerName: "File",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
-        </Typography>
+      renderCell: (params) => (
+        <Box>
+          <Typography sx={cellStyle}>{params.value}</Typography>
+        </Box>
       ),
     },
+    // {
+    //   field: "ticketFile",
+    //   headerName: "File",
+    //   width: 250,
+    //   editable: true,
+    //   renderHeader: () => (
+    //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
+    //     </Typography>
+    //   ),
+    // },
     {
       field: "ticketStatus",
       headerName: "Trạng thái",
@@ -288,6 +296,17 @@ export default function MyTicketList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
         </Typography>
       ),
+      renderCell: (params) => (
+        <Box>
+          {params.value ? (
+            <Typography sx={cellStyle}>{params.row.value}</Typography>
+          ) : (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có ghi chú
+            </Typography>
+          )}
+        </Box>
+      ),
     },
     {
       field: "createAt",
@@ -299,7 +318,12 @@ export default function MyTicketList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>
+          {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
+        </Typography>
+      ),
+      // valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
 
     {
@@ -313,7 +337,20 @@ export default function MyTicketList() {
           <div>Thời gian thay đổi</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Box>
+          {params.value ? (
+            <Typography sx={cellStyle}>
+              {moment(params.value).format("MMM Do, YYYY, HH:mm")}
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>
+              {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
+            </Typography>
+          )}
+        </Box>
+      ),
+      //valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
   ];
   function CandidateAvatar(candidate: any) {
@@ -398,7 +435,7 @@ export default function MyTicketList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", pt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -446,11 +483,24 @@ export default function MyTicketList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Tạo đơn mới
             </Button>
@@ -461,18 +511,20 @@ export default function MyTicketList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           autoHeight
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
             height: 700,
-            border: "none",
+            //border: "none",
             color: "#000000",
             fontSize: 16,
             fontWeight: 550,
-            fontFamily: fontStyle,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
           slots={{
             loadingOverlay: LinearProgress,
@@ -481,7 +533,7 @@ export default function MyTicketList() {
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}
           columns={columns}
-          showCellVerticalBorder
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {

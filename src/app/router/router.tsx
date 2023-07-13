@@ -74,7 +74,7 @@ import EditInfo from "../../features/edit_employee/component/EditInfo";
 
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
- 
+
 import OtherLeaveList from "../../features/detail_leavelog/OtherLeaveList";
 import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 
@@ -86,9 +86,8 @@ import DashBoard from "../../features/dashboard/DashBoard";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
-
 const PrivateRoute = ({ path, element }: any) => {
-  const { user } = useAppSelector(state => state.account);
+  const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
   if (!user) {
     return element;
@@ -105,14 +104,18 @@ export const router = createBrowserRouter([
       //Login dont need to Authen or Author
       { path: "login", element: <Login /> },
       { path: "/", element: <HomePage /> },
-      
-      { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome>},
-      { path: "/type", element: <TypeCustome typeId={3}>Làm thêm ngày nghỉ và ngày lễ</TypeCustome>},
+
+      { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome> },
+      {
+        path: "/type",
+        element: <TypeCustome typeId={3}>Làm thêm ngày nghỉ và ngày lễ</TypeCustome>,
+      },
       { path: "/my-overtime", element: <ViewMyOvertime /> },
 
-      //HR Staff routes 
+      //HR Staff routes
       {
-        element: <RequireAuth roles={['HRStaff']} />, children: [
+        element: <RequireAuth roles={["HRStaff"]} />,
+        children: [
           //Dashboard
           { path: "/dashboard", element: <DashBoard /> },
 
@@ -124,7 +127,7 @@ export const router = createBrowserRouter([
 
           // Employee
           { path: "/register", element: <Register /> },
-          { path: '/employeelist', element: <EmployeeList /> },
+          { path: "/employeelist", element: <EmployeeList /> },
           { path: "/detail-employee/:id", element: <DetailEmployee /> },
           { path: "/edit-employee/:id", element: <EditEmployee /> },
 
@@ -134,16 +137,15 @@ export const router = createBrowserRouter([
           { path: "/candidates/:id", element: <CandidateDetails /> },
           { path: "/detailcandidate/:id", element: <Candidate /> },
 
-          // Department 
-          { path: '/departments', element: <DepartmentList /> },
-          { path: '/departments/:id', element: <DepartmentDetails /> },
-          { path: '/staffskills', element: <StaffSkillsList /> },
-          { path: '/deletestaffskill', element: <DeleteStaffSkillFormm /> },
+          // Department
+          { path: "/departments", element: <DepartmentList /> },
+          { path: "/departments/:id", element: <DepartmentDetails /> },
+          { path: "/staffskills", element: <StaffSkillsList /> },
+          { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
           //payslip
-          { path: '/payslips', element: <Payroll /> },
-          { path: '/payslips/:payslipId/staffs/:staffId', element: <PayslipDetail /> },
-
+          { path: "/payslips", element: <Payroll /> },
+          { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
           // Contract
           { path: "/list-contract", element: <ContractList /> },
@@ -167,8 +169,8 @@ export const router = createBrowserRouter([
           { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
 
           // Ticket
-          { path: '/viewothertypes', element: <ViewOtherTypes /> },
-          { path: '/editothertype/:id', element: <EditOtherType /> },
+          { path: "/viewothertypes", element: <ViewOtherTypes /> },
+          { path: "/editothertype/:id", element: <EditOtherType /> },
           { path: "/createtickettype", element: <CreateTicketTypeForm /> },
           { path: "/mytickets", element: <MyTicketList /> },
           { path: "/mytickets/:id", element: <MyTicketDetails /> },
@@ -185,13 +187,12 @@ export const router = createBrowserRouter([
           //Contract
           { path: "/editcontract", element: <EditContract /> },
           // { path: "/contractdetail", element: <ContractDetail /> },
-        ]
+        ],
       },
       { path: "/", element: <HomePage /> },
       { path: "/my-payroll", element: <MyPayroll /> },
 
-
-      //Staff routes 
+      //Staff routes
       // {
       //   element: <RequireAuth roles={['Staff']} />, children: [
 
@@ -207,7 +208,7 @@ export const router = createBrowserRouter([
       // Employee
       { path: "/create-new-employee", element: <AddNewEmployee /> },
       { path: "/staffs", element: <StaffList /> },
-      // { path: "/staffs/:id", element: <EditInfo /> },
+      { path: "/staffs/:id", element: <EditInfo /> },
       { path: "/employeelist", element: <EmployeeList /> },
       { path: "/detail-employee/:id", element: <DetailEmployee /> },
       { path: "/edit-employee/:id", element: <EditEmployee /> },
@@ -228,12 +229,13 @@ export const router = createBrowserRouter([
 
       //MyLeavetime
       // { path: "/myleavetime", element: <MyViewLeavetime /> },
+      { path: "/other-leave-list", element: <OtherLeaveList /> },
       { path: "/leave-list", element: <MyLeaveList /> },
       { path: "/leave-list/:id", element: <MyLeaveDetails /> },
       { path: "/own-leave-list", element: <MyLeavetime /> },
       { path: "/leave-detail/:id", element: <DetailLeave /> },
       { path: "/own-leave-detail", element: <DetailOwnLeave /> },
-    
+
       // Ticket
       { path: "/viewothertypes", element: <ViewOtherTypes /> },
       { path: "/editothertype/:id", element: <EditOtherType /> },

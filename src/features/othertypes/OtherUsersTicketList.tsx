@@ -38,6 +38,7 @@ import { deepPurple } from "@mui/material/colors";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -357,7 +358,7 @@ export default function OtherUsersTicketList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -432,7 +433,7 @@ export default function OtherUsersTicketList() {
             fontWeight: 500,
             fontFamily: fontStyle,
             color: "#000000",
-          }}
+        }}
           slots={{
             loadingOverlay: LinearProgress,
             //toolbar: CustomToolbar,

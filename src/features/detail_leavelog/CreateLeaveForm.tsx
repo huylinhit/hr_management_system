@@ -226,6 +226,7 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
     console.log(startDate);
     console.log(endDate);
     console.log(reason);
+    console.log(currentUser.user?.userInfor.staffId);
     const logLeaveCreate = {
       leaveTypeId: selectedLeaveTypeId,
       leaveStart: startDate,
