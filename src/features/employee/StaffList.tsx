@@ -52,19 +52,29 @@ import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 import { deepPurple } from "@mui/material/colors";
-
+import {
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+} from "@mui/x-data-grid-pro";
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 const fontStyle = "Mulish";
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
   fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
+  color: "#1C2A35",
 };
 const headerStyle = {
   color: "#7C7C7C",
@@ -134,9 +144,10 @@ export default function StaffList() {
       width: 75,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <div>ID</div>
+          ID
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //fullName
@@ -159,7 +170,7 @@ export default function StaffList() {
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <CandidateAvatar candidateId={staffId} candidateName={staffName} />
-            <Typography>{params.value}</Typography>
+            <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
       },
@@ -181,8 +192,10 @@ export default function StaffList() {
 
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
+              ●
+            </Typography>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {params.value}
             </Typography>
           </Box>
@@ -201,6 +214,7 @@ export default function StaffList() {
           <div>Số Điện Thoại</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "gioiTinh",
@@ -266,6 +280,7 @@ export default function StaffList() {
           <div>Email</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //bank
@@ -280,6 +295,7 @@ export default function StaffList() {
           <div>Ngân Hàng</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "dob",
@@ -290,6 +306,11 @@ export default function StaffList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>
+          {moment(params.row.dob).format("MMM Do, YYYY, HH:mm")}
         </Typography>
       ),
     },
@@ -303,6 +324,7 @@ export default function StaffList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
 
     {
@@ -315,6 +337,7 @@ export default function StaffList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //bankAccount
@@ -329,6 +352,7 @@ export default function StaffList() {
           <div>TK Ngân Hàng</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
   ];
   function CandidateAvatar(candidate: any) {
@@ -404,7 +428,7 @@ export default function StaffList() {
   // -------------------------- MAIN ----------------------------
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container spacing={0} alignContent="center"></Grid>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
@@ -451,12 +475,25 @@ export default function StaffList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               component={Link}
               to="/create-new-employee"
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Thêm nhân viên
             </Button>
@@ -466,29 +503,33 @@ export default function StaffList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
+          autoHeight
           density="standard"
           getRowId={(row: any) => row.staffId}
-          autoHeight
           sx={{
-            border: "none",
+            height: 700,
+            //border: "none",
+            color: "#000000",
             fontSize: 16,
             fontWeight: 550,
-            fontFamily: fontStyle,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
-          showCellVerticalBorder
           slots={{
             loadingOverlay: LinearProgress,
-            //toolbar: CustomToolbar,
+            toolbar: CustomToolbar,
           }}
           loading={!userInforsLoaded || userInforAdded}
           rows={rows}
           columns={columns}
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 15,
+                pageSize: 20,
               },
             },
           }}

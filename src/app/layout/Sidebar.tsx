@@ -84,7 +84,7 @@ export default function Sidebar() {
   const { user } = useAppSelector((state) => state.account);
 
   const [avatarUrl, setAvatarUrl] = useState("");
-  const storageRef = ref(storage, `candidatesAvatar/${user?.userInfor.staffId}`);
+  const storageRef = ref(storage, `staffsAvatar/${user?.userInfor.staffId}`);
 
   useEffect(() => {
     getDownloadURL(storageRef)

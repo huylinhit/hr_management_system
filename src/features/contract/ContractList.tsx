@@ -14,12 +14,15 @@ import {
     styled,
     tableCellClasses,
     Container,
+    Box,
+    LinearProgress,
   } from "@mui/material";
   import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
   import { useEffect, useState } from "react";
   import { Link } from "react-router-dom";
   import DeleteIcon from "@mui/icons-material/Delete";
   import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+  import { DataGrid, GridColDef } from "@mui/x-data-grid";
   import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
   import { UserInfor } from "../../app/models/userInfor";
   
@@ -65,6 +68,7 @@ import {
     // -------------------------- STATE ---------------------------
     // -------------------------- REDUX ---------------------------
     const employees = useAppSelector(employeeSelectors.selectAll);
+  
     console.log(employees);
     
     // -------------------------- EFFECT --------------------------
@@ -123,7 +127,40 @@ import {
             </Button>
           </Grid>
         </Grid>
-  
+        {/* <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
+        <DataGrid
+          autoHeight
+          density="standard"
+          getRowId={(row: any) => row.leaveLogId}
+          sx={{
+            height: 700,
+            //border: "none",
+            color: "#000000",
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
+          }}
+          slots={{
+            loadingOverlay: LinearProgress,
+            //toolbar: CustomToolbar,
+          }}
+          loading={!logleavesLoaded || logLeaveAdded}
+          rows={rows}
+          columns={columns}
+          //showCellVerticalBorder
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 20,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+        />
+      </Box> */}
         <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
   

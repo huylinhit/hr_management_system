@@ -83,6 +83,7 @@ import MyPayroll from "../../features/payslip/component/MyPayroll";
 import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
 import TypeCustome from "../components/Custom/Type/TypeCustome";
 import DashBoard from "../../features/dashboard/DashBoard";
+import Contracts from "../../features/list_contract/Contracts";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -148,7 +149,7 @@ export const router = createBrowserRouter([
           { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
           // Contract
-          { path: "/list-contract", element: <ContractList /> },
+          { path: "/list-contract", element: <Contracts /> },
           { path: "/detail-contract/:id", element: <DetailContract /> },
 
           // Overtime
@@ -159,9 +160,6 @@ export const router = createBrowserRouter([
 
           //MyOT
           // { path: "/myovertime", element: <MyViewOvertime /> },
-
-          //MyLeavetime
-          { path: "/myleavetime", element: <MyViewLeavetime /> },
 
           // Leave
           { path: "/myleavelist", element: <MyLeavetime /> },
@@ -214,7 +212,8 @@ export const router = createBrowserRouter([
       { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
-      { path: "/list-contract", element: <ContractList /> },
+      { path: "/list-contract", element: <Contracts /> },
+
       { path: "/detail-contract/:id", element: <DetailContract /> },
       { path: "/edit-contract/:id", element: <EditContract /> },
       { path: "/add-contract/:id", element: <NewContract /> },
@@ -227,8 +226,7 @@ export const router = createBrowserRouter([
 
       //MyOT
 
-      //MyLeavetime
-      // { path: "/myleavetime", element: <MyViewLeavetime /> },
+ 
       { path: "/other-leave-list", element: <OtherLeaveList /> },
       { path: "/leave-list", element: <MyLeaveList /> },
       { path: "/leave-list/:id", element: <MyLeaveDetails /> },

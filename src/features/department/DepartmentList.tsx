@@ -255,7 +255,7 @@ export default function DepartmentList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -303,11 +303,24 @@ export default function DepartmentList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Thêm phòng ban
             </Button>
@@ -325,29 +338,33 @@ export default function DepartmentList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          density="standard"
           autoHeight
+          density="standard"
+          getRowId={(row: any) => row.departmentId}
           sx={{
-            border: "none",
-
+            height: 700,
+            //border: "none",
+            color: "#000000",
             fontSize: 16,
             fontWeight: 550,
-            fontFamily: fontStyle,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
-          showCellVerticalBorder
           slots={{
             loadingOverlay: LinearProgress,
-            // toolbar: CustomToolbar,
+            toolbar: CustomToolbar,
           }}
           loading={!departmentsLoaded}
           rows={rows}
           columns={columns}
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 15,
+                pageSize: 20,
               },
             },
           }}

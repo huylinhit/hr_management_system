@@ -406,11 +406,24 @@ export default function OtherUsersTicketList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Tạo đơn mới
             </Button>
@@ -421,27 +434,29 @@ export default function OtherUsersTicketList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           autoHeight
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
             height: 700,
-            border: "none",
-            fontSize: 16,
-            fontWeight: 500,
-            fontFamily: fontStyle,
+            //border: "none",
             color: "#000000",
-        }}
+            fontSize: 16,
+            fontWeight: 550,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
+          }}
           slots={{
             loadingOverlay: LinearProgress,
-            //toolbar: CustomToolbar,
+            toolbar: CustomToolbar,
           }}
-          showCellVerticalBorder
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}
           columns={columns}
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {
