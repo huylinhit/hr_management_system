@@ -74,7 +74,7 @@ const cellStyle = {
   fontSize: 15,
   fontWeight: 600,
   fontFamily: fontStyle,
-  color: "#1C2A35",
+  color: "#000000",
 };
 const headerStyle = {
   color: "#7C7C7C",

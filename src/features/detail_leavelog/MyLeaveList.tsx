@@ -66,7 +66,7 @@ const cellStyle = {
   fontSize: 15,
   fontWeight: 600,
   fontFamily: fontStyle,
-  color: "#1C2A35",
+  color: "#000000",
 };
 const colors = [
   "#34BBE1",

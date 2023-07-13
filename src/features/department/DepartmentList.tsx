@@ -84,6 +84,12 @@ const headerStyle = {
   fontFamily: "Mulish",
   fontSize: 15,
 };
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
+  fontFamily: "Mulish",
+  color: "#000000",
+};
 const fontStyle = "Mulish";
 export default function DepartmentList() {
   const columns: GridColDef[] = [
@@ -101,6 +107,7 @@ export default function DepartmentList() {
       field: "departmentId",
       headerName: "ID",
       width: 100,
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "departmentName",
@@ -140,7 +147,7 @@ export default function DepartmentList() {
               name={params.row.manager}
               dependency={departmentsLoaded}
             />
-            <Typography>{params.value}</Typography>
+            <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
       },
@@ -158,7 +165,7 @@ export default function DepartmentList() {
       renderCell: (params) => {
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>{params.value}</Typography>
+            <Typography sx={{ ...cellStyle }}>{params.value}</Typography>
           </Box>
         );
       },
@@ -173,6 +180,13 @@ export default function DepartmentList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email quản lý</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Typography sx={{ ...cellStyle }}>{params.value}</Typography>
+          </>
+        );
+      },
     },
     {
       field: "managerPhone",
@@ -184,6 +198,13 @@ export default function DepartmentList() {
           <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Typography sx={{ ...cellStyle }}>{params.value}</Typography>
+          </>
+        );
+      },
     },
   ];
 

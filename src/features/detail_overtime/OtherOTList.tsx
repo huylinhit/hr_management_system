@@ -25,12 +25,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import {
-  fetchCurrentUserTicketsAsync,
-  fetchTicketsAsync,
-  setTicketAdded,
-  ticketsSelectors,
-} from "./ticketSlice";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -42,12 +36,22 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
 import { Ticket } from "../../app/models/ticket";
-import CreateTicketForm from "./CreateTicketForm";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
-import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
 
+import { LogLeave } from "../../app/models/logLeave";
+import NumbersIcon from "@mui/icons-material/Numbers";
+
+import { ToastContainer } from "react-toastify";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import {
+  fetchLogOtsAsync,
+  logOvertimeSelectors,
+  setLogOvertimeAdded,
+} from "../overlog/overtimeSlice";
+import { LogOt } from "../../app/models/logOt";
+import CreateOvertimeForm from "../overlog/CreateOvertime2";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -100,7 +104,7 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function MyTicketList() {
+export default function OtherOTList() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
@@ -118,7 +122,7 @@ export default function MyTicketList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/mytickets/${params.row.ticketId}`}
+          to={`/leave-list/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -126,14 +130,9 @@ export default function MyTicketList() {
       ),
     },
     {
-      field: "ticketId",
+      field: "leaveLogId",
       headerName: "ID",
       flex: 100,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          ID
-        </Typography>
-      ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
@@ -149,23 +148,19 @@ export default function MyTicketList() {
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
-        const staffName = params.row.staffName;
+        const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar
-              candidateId={staffId}
-              candidateName={staffName}
-              color={staffNameColor}
-            />
-            <Typography sx={cellStyle}>{params.value}</Typography>
+            <AvatarCustome id={params.row.staffId} name={staffName} dependency={logOtsLoaded} />
+            <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
     },
     {
-      field: "ticketName",
+      field: "otTypeName",
       headerName: "Loại đơn",
       width: 300,
       editable: true,
@@ -175,24 +170,19 @@ export default function MyTicketList() {
         </Typography>
       ),
       renderCell: (params) => {
-        const rowIndex = params.row.ticketTypeId % colors.length;
+        const rowIndex = params.row.otTypeId % colors.length;
         const dotColor = colors[rowIndex];
-
+        const otTypeName = params.row.otType.typeName;
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
-              ●
-            </Typography>
-            {/* <span style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>●</span> */}
-            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
-              {params.value}
-            </Typography>
+            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>{otTypeName}</Typography>
           </Box>
         );
       },
     },
     {
-      field: "ticketReason",
+      field: "reason",
       headerName: "Lí do làm đơn",
       width: 300,
       editable: true,
@@ -202,24 +192,20 @@ export default function MyTicketList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Box>
-          <Typography sx={cellStyle}>{params.value}</Typography>
-        </Box>
+        <>
+          {params.value === "" ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có nội dung
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
       ),
     },
-    // {
-    //   field: "ticketFile",
-    //   headerName: "File",
-    //   width: 250,
-    //   editable: true,
-    //   renderHeader: () => (
-    //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
-    //     </Typography>
-    //   ),
-    // },
+
     {
-      field: "ticketStatus",
+      field: "status",
       headerName: "Trạng thái",
       width: 200,
       editable: true,
@@ -233,7 +219,7 @@ export default function MyTicketList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Chấp nhận" ? (
+            {params.value === "Approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -249,7 +235,7 @@ export default function MyTicketList() {
               >
                 {params.value}
               </Typography>
-            ) : params.value === "Chờ duyệt" ? (
+            ) : params.value === "Pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -261,6 +247,23 @@ export default function MyTicketList() {
                   alignItems: "center",
                   display: "flex",
                   justifyContent: "center",
+                }}
+              >
+                {params.value}
+              </Typography>
+            ) : params.value === "Rejected" ? (
+              <Typography
+                sx={{
+                  backgroundColor: "#FFE7E7",
+                  padding: "1px 10px ",
+                  fontFamily: fontStyle,
+                  borderRadius: "6px",
+                  fontWeight: 700,
+                  color: "#D03D3D",
+                  alignItems: "center",
+                  display: "inline-block",
+                  width: "fit-content",
+                  ml: "5px",
                 }}
               >
                 {params.value}
@@ -288,6 +291,21 @@ export default function MyTicketList() {
       },
     },
     {
+      field: "salaryPerDay",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Lương mỗi ngày</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
+    },
+    {
       field: "processNote",
       headerName: "Ghi chú",
       width: 250,
@@ -298,35 +316,103 @@ export default function MyTicketList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Box>
-          {params.value ? (
-            <Typography sx={cellStyle}>{params.row.value}</Typography>
-          ) : (
+        <>
+          {params.value === null ? (
             <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
               Chưa có ghi chú
             </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
           )}
-        </Box>
+        </>
       ),
     },
     {
-      field: "createAt",
-      headerName: "Thời gian tạo",
+      field: "respondenceName",
+      headerName: "Người duyệt",
       width: 250,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Người duyệt</div>
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>
-          {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
+        <>
+          {params.row.respondencesId === null ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có người duyệt
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
+      ),
+    },
+    {
+      field: "days",
+      headerName: "Số ngày nghỉ",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số ngày nghỉ</div>
         </Typography>
       ),
-      // valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
+          </Box>
+        );
+      },
     },
-
+    {
+      field: "logHours",
+      headerName: "Số giờ nghỉ",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số giờ nghỉ</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "logStart",
+      headerName: "Ngày bắt đầu",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
+    },
+    {
+      field: "logEnd",
+      headerName: "Ngày kết thúc",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
+    },
     {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
@@ -339,76 +425,34 @@ export default function MyTicketList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Box>
-          {params.value ? (
-            <Typography sx={cellStyle}>
-              {moment(params.value).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
-          ) : (
-            <Typography sx={cellStyle}>
-              {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
-          )}
-        </Box>
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
       ),
-      //valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
   ];
-  function CandidateAvatar(candidate: any) {
-    const [avatarUrl, setAvatarUrl] = useState("");
-    const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-    useEffect(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          setAvatarUrl(url);
-        })
-        .catch((error) => {});
-    }, [ticketsLoaded]);
-    return (
-      <Avatar
-        sx={{
-          width: 34,
-          height: 34,
-          marginRight: 2,
-          fontSize: "14px",
-          bgcolor: "#BFBFBF",
-          display: "flex",
-          alignItems: "center", // Center the content vertically
-          justifyContent: "center", // Center the content horizontally
-          textAlign: "center", // Center the text horizontally
-        }}
-        src={avatarUrl}
-        alt=""
-      >
-        {candidate.candidateName.charAt(0)}
-      </Avatar>
-    );
+
+  function CurrencyFormatter(value: any) {
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value.value);
+    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
   const [gridHeight, setGridHeight] = useState(0);
-  const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const logOts = useAppSelector(logOvertimeSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.account);
+  const otherOts = logOts.filter((logOt) => logOt.staffId !== currentUser.user?.userInfor.staffId);
   const dispatch = useAppDispatch();
-  const { ticketsLoaded, filtersLoaded, ticketAdded, mytickets, status } = useAppSelector(
-    (state) => state.ticket
-  );
-  const [rows, setRows] = useState<Ticket[]>([]);
+  const leaveDayDetail = useAppSelector((state) => state.leaveDayDetail);
+
+  const [rows, setRows] = useState<LogOt[]>([]);
   const [open, setOpen] = useState(false);
+  const { logOtAdded, logOtsLoaded, status } = useAppSelector((state) => state.logot);
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -420,23 +464,23 @@ export default function MyTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchCurrentUserTicketsAsync());
-      dispatch(setTicketAdded(false));
+    if (!logOtsLoaded || logOtAdded || prevLocation.current.key !== key) {
+      dispatch(fetchLogOtsAsync());
+      dispatch(setLogOvertimeAdded(false));
     }
     prevLocation.current = location;
-  }, [dispatch, ticketsLoaded, ticketAdded, key]);
+  }, [dispatch, logOtAdded, logOtsLoaded, key]);
 
-  console.log(tickets);
   useEffect(() => {
-    if (ticketsLoaded) {
-      setRows(tickets);
+    if (logOtsLoaded) {
+      setRows(otherOts);
     }
-  }, [ticketsLoaded, tickets]);
+  }, [logOtsLoaded, logOts]);
 
   return (
     <>
-      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
+      <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
+        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -507,7 +551,7 @@ export default function MyTicketList() {
             </Button>
           </Grid>
 
-          <CreateTicketForm open={open} onClose={handleCloseDialog} />
+          <CreateOvertimeForm isOwn={false} open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
@@ -516,7 +560,7 @@ export default function MyTicketList() {
         <DataGrid
           autoHeight
           density="standard"
-          getRowId={(row: any) => row.ticketId}
+          getRowId={(row: any) => row.otLogId}
           sx={{
             height: 700,
             //border: "none",
@@ -529,9 +573,9 @@ export default function MyTicketList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
-          loading={!ticketsLoaded || ticketAdded}
+          loading={!logOtsLoaded || logOtAdded}
           rows={rows}
           columns={columns}
           //showCellVerticalBorder

@@ -29,7 +29,7 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import DepartmentForm from "./DepartmentForm";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DepartmentManagers from "./DepartmentManagers";
@@ -47,6 +47,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import moment from "moment";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -64,7 +65,12 @@ const headerStyle = {
   fontFamily: "Mulish",
   fontSize: 15,
 };
-
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  color: "#000000",
+};
 export default function DepartmentDetails() {
   const columns: GridColDef[] = [
     {
@@ -75,7 +81,7 @@ export default function DepartmentDetails() {
       renderCell(params) {
         return (
           <>
-            <IconButton onClick={() => handleButtonClick(params.row.id)}>
+            <IconButton component={Link} to={`/staffs/${params.row.staffId}`}>
               <MoreHorizIcon />
             </IconButton>
           </>
@@ -131,6 +137,7 @@ export default function DepartmentDetails() {
           <div>ID</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //fullName
@@ -146,6 +153,14 @@ export default function DepartmentDetails() {
           <div>Tên Nhân Viên</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <AvatarCustome id={params.row.staffId} name={params.value} dependency={location} />
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          </Box>
+        );
+      },
     },
     {
       //phone
@@ -159,6 +174,7 @@ export default function DepartmentDetails() {
           <div>Số Điện Thoại</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "gioiTinh",
@@ -224,6 +240,7 @@ export default function DepartmentDetails() {
           <div>Email</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //bank
@@ -238,6 +255,7 @@ export default function DepartmentDetails() {
           <div>Ngân Hàng</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "dob",
@@ -250,6 +268,11 @@ export default function DepartmentDetails() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        );
+      },
     },
     {
       field: "address",
@@ -261,6 +284,7 @@ export default function DepartmentDetails() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
 
     {
@@ -273,6 +297,7 @@ export default function DepartmentDetails() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       //bankAccount
@@ -287,6 +312,7 @@ export default function DepartmentDetails() {
           <div>TK Ngân Hàng</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
   ];
   const [selectedId, setSelectedId] = useState("");
@@ -324,10 +350,10 @@ export default function DepartmentDetails() {
       ])
     );
   }, [location, dispatch, id, department]);
-  
+
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", mt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -378,7 +404,7 @@ export default function DepartmentDetails() {
                 variant="text"
                 sx={{
                   fontSize: "15px",
-                  fontWeight: "bold",
+                  fontWeight: 600,
                   textTransform: "none",
                   borderRadius: "10px",
 
@@ -394,19 +420,24 @@ export default function DepartmentDetails() {
               </Button>
             </Tooltip>
             <Button
-              variant="text"
-              sx={{
-                fontSize: "15px",
-                fontWeight: "bold",
-                textTransform: "none",
-                borderRadius: "10px",
-                padding: "0px 10px 0px 10px",
-                color: "#007FFF",
-                fontFamily: "Montserrat",
-              }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Thêm nhân viên
             </Button>
@@ -418,22 +449,6 @@ export default function DepartmentDetails() {
               departmentNameParam={department?.departmentName ?? "none"}
               departmentId={department?.departmentId ?? 0}
             />
-            <Button
-              variant="text"
-              sx={{
-                fontSize: "15px",
-                fontWeight: "bold",
-                textTransform: "none",
-                borderRadius: "10px",
-                padding: "0px 10px 0px 10px",
-                color: "#757575",
-                fontFamily: "Montserrat",
-              }}
-              disableElevation={true}
-              startIcon={<ModeEditIcon />}
-            >
-              Sửa phòng ban
-            </Button>
           </Grid>
 
           <DepartmentManagers
@@ -448,29 +463,24 @@ export default function DepartmentDetails() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ height: 600, width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         {department ? (
           <DataGrid
             density="standard"
             autoHeight
             sx={{
-              border: "none",
-              // ".MuiDataGrid-columnHeaderTitle": {
-              //   fontWeight: "bold !important",
-              //   overflow: "visible !important",
-              //   color: "#007FFF",
-              // },
-              // ".MuiDataGrid-columnHeaders": {
-              //   backgroundColor: "#E0F0FF",
-              // },
+              height: 700,
+              //border: "none",
+              color: "#000000",
               fontSize: 16,
               fontWeight: 550,
-              fontFamily: fontStyle,
+              fontFamily: "Mulish",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+              backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
             }}
-            showCellVerticalBorder
             slots={{
               loadingOverlay: LinearProgress,
-              //toolbar: CustomToolbar,
+              toolbar: CustomToolbar,
             }}
             loading={departmentStatus.includes("pending")}
             rows={department.userInfors}
@@ -478,7 +488,7 @@ export default function DepartmentDetails() {
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 15,
+                  pageSize: 20,
                 },
               },
             }}
