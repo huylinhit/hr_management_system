@@ -28,6 +28,7 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -236,7 +237,7 @@ const fieldStyle = {
   flexGrow: 1,
   mb: "2%",
 };
-export default function MyLeaveDetails({ open, handleClose, handleChange }: any) {
+export default function LeaveApproval({ open, handleClose, handleChange }: any) {
   const { id } = useParams<{ id: string }>();
 
   const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
@@ -251,6 +252,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
   const [description, setDescription] = useState(logLeave?.description);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [ticketChanged, setTicketChanged] = useState(false);
+  const [processNote, setProcessNote] = useState(logLeave?.processNote);
   const currentUser = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -261,8 +263,8 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     if (logLeave) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ phép của tôi", path: "/myleaves" },
-          { title: "Chỉnh sửa đơn", path: "" },
+          { title: "Đơn nghỉ của nhân viên", path: "/othersleaves" },
+          { title: `Phản hồi đơn`, path: "" },
         ])
       );
     }
@@ -300,6 +302,9 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
   //#endregion ==============================USE EFFECT=====================================
 
   //#region ===========================HANDLE ACTION======================================
+  const debouncedProcessNoteInput = debounce((event: any) => {
+    setProcessNote(event.target.value);
+  }, 750);
   const handleClickOpenConfirm = () => {
     setOpenConfirm(true);
   };
@@ -324,82 +329,42 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     );
     setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
   };
+  const handleStatusChange = (event: any) => {
+    setStatus(event.target.value);
+  };
+  console.log(status);
 
-  const handleTicketApproval = () => {
-    console.log(selectedLeaveTypeId);
-    console.log(startDate);
-    console.log(endDate);
-    console.log(description);
+  const handleLeaveApproval = () => {
+    console.log(status);
+    console.log(processNote);
     const ticketUpdate = {
       patchDocument: [
         {
           op: "replace",
-          path: "/leaveTypeId",
-          value: selectedLeaveTypeId,
+          path: "/status",
+          value: status,
         },
         {
           op: "replace",
-          path: "/leaveStart",
-          value: startDate,
-        },
-        {
-          op: "replace",
-          path: "/leaveEnd",
-          value: endDate,
-        },
-        {
-          op: "replace",
-          path: "/description",
-          value: description,
+          path: "/processNote",
+          value: processNote,
         },
       ],
     };
-    if (!currentUser.user) return;
+    if (!logLeave) return;
 
-    agent.LogLeave.patch(
-      parseInt(id!),
-      currentUser.user?.userInfor.staffId,
-      ticketUpdate.patchDocument
-    )
+    agent.LogLeave.patch(parseInt(id!), logLeave!.staffId, ticketUpdate.patchDocument)
       .then((response) => {
         setLogLeaveAdded(true);
         console.log("Ticket updated successfully: ", response);
-        toast.success("Cập nhật đơn thành công 😊");
+        toast.success("Duyệt đơn thành công 😊");
       })
       .catch((error) => {
         console.log("Error updating ticket: ", error);
-        toast.error("Xảy ra lỗi khi cập nhật 😥");
+        toast.error("Xảy ra lỗi khi duyệt đơn 😥");
       });
   };
 
-  const handleCancelTicket = () => {
-    const ticketCancel = {
-      patchDocument: [
-        {
-          op: "replace",
-          path: "/enable",
-          value: false,
-        },
-      ],
-    };
-    if (!currentUser.user) return;
-
-    agent.LogLeave.patch(
-      parseInt(id!),
-      currentUser.user?.userInfor.staffId,
-      ticketCancel.patchDocument
-    )
-      .then((response) => {
-        console.log("Ticket cancelled successfully: ", response);
-        setTicketChanged(true);
-        toast.success("Hủy đơn thành công 😊");
-      })
-      .catch((error) => {
-        console.log("Error cancelling ticket", error);
-        toast.error("Xảy ra lỗi khi hủy đơn 😥");
-      });
-    handleCloseConfirm();
-  };
   if (!logLeave || !leaveDayDetail) {
     return <MyTicketDetailSkeleon />;
   }
@@ -411,24 +376,11 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
           <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
-            Đơn của {`${logLeave?.staff.firstName} ${logLeave?.staff.lastName}`}
+            Đơn của {`${logLeave?.staff.lastName} ${logLeave?.staff.firstName}`}
           </Typography>
           <Box display={"flex"} alignItems={"flex-end"}>
             {logLeave?.enable ? (
               <>
-                <Button
-                  variant="text"
-                  color="error"
-                  sx={{
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    fontFamily: fontStyle,
-                  }}
-                  disableElevation={true}
-                  onClick={handleClickOpenConfirm}
-                >
-                  Hủy đơn
-                </Button>
                 <Button
                   variant="text"
                   sx={{
@@ -438,7 +390,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}
-                  onClick={handleTicketApproval}
+                  onClick={handleLeaveApproval}
                 >
                   Xác nhận
                 </Button>
@@ -451,7 +403,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
               onClose={handleCloseConfirm}
               title={`Hủy ${logLeave.leaveType.leaveTypeName.toLowerCase()}`}
               content="Bạn sẽ không thể chỉnh sửa đơn này sau khi đã hủy"
-              action={handleCancelTicket}
+              action={handleLeaveApproval}
             />
           </Box>
         </Grid>
@@ -479,92 +431,45 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           disabled={true}
         />
 
-        {/* <InforRow
+        <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          // defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
           disabled={true}
-        /> */}
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
-          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-          <Typography sx={{ ...headerStyle, ...headerColor }}>Loại đơn</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <BootstrapInput
-              fullWidth
-              defaultValue={leaveDayDetail[0].leaveType.leaveTypeName.trim()}
-              InputProps={textFieldInputProps}
-              variant="standard"
-              onChange={handleLeaveChange}
-              select
-              sx={{ ...infoStyle }}
-            >
-              {leaveDayDetail.map((option) => (
-                <MenuItem key={option.leaveDayDetailId} value={option.leaveType.leaveTypeName}>
-                  {`${option.leaveType.leaveTypeName} (còn ${option.dayLeft} ngày)`}
-                </MenuItem>
-              ))}
-            </BootstrapInput>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Loại đơn"
+          defaultValue={logLeave.leaveType.leaveTypeName}
+          disabled
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
-          <Typography sx={headerStyle}>Ngày bắt đầu</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <ButtonDatePicker
-                minDate={today}
-                label={`${
-                  dayjs(startDate) === null ? "Trống" : dayjs(startDate).format("MMM DD, YYYY")
-                }`}
-                value={dayjs(
-                  new Date(
-                    dayjs(startDate)
-                      .toDate()
-                      .setMinutes(
-                        dayjs(startDate).toDate().getMinutes() +
-                          dayjs(startDate).toDate().getTimezoneOffset()
-                      )
-                  )
-                )}
-                onChange={handleSetStartDate}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày bắt đầu"
+          defaultValue={
+            logLeave?.leaveStart
+              ? `${moment(logLeave?.changeStatusTime).format("MMM Do, YYYY")}`
+              : ""
+          }
+          disabled={true}
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
-          <Typography sx={headerStyle}>Ngày kết thúc</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <ButtonDatePicker
-                label={`${
-                  dayjs(endDate) === null ? "Trống" : dayjs(endDate).format("MMM DD, YYYY")
-                }`}
-                minDate={dayjs(startDate).add(1, "day")}
-                value={dayjs(
-                  new Date(
-                    dayjs(endDate)
-                      .toDate()
-                      .setMinutes(
-                        dayjs(endDate).toDate().getMinutes() +
-                          dayjs(endDate).toDate().getTimezoneOffset()
-                      )
-                  )
-                )}
-                onChange={(newValue: any) => setEndDate(newValue)}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày kết thúc"
+          defaultValue={
+            logLeave?.leaveEnd ? `${moment(logLeave?.changeStatusTime).format("MMM Do, YYYY")}` : ""
+          }
+          disabled={true}
+        />
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Nội dung đơn"
           defaultValue={`${logLeave?.description}`}
-          disabled={logLeave?.status !== "Pending"}
+          disabled
           onChange={debouncedDescriptionInput}
         />
 
@@ -586,94 +491,41 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           disabled={true}
         />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <SubjectIcon fontSize="small" sx={{ mr: "5px" }} />
-          <Typography sx={headerStyle}>Trạng thái</Typography>
-          {logLeave?.status === "Approved" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#D0F9E5",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#2B8465",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
+          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+          <Typography sx={{ ...headerStyle, ...headerColor }}>Trạng thái</Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <BootstrapInput
+              fullWidth
+              defaultValue={logLeave?.status}
+              InputProps={textFieldInputProps}
+              variant="standard"
+              onChange={handleStatusChange}
+              select
             >
-              Approved
-            </Typography>
-          ) : logLeave?.status === "Pending" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#FFF5D1",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#FF9F28",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Pending
-            </Typography>
-          ) : logLeave?.status === "Rejected" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#FFE7E7",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#D03D3D",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Rejected
-            </Typography>
-          ) : (
-            <Typography
-              sx={{
-                backgroundColor: "#F4F6F7",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#9BA6B2",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Cancelled
-            </Typography>
-          )}
+              <MenuItem value={"Approved"}>Approved</MenuItem>
+              <MenuItem value={"Pending"}>Pending</MenuItem>
+              <MenuItem value={"Rejected"}>Rejected</MenuItem>
+            </BootstrapInput>
+          </Box>
         </Box>
 
         <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "5%", mb: "1%" }}></Box>
 
         <Grid item xs={9}>
-          <ProcessNoteInput
-            sx={infoStyle}
-            fullWidth
+          <TextField
+            sx={{
+              width: "100%",
+            }}
             variant="standard"
             multiline
+            label="Nhập phản hồi..."
             InputProps={{
               disableUnderline: true,
               style: { fontFamily: fontStyle },
             }}
-            defaultValue={logLeave?.processNote ? `${logLeave?.processNote}` : ""}
-            disabled
+            defaultValue={logLeave?.processNote}
+            onChange={debouncedProcessNoteInput}
           />
         </Grid>
       </Container>

@@ -48,11 +48,11 @@ function App() {
       <Box
         sx={{
           mt: 0,
-          ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 37 : 0) : 0,
+          ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 39 : 0) : 0,
           backgroundColor: "#FFFFFF",
         }}
       >
-        <ToastContainer/>
+        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Outlet />
       </Box>
     </Box>

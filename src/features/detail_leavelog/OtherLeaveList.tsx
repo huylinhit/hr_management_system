@@ -44,7 +44,6 @@ import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateLeaveForm from "./CreateLeaveForm";
 import { ToastContainer } from "react-toastify";
-import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -103,15 +102,9 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function MyLeaveList() {
-
+export default function OthersLeaveList() {
   const handleRowClick = () => {
-    dispatch(
-      setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
-        { title: "Chỉnh sửa đơn", path: `` },
-      ])
-    );
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/othersleaves" }]));
   };
   const columns: GridColDef[] = [
     {
@@ -122,7 +115,7 @@ export default function MyLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/myleaves/${params.row.leaveLogId}`}
+          to={`/othersleaves/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -152,11 +145,11 @@ export default function MyLeaveList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome
-              id={params.row.staffId}
-              name={staffName}
-              dependency={logleavesLoaded}
-            />
+            {/* <CandidateAvatar
+              candidateId={staffId}
+              candidateName={staffName}
+              color={staffNameColor}
+            /> */}
             <Typography>{staffName}</Typography>
           </Box>
         );
@@ -407,17 +400,46 @@ export default function MyLeaveList() {
     }).format(value.value);
     return <span>{formattedValue}</span>;
   }
+  // function CandidateAvatar(candidate: any) {
+  //   const [avatarUrl, setAvatarUrl] = useState("");
+  //   const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
+  //   useEffect(() => {
+  //     getDownloadURL(storageRef)
+  //       .then((url) => {
+  //         setAvatarUrl(url);
+  //       })
+  //       .catch((error) => {});
+  //   }, [logleavesLoaded]);
+  //   return (
+  //     <Avatar
+  //       sx={{
+  //         width: 34,
+  //         height: 34,
+  //         marginRight: 2,
+  //         fontSize: "14px",
+  //         bgcolor: "#BFBFBF",
+  //         display: "flex",
+  //         alignItems: "center", // Center the content vertically
+  //         justifyContent: "center", // Center the content horizontally
+  //         textAlign: "center", // Center the text horizontally
+  //       }}
+  //       src={avatarUrl}
+  //       alt=""
+  //     >
+  //       {candidate.candidateName.charAt(0)}
+  //     </Avatar>
+  //   );
+  // }
   const [gridHeight, setGridHeight] = useState(0);
-  const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.account);
-  const myLogLeaves = logLeaves.filter(
-    (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId 
-
+  const logLeaves = useAppSelector(logleaveSelectors.selectAll);
+  const otherUsersLogLeaves = logLeaves.filter(
+    (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId 
+    && logLeave.status === "Pending"
+    && logLeave.enable
   );
+  console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();
-  const leaveDayDetail = useAppSelector(state => state.leaveDayDetail);
- 
-
 
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
@@ -440,7 +462,7 @@ export default function MyLeaveList() {
     };
   }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/othersleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -462,7 +484,7 @@ export default function MyLeaveList() {
   console.log(logLeaves);
   useEffect(() => {
     if (logleavesLoaded) {
-      setRows(myLogLeaves);
+      setRows(otherUsersLogLeaves);
     }
   }, [logleavesLoaded, logLeaves]);
 

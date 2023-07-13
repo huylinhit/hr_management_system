@@ -74,11 +74,15 @@ import EditInfo from "../../features/edit_employee/component/EditInfo";
 
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
+ 
+import OtherLeaveList from "../../features/detail_leavelog/OtherLeaveList";
+import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 
 import ChipCustome from "../components/Custom/Chip/ChipCustome";
 import MyPayroll from "../../features/payslip/component/MyPayroll";
 import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
 import TypeCustome from "../components/Custom/Type/TypeCustome";
+import DashBoard from "../../features/dashboard/DashBoard";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -109,6 +113,9 @@ export const router = createBrowserRouter([
       //HR Staff routes 
       {
         element: <RequireAuth roles={['HRStaff']} />, children: [
+          //Dashboard
+          { path: "/dashboard", element: <DashBoard /> },
+
           // Allowance
 
           // Department
@@ -227,7 +234,6 @@ export const router = createBrowserRouter([
       { path: "/leave-detail/:id", element: <DetailLeave /> },
       { path: "/own-leave-detail", element: <DetailOwnLeave /> },
     
-
       // Ticket
       { path: "/viewothertypes", element: <ViewOtherTypes /> },
       { path: "/editothertype/:id", element: <EditOtherType /> },
