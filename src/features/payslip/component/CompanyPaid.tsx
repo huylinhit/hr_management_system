@@ -41,10 +41,10 @@ function CompanyPaid({
                 </Grid>
                 <Grid item xs={6} sx={{ border: "1px solid black" }}>
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualGrossSalaryCompany.toLocaleString()}</Typography>
-                    <Typography align="right" sx={style}>+ {bhxhComp.toLocaleString()}</Typography>
-                    <Typography align="right" sx={style}>+ {bhytComp.toLocaleString()}</Typography>
-                    <Typography align="right" sx={style}>+ {bhtnComp.toLocaleString()}</Typography>
-                    <Typography align="right" sx={{ ...style}}>+ {otSalary.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>{bhxhComp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>{bhytComp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={style}>{bhtnComp.toLocaleString()}</Typography>
+                    <Typography align="right" sx={{ ...style}}>{otSalary.toLocaleString()}</Typography>
                     <Typography align="right" sx={{ ...style, fontWeight: "bold", bgcolor: "#ccc" }}>{actualNetSalaryCompany.toLocaleString()}</Typography>
                 </Grid>
             </Grid>

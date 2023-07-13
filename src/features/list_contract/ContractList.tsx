@@ -36,6 +36,7 @@ import { CiCircleMore } from "react-icons/ci";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import styles from '../payslip/component/payslip.module.scss'
 import classNames from "classnames/bind";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
 const cx = classNames.bind(styles);
 
@@ -44,6 +45,7 @@ const cx = classNames.bind(styles);
 const top100Films = [{ label: "1", year: 1994 }, ``];
 
 export default function ContractList() {
+  const { contractsLoaded, status } = useAppSelector(state => state.contract)
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
   const tableHeadTitle = [
@@ -67,8 +69,9 @@ export default function ContractList() {
   const contracts = useAppSelector(contractSelectors.selectAll);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchContractsAsync());
-  }, [dispatch]);
+    if (!contractsLoaded)
+      dispatch(fetchContractsAsync());
+  }, [contractsLoaded, dispatch]);
   // -------------------------- FUNCTION ------------------------
   const calcTotalAllowance = (allowances: Array<Allowance>) => {
     let total = 0
@@ -79,6 +82,8 @@ export default function ContractList() {
 
     return total
   }
+
+  if(status.includes('pending')) return <LoadingComponent message="Đang Tải Hợp Đồng ..."/>
   // -------------------------- MAIN ----------------------------
   return (
     <Box className={cx("wrapper")}>

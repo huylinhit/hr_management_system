@@ -104,6 +104,7 @@ export default function Sidebar() {
     setOpenOT(!openOT);
   };
 
+
   const handleOpenContract = () => {
     setOpenContract(!openContract);
   };
@@ -140,8 +141,7 @@ export default function Sidebar() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            // backgroundColor: "#F7F7F7",
-            background: "#ffffff",
+            background: "#FFF"
           },
         }}
         variant="permanent"
@@ -220,9 +220,7 @@ export default function Sidebar() {
                       </ListItemIcon>
                       <ListItemText
                         className={cx("list-item-content")}
-
                         primaryTypographyProps={{ ...listItemStyle }} primary="Phòng Ban" />
-
                     </ListItemButton>
 
                     <ListItemButton
@@ -243,9 +241,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-
                         primary="Toàn Bộ Nhân Viên"
-
                       />
                     </ListItemButton>
 
@@ -289,8 +285,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "leave-list" })}
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
-
-                      to="/other-leave-list"
+                      to="/leave-list"
 
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
@@ -300,9 +295,7 @@ export default function Sidebar() {
                       <ListItemText
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
-
                         primary="Đơn Nghỉ Phép Nhân Viên"
-
                       />
                     </ListItemButton>
 
@@ -310,9 +303,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "myleavelist" })}
                       onClick={() => handleActiveClick("myleavelist")}
                       component={Link}
-
-                      to="/leave-list"
-
+                      to="/own-leave-list"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
