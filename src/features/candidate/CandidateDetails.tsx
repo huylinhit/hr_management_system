@@ -346,7 +346,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
     if (candidate) {
       dispatch(
         setHeaderTitle([
-          { title: "Toàn bộ ứng viên", path: "/candidates" },
+          { title: "Danh sách ứng viên", path: "/candidates" },
           { title: candidate?.name, path: "" },
         ])
       );

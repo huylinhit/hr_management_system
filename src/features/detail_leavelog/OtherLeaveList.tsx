@@ -44,6 +44,7 @@ import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateLeaveForm from "./CreateLeaveForm";
 import { ToastContainer } from "react-toastify";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -72,6 +73,12 @@ const navStyle = {
   "&:hover": {
     backgroundColor: "#F8F8F8", // Set the hover background color
   },
+};
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  color: "#000000",
 };
 const colors = [
   "#34BBE1",
@@ -126,7 +133,9 @@ export default function OthersLeaveList() {
       field: "leaveLogId",
       headerName: "ID",
       flex: 100,
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
+
     {
       field: "staffName",
       headerName: "Tạo bởi",
@@ -145,12 +154,8 @@ export default function OthersLeaveList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* <CandidateAvatar
-              candidateId={staffId}
-              candidateName={staffName}
-              color={staffNameColor}
-            /> */}
-            <Typography>{staffName}</Typography>
+            <AvatarCustome id={params.row.staffId} name={staffName} dependency={logleavesLoaded} />
+            <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
@@ -172,7 +177,7 @@ export default function OthersLeaveList() {
         return (
           <Box display={"flex"} alignItems={"center"}>
             <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {leaveTypeName}
             </Typography>
           </Box>
@@ -188,6 +193,17 @@ export default function OthersLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
         </Typography>
+      ),
+      renderCell: (params) => (
+        <>
+          {params.value === "" ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có nội dung
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
       ),
     },
 
@@ -302,6 +318,17 @@ export default function OthersLeaveList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
         </Typography>
       ),
+      renderCell: (params) => (
+        <>
+          {params.value === null ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có ghi chú
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
+      ),
     },
     {
       field: "respondenceName",
@@ -312,6 +339,17 @@ export default function OthersLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Người duyệt</div>
         </Typography>
+      ),
+      renderCell: (params) => (
+        <>
+          {params.row.respondencesId === null ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có người duyệt
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
       ),
     },
     {
@@ -327,9 +365,7 @@ export default function OthersLeaveList() {
       renderCell: (params) => {
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>
-              {params.value} ngày
-            </Typography>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
           </Box>
         );
       },
@@ -347,9 +383,7 @@ export default function OthersLeaveList() {
       renderCell: (params) => {
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>
-              {params.value} giờ
-            </Typography>
+            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
           </Box>
         );
       },
@@ -364,7 +398,9 @@ export default function OthersLeaveList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
     {
       field: "leaveEnd",
@@ -376,7 +412,9 @@ export default function OthersLeaveList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
     {
       field: "changeStatusTime",
@@ -389,7 +427,9 @@ export default function OthersLeaveList() {
           <div>Thời gian thay đổi</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
   ];
 
@@ -400,43 +440,15 @@ export default function OthersLeaveList() {
     }).format(value.value);
     return <span>{formattedValue}</span>;
   }
-  // function CandidateAvatar(candidate: any) {
-  //   const [avatarUrl, setAvatarUrl] = useState("");
-  //   const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-  //   useEffect(() => {
-  //     getDownloadURL(storageRef)
-  //       .then((url) => {
-  //         setAvatarUrl(url);
-  //       })
-  //       .catch((error) => {});
-  //   }, [logleavesLoaded]);
-  //   return (
-  //     <Avatar
-  //       sx={{
-  //         width: 34,
-  //         height: 34,
-  //         marginRight: 2,
-  //         fontSize: "14px",
-  //         bgcolor: "#BFBFBF",
-  //         display: "flex",
-  //         alignItems: "center", // Center the content vertically
-  //         justifyContent: "center", // Center the content horizontally
-  //         textAlign: "center", // Center the text horizontally
-  //       }}
-  //       src={avatarUrl}
-  //       alt=""
-  //     >
-  //       {candidate.candidateName.charAt(0)}
-  //     </Avatar>
-  //   );
-  // }
+
   const [gridHeight, setGridHeight] = useState(0);
   const currentUser = useAppSelector((state) => state.account);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const otherUsersLogLeaves = logLeaves.filter(
-    (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId 
-    && logLeave.status === "Pending"
-    && logLeave.enable
+    (logLeave) =>
+      logLeave.staffId !== currentUser.user?.userInfor.staffId &&
+      logLeave.status === "Pending" &&
+      logLeave.enable
   );
   console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();

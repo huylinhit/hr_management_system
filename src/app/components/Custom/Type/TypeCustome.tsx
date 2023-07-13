@@ -30,12 +30,13 @@ function TypeCustome({ typeId, children }: Props) {
 
     return (
         <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "12px", color: `${dotColor}`}}>●</span>
+            <span style={{ marginRight: 10, fontSize: "15px", color: `${dotColor}`}}>●</span>
             <Typography sx={{
                 textDecoration: "underline", 
-                // fontSize: "12px",    
+                fontSize: 15,
                 fontWeight: 600,
-                fontFamily: "Mulish"
+                fontFamily: "Mulish",
+                color: "#1C2A35",
             }}>
                 {children}
             </Typography>

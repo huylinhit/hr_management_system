@@ -55,7 +55,14 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
+ 
 const fontStyle = "Mulish";
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  color: "#000000",
+};
 const navStyle = {
   fontSize: 25,
   fontWeight: 800,
@@ -116,6 +123,7 @@ export default function OtherUsersTicketList() {
           <div>ID</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "name",
@@ -135,7 +143,7 @@ export default function OtherUsersTicketList() {
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <CandidateAvatar candidateId={candidateId} candidateName={candidateName} />
-            <Typography>{params.value}</Typography>
+            <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
       },
@@ -236,7 +244,7 @@ export default function OtherUsersTicketList() {
         return (
           <Box display={"flex"} alignItems={"center"}>
             <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {params.value}
             </Typography>
           </Box>
@@ -253,6 +261,7 @@ export default function OtherUsersTicketList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "gioiTinh",
@@ -315,6 +324,7 @@ export default function OtherUsersTicketList() {
           <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Điện thoại</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "dob",
@@ -326,6 +336,9 @@ export default function OtherUsersTicketList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
         </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
       ),
     },
 
@@ -339,6 +352,7 @@ export default function OtherUsersTicketList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
         </Typography>
       ),
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
 
     {
@@ -356,12 +370,7 @@ export default function OtherUsersTicketList() {
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.expectedSalary} />,
     },
-    {
-      field: "resumeFile",
-      headerName: "Hồ sơ",
-      width: 200,
-      editable: true,
-    },
+
     {
       field: "applyDate",
       headerName: "Ngày ứng tuyển",
@@ -373,7 +382,9 @@ export default function OtherUsersTicketList() {
           <div>Ngày ứng tuyển</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+      ),
     },
   ];
 
@@ -382,7 +393,7 @@ export default function OtherUsersTicketList() {
       style: "currency",
       currency: "VND",
     }).format(value.value);
-    return <span>{formattedValue}</span>;
+    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
 
   //Set avatar each row
@@ -413,7 +424,7 @@ export default function OtherUsersTicketList() {
       </Avatar>
     );
   }
-  
+
   const candidates = useAppSelector(candidatesSelectors.selectAll);
   const candidateSkills = useAppSelector(candidateSkillsSelectors.selectAll);
   const dispatch = useAppDispatch();
@@ -435,7 +446,7 @@ export default function OtherUsersTicketList() {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Toàn bộ ứng viên", path: "/candidates" }]));
+    dispatch(setHeaderTitle([{ title: "Danh sách ứng viên", path: "/candidates" }]));
   }, [dispatch, location]);
   // Get all candidates
   useEffect(() => {
@@ -463,8 +474,7 @@ export default function OtherUsersTicketList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
-        <Grid container spacing={0} alignContent="center">
-        </Grid>
+        <Grid container spacing={0} alignContent="center"></Grid>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField

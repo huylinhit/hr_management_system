@@ -84,6 +84,9 @@ import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
 import TypeCustome from "../components/Custom/Type/TypeCustome";
 import DashBoard from "../../features/dashboard/DashBoard";
 import Contracts from "../../features/list_contract/Contracts";
+import MyOTList from "../../features/detail_overtime/MyOTList";
+import OtherOTList from "../../features/detail_overtime/OtherOTList";
+import MyPaySlips from "../../features/payslip/MyPaySlips";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -219,20 +222,16 @@ export const router = createBrowserRouter([
       { path: "/add-contract/:id", element: <NewContract /> },
 
       // Overtime
-      { path: "/list-overtime", element: <ViewOvertimeLog /> },
-      { path: "/own-list-overtime", element: <ViewMyOvertime /> },
+      { path: "/other-list-overtime", element: <OtherOTList /> },
+      { path: "/my-list-overtime", element: <MyOTList /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
       { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
 
       //MyOT
 
- 
       { path: "/other-leave-list", element: <OtherLeaveList /> },
       { path: "/leave-list", element: <MyLeaveList /> },
       { path: "/leave-list/:id", element: <MyLeaveDetails /> },
-      { path: "/own-leave-list", element: <MyLeavetime /> },
-      { path: "/leave-detail/:id", element: <DetailLeave /> },
-      { path: "/own-leave-detail", element: <DetailOwnLeave /> },
 
       // Ticket
       { path: "/viewothertypes", element: <ViewOtherTypes /> },
@@ -260,6 +259,10 @@ export const router = createBrowserRouter([
 
       //payslip
       { path: "/payslips", element: <Payroll /> },
+      
+      //NEW VERSION 13/7 , 8:56PM
+      { path: "/myPayslips", element: <MyPaySlips /> },
+
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
       // Others

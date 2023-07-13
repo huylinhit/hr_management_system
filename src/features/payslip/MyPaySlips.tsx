@@ -1,11 +1,9 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  Avatar,
   Button,
-  Container,
   Grid,
   IconButton,
   InputAdornment,
@@ -23,29 +21,33 @@ import {
 } from "@mui/x-data-grid-pro";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../firebase";
-import { deepPurple } from "@mui/material/colors";
-import { Ticket } from "../../app/models/ticket";
-
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
-import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
-import Contract from "../../app/models/contract";
-import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
+
+import { ToastContainer } from "react-toastify";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import {
+  fetchLogOtsAsync,
+  logOvertimeSelectors,
+  setLogOvertimeAdded,
+} from "../overlog/overtimeSlice";
+import { LogOt } from "../../app/models/logOt";
+import CreateOvertimeForm from "../overlog/CreateOvertime2";
+import { fetchPayslipsAsync, payslipSelectors } from "./payslipSlice";
+import { Payslip } from "../../app/models/payslip";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -98,11 +100,11 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function Contracts() {
+export default function MyPaySlips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Danh sách hợp đồng", path: "/list-contract" },
+        { title: "Đơn khác của tôi", path: "/mytickets" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -116,7 +118,7 @@ export default function Contracts() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/detail-contract/${params.row.contractId}`}
+          to={`/leave-list/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -124,20 +126,14 @@ export default function Contracts() {
       ),
     },
     {
-      field: "contractId",
+      field: "payslipId",
       headerName: "ID",
       flex: 100,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          ID
-        </Typography>
-      ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
-
     {
       field: "staffName",
-      headerName: "Tạo bởi",
+      headerName: "Tên nhân viên",
       width: 250,
       editable: true,
       renderHeader: () => (
@@ -153,164 +149,15 @@ export default function Contracts() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
+            <AvatarCustome id={params.row.staffId} name={staffName} dependency={payslipsLoaded} />
             <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
     },
-    {
-      field: "contractType",
-      headerName: "Loại đơn",
-      width: 300,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Loại hợp đồng</div>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const rowIndex = params.row.contractTypeId % colors.length;
-        const dotColor = colors[rowIndex];
-        const contractTypeName = params.row.contractType.name;
-        return (
-          <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
-              {contractTypeName}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "salaryType",
-      headerName: "Loại lương",
-      width: 150,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Loại lương</div>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <>
-            {params.row.salaryType === "Gross To Net" ? (
-              <ChipCustome status="approved">{params.value}</ChipCustome>
-            ) : (
-              <ChipCustome status="waiting">{params.value}</ChipCustome>
-            )}
-          </>
-        );
-      },
-    },
-    {
-      field: "noOfDependences",
-      headerName: "Loại lương",
-      width: 200,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <Typography sx={headerStyle}>Người phụ thuộc</Typography>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <>
-            <Typography sx={cellStyle}>{params.value}</Typography>
-          </>
-        );
-      },
-    },
 
     {
-      field: "startDate",
-      headerName: "Ngày bắt đầu",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
-      ),
-    },
-    {
-      field: "endDate",
-      headerName: "Ngày kết thúc",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
-      ),
-    },
-    {
-      field: "salary",
-      headerName: "Lương mong muốn",
-      width: 200,
-      editable: true,
-      align: "right",
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Lương thỏa thuận</div>
-        </Typography>
-      ),
-      renderCell: (params) => <CurrencyFormatter value={params.row.salary} />,
-    },
-    {
-      field: "taxableSalary",
-      headerName: "Lương đóng thuế",
-      width: 200,
-      editable: true,
-      align: "right",
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          {/* Add the phone icon here */}
-          <div>Lương đóng thuế</div>
-        </Typography>
-      ),
-      renderCell: (params) => <CurrencyFormatter value={params.row.taxableSalary} />,
-    },
-    {
-      field: "allowance",
-      headerName: "Tổng phụ cấp",
-      width: 200,
-      align: "left",
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <Typography sx={headerStyle}>Tổng phụ cấp</Typography>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const allowances = params.row.allowances.reduce(
-          (total: any, c: any) => total + c.allowanceSalary,
-          0
-        );
-        return (
-          <>
-            <CurrencyFormatter value={allowances} />
-          </>
-        );
-      },
-    },
-    {
-      field: "contractStatus",
+      field: "payslipStatus",
       headerName: "Trạng thái",
       width: 200,
       editable: true,
@@ -324,54 +171,184 @@ export default function Contracts() {
       renderCell(params) {
         return (
           <>
-            {params.value === true ? (
-              <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
+            {params.value ? (
+              <ChipCustome status="approved">Đã thanh toán</ChipCustome>
             ) : (
-              <ChipCustome status="rejected">Hết Hạn</ChipCustome>
+              <ChipCustome status="rejected">Đã hủy</ChipCustome>
             )}
           </>
         );
       },
     },
     {
-      field: "processNote",
-      headerName: "Ghi chú",
-      width: 250,
+      field: "grossStandardSalary",
+      headerName: "Lương mỗi ngày",
+      width: 200,
       editable: true,
+      align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Gross thỏa thuận</div>
         </Typography>
       ),
-      renderCell: (params) => (
-        <Box>
-          {params.value ? (
-            <Typography sx={cellStyle}>{params.row.value}</Typography>
-          ) : (
-            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
-              Chưa có ghi chú
-            </Typography>
-          )}
-        </Box>
-      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
     },
     {
-      field: "createAt",
-      headerName: "Thời gian tạo",
+      field: "grossActualSalary",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Gross thực tế</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
+    },
+    {
+      field: "netStandardSalary",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Net thỏa thuận</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
+    },
+    {
+      field: "netActualSalary",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Net thực tế</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
+    },
+    {
+      field: "totalCompInsured",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Bảo hiểm công ty</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
+    },
+    {
+      field: "totalCompPaid",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Công ty chi trả</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.value} />,
+    },
+    {
+      field: "otTotal",
+      headerName: "Số ngày nghỉ",
       width: 250,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tăng ca</div>
         </Typography>
       ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>
-          {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "leaveDays",
+      headerName: "Số ngày nghỉ",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số ngày nghỉ</div>
         </Typography>
       ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
+          </Box>
+        );
+      },
     },
 
+    {
+      field: "leaveHours",
+      headerName: "Số giờ nghỉ",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số giờ nghỉ</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "departmentName",
+      headerName: "Số giờ nghỉ",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Phòng ban</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        const departmentName = params.row.staff.department.departmentName;
+        const rowIndex = params.row.staff.department.departmentId % colors.length;
+        const dotColor = colors[rowIndex];
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
+              ●
+            </Typography>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
+              {departmentName}
+            </Typography>
+          </Box>
+        );
+      },
+    },
     {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
@@ -384,20 +361,11 @@ export default function Contracts() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Box>
-          {params.value ? (
-            <Typography sx={cellStyle}>
-              {moment(params.value).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
-          ) : (
-            <Typography sx={cellStyle}>
-              {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
-          )}
-        </Box>
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
       ),
     },
   ];
+
   function CurrencyFormatter(value: any) {
     const formattedValue = new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -405,47 +373,18 @@ export default function Contracts() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-
-  function CandidateAvatar(candidate: any) {
-    const [avatarUrl, setAvatarUrl] = useState("");
-    const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-    useEffect(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          setAvatarUrl(url);
-        })
-        .catch((error) => {});
-    }, [contractsLoaded]);
-    return (
-      <Avatar
-        sx={{
-          width: 34,
-          height: 34,
-          marginRight: 2,
-          fontSize: "14px",
-          bgcolor: "#BFBFBF",
-          display: "flex",
-          alignItems: "center", // Center the content vertically
-          justifyContent: "center", // Center the content horizontally
-          textAlign: "center", // Center the text horizontally
-        }}
-        src={avatarUrl}
-        alt=""
-      >
-        {candidate.candidateName.charAt(0)}
-      </Avatar>
-    );
-  }
-  const [gridHeight, setGridHeight] = useState(0);
-  const contracts = useAppSelector(contractSelectors.selectAll);
+  const payslips = useAppSelector(payslipSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
-  const { contractAdded, contractsLoaded } = useAppSelector((state) => state.contract);
-  const [rows, setRows] = useState<Contract[]>([]);
+  const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
+  const [rows, setRows] = useState<Payslip[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const prevLocation = useRef(location);
+  const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -457,22 +396,19 @@ export default function Contracts() {
   };
 
   useEffect(() => {
-    if (!contractsLoaded) {
-      dispatch(fetchContractsAsync());
-    }
-  }, [dispatch, contractsLoaded]);
-
-  console.log(contracts);
+    if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
+  }, [payslipsLoaded]);
 
   useEffect(() => {
-    if (contractsLoaded) {
-      setRows(contracts);
+    if (payslipsLoaded) {
+      setRows(payslips);
     }
-  }, [contractsLoaded, contracts]);
-
+  }, [payslipsLoaded, payslips]);
+  if (status.includes("pending")) return <LoadingComponent message="Loading Payroll..." />;
   return (
     <>
-      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
+      <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
+        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField
@@ -542,6 +478,9 @@ export default function Contracts() {
               Tạo đơn mới
             </Button>
           </Grid>
+
+          <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
+          
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
@@ -550,7 +489,7 @@ export default function Contracts() {
         <DataGrid
           autoHeight
           density="standard"
-          getRowId={(row: any) => row.contractId}
+          getRowId={(row: any) => row.payslipId}
           sx={{
             height: 700,
             //border: "none",
@@ -563,9 +502,9 @@ export default function Contracts() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
-          loading={!contractsLoaded}
+          loading={!payslipsLoaded}
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
