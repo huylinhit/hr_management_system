@@ -25,12 +25,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Department } from "../../app/models/department";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import {
-  fetchCurrentUserTicketsAsync,
-  fetchTicketsAsync,
-  setTicketAdded,
-  ticketsSelectors,
-} from "./ticketSlice";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -42,12 +36,16 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
 import { Ticket } from "../../app/models/ticket";
-import CreateTicketForm from "./CreateTicketForm";
+
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
-
+import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
+import Contract from "../../app/models/contract";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import NumbersIcon from "@mui/icons-material/Numbers";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -100,11 +98,11 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function MyTicketList() {
+export default function Contracts() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Danh sách hợp đồng", path: "/list-contract" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -118,7 +116,7 @@ export default function MyTicketList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/mytickets/${params.row.ticketId}`}
+          to={`/detail-contract/${params.row.contractId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -126,7 +124,7 @@ export default function MyTicketList() {
       ),
     },
     {
-      field: "ticketId",
+      field: "contractId",
       headerName: "ID",
       flex: 100,
       renderHeader: () => (
@@ -136,6 +134,7 @@ export default function MyTicketList() {
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
+
     {
       field: "staffName",
       headerName: "Tạo bởi",
@@ -149,77 +148,169 @@ export default function MyTicketList() {
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
-        const staffName = params.row.staffName;
+        const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar
-              candidateId={staffId}
-              candidateName={staffName}
-              color={staffNameColor}
-            />
-            <Typography sx={cellStyle}>{params.value}</Typography>
+            <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
+            <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
     },
     {
-      field: "ticketName",
+      field: "contractType",
       headerName: "Loại đơn",
       width: 300,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Loại hợp đồng</div>
         </Typography>
       ),
       renderCell: (params) => {
-        const rowIndex = params.row.ticketTypeId % colors.length;
+        const rowIndex = params.row.contractTypeId % colors.length;
         const dotColor = colors[rowIndex];
-
+        const contractTypeName = params.row.contractType.name;
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
-              ●
-            </Typography>
-            {/* <span style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>●</span> */}
+            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
             <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
-              {params.value}
+              {contractTypeName}
             </Typography>
           </Box>
         );
       },
     },
     {
-      field: "ticketReason",
-      headerName: "Lí do làm đơn",
-      width: 300,
+      field: "salaryType",
+      headerName: "Loại lương",
+      width: 150,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Loại lương</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.salaryType === "Gross To Net" ? (
+              <ChipCustome status="approved">{params.value}</ChipCustome>
+            ) : (
+              <ChipCustome status="waiting">{params.value}</ChipCustome>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      field: "noOfDependences",
+      headerName: "Loại lương",
+      width: 200,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <Typography sx={headerStyle}>Người phụ thuộc</Typography>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          </>
+        );
+      },
+    },
+
+    {
+      field: "startDate",
+      headerName: "Ngày bắt đầu",
+      width: 250,
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
         </Typography>
       ),
       renderCell: (params) => (
-        <Box>
-          <Typography sx={cellStyle}>{params.value}</Typography>
-        </Box>
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
       ),
     },
-    // {
-    //   field: "ticketFile",
-    //   headerName: "File",
-    //   width: 250,
-    //   editable: true,
-    //   renderHeader: () => (
-    //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
-    //     </Typography>
-    //   ),
-    // },
     {
-      field: "ticketStatus",
+      field: "endDate",
+      headerName: "Ngày kết thúc",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
+    },
+    {
+      field: "salary",
+      headerName: "Lương mong muốn",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Lương thỏa thuận</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.salary} />,
+    },
+    {
+      field: "taxableSalary",
+      headerName: "Lương đóng thuế",
+      width: 200,
+      editable: true,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Lương đóng thuế</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.taxableSalary} />,
+    },
+    {
+      field: "allowance",
+      headerName: "Tổng phụ cấp",
+      width: 200,
+      align:'left',
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <Typography sx={headerStyle}>Tổng phụ cấp</Typography>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        const allowances = params.row.allowances.reduce(
+          (total: any, c: any) => total + c.allowanceSalary,
+          0
+        );
+        return (
+          <>
+            <CurrencyFormatter value={allowances} />
+          </>
+        );
+      },
+    },
+    {
+      field: "contractStatus",
       headerName: "Trạng thái",
       width: 200,
       editable: true,
@@ -233,55 +324,10 @@ export default function MyTicketList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Chấp nhận" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#D0F9E5",
-                  color: "#2B8465",
-                  fontFamily: fontStyle,
-                  fontWeight: 700,
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
-            ) : params.value === "Chờ duyệt" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#FFF5D1",
-                  color: "#EF9423",
-                  fontFamily: fontStyle,
-                  fontWeight: 700,
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
+            {params.value === true ? (
+              <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
             ) : (
-              <Typography
-                sx={{
-                  backgroundColor: "#F4F6F7",
-                  padding: "1px 10px ",
-                  fontFamily: fontStyle,
-                  borderRadius: "6px",
-                  fontWeight: 700,
-                  color: "#9BA6B2",
-                  alignItems: "center",
-                  display: "inline-block",
-                  width: "fit-content",
-                  ml: "5px",
-                }}
-              >
-                {params.value}
-              </Typography>
+              <ChipCustome status="rejected">Hết Hạn</ChipCustome>
             )}
           </>
         );
@@ -324,7 +370,6 @@ export default function MyTicketList() {
           {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
         </Typography>
       ),
-      // valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
 
     {
@@ -351,9 +396,16 @@ export default function MyTicketList() {
           )}
         </Box>
       ),
-      //valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
     },
   ];
+  function CurrencyFormatter(value: any) {
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value.value);
+    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
+  }
+
   function CandidateAvatar(candidate: any) {
     const [avatarUrl, setAvatarUrl] = useState("");
     const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
@@ -363,7 +415,7 @@ export default function MyTicketList() {
           setAvatarUrl(url);
         })
         .catch((error) => {});
-    }, [ticketsLoaded]);
+    }, [contractsLoaded]);
     return (
       <Avatar
         sx={{
@@ -385,28 +437,13 @@ export default function MyTicketList() {
     );
   }
   const [gridHeight, setGridHeight] = useState(0);
-  const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const contracts = useAppSelector(contractSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { ticketsLoaded, filtersLoaded, ticketAdded, mytickets, status } = useAppSelector(
-    (state) => state.ticket
-  );
-  const [rows, setRows] = useState<Ticket[]>([]);
+  const { contractAdded, contractsLoaded } = useAppSelector((state) => state.contract);
+  const [rows, setRows] = useState<Contract[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const prevLocation = useRef(location);
-  const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
   }, [location, dispatch]);
@@ -420,19 +457,18 @@ export default function MyTicketList() {
   };
 
   useEffect(() => {
-    if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchCurrentUserTicketsAsync());
-      dispatch(setTicketAdded(false));
+    if (!contractsLoaded) {
+      dispatch(fetchContractsAsync());
     }
-    prevLocation.current = location;
-  }, [dispatch, ticketsLoaded, ticketAdded, key]);
+  }, [dispatch, contractsLoaded]);
 
-  console.log(tickets);
+  console.log(contracts);
+
   useEffect(() => {
-    if (ticketsLoaded) {
-      setRows(tickets);
+    if (contractsLoaded) {
+      setRows(contracts);
     }
-  }, [ticketsLoaded, tickets]);
+  }, [contractsLoaded, contracts]);
 
   return (
     <>
@@ -506,8 +542,6 @@ export default function MyTicketList() {
               Tạo đơn mới
             </Button>
           </Grid>
-
-          <CreateTicketForm open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
@@ -516,7 +550,7 @@ export default function MyTicketList() {
         <DataGrid
           autoHeight
           density="standard"
-          getRowId={(row: any) => row.ticketId}
+          getRowId={(row: any) => row.contractId}
           sx={{
             height: 700,
             //border: "none",
@@ -531,7 +565,7 @@ export default function MyTicketList() {
             loadingOverlay: LinearProgress,
             toolbar: CustomToolbar,
           }}
-          loading={!ticketsLoaded || ticketAdded}
+          loading={!contractsLoaded}
           rows={rows}
           columns={columns}
           //showCellVerticalBorder

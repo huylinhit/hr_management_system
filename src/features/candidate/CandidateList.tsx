@@ -510,11 +510,24 @@ export default function OtherUsersTicketList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Tạo ứng viên
             </Button>
@@ -541,7 +554,7 @@ export default function OtherUsersTicketList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            //toolbar: CustomToolbar,
+            toolbar: CustomToolbar,
           }}
           loading={!candidatesLoaded || candidateAdded}
           rows={rows}

@@ -62,17 +62,11 @@ const headerStyle = {
   fontSize: 15,
 };
 const fontStyle = "Mulish";
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
+const cellStyle = {
+  fontSize: 15,
+  fontWeight: 600,
   fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
+  color: "#1C2A35",
 };
 const colors = [
   "#34BBE1",
@@ -121,7 +115,7 @@ export default function MyLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/myleaves/${params.row.leaveLogId}`}
+          to={`/leave-list/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -132,6 +126,7 @@ export default function MyLeaveList() {
       field: "leaveLogId",
       headerName: "ID",
       flex: 100,
+      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
     },
     {
       field: "staffName",
@@ -151,12 +146,8 @@ export default function MyLeaveList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome
-              id={params.row.staffId}
-              name={staffName}
-              dependency={logleavesLoaded}
-            />
-            <Typography>{staffName}</Typography>
+            <AvatarCustome id={params.row.staffId} name={staffName} dependency={logleavesLoaded} />
+            <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
@@ -178,7 +169,7 @@ export default function MyLeaveList() {
         return (
           <Box display={"flex"} alignItems={"center"}>
             <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
-            <Typography sx={{ textDecoration: "underline", fontWeight: 600, fontFamily: "Mulish" }}>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {leaveTypeName}
             </Typography>
           </Box>
@@ -194,6 +185,17 @@ export default function MyLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
         </Typography>
+      ),
+      renderCell: (params) => (
+        <>
+          {params.value === "" ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có nội dung
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
       ),
     },
 
@@ -308,6 +310,17 @@ export default function MyLeaveList() {
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
         </Typography>
       ),
+      renderCell: (params) => (
+        <>
+          {params.value === null ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có ghi chú
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
+      ),
     },
     {
       field: "respondenceName",
@@ -318,6 +331,17 @@ export default function MyLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Người duyệt</div>
         </Typography>
+      ),
+      renderCell: (params) => (
+        <>
+          {params.row.respondencesId === null ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có người duyệt
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
       ),
     },
     {
@@ -333,9 +357,7 @@ export default function MyLeaveList() {
       renderCell: (params) => {
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>
-              {params.value} ngày
-            </Typography>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
           </Box>
         );
       },
@@ -353,9 +375,7 @@ export default function MyLeaveList() {
       renderCell: (params) => {
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ fontWeight: 600, fontFamily: "Mulish" }}>
-              {params.value} giờ
-            </Typography>
+            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
           </Box>
         );
       },
@@ -370,7 +390,9 @@ export default function MyLeaveList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
     {
       field: "leaveEnd",
@@ -382,7 +404,9 @@ export default function MyLeaveList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
     {
       field: "changeStatusTime",
@@ -395,7 +419,9 @@ export default function MyLeaveList() {
           <div>Thời gian thay đổi</div>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
     },
   ];
 
@@ -404,14 +430,13 @@ export default function MyLeaveList() {
       style: "currency",
       currency: "VND",
     }).format(value.value);
-    return <span>{formattedValue}</span>;
+    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
   const [gridHeight, setGridHeight] = useState(0);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.account);
   const myLogLeaves = logLeaves.filter(
-    (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId 
-
+    (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId
   );
   const dispatch = useAppDispatch();
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
@@ -463,7 +488,7 @@ export default function MyLeaveList() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "2%", pt: "20px", paddingRight: "2%" }}>
+      <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
         <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
@@ -512,11 +537,24 @@ export default function MyLeaveList() {
               Sort
             </Button>
             <Button
-              variant="text"
-              sx={{ fontWeight: "bold", textTransform: "none", color: "#007FFF" }}
-              disableElevation={true}
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
             >
               Tạo đơn mới
             </Button>
@@ -527,18 +565,20 @@ export default function MyLeaveList() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "100%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
           autoHeight
           density="standard"
           getRowId={(row: any) => row.leaveLogId}
           sx={{
             height: 700,
-            border: "none",
+            //border: "none",
             color: "#000000",
             fontSize: 16,
             fontWeight: 550,
-            fontFamily: fontStyle,
+            fontFamily: "Mulish",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
           slots={{
             loadingOverlay: LinearProgress,
@@ -547,7 +587,7 @@ export default function MyLeaveList() {
           loading={!logleavesLoaded || logLeaveAdded}
           rows={rows}
           columns={columns}
-          showCellVerticalBorder
+          //showCellVerticalBorder
           initialState={{
             pagination: {
               paginationModel: {

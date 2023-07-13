@@ -247,37 +247,12 @@ export default function CreateCandidate({ open, onClose }: Props) {
       })
       .catch((error: any) => {
         console.log("error creating staff skill: ", error);
+        toast.error("Xảy ra lỗi khi thêm 😥");
       });
   };
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="lg">
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
-        {/* <Box sx={{ paddingLeft: "10%", mt: "5%", paddingRight: "10%" }}>
-        <Grid container spacing={0} alignContent="center">
-          <Grid item>
-            <Button
-              variant="text"
-              sx={navStyle}
-              disableElevation={true}
-              component={NavLink}
-              to={`/otheruserstickets`}
-              key={"/otheruserstickets"}
-            >
-              Danh sách ứng viên
-            </Button>
-          </Grid>
-          <Grid item>
-            <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
-          </Grid>
-
-          <Grid item>
-            <Button variant="text" sx={navStyle} disableElevation={true}>
-              Tạo ứng viên mới
-            </Button>
-          </Grid>
-        </Grid>
-      </Box> */}
         <Container maxWidth="md" sx={{ padding: "20px", borderRadius: "40px" }}>
           <Box
             sx={{
