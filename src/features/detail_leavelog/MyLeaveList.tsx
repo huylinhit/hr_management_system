@@ -484,7 +484,6 @@ export default function MyLeaveList() {
     prevLocation.current = location;
   }, [dispatch, logleavesLoaded, logLeaveAdded, key]);
 
-  console.log(logLeaves);
   useEffect(() => {
     if (logleavesLoaded) {
       setRows(myLogLeaves);

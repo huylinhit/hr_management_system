@@ -99,11 +99,19 @@ function ViewOvertimeLog() {
   const list = useAppSelector(logOvertimeSelectors.selectAll);
   const { logOtAdded, logOtsLoaded, status } = useAppSelector(state => state.logot);
   useEffect(() => {
-    if (!logOtsLoaded ){
+    if (!logOtsLoaded) {
       dispatch(fetchLogOtsAsync());
     }
   }, [dispatch, logOtsLoaded]);
-  
+
+  const handleApprove = async (e: any) => {
+    
+  }
+
+  const handleReject = (e: any) => {
+
+  }
+
 
   if (status.includes('pending')) return <LoadingComponent message="Đang tải đơn làm thêm" />
 
@@ -169,6 +177,7 @@ function ViewOvertimeLog() {
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Tổng lương làm thêm</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Trạng thái</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Lý do</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Lý do</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Phản hồi</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Thời gian tạo</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "700", background: " rgb(244,246,247)", color: "#000" }}>Thời gian được duyệt</TableCell>
@@ -231,6 +240,21 @@ function ViewOvertimeLog() {
                       {item.status === 'approved' && <ChipCustome status="payment">Chấp nhận</ChipCustome>}
                       {item.status === 'rejected' && <ChipCustome status="rejected">Từ chối</ChipCustome>}
                       {item.status === 'cancel' && <ChipCustome status="cancel">Hủy</ChipCustome>}
+                    </TableCell>
+                    <TableCell align="center" style={contentStyles}>
+
+                      <Button onClick={handleApprove}>
+                        <ChipCustome status="approved">
+                          Chấp Nhận
+                        </ChipCustome>
+                      </Button>
+
+                      <Button onClick={handleReject}>
+                        <ChipCustome status="rejected">
+                          Từ Chối
+                        </ChipCustome>
+                      </Button>
+
                     </TableCell>
                     <TableCell align="center" style={contentStyles}>{item.reason}</TableCell>
                     <TableCell align="center" style={contentStyles}>{item.processNote}</TableCell>

@@ -20,7 +20,7 @@ export const fetchLeaveDayDetailAsync = createAsyncThunk<
   { state: RootState }
 >("leavedaydetail/fetchLeaveDayDetailAsync", async (staffId, thunkAPI) => {
   try {
-    const response = await agent.LeaveDayDetail.list(4);
+    const response = await agent.LeaveDayDetail.list(staffId);
     console.log(response);
     return response;
   } catch (error: any) {

@@ -325,6 +325,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
   };
 
+
   const handleTicketApproval = () => {
     console.log(selectedLeaveTypeId);
     console.log(startDate);

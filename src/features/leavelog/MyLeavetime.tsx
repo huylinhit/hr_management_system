@@ -79,93 +79,6 @@ function LeavetimeList() {
     return { Doid, id, name, kind, to, from, times, reason, status, reply };
   }
 
-  // const rows = [
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Từ chối",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Chờ duyệt",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Chấp nhận",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Từ chối",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Chờ duyệt",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Chấp nhận",
-  //     ""
-  //   ),
-  //   createData(
-  //     "HR0001",
-  //     1000001,
-  //     "Nguyen Hong Ngoc",
-  //     "Nghỉ thai sản",
-  //     "06/06/2023 18:00",
-  //     "09/09/2023 22:00",
-  //     "3",
-  //     "...",
-  //     "Chờ duyệt",
-  //     ""
-  //   ),
-  // ];
-
   const styles = {
     marginBottom: "10px",
   };
@@ -200,21 +113,6 @@ function LeavetimeList() {
       });
   },
     []);
-  //  const [] = useState<LeaveType[]>();
-  // axios.defaults.baseURL = "http://localhost:5000/api";
-  // axios.defaults.withCredentials = true;
-  //  useEffect(() => {
-  //   axios
-  //     .get("/leave-types")
-  //     .then((response) => {
-  //       setList(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // },
-  //  []);
-  // call api
   return (
     <>
       <Container sx={{ padding: "15px 0" }}>
