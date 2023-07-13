@@ -461,7 +461,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("payslips")}
                     dense
                     component={Link}
-                    to="/payslips"
+                    to="/myPayslips"
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <PeopleAltOutlinedIcon fontSize="small" />

@@ -259,8 +259,10 @@ export const router = createBrowserRouter([
 
       //payslip
       { path: "/payslips", element: <Payroll /> },
-      { path: "/myPayslips", element: <MyPaySlips /> },
       
+      //NEW VERSION 13/7 , 8:56PM
+      { path: "/myPayslips", element: <MyPaySlips /> },
+
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
       // Others
