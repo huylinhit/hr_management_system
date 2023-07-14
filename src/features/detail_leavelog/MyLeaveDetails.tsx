@@ -402,7 +402,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
       })
       .catch((error) => {
         console.log("Error cancelling ticket", error);
-        toast.error("Xảy ra lỗi khi hủy đơn 😥");
+        // toast.error("Xảy ra lỗi khi hủy đơn 😥");
       });
     handleCloseConfirm();
   };

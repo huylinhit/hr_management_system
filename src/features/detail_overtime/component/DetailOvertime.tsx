@@ -479,7 +479,7 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
           header="Ngày bắt đầu"
           defaultValue={
             logot?.logStart
-              ? `${moment(logot?.changeStatusTime).format("MMM Do, YYYY")}`
+              ? `${moment(logot?.logStart).format("MMM Do, YYYY")}`
               : ""
           }
           disabled={true}
@@ -489,7 +489,7 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày kết thúc"
           defaultValue={
-            logot?.logEnd ? `${moment(logot?.changeStatusTime).format("MMM Do, YYYY")}` : ""
+            logot?.logEnd ? `${moment(logot?.logEnd).format("MMM Do, YYYY")}` : ""
           }
           disabled={true}
         />

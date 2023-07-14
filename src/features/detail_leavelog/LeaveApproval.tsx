@@ -52,6 +52,7 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 const fontStyle = "Mulish";
 
 const menuItemStyle = {
@@ -145,7 +146,7 @@ const ProcessNoteInput = styled(TextField)(({ theme, disabled }) => ({
 }));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -446,7 +447,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
           header="Ngày bắt đầu"
           defaultValue={
             logLeave?.leaveStart
-              ? `${moment(logLeave?.changeStatusTime).format("MMM Do, YYYY")}`
+              ? `${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}`
               : ""
           }
           disabled={true}
@@ -456,7 +457,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày kết thúc"
           defaultValue={
-            logLeave?.leaveEnd ? `${moment(logLeave?.changeStatusTime).format("MMM Do, YYYY")}` : ""
+            logLeave?.leaveEnd ? `${moment(logLeave?.leaveEnd).format("MMM Do, YYYY")}` : ""
           }
           disabled={true}
         />
@@ -499,9 +500,11 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
               onChange={handleStatusChange}
               select
             >
-              <MenuItem value={"approved"}>Chấp nhận</MenuItem>
-              <MenuItem value={"pending"}>Chờ duyệt</MenuItem>
-              <MenuItem value={"rejected"}>Từ chối</MenuItem>
+              <MenuItem value={"approved"}>
+                <ChipCustome status="approved">Chấp nhận</ChipCustome>
+              </MenuItem>
+              <MenuItem value={"pending"}><ChipCustome status="pending">Chờ duyệt</ChipCustome></MenuItem>
+              <MenuItem value={"rejected"}><ChipCustome status="rejected">Từ chối</ChipCustome></MenuItem>
             </BootstrapInput>
           </Box>
         </Box>
@@ -524,7 +527,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
             onChange={debouncedProcessNoteInput}
           />
         </Grid>
-      </Container>
+      </Container >
     </>
   );
 }

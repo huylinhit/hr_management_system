@@ -34,7 +34,7 @@ export interface Payslip {
   changerId: number
   payday: string
   enable: boolean
-  payslipStatus: string
+  status: string
   staff: Staff
   taxDetails: TaxDetail[]
 }

@@ -29,18 +29,21 @@ function PayslipDetail() {
     const payslip = payslips.find(c => c.payslipId === parseInt(payslipId!));
     const { payslipsLoaded, status: payslipStatus } = useAppSelector(state => state.payslip);
 
+
     //allowances 
-    const contracts : Contract[] = useAppSelector(contractSelectors.selectAll);
+    const contracts: Contract[] = useAppSelector(contractSelectors.selectAll);
     const { contractsLoaded, status: contractStatus } = useAppSelector(state => state.contract);
-    const contract : Contract | undefined = contracts.find(c =>
+    const contract: Contract | undefined = contracts.find(c =>
         c.staffId === parseInt(staffId!) &&
         c.contractStatus === true
     );
+    console.log("Contract: ", contract);
 
     const allowances: Allowance[] = contract ? contract.allowances : [];
     const totalAllowances = allowances?.reduce((total, item) => total + item.allowanceSalary, 0);
     const date = payslip?.createAt;
 
+    console.log("allowances: ",allowances);
     //log Ot 
     const logots = useAppSelector(logOvertimeSelectors.selectAll);
     const { logOtsLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
@@ -50,9 +53,10 @@ function PayslipDetail() {
     const logotsStaff = logots
         .filter(c => {
             return moment(c.logStart).month() === moment(payslip?.payday).month() &&
-            c.status === 'approved';
+                c.status === 'approved' &&
+                c.staffId === payslip?.staffId;
         })
-        console.log("logot: ",logotsStaff);
+    console.log("logot: ", logotsStaff);
 
     const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
     const totalLogotDays = logotsStaff

@@ -87,7 +87,7 @@ export default function MyOTList() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -101,7 +101,7 @@ export default function MyOTList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/leave-list/${params.row.leaveLogId}`}
+          to={`/own-log-overtimes/${params.row.otLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -109,7 +109,7 @@ export default function MyOTList() {
       ),
     },
     {
-      field: "leaveLogId",
+      field: "otLogId",
       headerName: "ID",
       flex: 100,
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -198,7 +198,7 @@ export default function MyOTList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Approved" ? (
+            {params.value === "approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -212,9 +212,9 @@ export default function MyOTList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chấp Nhận
               </Typography>
-            ) : params.value === "Pending" ? (
+            ) : params.value === "pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -228,7 +228,7 @@ export default function MyOTList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chờ Duyệt
               </Typography>
             ) : params.value === "Rejected" ? (
               <Typography
@@ -245,7 +245,7 @@ export default function MyOTList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Từ Chối
               </Typography>
             ) : (
               <Typography
@@ -262,7 +262,7 @@ export default function MyOTList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Đã Hủy
               </Typography>
             )}
           </>
