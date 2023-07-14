@@ -61,6 +61,7 @@ import MyOTList from "../../features/detail_overtime/MyOTList";
 import OtherOTList from "../../features/detail_overtime/OtherOTList";
 import Payslips from "../../features/payslip/Payslips";
 import Payroll from "../../features/payslip/component/Payroll";
+import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 import DetailLeave from "../../features/detail_leavelog/DetailLeave";
 import LeaveDetail from "../../features/detail_leavelog/component/LeaveDetail";
 // import Payroll from "../../features/payslip/component/Payroll";
@@ -100,16 +101,15 @@ export const router = createBrowserRouter([
         children: [
           //Dashboard
           { path: "/dashboard", element: <DashBoard /> },
+          { path: "/other-leave-list/:id", element: <LeaveApproval /> },
 
           // Allowance
 
           // Department
 
-
           // Employee
           // { path: "/register", element: <Register /> },
           // { path: "/employeelist", element: <EmployeeList /> },
-
 
           //Xóa
           // { path: "/detail-employee/:id", element: <DetailEmployee /> },
@@ -122,7 +122,6 @@ export const router = createBrowserRouter([
           // Department
           // { path: "/departments", element: <DepartmentList /> },
           // { path: "/departments/:id", element: <DepartmentDetails /> },
-
 
           // { path: "/staffskills", element: <StaffSkillsList /> },
           // { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
@@ -137,8 +136,6 @@ export const router = createBrowserRouter([
           // Overtime
           // { path: "/list-overtime", element: <ViewOvertimeLog /> },
           // { path: "/own-overtime", element: <ViewMyOvertime /> },
-
-
 
           //MyOT
           // { path: "/myovertime", element: <MyViewOvertime /> },
@@ -190,11 +187,7 @@ export const router = createBrowserRouter([
       // Contract
       // { path: "/list-contract", element: <Contracts /> },
 
-
-
       // Overtime
-
-
 
       //MyOT
 
@@ -225,10 +218,9 @@ export const router = createBrowserRouter([
 
       // { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
-
       //department
       { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> }, 
+      { path: "/departments/:id", element: <DepartmentDetails /> },
       //employeee
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },

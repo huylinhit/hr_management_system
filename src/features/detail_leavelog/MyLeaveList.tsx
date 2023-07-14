@@ -214,7 +214,7 @@ export default function MyLeaveList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Approved" ? (
+            {params.value === "approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -228,9 +228,9 @@ export default function MyLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chấp nhận
               </Typography>
-            ) : params.value === "Pending" ? (
+            ) : params.value === "pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -244,9 +244,9 @@ export default function MyLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chờ duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -261,7 +261,7 @@ export default function MyLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Từ chối
               </Typography>
             ) : (
               <Typography
@@ -278,7 +278,7 @@ export default function MyLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Đã hủy
               </Typography>
             )}
           </>
@@ -286,11 +286,28 @@ export default function MyLeaveList() {
       },
     },
     {
+      field: "amount",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      headerAlign: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Khấu trừ</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
+    },
+    {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
       width: 200,
       editable: true,
       align: "right",
+      headerAlign: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -449,18 +466,7 @@ export default function MyLeaveList() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của tôi", path: "/myleaves" }]));
   }, [location, dispatch]);
@@ -561,7 +567,7 @@ export default function MyLeaveList() {
             </Button>
           </Grid>
 
-          <CreateLeaveForm open={open} onClose={handleCloseDialog} />
+          <CreateLeaveForm isOwn={true} open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
