@@ -1,16 +1,12 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Avatar,
   Button,
-  Container,
   Grid,
   IconButton,
-  InputAdornment,
   LinearProgress,
-  TextField,
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -21,25 +17,16 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../firebase";
-import { deepPurple } from "@mui/material/colors";
-import { Ticket } from "../../app/models/ticket";
 
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
 import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
 import Contract from "../../app/models/contract";

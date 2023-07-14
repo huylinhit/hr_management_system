@@ -61,6 +61,7 @@ import MyOTList from "../../features/detail_overtime/MyOTList";
 import OtherOTList from "../../features/detail_overtime/OtherOTList";
 import Payslips from "../../features/payslip/Payslips";
 import Payroll from "../../features/payslip/component/Payroll";
+import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -98,16 +99,15 @@ export const router = createBrowserRouter([
         children: [
           //Dashboard
           { path: "/dashboard", element: <DashBoard /> },
+          { path: "/other-leave-list/:id", element: <LeaveApproval /> },
 
           // Allowance
 
           // Department
 
-
           // Employee
           // { path: "/register", element: <Register /> },
           // { path: "/employeelist", element: <EmployeeList /> },
-
 
           //Xóa
           // { path: "/detail-employee/:id", element: <DetailEmployee /> },
@@ -120,7 +120,6 @@ export const router = createBrowserRouter([
           // Department
           // { path: "/departments", element: <DepartmentList /> },
           // { path: "/departments/:id", element: <DepartmentDetails /> },
-
 
           // { path: "/staffskills", element: <StaffSkillsList /> },
           // { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
@@ -135,8 +134,6 @@ export const router = createBrowserRouter([
           // Overtime
           // { path: "/list-overtime", element: <ViewOvertimeLog /> },
           // { path: "/own-overtime", element: <ViewMyOvertime /> },
-
-
 
           //MyOT
           // { path: "/myovertime", element: <MyViewOvertime /> },
@@ -188,11 +185,7 @@ export const router = createBrowserRouter([
       // Contract
       // { path: "/list-contract", element: <Contracts /> },
 
-
-
       // Overtime
-
-
 
       //MyOT
 
@@ -223,10 +216,9 @@ export const router = createBrowserRouter([
 
       // { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
-
       //department
       { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> }, 
+      { path: "/departments/:id", element: <DepartmentDetails /> },
       //employeee
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },
@@ -239,7 +231,7 @@ export const router = createBrowserRouter([
       { path: "/contracts", element: <Contracts /> },
       { path: "/contracts/:id", element: <DetailContract /> },
       { path: "/edit-contract/:id", element: <EditContract /> },
-      { path: "/add-contract/:id", element: <NewContract /> },  
+      { path: "/add-contract/:id", element: <NewContract /> },
       //ot
       { path: "/other-list-overtime", element: <OtherOTList /> },
       { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
@@ -248,20 +240,19 @@ export const router = createBrowserRouter([
 
       //leave
       { path: "/other-leave-list", element: <OtherLeaveList /> },
+      { path: "/other-leave-list/:id/staffs/:staffid", element: <LeaveApproval /> },
       { path: "/my-leave-list", element: <MyLeaveList /> },
       { path: "/my-leave-list/:id", element: <MyLeaveDetails /> },
+
       //other
       { path: "/mytickets", element: <MyTicketList /> },
       { path: "/mytickets/:id", element: <MyTicketDetails /> },
       { path: "/other-users-tickets", element: <OtherUsersTicketList /> },
-      { path: "/other-users-tickets/:id", element: <TicketApprovalForm /> },
 
       //payslip
 
       { path: "/payslips", element: <Payslips /> },
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-      { path: "/payroll", element: <Payroll /> },
-
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

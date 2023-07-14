@@ -122,7 +122,7 @@ export default function OthersLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/othersleaves/${params.row.leaveLogId}`}
+          to={`/other-leave-list/${params.row.leaveLogId}/staffs/${params.row.staffId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -222,7 +222,7 @@ export default function OthersLeaveList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Approved" ? (
+            {params.value === "approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -236,9 +236,9 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Đã duyệt
               </Typography>
-            ) : params.value === "Pending" ? (
+            ) : params.value === "pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -252,9 +252,9 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chờ duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -269,7 +269,7 @@ export default function OthersLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Từ chối
               </Typography>
             ) : (
               <Typography
@@ -286,7 +286,7 @@ export default function OthersLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Đã Hủy
               </Typography>
             )}
           </>
@@ -294,11 +294,28 @@ export default function OthersLeaveList() {
       },
     },
     {
+      field: "amount",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      headerAlign: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Khấu trừ</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
+    },
+    {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
       width: 200,
       editable: true,
       align: "right",
+      headerAlign: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -447,7 +464,7 @@ export default function OthersLeaveList() {
   const otherUsersLogLeaves = logLeaves.filter(
     (logLeave) =>
       logLeave.staffId !== currentUser.user?.userInfor.staffId &&
-      logLeave.status === "Pending" &&
+      logLeave.status === "pending" &&
       logLeave.enable
   );
   console.log(otherUsersLogLeaves);
@@ -503,7 +520,6 @@ export default function OthersLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             {/* <TextField
@@ -575,7 +591,7 @@ export default function OthersLeaveList() {
             </Button>
           </Grid>
 
-          <CreateLeaveForm open={open} onClose={handleCloseDialog} />
+          <CreateLeaveForm isOwn={false} open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>

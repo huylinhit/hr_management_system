@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { deepPurple } from "@mui/material/colors";
-import { candidatesSelectors, fetchCandidateAsync } from "./candidateSlice";
+import { candidatesSelectors, fetchCandidateAsync, setCandidateAdded, setCandidateUpdated } from "./candidateSlice";
 import { storage } from "../../firebase";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { departmentSelectors, fetchDepartmentsAsync } from "../department/departmentSlice";
@@ -369,19 +369,6 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
       setUpdatedSkills(updatedSkills);
     }
   }, [id, candidate, dispatch, setUpdatedSkills]);
-  // useEffect(() => {
-  //   if (candidateSkillsByCandidateId.length === 0 && id) {
-  //     dispatch(fetchCandidateSkillsByCandidateIdAsync(parseInt(id)));
-  //   } else if (candidateSkillsByCandidateId.length > 0 && updatedSkills.length === 0) {
-  //     console.log("REFRESH");
-  //     const updatedSkills = candidateSkillsByCandidateId.map((skill) => ({
-  //       id: skill.uniqueId,
-  //       skill: skill.skillName,
-  //       level: skill.level,
-  //     }));
-  //     setUpdatedSkills(updatedSkills);
-  //   }
-  // }, [id, candidateSkillsByCandidateId, dispatch]);
 
   useEffect(() => {
     if (candidate) {
@@ -580,7 +567,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
         handleUploadImage();
         console.log("Candidate updated successfully: ", response);
         toast.success("Cập nhật ứng viên thành công 😊");
-        //  dispatch(setCandidateUpdated(true));
+        dispatch(setCandidateAdded(true));
         console.log(dob);
       })
       .catch((error) => {
@@ -852,7 +839,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
                   }}
                 >
                   {ticketFile
-                    ? "Tải File đính kèm hoặc đổi file khác"
+                    ? "Tải File đính kèm về hoặc đổi file khác"
                     : selectedFile
                     ? selectedFile.name
                     : "Kéo & thả File đính kèm vào đây"}

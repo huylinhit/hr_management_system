@@ -385,8 +385,10 @@ export default function MyTicketList() {
       </Avatar>
     );
   }
-  const [gridHeight, setGridHeight] = useState(0);
+  const currentUser = useAppSelector((state) => state.account);
+
   const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const myTickets = tickets.filter((c) => c.staffId === currentUser.user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { ticketsLoaded, filtersLoaded, ticketAdded, mytickets, status } = useAppSelector(
     (state) => state.ticket
@@ -396,18 +398,7 @@ export default function MyTicketList() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
   }, [location, dispatch]);
@@ -422,7 +413,7 @@ export default function MyTicketList() {
 
   useEffect(() => {
     if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchCurrentUserTicketsAsync());
+      dispatch(fetchTicketsAsync());
       dispatch(setTicketAdded(false));
     }
     prevLocation.current = location;
@@ -431,7 +422,7 @@ export default function MyTicketList() {
   console.log(tickets);
   useEffect(() => {
     if (ticketsLoaded) {
-      setRows(tickets);
+      setRows(myTickets);
     }
   }, [ticketsLoaded, tickets]);
 

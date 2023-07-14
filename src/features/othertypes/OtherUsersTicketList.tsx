@@ -23,7 +23,12 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { fetchOtherUsersTicketsAsync, setTicketAdded, ticketsSelectors } from "./ticketSlice";
+import {
+  fetchOtherUsersTicketsAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
 import { Ticket } from "../../app/models/ticket";
 import CreateTicketForm from "./CreateTicketForm";
 import moment from "moment";
@@ -308,6 +313,8 @@ export default function OtherUsersTicketList() {
   }
   const [gridHeight, setGridHeight] = useState(0);
   const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.account);
+  const otherTickets = tickets.filter((c) => c.staffId !== currentUser.user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { ticketsLoaded, filtersLoaded, ticketAdded, status, othertickets } = useAppSelector(
     (state) => state.ticket
@@ -318,21 +325,6 @@ export default function OtherUsersTicketList() {
   const prevLocation = useRef(location);
   const key = location.pathname;
 
-  useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của nhân viên", path: "/otheruserstickets" }]));
-  }, [location, dispatch]);
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 200); // Adjust the value (200) as needed to leave space for other elements
-    };
-
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -340,10 +332,12 @@ export default function OtherUsersTicketList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Danh sách đơn khác", path: "/myleaves" }]));
+  }, [location, dispatch]);
   useEffect(() => {
     if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchOtherUsersTicketsAsync());
+      dispatch(fetchTicketsAsync());
       dispatch(setTicketAdded(false));
     }
     prevLocation.current = location;
@@ -352,7 +346,7 @@ export default function OtherUsersTicketList() {
   useEffect(() => {
     if (ticketsLoaded) {
       // Update the rows when departments are loaded
-      setRows(tickets);
+      setRows(otherTickets);
     }
   }, [ticketsLoaded, tickets]);
 

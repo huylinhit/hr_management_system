@@ -30,8 +30,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { styled } from "@mui/material/styles";
 import { current } from "@reduxjs/toolkit";
 import { ToastContainer, toast } from "react-toastify";
+import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 
 interface Props {
+  isOwn?: boolean;
   open: boolean;
   onClose: () => void;
 }
@@ -177,7 +179,7 @@ function ButtonDatePicker(props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" 
     />
   );
 }
-export default function CreateLeaveForm({ open, onClose }: Props) {
+export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
   const dispatch = useAppDispatch();
   const [selectedLeaveTypeId, setSelectedLeaveTypeId] = useState(2);
   const [isTicketTypeEmpty, setIsTicketTypeEmpty] = useState(false);
@@ -189,10 +191,16 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
   const [startDate, setStartDate] = useState<Date>(today.toDate());
   const [endDate, setEndDate] = useState<Date>(minEndDate.toDate());
   const currentUser = useAppSelector((state) => state.account);
+  const users = useAppSelector(userInforSelectors.selectAll);
+  const { userInforsLoaded, status } = useAppSelector((state) => state.userInfor);
+  const [selectedUser, setSelectedUser] = useState<number>(1);
   useEffect(() => {
-    if (currentUser.user && !leaveDayDetailLoaded)
-      dispatch(fetchLeaveDayDetailAsync(currentUser.user.userInfor.staffId));
-  }, [dispatch]);
+    if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
+  }, [userInforsLoaded]);
+  useEffect(() => {
+    if ((currentUser.user && !leaveDayDetailLoaded) || selectedUser)
+      dispatch(fetchLeaveDayDetailAsync(selectedUser));
+  }, [dispatch, selectedUser]);
 
   useEffect(() => {
     if (!leaveDayDetail) return;
@@ -208,6 +216,10 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
     if (selectedOption) {
       setIsTicketTypeEmpty(false);
     }
+  };
+
+  const handleSelectedUser = (e: any) => {
+    setSelectedUser(e.target.value);
   };
 
   const handleSetStartDate = (event: any) => {
@@ -242,16 +254,29 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
     }
     if (!currentUser.user) return;
 
-    agent.LogLeave.create(currentUser.user?.userInfor.staffId, logLeaveCreate)
-      .then((response) => {
-        console.log("Ticket created successfully: ", response);
-        toast.success("Tạo đơn thành công 😊");
-        dispatch(setLogLeaveAdded(true));
-      })
-      .catch((error) => {
-        toast.error("Xảy ra lỗi khi tạo đơn 😥");
-        console.error("Error creating ticket: ", error);
-      });
+    if (isOwn) {
+      agent.LogLeave.create(currentUser.user?.userInfor.staffId, logLeaveCreate)
+        .then((response) => {
+          console.log("Ticket created successfully: ", response);
+          toast.success("Tạo đơn thành công 😊");
+          dispatch(setLogLeaveAdded(true));
+        })
+        .catch((error) => {
+          toast.error("Xảy ra lỗi khi tạo đơn 😥");
+          console.error("Error creating ticket: ", error);
+        });
+    } else {
+      agent.LogLeave.create(selectedUser, logLeaveCreate)
+        .then((response) => {
+          console.log("Ticket created successfully: ", response);
+          toast.success("Tạo đơn thành công 😊");
+          dispatch(setLogLeaveAdded(true));
+        })
+        .catch((error) => {
+          toast.error("Xảy ra lỗi khi tạo đơn 😥");
+          console.error("Error creating ticket: ", error);
+        });
+    }
     onClose();
   };
 
@@ -262,7 +287,7 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
       fileInputRef.current.click();
     }
   };
-
+  if (!currentUser.user) return <></>;
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
@@ -271,10 +296,52 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
           display={"flex"}
           alignItems={"center"}
         >
-          Tạo mới đơn nghỉ phép
+          Tạo đơn nghỉ phép
         </DialogTitle>
 
         <DialogContent>
+          <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+            <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+            {isOwn === true ? (
+              <>
+                <Typography sx={{ width: "148px" }}>Nhân viên</Typography>
+              </>
+            ) : (
+              <>
+                <Typography sx={{ ...headerStyle, ...headerColor }}>Nhân viên</Typography>
+              </>
+            )}
+            {isOwn === true ? (
+              <>
+                <Typography>
+                  {currentUser?.user.userInfor.lastName} {currentUser?.user.userInfor.firstName}{" "}
+                  MSNV: {currentUser?.user.userInfor.staffId}
+                </Typography>
+              </>
+            ) : (
+              // <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+              <>
+                {users.length !== 0 && (
+                  <BootstrapInput
+                    fullWidth
+                    InputProps={textFieldInputProps}
+                    variant="standard"
+                    onChange={handleSelectedUser}
+                    value={selectedUser}
+                    select
+                  >
+                    {users.map((item) => (
+                      <MenuItem key={item.staffId} value={item.staffId}>
+                        {`${item.lastName} ${item.firstName} (MSNV: ${item.staffId})`}
+                      </MenuItem>
+                    ))}
+                  </BootstrapInput>
+                )}
+              </>
+              // </Box>
+            )}
+          </Box>
+
           <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
             <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
             <Typography sx={{ ...headerStyle, ...headerColor }}>Loại đơn</Typography>

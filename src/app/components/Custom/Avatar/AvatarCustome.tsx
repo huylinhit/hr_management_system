@@ -18,7 +18,7 @@ export default function AvatarCustome({ id, name, dependency }: Props) {
       })
       .catch((error) => {});
   }, [dependency]);
-  console.log(name);
+
   return (
     <Avatar
       // variant="rounded"

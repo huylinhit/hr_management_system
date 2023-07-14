@@ -45,6 +45,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { candidateSkillsSelectors, fetchCandidateSkillsAsync } from "./candidateSkillSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -164,18 +165,7 @@ export default function OtherUsersTicketList() {
         return (
           <>
             {params.value === "Đạt" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#FFF7D5",
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
+              <ChipCustome status="payment">{params.value}</ChipCustome>
             ) : params.value === "Chờ duyệt" ? (
               <Typography
                 sx={{
