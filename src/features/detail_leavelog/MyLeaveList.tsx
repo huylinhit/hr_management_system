@@ -101,7 +101,7 @@ export default function MyLeaveList() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Đơn khác của tôi", path: "/own-log-leaves" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -115,7 +115,7 @@ export default function MyLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/my-leave-list/${params.row.leaveLogId}`}
+          to={`/own-log-leaves/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />

@@ -62,6 +62,8 @@ import OtherOTList from "../../features/detail_overtime/OtherOTList";
 import Payslips from "../../features/payslip/Payslips";
 import Payroll from "../../features/payslip/component/Payroll";
 import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
+import DetailLeave from "../../features/detail_leavelog/DetailLeave";
+import LeaveDetail from "../../features/detail_leavelog/component/LeaveDetail";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -222,7 +224,8 @@ export const router = createBrowserRouter([
       //employeee
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },
-      { path: "/create-new-staff", element: <AddNewEmployee /> },
+      { path: "/staffs/add", element: <AddNewEmployee /> },
+
       //candidate
 
       { path: "/candidates/", element: <CandidateList /> },
@@ -230,29 +233,34 @@ export const router = createBrowserRouter([
       //contract
       { path: "/contracts", element: <Contracts /> },
       { path: "/contracts/:id", element: <DetailContract /> },
-      { path: "/edit-contract/:id", element: <EditContract /> },
-      { path: "/add-contract/:id", element: <NewContract /> },
+      { path: "/contracts/:id/edit", element: <EditContract /> },
+      { path: "/contracts/staffs/:id/add", element: <NewContract /> },  
       //ot
-      { path: "/other-list-overtime", element: <OtherOTList /> },
-      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/my-list-overtime", element: <MyOTList /> },
-      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+      { path: "/log-overtimes", element: <OtherOTList /> },
+      { path: "/log-overtimes/:id", element: <DetailOvertime /> },
+      { path: "/own-log-overtimes", element: <MyOTList /> },
+      { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
 
       //leave
-      { path: "/other-leave-list", element: <OtherLeaveList /> },
-      { path: "/other-leave-list/:id/staffs/:staffid", element: <LeaveApproval /> },
-      { path: "/my-leave-list", element: <MyLeaveList /> },
-      { path: "/my-leave-list/:id", element: <MyLeaveDetails /> },
+      { path: "/log-leaves", element: <OtherLeaveList /> },
+      { path: "/log-leaves/:leaveId/staffs/:staffId", element: <LeaveDetail /> },
 
+      //Thiếu Log Leave của người khác
+
+      { path: "/own-log-leaves", element: <MyLeaveList /> },
+      { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
       //other
-      { path: "/mytickets", element: <MyTicketList /> },
-      { path: "/mytickets/:id", element: <MyTicketDetails /> },
-      { path: "/other-users-tickets", element: <OtherUsersTicketList /> },
+      { path: "/own-tickets", element: <MyTicketList /> },
+      { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+      { path: "/tickets", element: <OtherUsersTicketList /> },
+      { path: "/tickets/:id", element: <TicketApprovalForm /> },
 
       //payslip
 
       { path: "/payslips", element: <Payslips /> },
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+      // { path: "/payroll", element: <Payroll /> },
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

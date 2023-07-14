@@ -111,7 +111,7 @@ const staffNameColors = [
 ];
 export default function OthersLeaveList() {
   const handleRowClick = () => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/othersleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/log-leaves" }]));
   };
   const columns: GridColDef[] = [
     {
@@ -122,7 +122,7 @@ export default function OthersLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/other-leave-list/${params.row.leaveLogId}/staffs/${params.row.staffId}`}
+          to={`/log-leaves/${params.row.leaveLogId}/staffs/${params.row.staffId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -464,7 +464,6 @@ export default function OthersLeaveList() {
   const otherUsersLogLeaves = logLeaves.filter(
     (logLeave) =>
       logLeave.staffId !== currentUser.user?.userInfor.staffId &&
-      logLeave.status === "pending" &&
       logLeave.enable
   );
   console.log(otherUsersLogLeaves);
@@ -520,6 +519,7 @@ export default function OthersLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
+        {/* <ToastContainer /> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             {/* <TextField
