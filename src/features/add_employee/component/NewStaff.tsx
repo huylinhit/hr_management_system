@@ -252,14 +252,12 @@ export default function NewStaff({
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             defaultValue={userForm.departmentId}
-            onChange={(e) =>{
-              console.log(e.target.value);
-              
+            onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
                 departmentId: e.target.value,
               }))
-            }}
+            }
           >
             {departments.map((department, index) => (
               <MenuItem key={index} value={department.departmentId}>
