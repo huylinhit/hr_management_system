@@ -42,7 +42,7 @@ export default function AddNewEmployee() {
     address: "",
     country: "",
     citizenId: "",
-    departmentId: 0,
+    departmentId: 1,
     isManager: false,
     bankAccount: "",
     bankAccountName: "",
@@ -87,7 +87,7 @@ export default function AddNewEmployee() {
       .then((response) => {
         console.log("Add new employee successfully: ", response);
         setStep((prevActiveStep) => prevActiveStep + 1);
-        setTimeout(() => history("/employeelist"), 2000);
+        setTimeout(() => history("/staffs"), 2000);
       })
       .catch((error) => {
         console.error("Error add new employee ", error);

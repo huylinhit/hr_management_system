@@ -164,7 +164,6 @@ export default function NewStaff({
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
-                // defaultValue={userForm.dob === "" ? "" : dayjs(userForm.dob).format("YYhow to compare string1 is as same as string2YY-MM-DD")}
                 onChange={(e: any) =>
                   setUserForm((prevForm: any) => ({
                     ...prevForm,
@@ -252,16 +251,18 @@ export default function NewStaff({
             type="text"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue={1}
-            onChange={(e) =>
+            defaultValue={userForm.departmentId}
+            onChange={(e) =>{
+              console.log(e.target.value);
+              
               setUserForm((prevForm: any) => ({
                 ...prevForm,
                 departmentId: e.target.value,
               }))
-            }
+            }}
           >
             {departments.map((department, index) => (
-              <MenuItem key={index} value={index + 1}>
+              <MenuItem key={index} value={department.departmentId}>
                 {department.departmentName}
               </MenuItem>
             ))}
