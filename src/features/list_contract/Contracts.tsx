@@ -103,7 +103,7 @@ export default function Contracts() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Danh sách hợp đồng", path: "/list-contract" },
+        { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -117,8 +117,7 @@ export default function Contracts() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/detail-contract/${params.row.contractId}`}
-          onClick={handleRowClick}
+          to={`/contracts/${params.row.contractId}`}
         >
           <MoreHorizIcon />
         </IconButton>
@@ -156,7 +155,7 @@ export default function Contracts() {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
             <Typography sx={cellStyle}>{staffName}</Typography>
-          </Box>  
+          </Box>
         );
       },
     },
@@ -407,46 +406,20 @@ export default function Contracts() {
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
 
-  function CandidateAvatar(candidate: any) {
-    const [avatarUrl, setAvatarUrl] = useState("");
-    const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-    useEffect(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          setAvatarUrl(url);
-        })
-        .catch((error) => {});
-    }, [contractsLoaded]);
-    return (
-      <Avatar
-        sx={{
-          width: 34,
-          height: 34,
-          marginRight: 2,
-          fontSize: "14px",
-          bgcolor: "#BFBFBF",
-          display: "flex",
-          alignItems: "center", // Center the content vertically
-          justifyContent: "center", // Center the content horizontally
-          textAlign: "center", // Center the text horizontally
-        }}
-        src={avatarUrl}
-        alt=""
-      >
-        {candidate.candidateName.charAt(0)}
-      </Avatar>
-    );
-  }
   const [gridHeight, setGridHeight] = useState(0);
   const contracts = useAppSelector(contractSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { contractAdded, contractsLoaded, status: contractStatus } = useAppSelector((state) => state.contract);
+  const {
+    contractAdded,
+    contractsLoaded,
+    status: contractStatus,
+  } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
+    dispatch(setHeaderTitle([{ title: "Hợp Đồng Nhân Viên", path: "/contracts" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -471,14 +444,14 @@ export default function Contracts() {
     }
   }, [contractsLoaded, contracts]);
 
-  if (contractStatus.includes('pending')) <LoadingComponent message="Đang Tải Hợp Đồng"/>
+  if (contractStatus.includes("pending")) <LoadingComponent message="Đang Tải Hợp Đồng" />;
 
   return (
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -491,10 +464,10 @@ export default function Contracts() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -521,12 +494,13 @@ export default function Contracts() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -551,11 +525,11 @@ export default function Contracts() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
+          // autoHeight
           density="standard"
           getRowId={(row: any) => row.contractId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -566,7 +540,7 @@ export default function Contracts() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           loading={!contractsLoaded}
           rows={rows}

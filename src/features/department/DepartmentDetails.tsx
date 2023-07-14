@@ -356,7 +356,7 @@ export default function DepartmentDetails() {
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -369,11 +369,11 @@ export default function DepartmentDetails() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
 
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -398,7 +398,7 @@ export default function DepartmentDetails() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Tooltip title="Đổi quản lý">
               <Button
                 variant="text"
@@ -424,6 +424,7 @@ export default function DepartmentDetails() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb:'5px',
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -467,9 +468,8 @@ export default function DepartmentDetails() {
         {department ? (
           <DataGrid
             density="standard"
-            autoHeight
             sx={{
-              height: 700,
+              height: "83vh",
               //border: "none",
               color: "#000000",
               fontSize: 16,
@@ -480,7 +480,7 @@ export default function DepartmentDetails() {
             }}
             slots={{
               loadingOverlay: LinearProgress,
-              toolbar: CustomToolbar,
+              //toolbar: CustomToolbar,
             }}
             loading={departmentStatus.includes("pending")}
             rows={department.userInfors}

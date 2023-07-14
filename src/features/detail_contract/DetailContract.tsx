@@ -9,10 +9,7 @@ import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 // data
 import DetailContractFooter from "./component/DetailContractFooter";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractValidDetailASync,
@@ -25,12 +22,8 @@ export default function DetailContract() {
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, Number(id))
-  );
-  const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(id))
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(id)));
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
@@ -38,6 +31,7 @@ export default function DetailContract() {
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
+  if (!employee && !contract) return <></>;
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
@@ -83,10 +77,7 @@ export default function DetailContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
-          >
+          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>

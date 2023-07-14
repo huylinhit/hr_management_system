@@ -150,7 +150,7 @@ function Payroll() {
 
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.status === 'pending' && item.enable === true && (
+                                        {/* {item.status === 'pending' && item.enable === true && (
                                             <ChipCustome status="pending" >Chờ Duyệt</ChipCustome>
                                         )}
                                         {item.status === 'waiting' && item.enable === true && (
@@ -161,7 +161,7 @@ function Payroll() {
                                         )}
                                         {item.enable === false && (
                                             <ChipCustome status="rejected" >Đã Hủy</ChipCustome>
-                                        )}
+                                        )} */}
                                     </TableCell>
                                     <TableCell align="center">
                                             {item.totalCompInsured.toLocaleString()}
