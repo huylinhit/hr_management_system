@@ -245,7 +245,6 @@ export default function CreateLeaveForm({ open, onClose }: Props) {
     agent.LogLeave.create(currentUser.user?.userInfor.staffId, logLeaveCreate)
       .then((response) => {
         console.log("Ticket created successfully: ", response);
-        toast.success("Tạo đơn thành công 😊");
         dispatch(setLogLeaveAdded(true));
       })
       .catch((error) => {

@@ -251,7 +251,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "create-employee" })}
                       onClick={() => handleActiveClick("create-employee")}
                       component={Link}
-                      to="/create-new-staff"
+                      to="/staffs/add"
                     >
                       <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
                         <PersonAddAltOutlinedIcon fontSize="small" />
@@ -286,7 +286,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "leave-list" })}
                       onClick={() => handleActiveClick("leave-list")}
                       component={Link}
-                      to="/other-leave-list"
+                      to="/log-leaves"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
@@ -303,7 +303,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "myleavelist" })}
                       onClick={() => handleActiveClick("myleavelist")}
                       component={Link}
-                      to="/my-leave-list"
+                      to="/own-log-leaves"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
@@ -334,7 +334,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "overtime-list" })}
                       onClick={() => handleActiveClick("overtime-list")}
                       component={Link}
-                      to="/other-list-overtime"
+                      to="/log-overtimes"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
@@ -350,7 +350,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "my-overtime-list" })}
                       onClick={() => handleActiveClick("my-overtime-list")}
                       component={Link}
-                      to="/my-list-overtime"
+                      to="/own-log-overtimes"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <WatchLaterOutlinedIcon fontSize="small" />
@@ -414,7 +414,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("employeeList")}
                     dense
                     component={Link}
-                    to="/other-users-tickets "
+                    to="/tickets"
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
@@ -431,7 +431,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("mytickets")}
                     dense
                     component={Link}
-                    to="/mytickets"
+                    to="/own-tickets"
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
