@@ -493,6 +493,8 @@ export default function MyLeaveList() {
     }
   }, [logleavesLoaded, logLeaves]);
 
+  console.log("Here: ", currentUser);
+
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>

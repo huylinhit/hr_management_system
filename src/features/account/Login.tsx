@@ -9,12 +9,13 @@ import agent from "../../app/api/agent";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { Container, Paper, Typography, TextField } from "@mui/material";
-import { useAppDispatch } from "../../app/store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { fetchCurrentUser, signInUser } from "./accountSlice";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.account)
   const {
     register,
     handleSubmit,
@@ -26,7 +27,7 @@ export default function Login() {
   async function submitForm(data: FieldValues) {
     await dispatch(signInUser(data));
     await dispatch(fetchCurrentUser());
-    navigate("/departments");
+    navigate(`/own-log-leaves`);
   }
 
   return (

@@ -99,6 +99,19 @@ export const router = createBrowserRouter([
       },
       // { path: "/my-overtime", element: <ViewMyOvertime /> },
 
+      // Staff routes
+      {
+        element: <RequireAuth roles={['Staff']} />, children: [
+          { path: "/own-log-leaves", element: <MyLeaveList /> },
+          { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
+          { path: "/own-log-overtimes", element: <MyOTList /> },
+          { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
+          { path: "/own-tickets", element: <MyTicketList /> },
+          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+          // { path: "/own-payslips", element: <MyPayslips /> },
+          // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+        ]
+      },
       //HR Staff routes
       {
         element: <RequireAuth roles={["HRStaff"]} />,
@@ -160,20 +173,6 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/my-payroll", element: <MyPayroll /> },
 
-      // Staff routes
-      {
-        element: <RequireAuth roles={["Staff"]} />,
-        children: [
-          { path: "/own-log-leaves", element: <MyLeaveList /> },
-          { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
-          { path: "/own-log-overtimes", element: <MyOTList /> },
-          { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
-          { path: "/own-tickets", element: <MyTicketList /> },
-          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
-          // { path: "/own-payslips", element: <MyPayslips /> },
-          // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-        ],
-      },
 
       // { path: "/payroll", element: <Payroll /> },
 
