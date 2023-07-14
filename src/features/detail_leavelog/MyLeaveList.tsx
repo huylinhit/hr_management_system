@@ -98,7 +98,6 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function MyLeaveList() {
-
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
@@ -440,9 +439,7 @@ export default function MyLeaveList() {
     (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId
   );
   const dispatch = useAppDispatch();
-  const leaveDayDetail = useAppSelector(state => state.leaveDayDetail);
- 
-
+  const leaveDayDetail = useAppSelector((state) => state.leaveDayDetail);
 
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
@@ -493,10 +490,9 @@ export default function MyLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -509,10 +505,10 @@ export default function MyLeaveList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -539,12 +535,13 @@ export default function MyLeaveList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -571,11 +568,11 @@ export default function MyLeaveList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
+          // autoHeight
           density="standard"
           getRowId={(row: any) => row.leaveLogId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

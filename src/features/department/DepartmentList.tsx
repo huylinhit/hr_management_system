@@ -279,7 +279,7 @@ export default function DepartmentList() {
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -292,10 +292,10 @@ export default function DepartmentList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -322,12 +322,13 @@ export default function DepartmentList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -361,11 +362,10 @@ export default function DepartmentList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.departmentId}
           sx={{
-            height: 700,
+            height: "82vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -376,7 +376,7 @@ export default function DepartmentList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           loading={!departmentsLoaded}
           rows={rows}
@@ -389,6 +389,7 @@ export default function DepartmentList() {
               },
             },
           }}
+           
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
         />
