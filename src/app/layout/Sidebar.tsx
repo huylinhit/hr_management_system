@@ -195,8 +195,133 @@ export default function Sidebar() {
 
           {/*Nhân viên, Employee*/}
           <Box flex="1" overflow="auto">
-            <List>
-              {user && user.roles?.includes("HRStaff") && (
+            {user && user.roles?.includes("Staff") && user.roles.length === 1 && (
+              <>
+                <List>
+                  {/*Log Leave*/}
+                  <>
+                    <ListItemButton className={cx("header")} onClick={handleOpenLeaveLog}>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...headerStyle }}
+                        primary="NGHỈ PHÉP"
+                      />
+                      {/* {openLeaveLog ? <ExpandLess /> : <ExpandMore />} */}
+                    </ListItemButton>
+                    <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
+                      <List disablePadding>
+                        {/*Đơn nghỉ phép nhân viên*/}
+
+                        <ListItemButton
+                          className={cx("list-item", { activeButton: active === "myleavelist" })}
+                          onClick={() => handleActiveClick("myleavelist")}
+                          component={Link}
+                          to="/own-log-leaves"
+                        >
+                          <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                            <HotelOutlinedIcon fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText
+                            className={cx("list-item-content")}
+                            primaryTypographyProps={{ ...listItemStyle }}
+                            primary="Đơn Nghỉ Phép Của Tôi"
+                          />
+                        </ListItemButton>
+                      </List>
+                    </Collapse>
+                  </>
+                  {/*Log Overtime*/}
+                  <>
+                    <ListItemButton className={cx("header")} onClick={handleOpenOT}>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...headerStyle }}
+                        primary="TĂNG CA"
+                      />
+                      {/* {openOT ? <ExpandLess /> : <ExpandMore />} */}
+                    </ListItemButton>
+                    <Collapse in={openOT} timeout="auto" unmountOnExit>
+                      <List disablePadding>
+                        <ListItemButton
+                          className={cx("list-item", { activeButton: active === "my-overtime-list" })}
+                          onClick={() => handleActiveClick("my-overtime-list")}
+                          component={Link}
+                          to="/own-log-overtimes"
+                        >
+                          <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                            <WatchLaterOutlinedIcon fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText
+                            className={cx("list-item-content")}
+                            primaryTypographyProps={{ ...listItemStyle }}
+                            primary="Đơn Tăng Ca Của Tôi"
+                          />
+                        </ListItemButton>
+                      </List>
+                    </Collapse>
+                  </>
+                  {/*Other Tickets*/}
+                  <>
+                    <ListItemButton className={cx("header")} onClick={handleOpenTicket}>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...headerStyle }}
+                        primary="ĐƠN KHÁC"
+                      />
+                      {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
+                    </ListItemButton>
+                    <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "mytickets" })}
+                        onClick={() => handleActiveClick("mytickets")}
+                        dense
+                        component={Link}
+                        to="/own-tickets"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <MailOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn Khác Của Tôi"
+                        />
+                      </ListItemButton>
+                    </Collapse>
+                  </>
+                  {/* <>
+                    <ListItemButton className={cx("header")} onClick={handleOpenSalary}>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...headerStyle }}
+                        primary="QUẢN LÍ LƯƠNG"
+                      />
+                    </ListItemButton>
+                    <Collapse in={openSalary} timeout="auto" unmountOnExit>
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "own-payslip" })}
+                        onClick={() => handleActiveClick("own-payslip")}
+                        dense
+                        component={Link}
+                        to="/own-payslips"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <PeopleAltOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Lương Của Tôi"
+                        />
+                      </ListItemButton>
+
+                    </Collapse>
+                  </> */}
+                </List>
+              </>
+            )}
+            {user && user.roles?.includes("HRStaff") && (
+              <List>
                 <>
                   <ListItemButton className={cx("header")} onClick={handleOpenStaff}>
                     <ListItemText
@@ -264,109 +389,103 @@ export default function Sidebar() {
                     </ListItemButton>
                   </Collapse>
                 </>
-              )}
+                {/*Log Leave*/}
+                <>
+                  <ListItemButton className={cx("header")} onClick={handleOpenLeaveLog}>
+                    <ListItemText
+                      className={cx("list-item-content")}
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="NGHỈ PHÉP"
+                    />
+                    {/* {openLeaveLog ? <ExpandLess /> : <ExpandMore />} */}
+                  </ListItemButton>
+                  <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                      {/*Đơn nghỉ phép nhân viên*/}
 
-              {/*Log Leave*/}
+                      {/*Sửa lại đơn nghỉ phép của toàn bộ nhân viên và đơn nghỉ phép của 1 nhân viên, call API bị sai */}
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "leave-list" })}
+                        onClick={() => handleActiveClick("leave-list")}
+                        component={Link}
+                        to="/log-leaves"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <HotelOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
 
-              <>
-                <ListItemButton className={cx("header")} onClick={handleOpenLeaveLog}>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }}
-                    primary="NGHỈ PHÉP"
-                  />
-                  {/* {openLeaveLog ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
-                <Collapse in={openLeaveLog} timeout="auto" unmountOnExit>
-                  <List disablePadding>
-                    {/*Đơn nghỉ phép nhân viên*/}
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn Nghỉ Phép Nhân Viên"
+                        />
+                      </ListItemButton>
 
-                    {/*Sửa lại đơn nghỉ phép của toàn bộ nhân viên và đơn nghỉ phép của 1 nhân viên, call API bị sai */}
-                    <ListItemButton
-                      className={cx("list-item", { activeButton: active === "leave-list" })}
-                      onClick={() => handleActiveClick("leave-list")}
-                      component={Link}
-                      to="/log-leaves"
-                    >
-                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                        <HotelOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "myleavelist" })}
+                        onClick={() => handleActiveClick("myleavelist")}
+                        component={Link}
+                        to="/own-log-leaves"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <HotelOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn Nghỉ Phép Của Tôi"
+                        />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+                </>
+                {/*Log Overtime*/}
+                <>
+                  <ListItemButton className={cx("header")} onClick={handleOpenOT}>
+                    <ListItemText
+                      className={cx("list-item-content")}
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="TĂNG CA"
+                    />
+                    {/* {openOT ? <ExpandLess /> : <ExpandMore />} */}
+                  </ListItemButton>
+                  <Collapse in={openOT} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "overtime-list" })}
+                        onClick={() => handleActiveClick("overtime-list")}
+                        component={Link}
+                        to="/log-overtimes"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <WatchLaterOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn Tăng Ca Nhân Viên"
+                        />
+                      </ListItemButton>
 
-                      <ListItemText
-                        className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn Nghỉ Phép Nhân Viên"
-                      />
-                    </ListItemButton>
-
-                    <ListItemButton
-                      className={cx("list-item", { activeButton: active === "myleavelist" })}
-                      onClick={() => handleActiveClick("myleavelist")}
-                      component={Link}
-                      to="/own-log-leaves"
-                    >
-                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                        <HotelOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText
-                        className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn Nghỉ Phép Của Tôi"
-                      />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              </>
-
-              {/*Log Overtime*/}
-              <>
-                <ListItemButton className={cx("header")} onClick={handleOpenOT}>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }}
-                    primary="TĂNG CA"
-                  />
-                  {/* {openOT ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
-                <Collapse in={openOT} timeout="auto" unmountOnExit>
-                  <List disablePadding>
-                    <ListItemButton
-                      className={cx("list-item", { activeButton: active === "overtime-list" })}
-                      onClick={() => handleActiveClick("overtime-list")}
-                      component={Link}
-                      to="/log-overtimes"
-                    >
-                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                        <WatchLaterOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText
-                        className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn Tăng Ca Nhân Viên"
-                      />
-                    </ListItemButton>
-
-                    <ListItemButton
-                      className={cx("list-item", { activeButton: active === "my-overtime-list" })}
-                      onClick={() => handleActiveClick("my-overtime-list")}
-                      component={Link}
-                      to="/own-log-overtimes"
-                    >
-                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                        <WatchLaterOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText
-                        className={cx("list-item-content")}
-                        primaryTypographyProps={{ ...listItemStyle }}
-                        primary="Đơn Tăng Ca Của Tôi"
-                      />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              </>
-
-              {/*Ứng viên Candidates*/}
-              {user && user.roles?.includes("HRStaff") && (
+                      <ListItemButton
+                        className={cx("list-item", { activeButton: active === "my-overtime-list" })}
+                        onClick={() => handleActiveClick("my-overtime-list")}
+                        component={Link}
+                        to="/own-log-overtimes"
+                      >
+                        <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <WatchLaterOutlinedIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText
+                          className={cx("list-item-content")}
+                          primaryTypographyProps={{ ...listItemStyle }}
+                          primary="Đơn Tăng Ca Của Tôi"
+                        />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+                </>
+                {/*Ứng viên Candidates*/}
                 <>
                   <ListItemButton className={cx("header")} onClick={handleOpenCandidate}>
                     <ListItemText
@@ -395,132 +514,129 @@ export default function Sidebar() {
                     </ListItemButton>
                   </Collapse>
                 </>
-              )}
-
-              {/*Other Tickets*/}
-
-              <>
-                <ListItemButton className={cx("header")} onClick={handleOpenTicket}>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }}
-                    primary="ĐƠN KHÁC"
-                  />
-                  {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
-                <Collapse in={openTicket} timeout="auto" unmountOnExit>
-                  <ListItemButton
-                    className={cx("list-item", { activeButton: active === "employeeList" })}
-                    onClick={() => handleActiveClick("employeeList")}
-                    dense
-                    component={Link}
-                    to="/tickets"
-                  >
-                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                      <MailOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
+                {/*Other Tickets*/}
+                <>
+                  <ListItemButton className={cx("header")} onClick={handleOpenTicket}>
                     <ListItemText
                       className={cx("list-item-content")}
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Danh Sách Đơn Khác"
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="ĐƠN KHÁC"
                     />
+                    {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
+                  <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "employeeList" })}
+                      onClick={() => handleActiveClick("employeeList")}
+                      dense
+                      component={Link}
+                      to="/tickets"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Danh Sách Đơn Khác"
+                      />
+                    </ListItemButton>
 
-                  <ListItemButton
-                    className={cx("list-item", { activeButton: active === "mytickets" })}
-                    onClick={() => handleActiveClick("mytickets")}
-                    dense
-                    component={Link}
-                    to="/own-tickets"
-                  >
-                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                      <MailOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "mytickets" })}
+                      onClick={() => handleActiveClick("mytickets")}
+                      dense
+                      component={Link}
+                      to="/own-tickets"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Đơn Khác Của Tôi"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+                <>
+                  <ListItemButton className={cx("header")} onClick={handleOpenSalary}>
                     <ListItemText
                       className={cx("list-item-content")}
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Đơn Khác Của Tôi"
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="QUẢN LÍ LƯƠNG"
                     />
+                    {/* {openSalary ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
-                </Collapse>
-              </>
+                  <Collapse in={openSalary} timeout="auto" unmountOnExit>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "payslips" })}
+                      onClick={() => handleActiveClick("payslips")}
+                      dense
+                      component={Link}
+                      to="/payslips"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Lương Nhân Viên"
+                      />
+                    </ListItemButton>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "own-payslip" })}
+                      onClick={() => handleActiveClick("own-payslip")}
+                      dense
+                      component={Link}
+                      to="/own-payslips"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Lương Của Tôi"
+                      />
+                    </ListItemButton>
 
-              <>
-                <ListItemButton className={cx("header")} onClick={handleOpenSalary}>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }}
-                    primary="QUẢN LÍ LƯƠNG"
-                  />
-                  {/* {openSalary ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
-                <Collapse in={openSalary} timeout="auto" unmountOnExit>
-                  <ListItemButton
-                    className={cx("list-item", { activeButton: active === "payslips" })}
-                    onClick={() => handleActiveClick("payslips")}
-                    dense
-                    component={Link}
-                    to="/payslips"
-                  >
-                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                      <PeopleAltOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
+                  </Collapse>
+                </>
+                {/*Contract */}
+                <>
+                  <ListItemButton className={cx("header")} onClick={handleOpenContract}>
                     <ListItemText
                       className={cx("list-item-content")}
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Lương Nhân Viên"
+                      primaryTypographyProps={{ ...headerStyle }}
+                      primary="HỢP ĐỒNG"
                     />
+                    {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
-                  <ListItemButton
-                    className={cx("list-item", { activeButton: active === "own-payslip" })}
-                    onClick={() => handleActiveClick("own-payslip")}
-                    dense
-                    component={Link}
-                    to="/own-payslips"
-                  >
-                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                      <PeopleAltOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      className={cx("list-item-content")}
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Lương Của Tôi"
-                    />
-                  </ListItemButton>
+                  <Collapse in={openContract} timeout="auto" unmountOnExit>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "contract-list" })}
+                      onClick={() => handleActiveClick("contract-list")}
+                      dense
+                      component={Link}
+                      to="/contracts"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Hợp Đồng Nhân Viên"
+                      />
+                    </ListItemButton>
+                  </Collapse>
+                </>
+              </List>
+            )}
 
-                </Collapse>
-              </>
-
-              {/*Contract */}
-              <>
-                <ListItemButton className={cx("header")} onClick={handleOpenContract}>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{ ...headerStyle }}
-                    primary="HỢP ĐỒNG"
-                  />
-                  {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
-                <Collapse in={openContract} timeout="auto" unmountOnExit>
-                  <ListItemButton
-                    className={cx("list-item", { activeButton: active === "contract-list" })}
-                    onClick={() => handleActiveClick("contract-list")}
-                    dense
-                    component={Link}
-                    to="/contracts"
-                  >
-                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
-                      <MailOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      className={cx("list-item-content")}
-                      primaryTypographyProps={{ ...listItemStyle }}
-                      primary="Hợp Đồng Nhân Viên"
-                    />
-                  </ListItemButton>
-                </Collapse>
-              </>
-            </List>
           </Box>
         </Box>
       </Drawer>
