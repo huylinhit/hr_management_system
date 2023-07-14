@@ -121,7 +121,7 @@ export const router = createBrowserRouter([
           { path: "/candidates/:id", element: <CandidateDetails /> },
           //contract
           { path: "/contracts", element: <Contracts /> },
-          { path: "/contracts/:id", element: <DetailContract /> },
+          { path: "/contracts/:id/staffs/:staffid", element: <DetailContract /> },
           { path: "/contracts/:id/edit", element: <EditContract /> },
           { path: "/contracts/staffs/:id/add", element: <NewContract /> },
 
@@ -162,21 +162,20 @@ export const router = createBrowserRouter([
 
       // Staff routes
       {
-        element: <RequireAuth roles={['Staff']} />, children: [
+        element: <RequireAuth roles={["Staff"]} />,
+        children: [
           { path: "/own-log-leaves", element: <MyLeaveList /> },
           { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           { path: "/own-tickets", element: <MyTicketList /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
-           // { path: "/own-payslips", element: <MyPayslips /> },
+          // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-        ]
+        ],
       },
 
-
       // { path: "/payroll", element: <Payroll /> },
-
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

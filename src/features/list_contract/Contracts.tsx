@@ -2,13 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Grid,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -104,7 +98,7 @@ export default function Contracts() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/contracts/${params.row.contractId}`}
+          to={`/contracts/${params.row.contractId}/staffs/${params.row.staffId}`}
         >
           <MoreHorizIcon />
         </IconButton>

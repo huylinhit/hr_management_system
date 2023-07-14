@@ -17,30 +17,23 @@ import {
   fetchContractValidDetailASync,
 } from "../../app/store/contract/contractSlice";
 
-
-
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
-  const { id } = useParams();
+  const { id, staffid } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, Number(id))
-  );
-  const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(id))
-  );
-  const { status } = useAppSelector(
-    (state) => state.contract
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+  console.log(`CONTRACT ${id}`);
+  const { status } = useAppSelector((state) => state.contract);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchEmployeeAsync(Number(id)));
+    dispatch(fetchEmployeeAsync(Number(staffid)));
     dispatch(fetchContractValidDetailASync(Number(id)));
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending")) return <LoadingComponent message="Loading..." />
+  if (status.includes("pending")) return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   if (!employee && !contract) return <></>;
   return (
@@ -61,8 +54,7 @@ export default function DetailContract() {
           aria-label="delete"
           sx={{ padding: "10px 10px 20px 10px" }}
           component={Link}
-          to={`/contracts/${contract?.contractId}/edit`}
-          
+          to={`/contracts/${id}/edit`}
         >
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
