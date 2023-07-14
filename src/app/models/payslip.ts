@@ -4,7 +4,6 @@ import { TaxDetail } from "./taxDetail"
 export interface Payslip {
   payslipId: number
   staffId: number
-  paidByDate: number
   grossStandardSalary: number
   grossActualSalary: number
   standardWorkDays: number
@@ -31,7 +30,11 @@ export interface Payslip {
   totalCompPaid: number
   createAt: string
   changeAt: string
-  payslipStatus: boolean
+  creatorId: number
+  changerId: number
+  payday: string
+  enable: boolean
+  status: string
   staff: Staff
   taxDetails: TaxDetail[]
 }

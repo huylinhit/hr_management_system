@@ -100,7 +100,7 @@ const staffNameColors = [
   "#F9F2F5",
   "#FAECEC",
 ];
-export default function MyPaySlips() {
+export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
@@ -114,11 +114,11 @@ export default function MyPaySlips() {
       field: "button",
       headerName: "",
       width: 60,
-      align: "center",
+      align: "right",
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/leave-list/${params.row.leaveLogId}`}
+          to={`/payslips/${params.row.payslipId}/staffs/${params.row.staffId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -135,11 +135,10 @@ export default function MyPaySlips() {
       field: "staffName",
       headerName: "Tên nhân viên",
       width: 250,
-      editable: true,
       renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+        <Typography display={"flex"} alignItems={"right"} sx={headerStyle}>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5}} fontSize="small" />{" "}
+          Tạo Bởi
         </Typography>
       ),
       renderCell: (params) => {
@@ -160,8 +159,7 @@ export default function MyPaySlips() {
       field: "payslipStatus",
       headerName: "Trạng thái",
       width: 200,
-      editable: true,
-      align: "left",
+      align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -184,7 +182,6 @@ export default function MyPaySlips() {
       field: "grossStandardSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -199,7 +196,6 @@ export default function MyPaySlips() {
       field: "grossActualSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -214,7 +210,6 @@ export default function MyPaySlips() {
       field: "netStandardSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -229,7 +224,6 @@ export default function MyPaySlips() {
       field: "netActualSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -243,7 +237,6 @@ export default function MyPaySlips() {
     {
       field: "totalCompInsured",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -257,7 +250,6 @@ export default function MyPaySlips() {
     {
       field: "totalCompPaid",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -272,7 +264,6 @@ export default function MyPaySlips() {
       field: "otTotal",
       headerName: "Số ngày nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tăng ca</div>
@@ -290,7 +281,6 @@ export default function MyPaySlips() {
       field: "leaveDays",
       headerName: "Số ngày nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số ngày nghỉ</div>
@@ -309,7 +299,6 @@ export default function MyPaySlips() {
       field: "leaveHours",
       headerName: "Số giờ nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số giờ nghỉ</div>
@@ -327,7 +316,6 @@ export default function MyPaySlips() {
       field: "departmentName",
       headerName: "Số giờ nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Phòng ban</div>
@@ -353,7 +341,6 @@ export default function MyPaySlips() {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -480,7 +467,7 @@ export default function MyPaySlips() {
           </Grid>
 
           <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
-          
+
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>

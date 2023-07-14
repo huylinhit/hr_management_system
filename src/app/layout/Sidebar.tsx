@@ -251,7 +251,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "create-employee" })}
                       onClick={() => handleActiveClick("create-employee")}
                       component={Link}
-                      to="/create-new-employee"
+                      to="/create-new-staff"
                     >
                       <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
                         <PersonAddAltOutlinedIcon fontSize="small" />
@@ -303,7 +303,7 @@ export default function Sidebar() {
                       className={cx("list-item", { activeButton: active === "myleavelist" })}
                       onClick={() => handleActiveClick("myleavelist")}
                       component={Link}
-                      to="/leave-list"
+                      to="/my-leave-list"
                     >
                       <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                         <HotelOutlinedIcon fontSize="small" />
@@ -319,7 +319,6 @@ export default function Sidebar() {
               </>
 
               {/*Log Overtime*/}
-
               <>
                 <ListItemButton className={cx("header")} onClick={handleOpenOT}>
                   <ListItemText
@@ -415,7 +414,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("employeeList")}
                     dense
                     component={Link}
-                    to="/otheruserstickets "
+                    to="/other-users-tickets "
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
@@ -461,7 +460,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("payslips")}
                     dense
                     component={Link}
-                    to="/myPayslips"
+                    to="/payslips"
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <PeopleAltOutlinedIcon fontSize="small" />
@@ -491,7 +490,7 @@ export default function Sidebar() {
                     onClick={() => handleActiveClick("contract-list")}
                     dense
                     component={Link}
-                    to="/list-contract"
+                    to="/contracts"
                   >
                     <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
                       <MailOutlinedIcon fontSize="small" />
