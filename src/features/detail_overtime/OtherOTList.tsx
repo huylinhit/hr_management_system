@@ -108,7 +108,7 @@ export default function OtherOTList() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Đơn khác của nhân viên", path: "/log-overtimes" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -122,7 +122,7 @@ export default function OtherOTList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/other-leave-list/${params.row.leaveLogId}`}
+          to={`/log-overtimes/${params.row.otLogId}/staffs/${params.row.staffId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -130,7 +130,7 @@ export default function OtherOTList() {
       ),
     },
     {
-      field: "leaveLogId",
+      field: "otLogId",
       headerName: "ID",
       flex: 100,
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -219,7 +219,7 @@ export default function OtherOTList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Approved" ? (
+            {params.value === "approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -233,9 +233,9 @@ export default function OtherOTList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chấp Nhận
               </Typography>
-            ) : params.value === "Pending" ? (
+            ) : params.value === "pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -249,9 +249,9 @@ export default function OtherOTList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chờ Duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -266,7 +266,7 @@ export default function OtherOTList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Từ Chối
               </Typography>
             ) : (
               <Typography
@@ -283,7 +283,7 @@ export default function OtherOTList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Hủy
               </Typography>
             )}
           </>
@@ -454,7 +454,7 @@ export default function OtherOTList() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của nhân viên", path: "/log-overtimes" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
