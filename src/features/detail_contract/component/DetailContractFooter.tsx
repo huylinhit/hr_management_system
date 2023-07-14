@@ -1,9 +1,13 @@
 import { Button, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
+import { UserInfor } from "../../../app/models/userInfor";
 
-interface Props {}
+interface Props {
+  employee: UserInfor | undefined;
+}
 
-export default function DetailContractFooter({}: Props) {
+export default function DetailContractFooter({ employee }: Props) {
   return (
     <Grid
       container
@@ -13,7 +17,7 @@ export default function DetailContractFooter({}: Props) {
         alignItems: "flex-end",
       }}
     >
-      <Grid item >
+      <Grid item>
         <Button
           variant="outlined"
           sx={{
@@ -22,21 +26,19 @@ export default function DetailContractFooter({}: Props) {
             padding: "auto",
           }}
           startIcon={<ArrowBackIcon />}
-          // component={Link}
-          //           to={`/detail-employee/${employee.staffId}`}
+          component={Link}
+          to={`/staffs/${employee?.staffId}`}
         >
           Quay về
         </Button>
       </Grid>
-      <Grid item >
+      <Grid item>
         <Button
           sx={{
             borderRadius: "20px",
             padding: "auto",
           }}
-        >
-          
-        </Button>
+        ></Button>
       </Grid>
     </Grid>
   );

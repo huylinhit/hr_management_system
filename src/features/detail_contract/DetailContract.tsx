@@ -1,20 +1,23 @@
 import { useEffect } from "react";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import DetailContractFooter from "./component/DetailContractFooter";
 import DetailContractInfo from "./component/DetailContractInfo";
 import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 
 // data
-import DetailContractFooter from "./component/DetailContractFooter";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractValidDetailASync,
 } from "../../app/store/contract/contractSlice";
-import { Link, useParams } from "react-router-dom";
+
+
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
@@ -22,14 +25,22 @@ export default function DetailContract() {
   const dispatch = useAppDispatch();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(id)));
-  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+  const employee = useAppSelector((state) =>
+    employeeSelectors.selectById(state, Number(id))
+  );
+  const contract = useAppSelector((state) =>
+    contractSelectors.selectById(state, Number(id))
+  );
+  const { status } = useAppSelector(
+    (state) => state.contract
+  );
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
     dispatch(fetchContractValidDetailASync(Number(id)));
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  if (status.includes("pending")) return <LoadingComponent message="Loading..." />
   // -------------------------- MAIN ----------------------------
   if (!employee && !contract) return <></>;
   return (
@@ -88,7 +99,7 @@ export default function DetailContract() {
             padding: "30px 20px 0 30px",
           }}
         >
-          <DetailContractFooter />
+          <DetailContractFooter employee={employee} />
         </Grid>
       </Container>
     </Box>
