@@ -67,13 +67,9 @@ export default function NewContract() {
   };
   // -------------------------- MAIN ----------------------------
   const disabled = !areAllFieldsNotNull(contractForm);
-  console.log(disabled);
-  console.log(contractForm);
-  
-  
 
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+    <Box sx={{ padding: "10px 40px 30px 40px", width: "calc(100vh - 240)" }}>
       <Grid container>
         <Typography
           sx={{

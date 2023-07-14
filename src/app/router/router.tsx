@@ -45,7 +45,7 @@ import HomePage from "../../features/home/HomePage";
 import { useAppSelector } from "../store/configureStore";
 
 import StaffList from "../../features/employee/StaffList";
-import EditInfo from "../../features/edit_employee/component/EditInfo";
+import EditInfo from "../../features/edit_employee/EditInfo";
 
 import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";

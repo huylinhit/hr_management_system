@@ -40,7 +40,7 @@ export default function DetailContract() {
     dispatch(fetchContractValidDetailASync(Number(id)));
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending")) return <LoadingComponent message="Loading edit contract..." />
+  if (status.includes("pending")) return <LoadingComponent message="Loading..." />
   // -------------------------- MAIN ----------------------------
   if (!employee && !contract) return <></>;
   return (
@@ -99,7 +99,7 @@ export default function DetailContract() {
             padding: "30px 20px 0 30px",
           }}
         >
-          <DetailContractFooter />
+          <DetailContractFooter employee={employee} />
         </Grid>
       </Container>
     </Box>
