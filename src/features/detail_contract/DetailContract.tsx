@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import DetailContractFooter from "./component/DetailContractFooter";
 import DetailContractInfo from "./component/DetailContractInfo";
 import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 
 // data
-import DetailContractFooter from "./component/DetailContractFooter";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import {
   employeeSelectors,
@@ -17,7 +19,8 @@ import {
   contractSelectors,
   fetchContractValidDetailASync,
 } from "../../app/store/contract/contractSlice";
-import { Link, useParams } from "react-router-dom";
+
+
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
@@ -31,12 +34,16 @@ export default function DetailContract() {
   const contract = useAppSelector((state) =>
     contractSelectors.selectById(state, Number(id))
   );
+  const { status } = useAppSelector(
+    (state) => state.contract
+  );
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchEmployeeAsync(Number(id)));
     dispatch(fetchContractValidDetailASync(Number(id)));
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  if (status.includes("pending")) return <LoadingComponent message="Loading edit contract..." />
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
