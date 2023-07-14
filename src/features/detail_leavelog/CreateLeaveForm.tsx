@@ -287,7 +287,7 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
       fileInputRef.current.click();
     }
   };
-  if (!currentUser.user) return <></>;
+  if (!currentUser.user || !leaveDayDetail) return <></>;
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
@@ -304,7 +304,7 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
             <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
             {isOwn === true ? (
               <>
-                <Typography sx={{ width: "148px" }}>Nhân viên</Typography>
+                <Typography sx={{ width: "172px" }}>Nhân viên</Typography>
               </>
             ) : (
               <>

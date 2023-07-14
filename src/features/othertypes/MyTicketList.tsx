@@ -102,14 +102,6 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function MyTicketList() {
-  const handleRowClick = () => {
-    dispatch(
-      setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
-        { title: "Chỉnh sửa đơn", path: `` },
-      ])
-    );
-  };
   const columns: GridColDef[] = [
     {
       field: "button",
@@ -117,11 +109,7 @@ export default function MyTicketList() {
       width: 60,
       align: "center",
       renderCell: (params) => (
-        <IconButton
-          component={Link}
-          to={`/mytickets/${params.row.ticketId}`}
-          onClick={handleRowClick}
-        >
+        <IconButton component={Link} to={`/own-tickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
       ),

@@ -333,7 +333,7 @@ export default function OtherUsersTicketList() {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Danh sách đơn khác", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Danh sách đơn khác", path: "/tickets" }]));
   }, [location, dispatch]);
   useEffect(() => {
     if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
