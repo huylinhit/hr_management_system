@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { LuEdit } from "react-icons/lu";
 
 // component
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import DetailContractFooter from "./component/EditContractFooter";
 import DetailContractInfo from "./component/EditContractInfo";
 import DetailEmployeeInfo from "./component/EditEmployeeInfo";
 import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
 
 // data
-import DetailContractFooter from "./component/EditContractFooter";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import {
   employeeSelectors,
@@ -20,7 +20,6 @@ import {
   fetchContractValidDetailASync,
 } from "../../app/store/contract/contractSlice";
 import {
-  allowanceTypeSelectors,
   fetchAllowanceTypesAsync,
 } from "../../app/store/allowanceType/allowanceTypeSlice";
 
@@ -35,6 +34,9 @@ export default function EditContract() {
 
   const contract = useAppSelector((state: any) =>
     contractSelectors.selectById(state, Number(id))
+  );
+  const { status } = useAppSelector(
+    (state) => state.contract
   );
 
   const allowanceUpdate = contract?.allowances.map((allowance) => {
@@ -71,6 +73,7 @@ export default function EditContract() {
     dispatch(fetchAllowanceTypesAsync());
   }, [dispatch]);
   // -------------------------- FUNCTION ------------------------
+  if (status.includes("pending")) return <LoadingComponent message="Loading edit contract..." />
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>

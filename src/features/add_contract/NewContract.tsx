@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
-import { useAppDispatch } from "../../app/store/configureStore";
 import { useNavigate, useParams } from "react-router-dom";
 
 // component
@@ -11,7 +10,6 @@ import agent from "../../app/api/agent";
 export default function NewContract() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
-  const dispatch = useAppDispatch();
   const history = useNavigate();
   // -------------------------- REDUX ---------------------------
   // -------------------------- STATE ---------------------------
@@ -39,12 +37,10 @@ export default function NewContract() {
             key !== "paidDateNote" &&
             key !== "contractFile" &&
             key !== "note" &&
-            key !== "noOfDependences" 
-          ) {            
-            console.log(key);
-            
+            key !== "noOfDependences"
+          ) {
             return false;
-          } 
+          }
         }
       }
     }
@@ -53,27 +49,20 @@ export default function NewContract() {
 
   const handleSubmit = () => {
     console.log(contractForm);
-
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
-        window.location.reload();
+        setTimeout(() => history(`/staffs`), 2000);
       })
       .catch((error) => {
         console.error("Error add new contract ", error);
       });
-
-    history(`/detail-employee/${id}`)
   };
   // -------------------------- MAIN ----------------------------
   const disabled = !areAllFieldsNotNull(contractForm);
-  console.log(disabled);
-  console.log(contractForm);
-  
-  
 
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+    <Box sx={{ padding: "10px 40px 30px 40px", width: "calc(100vh - 240)" }}>
       <Grid container>
         <Typography
           sx={{

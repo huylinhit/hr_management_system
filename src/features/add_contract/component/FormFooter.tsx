@@ -27,7 +27,7 @@ export default function FormFooter ({ id, handleSubmit, disabled } : Props) {
             padding: "auto",
           }}
           component={Link}
-          to={`/detail-employee/${id}`}
+          to={`/staffs/${id}`}
         >
           Quay về
         </Button>

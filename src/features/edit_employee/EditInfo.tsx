@@ -15,9 +15,8 @@ import {
 import moment from "moment";
 
 // data
-import { UserInfor } from "../../../app/models/userInfor";
-import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
-import { departmentSelectors, fetchDepartmentsAsync } from "../../department/departmentSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { departmentSelectors, fetchDepartmentsAsync } from "../department/departmentSlice";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -25,8 +24,6 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
-import DownloadIcon from "@mui/icons-material/Download";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   BaseSingleInputFieldProps,
@@ -40,19 +37,15 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { fetchUserInforAsync, userInforSelectors } from "../../department/userInforSlice";
+import { fetchUserInforAsync, userInforSelectors } from "../department/userInforSlice";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../firebase";
-import agent from "../../../app/api/agent";
-import { ToastContainer, toast } from "react-toastify";
+import { storage } from "../../firebase";
+import agent from "../../app/api/agent";
+import { toast } from "react-toastify";
 import { deepPurple } from "@mui/material/colors";
-import CandidateDetailSkeleton from "../../candidate/CandidateDetailSkeleton";
-import { setHeaderTitle } from "../../../app/layout/headerSlice";
-// interface
-interface Props {
-  employee: UserInfor | undefined;
-  setForm: Function;
-}
+import CandidateDetailSkeleton from "../candidate/CandidateDetailSkeleton";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
+import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
 const fontStyle = "Mulish";
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
@@ -201,25 +194,6 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     visibility: "visible",
   },
 }));
-const InforRow = (value: any) => {
-  return (
-    <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-      {value.icon}
-      <Typography sx={headerStyle}>{value.header}</Typography>
-      <BootstrapInput
-        fullWidth
-        disabled={value.disabled}
-        InputProps={textFieldInputProps}
-        defaultValue={value.defaultValue}
-        variant="standard"
-        placeholder="Trống"
-        onChange={value.onChange}
-        select={value.select}
-        sx={infoStyle}
-      />
-    </Box>
-  );
-};
 const headerColor = {
   color: "#808080",
 };
@@ -250,13 +224,15 @@ export default function EditInfo() {
   //-------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>();
   const [avatarUrl, setAvatarUrl] = useState<string | ArrayBuffer | null>("");
-  const [dragging, setDragging] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const userInfor = useAppSelector((state) => userInforSelectors.selectById(state, id!));
   const avatarStorageRef = ref(storage, `staffsAvatar/${userInfor?.staffId}`);
-  const fileStorageRef = ref(storage, `staffsFile/${userInfor?.staffId}`);
+  
+  const contracts = useAppSelector(contractSelectors.selectAll);
+  const { contractsLoaded } = useAppSelector((state) => state.contract)
+  const isExistContract = contracts.find((contract) => contract.staffId === Number(id)) 
+
   const [firstName, setFirstName] = useState(userInfor?.firstName);
   const [lastName, setLastName] = useState(userInfor?.lastName);
   const [email, setEmail] = useState(userInfor?.email);
@@ -272,7 +248,6 @@ export default function EditInfo() {
   const [bank, setBank] = useState(userInfor?.bank);
   const [accountStatus, setAccountStatus] = useState(userInfor?.accountStatus);
   const [fullName, setFullName] = useState("");
-  const [value, setValue] = useState<Dayjs | null>(null);
   const [staffSkillToDelete, setStaffSkillToDelete] = useState<number[]>([]);
   const location = useLocation();
   const [updatedSkills, setUpdatedSkills] = useState([{ id: 0, skill: "", level: "" }]);
@@ -283,10 +258,14 @@ export default function EditInfo() {
   // -------------------------- REDUX ---------------------------
   const dispatch = useAppDispatch();
   const departments = useAppSelector(departmentSelectors.selectAll);
-  const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
+  const { departmentsLoaded } = useAppSelector(
     (state) => state.department
   );
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if(!contractsLoaded) dispatch(fetchContractsAsync());
+  }, [dispatch, contractsLoaded]);
+  
   useEffect(() => {
     if (userInfor) {
       dispatch(
@@ -327,7 +306,7 @@ export default function EditInfo() {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => {});
+      .catch(() => {});
   }, [userInfor]);
   
   useEffect(() => {
@@ -366,29 +345,14 @@ export default function EditInfo() {
   const debouncedFullNameInput = debounce((event: any) => {
     setFullName(event.target.value);
   }, 750);
-  const debouncedFirstNameInput = debounce((event: any) => {
-    setFirstName(event.target.value);
-  }, 750);
-  const debouncedLastNameInput = debounce((event: any) => {
-    setLastName(event.target.value);
-  }, 750);
   const debouncedEmailInput = debounce((event: any) => {
     setEmail(event.target.value);
   }, 750);
   const debouncedPhoneInput = debounce((event: any) => {
     setPhone(event.target.value);
   }, 750);
-  const debouncedDobInput = debounce((event: any) => {
-    setDob(event.target.value);
-  }, 750);
-  const debouncedGenderInput = debounce((event: any) => {
-    setGender(event.target.value);
-  }, 750);
   const debouncedAddressInput = debounce((event: any) => {
     setAddress(event.target.value);
-  }, 750);
-  const debouncedHireDateInput = debounce((event: any) => {
-    setHireDate(event.target.value);
   }, 750);
   const debouncedCountryInput = debounce((event: any) => {
     setCountry(event.target.value);
@@ -582,20 +546,36 @@ export default function EditInfo() {
             Xác nhận
           </Button>
         </Box>
-        <Button
+        {isExistContract ? (
+          <Button
           variant="contained"
           component={Link}
-          to={"/detail-contract/1"}
+          to={`/contracts/${userInfor.staffId}`}
           sx={{
             fontWeight: "bold",
             textTransform: "none",
-            //color: "#8A8A8A",
             fontFamily: fontStyle,
           }}
           disableElevation={true}
         >
           Xem hợp đồng
         </Button>
+        ) : (
+          <Button
+          variant="outlined"
+          component={Link}
+          to={`/contracts/staffs/${userInfor.staffId}/add`}
+          sx={{
+            fontWeight: "bold",
+            textTransform: "none",
+            fontFamily: fontStyle,
+          }}
+          disableElevation={true}
+        >
+          Tạo hợp đồng
+        </Button>
+        )}
+        
       </Grid>
       <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
       <Grid>
@@ -813,7 +793,7 @@ export default function EditInfo() {
                     ...textFieldInputProps,
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={(e) => handleAddDeleteSkills(option.id)}>
+                        <IconButton onClick={() => handleAddDeleteSkills(option.id)}>
                           <DeleteIcon />
                         </IconButton>
                       </InputAdornment>
