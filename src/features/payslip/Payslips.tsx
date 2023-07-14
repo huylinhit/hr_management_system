@@ -366,8 +366,8 @@ export default function Payslips() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
+  const {user} = useAppSelector(state => state.account)
   const payslips = useAppSelector(payslipSelectors.selectAll);
-  const currentUser = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
@@ -390,7 +390,7 @@ export default function Payslips() {
 
   useEffect(() => {
     if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
-  }, [payslipsLoaded]);
+  }, [payslipsLoaded, dispatch]);
 
   useEffect(() => {
     if (payslipsLoaded) {

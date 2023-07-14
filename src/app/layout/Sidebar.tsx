@@ -91,7 +91,7 @@ export default function Sidebar() {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, [avatarUrl, dispatch]);
 
   const handleOpenLeaveLog = () => {
@@ -471,6 +471,23 @@ export default function Sidebar() {
                       primary="Lương Nhân Viên"
                     />
                   </ListItemButton>
+                  <ListItemButton
+                    className={cx("list-item", { activeButton: active === "own-payslip" })}
+                    onClick={() => handleActiveClick("own-payslip")}
+                    dense
+                    component={Link}
+                    to="/own-payslips"
+                  >
+                    <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                      <PeopleAltOutlinedIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText
+                      className={cx("list-item-content")}
+                      primaryTypographyProps={{ ...listItemStyle }}
+                      primary="Lương Của Tôi"
+                    />
+                  </ListItemButton>
+
                 </Collapse>
               </>
 

@@ -39,7 +39,7 @@ export default function ConfirmSubmitDialog({ open, setOpen, contractId, staffId
   };
 
   const handleSubmit = () => {
-    allowanceList.forEach((allowance) => {
+    allowanceList?.forEach((allowance) => {
       const allowanceUpdate = {allowanceTypeId: allowance.allowanceTypeId,
         allowanceSalary: allowance.allowanceSalary,}
 

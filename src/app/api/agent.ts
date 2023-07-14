@@ -18,45 +18,45 @@ axios.interceptors.request.use((config) => {
 });
 
 
-  axios.interceptors.response.use(
-    async (response) => {
-      await sleep();
-      return response;
-    },
-    (error: AxiosError) => {
-      const { data, status } = error.response as AxiosResponse;
-      switch (status) {
-        case 400:
-          if (data.errors) {
-            const modelStateErrors: string[] = [];
-            for (var key in data.errors) {
-              modelStateErrors.push(data.errors[key]);
-            }
-            throw modelStateErrors.flat();
+axios.interceptors.response.use(
+  async (response) => {
+    await sleep();
+    return response;
+  },
+  (error: AxiosError) => {
+    const { data, status } = error.response as AxiosResponse;
+    switch (status) {
+      case 400:
+        if (data.errors) {
+          const modelStateErrors: string[] = [];
+          for (var key in data.errors) {
+            modelStateErrors.push(data.errors[key]);
           }
+          throw modelStateErrors.flat();
+        }
 
-          toast.error(data.title);
-          break;
-        case 401:
-          toast.error(data.title);
-          break;
-        case 403:
-          toast.error("You are not allowed to do that!");
-          break;
-        case 404:
+        toast.error(data.title);
+        break;
+      case 401:
+        toast.error(data.title);
+        break;
+      case 403:
+        toast.error("You are not allowed to do that!");
+        break;
+      case 404:
 
-          toast.error(data.title);
-          break;
-        case 500:
-          router.navigate("/server-error", { state: { error: data } });
-          break;
-        default:
-          break;
-      }
-
-      return Promise.reject(error.response);
+        toast.error(data.title);
+        break;
+      case 500:
+        router.navigate("/server-error", { state: { error: data } });
+        break;
+      default:
+        break;
     }
-  );
+
+    return Promise.reject(error.response);
+  }
+);
 
 const Errors = {
   get400Error: () => requests.get('buggy/bad-request'),
@@ -170,7 +170,7 @@ const LogOt = {
   listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
   create: (staffId: number, values: any) => requests.post(`logots/staffs/${staffId}`, values),
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
-  patch: (staffId: number, values: any) => requests.patch(`logots/staffs/${staffId}`, values),
+  patch: (logotId: number, staffId: number, values: any) => requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
 };
 
 const LeaveDayDetail = {

@@ -16,10 +16,8 @@ import {
 } from "@mui/material";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import agent from "../../app/api/agent";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
@@ -28,18 +26,13 @@ import React from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
-import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { ToastContainer, toast } from "react-toastify";
-import ConfirmDialog from "../../app/layout/ConfirmDialog";
-import { fetchLogLeaveAsync, logleaveSelectors, setLogLeaveAdded } from "./logleaveSlice";
-import { fetchLeaveDayDetailAsync } from "./leaveDayDetailSlice";
-import MyTicketDetailSkeleon from "../othertypes/MyTicketDetailSkeleton";
 import {
   BaseSingleInputFieldProps,
   DatePicker,
@@ -51,6 +44,16 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import agent from "../../../app/api/agent";
+import ConfirmDialog from "../../../app/layout/ConfirmDialog";
+import { setHeaderTitle } from "../../../app/layout/headerSlice";
+import { useAppSelector, useAppDispatch } from "../../../app/store/configureStore";
+import { fetchLeaveDayDetailAsync } from "../../detail_leavelog/leaveDayDetailSlice";
+import { logleaveSelectors, fetchLogLeaveAsync, setLogLeaveAdded } from "../../detail_leavelog/logleaveSlice";
+import MyTicketDetailSkeleon from "../../othertypes/MyTicketDetailSkeleton";
+import { fetchLogOtAsync, fetchLogOtsAsync, fetchLogOtsStaffAsync, logOvertimeSelectors, setLogOvertimeAdded } from "../../overlog/overtimeSlice";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
 const fontStyle = "Mulish";
 
 const menuItemStyle = {
@@ -144,7 +147,7 @@ const ProcessNoteInput = styled(TextField)(({ theme, disabled }) => ({
 }));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -236,8 +239,36 @@ const fieldStyle = {
   flexGrow: 1,
   mb: "2%",
 };
-export default function MyLeaveDetails({ open, handleClose, handleChange }: any) {
-  const { id } = useParams<{ id: string }>();
+export default function DetailOvertime2({ open, handleClose, handleChange }: any) {
+  const dispatch = useAppDispatch();
+  const { id, staffid } = useParams<{ id: string; staffid: string }>();
+  // const staffId = parseInt(staffid!);
+  const overtimeId = parseInt(id!);
+  const staffId = parseInt(staffid!);
+  const { logOtsLoaded, status: LogOtStatus } = useAppSelector(state => state.logot);
+  const logot = useAppSelector(state => logOvertimeSelectors.selectById(state, overtimeId));
+
+  const [hours, setHours] = useState(logot?.logHours);
+  const [days, setDays] = useState(logot?.days);
+  const [oneDaySalary, setOneDaySalary] = useState(logot?.salaryPerDay);
+  const [amountSalary, setAmountSalary] = useState(logot?.amount);
+
+
+
+
+  console.log("Log overtime: ", logot);
+
+  useEffect(() => {
+    if (!logOtsLoaded)
+      dispatch(fetchLogOtsAsync());
+
+    setDays(logot?.days)
+    setHours(logot?.logHours);
+
+    setOneDaySalary(logot?.salaryPerDay);
+    setAmountSalary(logot?.amount);
+
+  }, [logOtsLoaded]);
 
   const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
   const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
@@ -251,55 +282,40 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
   const [description, setDescription] = useState(logLeave?.description);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [ticketChanged, setTicketChanged] = useState(false);
+  const [processNote, setProcessNote] = useState(logLeave?.processNote);
   const currentUser = useAppSelector((state) => state.account);
-  const dispatch = useAppDispatch();
   const location = useLocation();
-
+  // console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
   //Set header title
   useEffect(() => {
     if (logLeave) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ phép của tôi", path: "/own-log-leaves" },
-          { title: "Chỉnh sửa đơn", path: "" },
+          { title: "Đơn nghỉ của nhân viên", path: "/log-leaves" },
+          { title: `Phản hồi đơn`, path: "" },
         ])
       );
     }
   }, [dispatch, location, logLeave]);
 
-  //Set default value when reload page
-  useEffect(() => {
-    if (logLeave) {
-      setStatus(logLeave.status);
-      setStartDate(logLeave.leaveStart);
-      setEndDate(logLeave.leaveEnd);
-      setSelectedLeaveTypeId(logLeave.leaveTypeId);
-      setDescription(logLeave.description);
-    }
-  }, [logLeave]);
-
-  //Get this ticket
-  useEffect(() => {
-    if (!currentUser.user) return;
-
-    const logLeaveId = parseInt(id!);
-    const staffId = currentUser.user?.userInfor.staffId;
-
-    if ((!logLeave && id && staffId) || ticketChanged) {
-      dispatch(fetchLogLeaveAsync({ logLeaveId, staffId }));
-      setTicketChanged(false);
-    }
-  }, [id, logLeave, dispatch, ticketChanged]);
+  const handleDays = (e: any) => {
+    setDays(e.target.value)
+  }
+  const handleHours = (e: any) => {
+    setHours(e.target.value)
+  }
+  const handleAmount = (e: any) => {
+    setAmountSalary(e.target.value);
+  }
 
   //Get leave day detail
-  useEffect(() => {
-    if (currentUser.user && !leaveDayDetailLoaded)
-      dispatch(fetchLeaveDayDetailAsync(currentUser.user.userInfor.staffId));
-  }, [dispatch]);
   //#endregion ==============================USE EFFECT=====================================
 
   //#region ===========================HANDLE ACTION======================================
+  const debouncedProcessNoteInput = debounce((event: any) => {
+    setProcessNote(event.target.value);
+  }, 750);
   const handleClickOpenConfirm = () => {
     setOpenConfirm(true);
   };
@@ -324,91 +340,63 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     );
     setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
   };
+  const handleStatusChange = (event: any) => {
+    setStatus(event.target.value);
+  };
 
-
-  const handleTicketApproval = () => {
-    console.log(selectedLeaveTypeId);
-    console.log(startDate);
-    console.log(endDate);
-    console.log(description);
+  const handleLogOvertimeApprove = () => {
+    console.log(status);
+    console.log(processNote);
     const ticketUpdate = {
       patchDocument: [
         {
           op: "replace",
-          path: "/leaveTypeId",
-          value: selectedLeaveTypeId,
-        },
-        {
-          op: "replace",
-          path: "/leaveStart",
-          value: startDate,
-        },
-        {
-          op: "replace",
-          path: "/leaveEnd",
-          value: endDate,
-        },
-        {
-          op: "replace",
-          path: "/description",
-          value: description,
-        },
-      ],
-    };
-    if (!currentUser.user) return;
-
-    agent.LogLeave.patch(
-      parseInt(id!),
-      currentUser.user?.userInfor.staffId,
-      ticketUpdate.patchDocument
-    )
-      .then((response) => {
-        setLogLeaveAdded(true);
-        console.log("Ticket updated successfully: ", response);
-        toast.success("Cập nhật đơn thành công 😊");
-      })
-      .catch((error) => {
-        console.log("Error updating ticket: ", error);
-        toast.error("Xảy ra lỗi khi cập nhật 😥");
-      });
-  };
-
-  const handleCancelTicket = () => {
-    const ticketCancel = {
-      patchDocument: [
-        {
-          op: "replace",
-          path: "/enable",
-          value: false,
-        },
-        {
-          op: "replace",
           path: "/status",
-          value: 'cancelled',
+          value: status,
+        },
+        {
+          op: "replace",
+          path: "/processNote",
+          value: processNote,
+        },
+        {
+          op: "replace",
+          path: "/days",
+          value: days,
+        },
+        {
+          op: "replace",
+          path: "/logHours",
+          value: hours,
+        },
+
+        {
+          op: "replace",
+          path: "/amount",
+          value: amountSalary,
         },
       ],
     };
-    if (!currentUser.user) return;
 
-    agent.LogLeave.patch(
-      parseInt(id!),
-      currentUser.user?.userInfor.staffId,
-      ticketCancel.patchDocument
-    )
+    agent.LogOt.patch(overtimeId, staffId, ticketUpdate.patchDocument)
       .then((response) => {
-        console.log("Ticket cancelled successfully: ", response);
-        setTicketChanged(true);
-        toast.success("Hủy đơn thành công 😊");
+        setLogOvertimeAdded(true);
+        console.log("Ticket updated successfully: ", response);
+        toast.success("Duyệt đơn thành công 😊");
       })
       .catch((error) => {
-        console.log("Error cancelling ticket", error);
-        // toast.error("Xảy ra lỗi khi hủy đơn 😥");
+        // console.log("Error updating ticket: ", error);
+        toast.error("Xảy ra lỗi khi duyệt đơn 😥");
       });
-    handleCloseConfirm();
   };
-  if (!logLeave || !leaveDayDetail) {
-    return <MyTicketDetailSkeleon />;
-  }
+
+  // if (!logLeave || !leaveDayDetail) {
+  //   return <MyTicketDetailSkeleon />;
+  // }
+
+
+  if (LogOtStatus.includes('pending')) return <LoadingComponent message="Đang Tải Đơn Làm Thêm Giờ..." />
+
   //#endregion ===========================HANDLE ACTION======================================
   return (
     <>
@@ -417,24 +405,11 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
           <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
-            Đơn của {`${logLeave?.staff.firstName} ${logLeave?.staff.lastName}`}
+            Đơn của {`${logot?.staff.lastName} ${logot?.staff.firstName}`}
           </Typography>
           <Box display={"flex"} alignItems={"flex-end"}>
-            {logLeave?.enable ? (
+            {logot?.enable ? (
               <>
-                <Button
-                  variant="text"
-                  color="error"
-                  sx={{
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    fontFamily: fontStyle,
-                  }}
-                  disableElevation={true}
-                  onClick={handleClickOpenConfirm}
-                >
-                  Hủy đơn
-                </Button>
                 <Button
                   variant="text"
                   sx={{
@@ -444,7 +419,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}
-                  onClick={handleTicketApproval}
+                  onClick={handleLogOvertimeApprove}
                 >
                   Xác nhận
                 </Button>
@@ -455,9 +430,9 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
             <ConfirmDialog
               open={openConfirm}
               onClose={handleCloseConfirm}
-              title={`Hủy ${logLeave.leaveType.leaveTypeName.toLowerCase()}`}
+              title={`Hủy ${logot?.otType.typeName.toLowerCase()}`}
               content="Bạn sẽ không thể chỉnh sửa đơn này sau khi đã hủy"
-              action={handleCancelTicket}
+              action={handleLogOvertimeApprove}
             />
           </Box>
         </Grid>
@@ -467,118 +442,109 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Mã nhân viên"
-          defaultValue={`STF-${logLeave?.staff.staffId.toString().padStart(5, "0")}`}
+          defaultValue={`STF-${logot?.staff.staffId.toString().padStart(5, "0")}`}
           disabled={true}
         />
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Mã đơn"
-          defaultValue={`LE-${logLeave?.leaveLogId.toString().padStart(5, "0")}`}
+          defaultValue={`LE-${logot?.otLogId.toString().padStart(5, "0")}`}
           disabled={true}
         />
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Tên nhân viên"
-          defaultValue={`${logLeave?.staff.firstName} ${logLeave?.staff.lastName}`}
+          defaultValue={`${logot?.staff.firstName} ${logot?.staff.lastName}`}
           disabled={true}
         />
 
-        {/* <InforRow
+        <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          // defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
           disabled={true}
-        /> */}
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
-          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-          <Typography sx={{ ...headerStyle, ...headerColor }}>Loại đơn</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <BootstrapInput
-              fullWidth
-              defaultValue={leaveDayDetail[0].leaveType.leaveTypeName.trim()}
-              InputProps={textFieldInputProps}
-              variant="standard"
-              onChange={handleLeaveChange}
-              disabled={!logLeave.enable}
-              select
-              sx={{ ...infoStyle }}
-            >
-              {leaveDayDetail.map((option) => (
-                <MenuItem key={option.leaveDayDetailId} value={option.leaveType.leaveTypeName}>
-                  {`${option.leaveType.leaveTypeName} (còn ${option.dayLeft} ngày)`}
-                </MenuItem>
-              ))}
-            </BootstrapInput>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Loại đơn"
+          defaultValue={logot?.otType.typeName}
+          disabled
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
-          <Typography sx={headerStyle}>Ngày bắt đầu</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <ButtonDatePicker
-                minDate={today}
-                label={`${
-                  dayjs(startDate) === null ? "Trống" : dayjs(startDate).format("MMM DD, YYYY")
-                }`}
-                value={dayjs(
-                  new Date(
-                    dayjs(startDate)
-                      .toDate()
-                      .setMinutes(
-                        dayjs(startDate).toDate().getMinutes() +
-                          dayjs(startDate).toDate().getTimezoneOffset()
-                      )
-                  )
-                )}
-                onChange={handleSetStartDate}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày bắt đầu"
+          defaultValue={
+            logot?.logStart
+              ? `${moment(logot?.logStart).format("MMM Do, YYYY")}`
+              : ""
+          }
+          disabled={true}
+        />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
-          <Typography sx={headerStyle}>Ngày kết thúc</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <ButtonDatePicker
-                label={`${
-                  dayjs(endDate) === null ? "Trống" : dayjs(endDate).format("MMM DD, YYYY")
-                }`}
-                minDate={dayjs(startDate).add(1, "day")}
-                value={dayjs(
-                  new Date(
-                    dayjs(endDate)
-                      .toDate()
-                      .setMinutes(
-                        dayjs(endDate).toDate().getMinutes() +
-                          dayjs(endDate).toDate().getTimezoneOffset()
-                      )
-                  )
-                )}
-                onChange={(newValue: any) => setEndDate(newValue)}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày kết thúc"
+          defaultValue={
+            logot?.logEnd ? `${moment(logot?.logEnd).format("MMM Do, YYYY")}` : ""
+          }
+          disabled={true}
+        />
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Lương Một Ngày"
+          defaultValue={logot?.salaryPerDay.toLocaleString()}
+          disabled
+        />
+        <InforRow
+          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Tổng Lương"
+          defaultValue={logot?.amount.toLocaleString()}
+          editable={true}
+        />
+        {/* <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
+          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+          <Typography sx={{ ...headerStyle, ...headerColor }}>Giờ</Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <input onChange={handleHours} value={hours} style={{ padding: "8px", fontSize: "16px" }} type="number" />
+          </Box>
+        </Box>
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
+          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+          <Typography sx={{ ...headerStyle, ...headerColor }}>Ngày</Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <input onChange={handleDays} value={days} style={{ padding: "8px", fontSize: "16px" }} type="number" />
+          </Box>
+        </Box> */}
+        <InforRow
+          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Giờ"
+          defaultValue={`${logot?.logHours}`}
+          editable={true}
+          onChange={handleHours}
+        /><InforRow
+          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày"
+          defaultValue={`${logot?.days}`}
+          onChange={handleDays}
+          editable={true}
+        />
+        <InforRow
+          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Nội dung đơn"
-          defaultValue={`${logLeave?.description}`}
-          disabled={logLeave?.status !== "pending"}
+          defaultValue={`${logot?.reason}`}
+          disabled
           onChange={debouncedDescriptionInput}
         />
 
         <InforRow
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày gửi đơn"
-          defaultValue={`${moment(logLeave?.createAt).format("MMM Do, YYYY")}`}
+          defaultValue={`${moment(logot?.createAt).format("MMM Do, YYYY")}`}
           disabled={true}
         />
 
@@ -586,101 +552,48 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Thời gian thay đổi"
           defaultValue={
-            logLeave?.changeStatusTime
-              ? `${moment(logLeave?.changeStatusTime).format("MMM Do, YYYY")}`
+            logot?.changeStatusTime
+              ? `${moment(logot?.changeStatusTime).format("MMM Do, YYYY")}`
               : ""
           }
           disabled={true}
         />
 
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
-          <SubjectIcon fontSize="small" sx={{ mr: "5px" }} />
-          <Typography sx={headerStyle}>Trạng thái</Typography>
-          {logLeave?.status === "approved" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#D0F9E5",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#2B8465",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
+          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+          <Typography sx={{ ...headerStyle, ...headerColor }}>Trạng thái</Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <BootstrapInput
+              fullWidth
+              defaultValue={logot?.status}
+              InputProps={textFieldInputProps}
+              variant="standard"
+              onChange={handleStatusChange}
+              select
             >
-              Chấp nhận
-            </Typography>
-          ) : logLeave?.status === "pending" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#FFF5D1",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#FF9F28",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Chờ duyệt
-            </Typography>
-          ) : logLeave?.status === "rejected" ? (
-            <Typography
-              sx={{
-                backgroundColor: "#FFE7E7",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#D03D3D",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Từ chối
-            </Typography>
-          ) : (
-            <Typography
-              sx={{
-                backgroundColor: "#F4F6F7",
-                padding: "1px 10px ",
-                fontFamily: fontStyle,
-                borderRadius: "6px",
-                fontWeight: 700,
-                color: "#9BA6B2",
-                alignItems: "center",
-                display: "inline-block",
-                width: "fit-content",
-                ml: "5px",
-              }}
-            >
-              Đã hủy
-            </Typography>
-          )}
+              <MenuItem value={"approved"}><ChipCustome status="approved" >Chấp Nhận</ChipCustome></MenuItem>
+              <MenuItem value={"pending"}><ChipCustome status="pending">Chờ Duyệt</ChipCustome></MenuItem>
+              <MenuItem value={"rejected"}><ChipCustome status="rejected">Từ Chối</ChipCustome></MenuItem>
+            </BootstrapInput>
+          </Box>
         </Box>
 
         <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "5%", mb: "1%" }}></Box>
 
         <Grid item xs={9}>
-          <ProcessNoteInput
-            sx={infoStyle}
-            fullWidth
+          <TextField
+            sx={{
+              width: "100%",
+            }}
             variant="standard"
             multiline
+            label="Nhập phản hồi..."
             InputProps={{
               disableUnderline: true,
               style: { fontFamily: fontStyle },
             }}
-            defaultValue={logLeave?.processNote ? `${logLeave?.processNote}` : ""}
-            disabled
+            defaultValue={logot?.processNote}
+            onChange={debouncedProcessNoteInput}
           />
         </Grid>
       </Container>
