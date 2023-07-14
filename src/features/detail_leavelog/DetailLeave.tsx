@@ -23,36 +23,6 @@ export default function DetailLeave() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { handleSubmit } = useForm();
-  // const [form] = Form.useForm();
-  // -------------------------- STATE ---------------------------
-  // const [staff, setStaff] = useState<Employee>(STAFF);
-
-  // console.log(staff.staffId)
-  // -------------------------- REDUX ---------------------------
-  // -------------------------- EFFECT --------------------------
-  // -------------------------- FUNCTION ------------------------
-  // const onSubmit = (data: FieldValues) => {
-  //   console.log("abc");
-
-  //   navigate("/myleavelist");
-  // };
-
-  // const [list, setList] = useState<LeaveLog[]>();
-
-  // axios.defaults.baseURL = "http://localhost:5000/api";
-  // axios.defaults.withCredentials = true;
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`/log-leaves/${logLeave?.leaveLogId}/staffs/${staff.staffId}`)
-  //     .then((response) => {
-  //       setList(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   const [logLeave, setlogLeave] = useState<LeaveLog>();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/log-leaves/${id}/staffs/2`).then((response) =>    

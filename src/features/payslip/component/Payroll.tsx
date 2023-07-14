@@ -34,8 +34,6 @@ function Payroll() {
     }, [userInforLoaded])
 
 
-    if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
-
     const handleOpenDialog = () => {
         setOpen(true);
     };
@@ -43,6 +41,9 @@ function Payroll() {
     const handleCloseDialog = () => {
         setOpen(false);
     };
+    
+    if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
+
 
     return (
 
