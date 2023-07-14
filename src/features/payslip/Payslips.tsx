@@ -138,7 +138,7 @@ export default function Payslips() {
     },
 
     {
-      field: "payslipStatus",
+      field: "status",
       headerName: "Trạng thái",
       width: 150,
       align: "left",

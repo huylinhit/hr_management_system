@@ -107,11 +107,6 @@ export const router = createBrowserRouter([
           { path: "/dashboard", element: <DashBoard /> },
           { path: "/other-leave-list/:id", element: <LeaveApproval /> },
           // Others
-          { path: "server-error", element: <ServerErrorPage /> },
-          { path: "not-found", element: <NotFound /> },
-          { path: "*", element: <Navigate replace to="not-found" /> },
-          { path: "login", element: <PrivateRoute element={<Login />} /> },
-          { path: "register", element: <Register /> },
           //department
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
@@ -135,7 +130,7 @@ export const router = createBrowserRouter([
           { path: "/log-leaves/:id/staffs/:staffid", element: <LeaveApproval /> },
           { path: "/own-log-leaves", element: <MyLeaveList /> },
           { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
-          
+
           //ot
           { path: "/log-overtimes", element: <OtherOTList /> },
           // { path: "/log-overtimes/:id", element: <DetailOvertime /> },
@@ -143,7 +138,7 @@ export const router = createBrowserRouter([
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           // { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
-          
+
           //other
           { path: "/own-tickets", element: <MyTicketList /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
@@ -154,9 +149,9 @@ export const router = createBrowserRouter([
           //payslip
 
           { path: "/payslips", element: <Payslips /> },
+          { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
           // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-          { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
           //Contract
           { path: "/editcontract", element: <EditContract /> },
           // { path: "/contractdetail", element: <ContractDetail /> },
@@ -165,12 +160,19 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/my-payroll", element: <MyPayroll /> },
 
-      //Staff routes
-      // {
-      //   element: <RequireAuth roles={['Staff']} />, children: [
-
-      //   ]
-      // },
+      // Staff routes
+      {
+        element: <RequireAuth roles={['Staff']} />, children: [
+          { path: "/own-log-leaves", element: <MyLeaveList /> },
+          { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
+          { path: "/own-log-overtimes", element: <MyOTList /> },
+          { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
+          { path: "/own-tickets", element: <MyTicketList /> },
+          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+           // { path: "/own-payslips", element: <MyPayslips /> },
+          // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+        ]
+      },
 
 
       // { path: "/payroll", element: <Payroll /> },
