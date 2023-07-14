@@ -503,7 +503,7 @@ export default function OthersLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
+        {/* <ToastContainer /> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField

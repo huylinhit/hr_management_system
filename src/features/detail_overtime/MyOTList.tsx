@@ -479,8 +479,8 @@ export default function MyOTList() {
 
   return (
     <>
+        <ToastContainer />
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <TextField

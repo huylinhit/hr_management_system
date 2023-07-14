@@ -253,7 +253,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
         } else {
             await agent.LogOt.create(selectedUser, logOvertimeCreate)
                 .then((response) => {
-                    toast.success("Tạo đơn thành công 😊");
+                    // toast.success("Tạo đơn thành công 😊");
                     dispatch(fetchLogOtsAsync())
                     dispatch(setLogOvertimeAdded(true));
                 })

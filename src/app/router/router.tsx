@@ -258,7 +258,8 @@ export const router = createBrowserRouter([
       //employeee
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },
-      { path: "/create-new-staff", element: <AddNewEmployee /> },
+      { path: "/staffs/add", element: <AddNewEmployee /> },
+
       //candidate
 
       { path: "/candidates/", element: <CandidateList /> },
@@ -266,17 +267,17 @@ export const router = createBrowserRouter([
       //contract
       { path: "/contracts", element: <Contracts /> },
       { path: "/contracts/:id", element: <DetailContract /> },
-      { path: "/edit-contract/:id", element: <EditContract /> },
-      { path: "/add-contract/:id", element: <NewContract /> },  
+      { path: "/contracts/:id/edit", element: <EditContract /> },
+      { path: "/contracts/staffs/:id/add", element: <NewContract /> },  
       //ot
-      { path: "/other-list-overtime", element: <OtherOTList /> },
-      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/my-list-overtime", element: <MyOTList /> },
-      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+      { path: "/log-overtimes", element: <OtherOTList /> },
+      { path: "/log-overtimes/:id", element: <DetailOvertime /> },
+      { path: "/own-log-overtimes", element: <MyOTList /> },
+      { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
 
       //leave
-      { path: "/other-leave-list", element: <OtherLeaveList /> },
-      { path: "/my-leave-list", element: <MyLeaveList /> },
+      { path: "/log-leaves", element: <OtherLeaveList /> },
+      { path: "/own-log-leaves", element: <MyLeaveList /> },
       { path: "/my-leave-list/:id", element: <MyLeaveDetails /> },
       //other
       { path: "/mytickets", element: <MyTicketList /> },

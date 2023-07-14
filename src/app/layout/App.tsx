@@ -5,7 +5,9 @@ import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import LoadingComponent from "./LoadingComponent";
-import { ToastContainer } from "react-toastify";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
@@ -52,7 +54,7 @@ function App() {
           backgroundColor: "#FFFFFF",
         }}
       >
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
+        <ToastContainer/>
         <Outlet />
       </Box>
     </Box>
