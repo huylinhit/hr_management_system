@@ -82,8 +82,8 @@ export default function AddNewEmployee() {
     setStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSubmit = () => {
-    agent.Account.register(userForm)
+  const handleSubmit = async () => {
+   await agent.Account.register(userForm)
       .then((response) => {
         console.log("Add new employee successfully: ", response);
         setStep((prevActiveStep) => prevActiveStep + 1);
