@@ -16,7 +16,7 @@ export default function RequireAuth({ roles }: Props) {
 
     if(roles && !roles.some(r => user.roles?.includes(r))){
         
-        return <Navigate to='/'/>
+        return <Navigate to='/own-tickets'/>
     }
 
     return <Outlet />
