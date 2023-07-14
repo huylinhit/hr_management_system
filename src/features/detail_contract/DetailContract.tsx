@@ -11,10 +11,7 @@ import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractValidDetailASync,
@@ -45,6 +42,7 @@ export default function DetailContract() {
   // -------------------------- FUNCTION ------------------------
   if (status.includes("pending")) return <LoadingComponent message="Loading edit contract..." />
   // -------------------------- MAIN ----------------------------
+  if (!employee && !contract) return <></>;
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
       <Grid container>
@@ -90,10 +88,7 @@ export default function DetailContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
-          >
+          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>

@@ -1,7 +1,11 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { departmentSelectors, fetchDepartmentsAsync } from "./departmentSlice";
+import {
+  departmentSelectors,
+  fetchDepartmentsAsync,
+  setDepartmentChanged,
+} from "./departmentSlice";
 import { useEffect, useState } from "react";
 import {
   Avatar,
@@ -139,7 +143,6 @@ export default function DepartmentList() {
       ),
       renderCell: (params) => {
         if (params.row.manager == null) return;
-        console.log(params.row.manager);
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
@@ -211,7 +214,7 @@ export default function DepartmentList() {
   const currentUser = useAppSelector((state) => state.account);
   const departments = useAppSelector(departmentSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { departmentsLoaded, staffsLoaded, filtersLoaded } = useAppSelector(
+  const { departmentsLoaded, staffsLoaded, filtersLoaded, departmentsChanged } = useAppSelector(
     (state) => state.department
   );
   const [rows, setRows] = useState<Department[]>([]);
@@ -261,11 +264,13 @@ export default function DepartmentList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-  console.log(currentUser);
 
   useEffect(() => {
-    if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
-  }, [dispatch, departmentsLoaded]);
+    if (!departmentsLoaded || departmentsChanged) {
+      dispatch(fetchDepartmentsAsync());
+      dispatch(setDepartmentChanged(false));
+    }
+  }, [dispatch, departmentsLoaded, departmentsChanged]);
 
   useEffect(() => {
     if (departmentsLoaded) {
@@ -279,7 +284,7 @@ export default function DepartmentList() {
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -292,10 +297,10 @@ export default function DepartmentList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -322,12 +327,13 @@ export default function DepartmentList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -361,11 +367,10 @@ export default function DepartmentList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.departmentId}
           sx={{
-            height: 700,
+            height: "82vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -376,9 +381,9 @@ export default function DepartmentList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
-          loading={!departmentsLoaded}
+          loading={!departmentsLoaded || departmentsChanged}
           rows={rows}
           columns={columns}
           //showCellVerticalBorder

@@ -122,7 +122,7 @@ export default function OtherOTList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/leave-list/${params.row.leaveLogId}`}
+          to={`/other-leave-list/${params.row.leaveLogId}`}
           onClick={handleRowClick}
         >
           <MoreHorizIcon />
@@ -290,12 +290,14 @@ export default function OtherOTList() {
         );
       },
     },
+ 
     {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
       width: 200,
       editable: true,
       align: "right",
+      headerAlign: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -480,10 +482,9 @@ export default function OtherOTList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -496,10 +497,10 @@ export default function OtherOTList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -526,12 +527,13 @@ export default function OtherOTList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -558,11 +560,10 @@ export default function OtherOTList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.otLogId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

@@ -238,7 +238,9 @@ const fieldStyle = {
   mb: "2%",
 };
 export default function LeaveApproval({ open, handleClose, handleChange }: any) {
-  const { id } = useParams<{ id: string }>();
+  const { id, staffid } = useParams<{ id: string; staffid: string }>();
+  const staffId = parseInt(staffid!);
+  const logLeaveId = parseInt(id!);
 
   const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
   const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
@@ -256,20 +258,19 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const currentUser = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const location = useLocation();
-
+  console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
   //Set header title
   useEffect(() => {
     if (logLeave) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ của nhân viên", path: "/othersleaves" },
+          { title: "Đơn nghỉ của nhân viên", path: "/log-leaves" },
           { title: `Phản hồi đơn`, path: "" },
         ])
       );
     }
   }, [dispatch, location, logLeave]);
-
   //Set default value when reload page
   useEffect(() => {
     if (logLeave) {
@@ -285,9 +286,6 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   useEffect(() => {
     if (!currentUser.user) return;
 
-    const logLeaveId = parseInt(id!);
-    const staffId = currentUser.user?.userInfor.staffId;
-
     if ((!logLeave && id && staffId) || ticketChanged) {
       dispatch(fetchLogLeaveAsync({ logLeaveId, staffId }));
       setTicketChanged(false);
@@ -296,9 +294,8 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
 
   //Get leave day detail
   useEffect(() => {
-    if (currentUser.user && !leaveDayDetailLoaded)
-      dispatch(fetchLeaveDayDetailAsync(currentUser.user.userInfor.staffId));
-  }, [dispatch]);
+    if (staffId && !leaveDayDetailLoaded) dispatch(fetchLeaveDayDetailAsync(staffId));
+  }, [dispatch, staffId]);
   //#endregion ==============================USE EFFECT=====================================
 
   //#region ===========================HANDLE ACTION======================================
@@ -332,7 +329,6 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const handleStatusChange = (event: any) => {
     setStatus(event.target.value);
   };
-  console.log(status);
 
   const handleLeaveApproval = () => {
     console.log(status);
@@ -503,9 +499,9 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
               onChange={handleStatusChange}
               select
             >
-              <MenuItem value={"Approved"}>Approved</MenuItem>
-              <MenuItem value={"Pending"}>Pending</MenuItem>
-              <MenuItem value={"Rejected"}>Rejected</MenuItem>
+              <MenuItem value={"approved"}>Chấp nhận</MenuItem>
+              <MenuItem value={"pending"}>Chờ duyệt</MenuItem>
+              <MenuItem value={"rejected"}>Từ chối</MenuItem>
             </BootstrapInput>
           </Box>
         </Box>

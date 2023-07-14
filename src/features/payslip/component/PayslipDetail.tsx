@@ -49,21 +49,10 @@ function PayslipDetail() {
 
     const logotsStaff = logots
         .filter(c => {
-            const start = moment(c.logStart).month() + 1;
-            const end = moment(c.logEnd).month() + 1;
-            const now = moment(date).month() + 1
-
-            console.log("Start: ", start);
-            console.log("End: ", end);
-            console.log("Now: ", now);
-
-            console.log("now: ", now);
-            return c.staffId === parseInt(staffId!) &&
-                c.status === 'approved' &&
-                start <= now &&
-                now <= end;
+            return moment(c.logStart).month() === moment(payslip?.payday).month() &&
+            c.status === 'approved';
         })
-        console.log(logotsStaff);
+        console.log("logot: ",logotsStaff);
 
     const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
     const totalLogotDays = logotsStaff
@@ -72,18 +61,20 @@ function PayslipDetail() {
     const totalLogotHours = logotsStaff.reduce((total, item) => total + item.logHours, 0);
 
     //log Leave
-    console.log(date);
     const logLeaves = useAppSelector(logleaveSelectors.selectAll);
     const logLeavesStaff = logLeaves.filter(c => {
         const start = moment(c.leaveStart).month();
         const end = moment(c.leaveEnd).month();
-        const now = moment(date).month();
+        const now = moment(payslip?.payday).month();
 
         return c.staffId === parseInt(staffId!) &&
             c.status === 'approved' &&
             start <= now &&
             now <= end;
     });
+
+    console.log("log leave: ", logLeavesStaff);
+
     const { logleavesLoaded, status: logleaveStatus } = useAppSelector(state => state.logleave);
     const unpaidLeaveDays = logLeavesStaff
         .filter(c => c.leaveTypeId === 3)
@@ -146,7 +137,7 @@ function PayslipDetail() {
                 <Box>
                     <Box textAlign="center" sx={{ py: "20px" }}>
                         <Typography variant="h4" fontWeight="bold">Phiếu lương</Typography>
-                        <Typography fontWeight="bold">{moment(payslip.createAt).format("DD-MM-YYYY")}</Typography>
+                        <Typography fontWeight="bold">{moment(payslip.payday).format("DD-MM-YYYY")}</Typography>
                         <PayslipInfo
                             staffInfor={payslip.staff}
                             payslipId={payslip.payslipId}
@@ -212,7 +203,7 @@ function PayslipDetail() {
                                 unpaidLeaveHours={unpaidLeaveHours}
                                 paidLeaveDays={paidLeaveDays}
                                 paidLeaveHours={paidLeaveHours}
-                                now={new Date(date!)}
+                                now={new Date(payslip?.payday!)}
                             />
 
                             <TaxDetailList
@@ -223,7 +214,7 @@ function PayslipDetail() {
                                 totalLogOtDays={totalLogotDays}
                                 totalLogOtHours={totalLogotHours}
                                 totalLogOtSalary={totalLogotSalary}
-                                now={new Date(date!)}
+                                now={new Date(payslip?.payday!)}
                             />
                         </Grid>
                     </Grid>

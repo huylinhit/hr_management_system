@@ -95,7 +95,7 @@ function MyPayroll() {
                                     </TableCell>
                                     <TableCell align="center">{item.totalCompPaid}</TableCell>
                                     <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
-                                    <TableCell align="center">
+                                    {/* <TableCell align="center">
                                         {item.status ==="approved" ? (
                                             <ChipCustome status="approved">Đã thanh toán</ChipCustome>
 
@@ -103,7 +103,7 @@ function MyPayroll() {
                                             <ChipCustome status="rejected">Đã hủy</ChipCustome>
                                         )}
 
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}

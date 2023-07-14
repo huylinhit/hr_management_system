@@ -110,9 +110,6 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function OthersLeaveList() {
-  const handleRowClick = () => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/othersleaves" }]));
-  };
   const columns: GridColDef[] = [
     {
       field: "button",
@@ -122,8 +119,7 @@ export default function OthersLeaveList() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/othersleaves/${params.row.leaveLogId}`}
-          onClick={handleRowClick}
+          to={`/log-leaves/${params.row.leaveLogId}/staffs/${params.row.staffId}`}
         >
           <MoreHorizIcon />
         </IconButton>
@@ -222,7 +218,7 @@ export default function OthersLeaveList() {
       renderCell(params) {
         return (
           <>
-            {params.value === "Approved" ? (
+            {params.value === "approved" ? (
               <Typography
                 sx={{
                   backgroundColor: "#D0F9E5",
@@ -236,9 +232,9 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Đã duyệt
               </Typography>
-            ) : params.value === "Pending" ? (
+            ) : params.value === "pending" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFF5D1",
@@ -252,9 +248,9 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                {params.value}
+                Chờ duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -269,7 +265,7 @@ export default function OthersLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Từ chối
               </Typography>
             ) : (
               <Typography
@@ -286,7 +282,7 @@ export default function OthersLeaveList() {
                   ml: "5px",
                 }}
               >
-                {params.value}
+                Đã Hủy
               </Typography>
             )}
           </>
@@ -294,11 +290,28 @@ export default function OthersLeaveList() {
       },
     },
     {
+      field: "amount",
+      headerName: "Lương mỗi ngày",
+      width: 200,
+      editable: true,
+      align: "right",
+      headerAlign: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <div>Khấu trừ</div>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
+    },
+    {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
       width: 200,
       editable: true,
       align: "right",
+      headerAlign: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -445,10 +458,7 @@ export default function OthersLeaveList() {
   const currentUser = useAppSelector((state) => state.account);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const otherUsersLogLeaves = logLeaves.filter(
-    (logLeave) =>
-      logLeave.staffId !== currentUser.user?.userInfor.staffId &&
-      logLeave.status === "Pending" &&
-      logLeave.enable
+    (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId && logLeave.enable
   );
   console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();
@@ -474,7 +484,7 @@ export default function OthersLeaveList() {
     };
   }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/othersleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/log-leaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -503,10 +513,10 @@ export default function OthersLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
+        {/* <ToastContainer /> */}
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -519,10 +529,10 @@ export default function OthersLeaveList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -549,12 +559,13 @@ export default function OthersLeaveList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -574,18 +585,17 @@ export default function OthersLeaveList() {
             </Button>
           </Grid>
 
-          <CreateLeaveForm open={open} onClose={handleCloseDialog} />
+          <CreateLeaveForm isOwn={false} open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.leaveLogId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

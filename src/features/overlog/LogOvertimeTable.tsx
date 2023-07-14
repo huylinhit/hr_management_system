@@ -20,6 +20,7 @@ function LogOvertimeTable({ logOts, totalLogOtDays, totalLogOtHours, totalLogOtS
 
     const dispatch = useAppDispatch();
 
+    console.log("here: ",now.getMonth());
 
     const handleClick = () => {
         setOpen(!open);

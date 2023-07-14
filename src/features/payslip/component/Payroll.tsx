@@ -34,8 +34,6 @@ function Payroll() {
     }, [userInforLoaded])
 
 
-    if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
-
     const handleOpenDialog = () => {
         setOpen(true);
     };
@@ -43,6 +41,9 @@ function Payroll() {
     const handleCloseDialog = () => {
         setOpen(false);
     };
+    
+    if (status.includes('pending')) return <LoadingComponent message="Loading Payroll..." />
+
 
     return (
 
@@ -150,7 +151,7 @@ function Payroll() {
 
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.status === 'pending' && item.enable === true && (
+                                        {/* {item.status === 'pending' && item.enable === true && (
                                             <ChipCustome status="pending" >Chờ Duyệt</ChipCustome>
                                         )}
                                         {item.status === 'waiting' && item.enable === true && (
@@ -161,7 +162,7 @@ function Payroll() {
                                         )}
                                         {item.enable === false && (
                                             <ChipCustome status="rejected" >Đã Hủy</ChipCustome>
-                                        )}
+                                        )} */}
                                     </TableCell>
                                     <TableCell align="center">
                                             {item.totalCompInsured.toLocaleString()}

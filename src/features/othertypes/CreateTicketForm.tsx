@@ -13,16 +13,99 @@ import { useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
 import { setTicketAdded } from "./ticketSlice";
 import { ref, uploadBytes } from "firebase/storage";
+import { styled } from "@mui/material/styles";
 import { storage } from "../../firebase";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import SubjectIcon from "@mui/icons-material/Subject";
+import { toast } from "react-toastify";
 interface Props {
   open: boolean;
   onClose: () => void;
 }
+const fontStyle = "Mulish";
+const infoStyle = {
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  fontSize: "15px",
+  color: "#000000",
+  "& .MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#000000",
+  },
+};
+const headerColor = {
+  color: "#808080",
+};
+const verticalSpacing = {
+  mb: "10px",
+};
+const headerStyle = {
+  fontWeight: 600,
+  fontFamily: fontStyle,
+  width: "250px",
+};
+const textFieldInputProps = {
+  disableUnderline: true,
+  style: {
+    ...infoStyle,
+  },
+};
+const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
+  "label + &": {
+    marginTop: theme.spacing(3),
+  },
+  "& .MuiInputBase-input": {
+    borderRadius: 4,
+    position: "relative",
+    backgroundColor: theme.palette.mode === "light" ? "#FFFFFF" : "#1A2027",
+    //border: "1px solid",
+    borderColor: theme.palette.mode === "light" ? "#E0E3E7" : "#2D3843",
+    fontSize: 15,
+    width: "100%  ",
+    padding: "6px 8px",
+    transition: theme.transitions.create(["border-color", "background-color", "box-shadow"]),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: "Mulish",
+    "&:hover:not(:focus)": {
+      backgroundColor: disabled ? null : "#E7E7E7",
+    },
+    "&:focus": {
+      boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
+      borderColor: "#505050",
+      backgroundColor: "FFFFFF",
+      "&:hover": {
+        backgroundColor: "FFFFFF", // Remove hover effect when focused
+      },
+    },
+    "&::placeholder": {
+      color: "#000000", // Replace with your desired placeholder color
+    },
+    "&::disabled": {
+      color: "#000000",
+    },
+  },
+  "& .MuiInputAdornment-root": {
+    // Customize the Adornment styles as needed
+    position: "absolute",
+    right: 0,
+    visibility: "hidden", // Set the initial visibility to visible
+  },
+  "& .MuiIconButton-root": {
+    // Customize the IconButton styles as needed
+    padding: theme.spacing(1),
+    color: "#A9A9A9",
+  },
+  "&:focus-within .MuiInputAdornment-root": {
+    visibility: "hidden", // Hide the button when the field or any of its descendants is focused
+  },
+  "&:hover .MuiInputAdornment-root": {
+    visibility: "visible",
+  },
+}));
 export default function CreateTicketForm({ open, onClose }: Props) {
   const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedTicketTypeId, setSelectedTicketTypeId] = useState(0);
+  const [selectedTicketTypeId, setSelectedTicketTypeId] = useState(1);
   const [isTicketTypeEmpty, setIsTicketTypeEmpty] = useState(false);
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
@@ -61,19 +144,21 @@ export default function CreateTicketForm({ open, onClose }: Props) {
       setIsTicketTypeEmpty(true);
     }
     if (reason == "") {
-      setIsReasonEmpty(true);
+      toast.error("Bạn chưa điền đủ thông tin 😥");
+      return;
     }
     if (!isTicketTypeEmpty && !isReasonEmpty) {
       agent.Ticket.create(ticketCreate)
         .then((response) => {
           handleUploadFile(response.staffId);
           console.log("Ticket created successfully: ", response);
+          toast.success("Tạo đơn thành công 😊");
           dispatch(setTicketAdded(true));
         })
         .catch((error) => {
+          toast.error("Tạo đơn thất bại 😥");
           console.error("Error creating ticket: ", error);
         });
-        
     }
     onClose();
   };
@@ -106,43 +191,43 @@ export default function CreateTicketForm({ open, onClose }: Props) {
         </DialogTitle>
 
         <DialogContent>
-          <Box display={"flex"} alignItems={"flex-end"}>
-            <Typography sx={{ mr: "5%", width: "20%", fontWeight: 550, color: "#505050" }}>
-              Loại đơn
-            </Typography>
+          <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
+            <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
+            <Typography sx={{ ...headerStyle, ...headerColor }}>Loại đơn</Typography>
             {ticketTypes ? (
-              <TextField
-                select
-                sx={{ mt: 1, width: "72%" }}
+              <BootstrapInput
+                fullWidth
+                InputProps={textFieldInputProps}
+                defaultValue={"Đơn xin tăng lương"}
                 variant="standard"
-                defaultValue={0}
                 error={isTicketTypeEmpty}
                 onChange={handleTicketChange}
+                select
               >
                 {ticketTypes.map((option) => (
                   <MenuItem key={option.ticketTypeId} value={option.ticketName}>
                     {option.ticketName}
                   </MenuItem>
                 ))}
-              </TextField>
+              </BootstrapInput>
             ) : (
-              <TextField />
+              <></>
             )}
           </Box>
-          <Box display={"flex"} alignItems={"flex-end"}>
-            <Typography sx={{ mr: "5%", width: "20%", fontWeight: 550, color: "#505050" }}>
-              Lí do
-            </Typography>
-            <TextField
-              id="title"
-              multiline
-              defaultValue={""}
+          <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+            <SubjectIcon fontSize="small" sx={{ mr: "5px" }} />
+            <Typography sx={headerStyle}>Lí do</Typography>
+            <BootstrapInput
+              fullWidth
+              InputProps={textFieldInputProps}
               variant="standard"
-              sx={{ mt: 1, width: "72%" }}
+              placeholder="Trống"
               error={isReasonEmpty}
               onChange={debouncedReasonInput}
+              sx={infoStyle}
             />
           </Box>
+
           {isTicketTypeEmpty ? (
             <Typography sx={{ mt: "5%" }} color={"error"}>
               *Nhập đầy đủ thông tin

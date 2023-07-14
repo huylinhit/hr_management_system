@@ -41,6 +41,8 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import PhoneIcon from "@mui/icons-material/Phone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { setDepartmentChanged } from "./departmentSlice";
 
 interface Props {
   open: boolean;
@@ -90,7 +92,7 @@ export default function DepartmentForm({
     {
       field: "manager",
       headerName: "",
-      align:'center',
+      align: "center",
       width: 50,
       renderCell: (params) => (
         <>
@@ -284,15 +286,19 @@ export default function DepartmentForm({
     if (createOrAdd == false) {
       const departmentCreate = {
         DepartmentName: departmentName,
-        ManagerId: managerId ?? 0,
+        ManagerId: managerId || 0,
         UserInfors: selectedEmployees,
       };
+      console.log(departmentCreate);
       agent.Department.create(departmentCreate)
         .then((response) => {
           console.log("Department created successfully:", response);
+          toast.success("Thêm phòng ban thành công 😊");
+          dispatch(setDepartmentChanged(true));
         })
         .catch((error) => {
           console.error("Error creating department:", error);
+          toast.error("Xảy ra lỗi khi thêm 😥");
         });
     } else {
       const departmentUpdate = {

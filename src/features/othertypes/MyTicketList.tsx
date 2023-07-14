@@ -47,6 +47,7 @@ import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
+import { ToastContainer } from "react-toastify";
 
 function CustomToolbar() {
   return (
@@ -101,14 +102,6 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function MyTicketList() {
-  const handleRowClick = () => {
-    dispatch(
-      setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
-        { title: "Chỉnh sửa đơn", path: `` },
-      ])
-    );
-  };
   const columns: GridColDef[] = [
     {
       field: "button",
@@ -116,11 +109,7 @@ export default function MyTicketList() {
       width: 60,
       align: "center",
       renderCell: (params) => (
-        <IconButton
-          component={Link}
-          to={`/mytickets/${params.row.ticketId}`}
-          onClick={handleRowClick}
-        >
+        <IconButton component={Link} to={`/own-tickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
       ),
@@ -384,8 +373,10 @@ export default function MyTicketList() {
       </Avatar>
     );
   }
-  const [gridHeight, setGridHeight] = useState(0);
+  const currentUser = useAppSelector((state) => state.account);
+
   const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const myTickets = tickets.filter((c) => c.staffId === currentUser.user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { ticketsLoaded, filtersLoaded, ticketAdded, mytickets, status } = useAppSelector(
     (state) => state.ticket
@@ -395,18 +386,7 @@ export default function MyTicketList() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn khác của tôi", path: "/mytickets" }]));
   }, [location, dispatch]);
@@ -421,7 +401,7 @@ export default function MyTicketList() {
 
   useEffect(() => {
     if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchCurrentUserTicketsAsync());
+      dispatch(fetchTicketsAsync());
       dispatch(setTicketAdded(false));
     }
     prevLocation.current = location;
@@ -430,16 +410,17 @@ export default function MyTicketList() {
   console.log(tickets);
   useEffect(() => {
     if (ticketsLoaded) {
-      setRows(tickets);
+      setRows(myTickets);
     }
   }, [ticketsLoaded, tickets]);
 
   return (
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
+        <ToastContainer />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -452,10 +433,10 @@ export default function MyTicketList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -482,12 +463,13 @@ export default function MyTicketList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -514,11 +496,10 @@ export default function MyTicketList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -529,7 +510,7 @@ export default function MyTicketList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //  toolbar: CustomToolbar,
           }}
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}

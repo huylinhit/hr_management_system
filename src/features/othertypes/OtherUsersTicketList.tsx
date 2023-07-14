@@ -23,7 +23,12 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { fetchOtherUsersTicketsAsync, setTicketAdded, ticketsSelectors } from "./ticketSlice";
+import {
+  fetchOtherUsersTicketsAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
 import { Ticket } from "../../app/models/ticket";
 import CreateTicketForm from "./CreateTicketForm";
 import moment from "moment";
@@ -308,6 +313,8 @@ export default function OtherUsersTicketList() {
   }
   const [gridHeight, setGridHeight] = useState(0);
   const tickets = useAppSelector(ticketsSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.account);
+  const otherTickets = tickets.filter((c) => c.staffId !== currentUser.user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { ticketsLoaded, filtersLoaded, ticketAdded, status, othertickets } = useAppSelector(
     (state) => state.ticket
@@ -318,21 +325,6 @@ export default function OtherUsersTicketList() {
   const prevLocation = useRef(location);
   const key = location.pathname;
 
-  useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn khác của nhân viên", path: "/otheruserstickets" }]));
-  }, [location, dispatch]);
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 200); // Adjust the value (200) as needed to leave space for other elements
-    };
-
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -340,10 +332,12 @@ export default function OtherUsersTicketList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Danh sách đơn khác", path: "/tickets" }]));
+  }, [location, dispatch]);
   useEffect(() => {
     if (!ticketsLoaded || ticketAdded || prevLocation.current.key !== key) {
-      dispatch(fetchOtherUsersTicketsAsync());
+      dispatch(fetchTicketsAsync());
       dispatch(setTicketAdded(false));
     }
     prevLocation.current = location;
@@ -352,7 +346,7 @@ export default function OtherUsersTicketList() {
   useEffect(() => {
     if (ticketsLoaded) {
       // Update the rows when departments are loaded
-      setRows(tickets);
+      setRows(otherTickets);
     }
   }, [ticketsLoaded, tickets]);
 
@@ -361,7 +355,7 @@ export default function OtherUsersTicketList() {
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -374,10 +368,10 @@ export default function OtherUsersTicketList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -404,12 +398,13 @@ export default function OtherUsersTicketList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -436,11 +431,10 @@ export default function OtherUsersTicketList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -451,7 +445,7 @@ export default function OtherUsersTicketList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            // toolbar: CustomToolbar,
           }}
           loading={!ticketsLoaded || ticketAdded}
           rows={rows}

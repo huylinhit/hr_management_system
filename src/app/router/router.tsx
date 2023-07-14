@@ -11,58 +11,33 @@ import RequireAuth from "./RequireAuth";
 
 // Employee
 import AddNewEmployee from "../../features/add_employee/AddNewEmployee";
-import DetailEmployee from "../../features/detail_employee/DetailEmployee";
-import EmployeeList from "../../features/employee/EmployeeList";
-import EditEmployee from "../../features/edit_employee/EditEmployee";
 
 // Contract
 import DetailContract from "../../features/detail_contract/DetailContract";
-import ContractList from "../../features/list_contract/ContractList";
 import EditContract from "../../features/edit_contract/EditContract";
 import NewContract from "../../features/add_contract/NewContract";
 
 // Overtime
-import ViewOvertimeLog from "../../features/overlog/ViewOvertime";
 import DetailOvertime from "../../features/detail_overtime/DetailOvertime";
-import MyViewOvertime from "../../features/myoverlog/MyViewOvetime";
 import DetailOwnOvertime from "../../features/detail_own_overtime/DetailOwnOvertime";
 
 // Leave
-import MyLeavetime from "../../features/leavelog/MyLeavetime";
-import DetailLeave from "../../features/detail_leavelog/DetailLeave";
-import MyViewLeavetime from "../../features/myleavelog/MyViewLeavetime";
-import DetailOwnLeave from "../../features/detail_own_leave/DetailOwnLeave";
 
 // Department
 import DepartmentDetails from "../../features/department/DepartmentDetails";
 import DepartmentList from "../../features/department/DepartmentList";
 
 // Ticket
-import ViewOtherTypes from "../../features/othertypes/ViewOtherTypes";
-import CreateOtherTypes from "../../features/othertypes/CreateOtherTypes";
-import CreateTicketForm from "../../features/othertypes/CreateTicketForm";
 import MyTicketList from "../../features/othertypes/MyTicketList";
-import DetailOwnTicket from "../../features/detail_own_ticket/DetailOwnTicket";
 import OtherUsersTicketList from "../../features/othertypes/OtherUsersTicketList";
-import ApproveTicketForm from "../../features/othertypes/ApproveTicketForm";
 
 // Type
-import CreateTicketTypeForm from "../../features/othertypes/CreateTicketTypeForm";
-import EditOtherType from "../../features/othertypes/TicketApprovalForm";
 
 //
-import ViewCandidate from "../../features/candidate/ViewCadidate";
-import CreateCandidate from "../../features/candidate/CreateCandidate";
 // import EditCandidate from "../../features/candidate/EditCandidate";
-import Candidate from "../../features/candidate/Candidate";
 
-import CreateStaffSkill from "../../features/skills/CreateStaffSkill";
-import DeleteStaffSkillFormm from "../../features/skills/DeleteStaffSkillForm";
 import TicketApprovalForm from "../../features/othertypes/TicketApprovalForm";
-import StaffSkillsList from "../../features/skills/StaffSkillsList";
-import Payroll from "../../features/payslip/component/Payroll";
 import PayslipDetail from "../../features/payslip/component/PayslipDetail";
-import DetailAllowance from "../../features/allowance/DetailAllowance";
 import CandidateList from "../../features/candidate/CandidateList";
 import CandidateDetails from "../../features/candidate/CandidateDetails";
 import MyTicketDetails from "../../features/othertypes/MyTicketDetails";
@@ -76,19 +51,19 @@ import MyLeaveList from "../../features/detail_leavelog/MyLeaveList";
 import MyLeaveDetails from "../../features/detail_leavelog/MyLeaveDetails";
 
 import OtherLeaveList from "../../features/detail_leavelog/OtherLeaveList";
-import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
 
 import ChipCustome from "../components/Custom/Chip/ChipCustome";
 import MyPayroll from "../../features/payslip/component/MyPayroll";
-import ViewMyOvertime from "../../features/overlog/ViewMyOvertime";
 import TypeCustome from "../components/Custom/Type/TypeCustome";
 import DashBoard from "../../features/dashboard/DashBoard";
 import Contracts from "../../features/list_contract/Contracts";
 import MyOTList from "../../features/detail_overtime/MyOTList";
 import OtherOTList from "../../features/detail_overtime/OtherOTList";
 import Payslips from "../../features/payslip/Payslips";
-import ListContract from "../../features/list_contract/ListContract";
-import ListLeave from "../../features/leavelog/ListLeave";
+import Payroll from "../../features/payslip/component/Payroll";
+import LeaveApproval from "../../features/detail_leavelog/LeaveApproval";
+import DetailLeave from "../../features/detail_leavelog/DetailLeave";
+import LeaveDetail from "../../features/detail_leavelog/component/LeaveDetail";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -126,16 +101,15 @@ export const router = createBrowserRouter([
         children: [
           //Dashboard
           { path: "/dashboard", element: <DashBoard /> },
+          { path: "/other-leave-list/:id", element: <LeaveApproval /> },
 
           // Allowance
 
           // Department
 
-
           // Employee
           // { path: "/register", element: <Register /> },
           // { path: "/employeelist", element: <EmployeeList /> },
-
 
           //Xóa
           // { path: "/detail-employee/:id", element: <DetailEmployee /> },
@@ -148,7 +122,6 @@ export const router = createBrowserRouter([
           // Department
           // { path: "/departments", element: <DepartmentList /> },
           // { path: "/departments/:id", element: <DepartmentDetails /> },
-
 
           // { path: "/staffskills", element: <StaffSkillsList /> },
           // { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
@@ -163,8 +136,6 @@ export const router = createBrowserRouter([
           // Overtime
           // { path: "/list-overtime", element: <ViewOvertimeLog /> },
           // { path: "/own-overtime", element: <ViewMyOvertime /> },
-
-
 
           //MyOT
           // { path: "/myovertime", element: <MyViewOvertime /> },
@@ -216,11 +187,7 @@ export const router = createBrowserRouter([
       // Contract
       // { path: "/list-contract", element: <Contracts /> },
 
-
-
       // Overtime
-
-
 
       //MyOT
 
@@ -251,14 +218,14 @@ export const router = createBrowserRouter([
 
       // { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
 
-
       //department
       { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> }, 
+      { path: "/departments/:id", element: <DepartmentDetails /> },
       //employeee
       { path: "/staffs", element: <StaffList /> },
       { path: "/staffs/:id", element: <EditInfo /> },
-      { path: "/create-new-staff", element: <AddNewEmployee /> },
+      { path: "/staffs/add", element: <AddNewEmployee /> },
+
       //candidate
 
       { path: "/candidates/", element: <CandidateList /> },
@@ -266,28 +233,33 @@ export const router = createBrowserRouter([
       //contract
       { path: "/contracts", element: <Contracts /> },
       { path: "/contracts/:id", element: <DetailContract /> },
-      { path: "/edit-contract/:id", element: <EditContract /> },
-      { path: "/add-contract/:id", element: <NewContract /> },  
+      { path: "/contracts/:id/edit", element: <EditContract /> },
+      { path: "/contracts/staffs/:id/add", element: <NewContract /> },  
       //ot
-      { path: "/other-list-overtime", element: <OtherOTList /> },
-      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/my-list-overtime", element: <MyOTList /> },
-      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+      { path: "/log-overtimes", element: <OtherOTList /> },
+      { path: "/log-overtimes/:id", element: <DetailOvertime /> },
+      { path: "/own-log-overtimes", element: <MyOTList /> },
+      { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
 
       //leave
-      { path: "/other-leave-list", element: <OtherLeaveList /> },
-      { path: "/my-leave-list", element: <MyLeaveList /> },
-      { path: "/my-leave-list/:id", element: <MyLeaveDetails /> },
+      { path: "/log-leaves", element: <OtherLeaveList /> },
+      { path: "/log-leaves/:id/staffs/:staffid", element: <LeaveApproval /> },
+
+      //Thiếu Log Leave của người khác
+
+      { path: "/own-log-leaves", element: <MyLeaveList /> },
+      { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
       //other
-      { path: "/mytickets", element: <MyTicketList /> },
-      { path: "/mytickets/:id", element: <MyTicketDetails /> },
-      { path: "/other-users-tickets", element: <OtherUsersTicketList /> },
-      { path: "/other-users-tickets/:id", element: <TicketApprovalForm /> },
+      { path: "/own-tickets", element: <MyTicketList /> },
+      { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+      { path: "/tickets", element: <OtherUsersTicketList /> },
+      { path: "/tickets/:id", element: <TicketApprovalForm /> },
 
       //payslip
 
       { path: "/payslips", element: <Payslips /> },
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+      // { path: "/payroll", element: <Payroll /> },
 
 
       // Others

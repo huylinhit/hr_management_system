@@ -45,6 +45,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { candidateSkillsSelectors, fetchCandidateSkillsAsync } from "./candidateSkillSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -55,7 +56,7 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
- 
+
 const fontStyle = "Mulish";
 const cellStyle = {
   fontSize: 15,
@@ -164,18 +165,7 @@ export default function OtherUsersTicketList() {
         return (
           <>
             {params.value === "Đạt" ? (
-              <Typography
-                sx={{
-                  backgroundColor: "#FFF7D5",
-                  padding: "1px 10px ",
-                  borderRadius: "6px",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {params.value}
-              </Typography>
+              <ChipCustome status="payment">{params.value}</ChipCustome>
             ) : params.value === "Chờ duyệt" ? (
               <Typography
                 sx={{
@@ -477,7 +467,7 @@ export default function OtherUsersTicketList() {
         <Grid container spacing={0} alignContent="center"></Grid>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -490,10 +480,10 @@ export default function OtherUsersTicketList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -518,12 +508,13 @@ export default function OtherUsersTicketList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -549,11 +540,10 @@ export default function OtherUsersTicketList() {
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.candidateId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -564,7 +554,7 @@ export default function OtherUsersTicketList() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            toolbar: CustomToolbar,
+            //toolbar: CustomToolbar,
           }}
           loading={!candidatesLoaded || candidateAdded}
           rows={rows}

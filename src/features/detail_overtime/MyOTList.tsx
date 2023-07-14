@@ -1,18 +1,8 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import {
-  Avatar,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -21,29 +11,18 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../firebase";
-import { deepPurple } from "@mui/material/colors";
-import { Ticket } from "../../app/models/ticket";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
-import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 
-import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import {
   fetchLogOtsAsync,
@@ -480,10 +459,9 @@ export default function MyOTList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -496,10 +474,10 @@ export default function MyOTList() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -526,12 +504,13 @@ export default function MyOTList() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -551,18 +530,17 @@ export default function MyOTList() {
             </Button>
           </Grid>
 
-          <CreateOvertimeForm isOwn={false} open={open} onClose={handleCloseDialog} />
+          <CreateOvertimeForm isOwn={true} open={open} onClose={handleCloseDialog} />
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
           density="standard"
           getRowId={(row: any) => row.otLogId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

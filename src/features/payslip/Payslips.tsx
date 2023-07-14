@@ -2,15 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Grid,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -19,35 +11,26 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
+import "moment/locale/vi";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
 import NumbersIcon from "@mui/icons-material/Numbers";
 
 import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
-import {
-  fetchLogOtsAsync,
-  logOvertimeSelectors,
-  setLogOvertimeAdded,
-} from "../overlog/overtimeSlice";
-import { LogOt } from "../../app/models/logOt";
-import CreateOvertimeForm from "../overlog/CreateOvertime2";
 import { fetchPayslipsAsync, payslipSelectors } from "./payslipSlice";
 import { Payslip } from "../../app/models/payslip";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -137,8 +120,7 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"right"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5}} fontSize="small" />{" "}
-          Tạo Bởi
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> Tạo Bởi
         </Typography>
       ),
       renderCell: (params) => {
@@ -158,8 +140,8 @@ export default function Payslips() {
     {
       field: "payslipStatus",
       headerName: "Trạng thái",
-      width: 200,
-      align: "right",
+      width: 150,
+      align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -169,8 +151,12 @@ export default function Payslips() {
       renderCell(params) {
         return (
           <>
-            {params.value ? (
-              <ChipCustome status="approved">Đã thanh toán</ChipCustome>
+            {params.value === "pending" ? (
+              <ChipCustome status="pending">Chờ duyệt</ChipCustome>
+            ) : params.value === "waiting" ? (
+              <ChipCustome status="waiting">Chờ thanh toán</ChipCustome>
+            ) : params.value === "payment" ? (
+              <ChipCustome status="payment">Đã thanh toán</ChipCustome>
             ) : (
               <ChipCustome status="rejected">Đã hủy</ChipCustome>
             )}
@@ -182,6 +168,7 @@ export default function Payslips() {
       field: "grossStandardSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
+      headerAlign: "right",
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -196,6 +183,7 @@ export default function Payslips() {
       field: "grossActualSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
+      headerAlign: "right",
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -210,6 +198,7 @@ export default function Payslips() {
       field: "netStandardSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
+      headerAlign: "right",
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -224,6 +213,7 @@ export default function Payslips() {
       field: "netActualSalary",
       headerName: "Lương mỗi ngày",
       width: 200,
+      headerAlign: "right",
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -237,6 +227,7 @@ export default function Payslips() {
     {
       field: "totalCompInsured",
       width: 200,
+      headerAlign: "right",
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -251,6 +242,7 @@ export default function Payslips() {
       field: "totalCompPaid",
       width: 200,
       align: "right",
+      headerAlign: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -337,6 +329,20 @@ export default function Payslips() {
         );
       },
     },
+
+    {
+      field: "createAt",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tạo vào lúc</div>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        moment.locale("vi");
+        return <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>;
+      },
+    },
     {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
@@ -348,7 +354,7 @@ export default function Payslips() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
   ];
@@ -398,7 +404,7 @@ export default function Payslips() {
         <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            <TextField
+            {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
               InputProps={{
@@ -411,10 +417,10 @@ export default function Payslips() {
                 style: { fontFamily: fontStyle },
               }}
               variant="standard"
-            />
+            /> */}
           </Grid>
           <Grid item>
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 fontFamily: "Mulish",
@@ -441,12 +447,13 @@ export default function Payslips() {
               onClick={handleOpenDialog}
             >
               Sort
-            </Button>
+            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
@@ -467,18 +474,17 @@ export default function Payslips() {
           </Grid>
 
           <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
-
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
-          autoHeight
+          // autoHeight
           density="standard"
           getRowId={(row: any) => row.payslipId}
           sx={{
-            height: 700,
+            height: "83vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

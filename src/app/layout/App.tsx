@@ -5,7 +5,11 @@ import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import LoadingComponent from "./LoadingComponent";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
+
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
@@ -40,19 +44,20 @@ function App() {
   }
 
   if (loading) return <LoadingComponent message="Initialising app..." />;
-
+  const notify = () => toast("Wow so easy!");
   return (
     <Box>
+      <ToastContainer />
       {/* Render the Sidebar only when the route is not the homepage */}
       {location.pathname !== "/" && location.pathname !== "/login" && <Sidebar />} <CssBaseline />
       <Box
         sx={{
-          pt: '70px',
+          pt: "70px",
           ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 39 : 0) : 0,
           backgroundColor: "#FFFFFF",
         }}
       >
-        <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
+        <ToastContainer/>
         <Outlet />
       </Box>
     </Box>
