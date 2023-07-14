@@ -91,14 +91,19 @@ export const logotSlice = createSlice({
 
         //details
         builder.addCase(fetchLogOtAsync.pending, (state) => {
+            console.log("Here: ", state);
+
             state.status = 'pendingFetchLogot'
         });
         builder.addCase(fetchLogOtAsync.fulfilled, (state, action) => {
+            console.log("Here: ", action.payload)
             logOvertimesAdapter.upsertOne(state, action.payload)
             state.status = 'idle';
             state.logOtsLoaded = true;
         });
         builder.addCase(fetchLogOtAsync.rejected, state => {
+            // console.log("Here: ", state);
+
             state.status = 'idle';
         })
     })

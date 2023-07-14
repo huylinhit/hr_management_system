@@ -83,6 +83,7 @@ export default function AddNewEmployee() {
   };
 
   const handleSubmit = async () => {
+    console.log(userForm)
    await agent.Account.register(userForm)
       .then((response) => {
         console.log("Add new employee successfully: ", response);
