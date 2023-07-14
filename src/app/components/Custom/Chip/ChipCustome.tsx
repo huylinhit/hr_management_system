@@ -3,13 +3,13 @@ import classNames from 'classnames/bind';
 
 interface Props {
     status: string,
-    children: React.ReactNode
+    children: React.ReactNode,
 }
 
 const cx = classNames.bind(styles);
 
-function ChipCustome({ status, children}: Props) {
-    var activeStatus : string = "";
+function ChipCustome({  status, children }: Props) {
+    var activeStatus: string = "";
 
     switch (status) {
         case "withdrawn":

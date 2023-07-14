@@ -174,7 +174,7 @@ function PayslipDetail() {
                             <PayslipDetailSalary
                                 negotiableGrossSalaryEmployee={payslip?.grossStandardSalary!}
                                 totalAllowance={totalAllowances}
-                                payCut={payslip.paidByDate * unpaidLeaveDays} // Need Change
+                                payCut={0} // Need Change
                                 actualGrossSalaryEmployee={payslip?.grossActualSalary!}
                                 bhxhEmp={payslip?.bhxhemp!}
                                 bhytEmp={payslip?.bhytemp!}

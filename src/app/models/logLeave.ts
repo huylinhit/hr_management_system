@@ -2,7 +2,6 @@ import { LeaveType } from "./leaveType";
 import { Staff } from "./staff";
 
 export interface LogLeave {
-
   leaveLogId: number
   staffId: number
   leaveTypeId: number
@@ -21,5 +20,4 @@ export interface LogLeave {
   enable: boolean
   leaveType: LeaveType
   staff: Staff
-
 }

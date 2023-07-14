@@ -86,7 +86,9 @@ import DashBoard from "../../features/dashboard/DashBoard";
 import Contracts from "../../features/list_contract/Contracts";
 import MyOTList from "../../features/detail_overtime/MyOTList";
 import OtherOTList from "../../features/detail_overtime/OtherOTList";
-import MyPaySlips from "../../features/payslip/MyPaySlips";
+import Payslips from "../../features/payslip/Payslips";
+import ListContract from "../../features/list_contract/ListContract";
+import ListLeave from "../../features/leavelog/ListLeave";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -108,13 +110,15 @@ export const router = createBrowserRouter([
       //Login dont need to Authen or Author
       { path: "login", element: <Login /> },
       { path: "/", element: <HomePage /> },
+      // { path: "/list-contract", element: <ListContract/>},
+      // { path: "/list-leave", element: <ListLeave /> },
 
       { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome> },
       {
         path: "/type",
         element: <TypeCustome typeId={3}>Làm thêm ngày nghỉ và ngày lễ</TypeCustome>,
       },
-      { path: "/my-overtime", element: <ViewMyOvertime /> },
+      // { path: "/my-overtime", element: <ViewMyOvertime /> },
 
       //HR Staff routes
       {
@@ -126,59 +130,56 @@ export const router = createBrowserRouter([
           // Allowance
 
           // Department
-          { path: "/departments", element: <DepartmentList /> },
-          { path: "/departments/:id", element: <DepartmentDetails /> },
+
 
           // Employee
-          { path: "/register", element: <Register /> },
-          { path: "/employeelist", element: <EmployeeList /> },
-          { path: "/detail-employee/:id", element: <DetailEmployee /> },
-          { path: "/edit-employee/:id", element: <EditEmployee /> },
+          // { path: "/register", element: <Register /> },
+          // { path: "/employeelist", element: <EmployeeList /> },
+
+
+          //Xóa
+          // { path: "/detail-employee/:id", element: <DetailEmployee /> },
+          // { path: "/edit-employee/:id", element: <EditEmployee /> },
 
           // Candidate
-          { path: "/viewcandidate", element: <ViewCandidate /> },
-          { path: "/candidates/", element: <CandidateList /> },
-          { path: "/candidates/:id", element: <CandidateDetails /> },
-          { path: "/detailcandidate/:id", element: <Candidate /> },
+          // { path: "/viewcandidate", element: <ViewCandidate /> },
+          // { path: "/detailcandidate/:id", element: <Candidate /> },
 
           // Department
-          { path: "/departments", element: <DepartmentList /> },
-          { path: "/departments/:id", element: <DepartmentDetails /> },
-          { path: "/staffskills", element: <StaffSkillsList /> },
-          { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
+          // { path: "/departments", element: <DepartmentList /> },
+          // { path: "/departments/:id", element: <DepartmentDetails /> },
+
+
+          // { path: "/staffskills", element: <StaffSkillsList /> },
+          // { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
           //payslip
-          { path: "/payslips", element: <Payroll /> },
-          { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+          // { path: "/payslips", element: <Payroll /> },
+
+          //NEW VERSION 13/7 , 8:56PM
 
           // Contract
-          { path: "/list-contract", element: <Contracts /> },
-          { path: "/detail-contract/:id", element: <DetailContract /> },
 
           // Overtime
-          { path: "/viewot", element: <ViewOvertimeLog /> },
-          { path: "/my-overtime", element: <ViewMyOvertime /> },
-          { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-          { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+          // { path: "/list-overtime", element: <ViewOvertimeLog /> },
+          // { path: "/own-overtime", element: <ViewMyOvertime /> },
+
+
 
           //MyOT
           // { path: "/myovertime", element: <MyViewOvertime /> },
 
           // Leave
-          { path: "/myleavelist", element: <MyLeavetime /> },
-          { path: "/detail-leave-log/:id", element: <DetailLeave /> },
-          { path: "/detail-own-leave-log/", element: <DetailOwnLeave /> },
+          // { path: "/myleavelist", element: <MyLeavetime /> },
+          // { path: "/detail-leave-log/:id", element: <DetailLeave /> },
+          // { path: "/detail-own-leave-log", element: <DetailOwnLeave /> },
 
           // Ticket
-          { path: "/viewothertypes", element: <ViewOtherTypes /> },
-          { path: "/editothertype/:id", element: <EditOtherType /> },
-          { path: "/createtickettype", element: <CreateTicketTypeForm /> },
-          { path: "/mytickets", element: <MyTicketList /> },
-          { path: "/mytickets/:id", element: <MyTicketDetails /> },
-          { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
-          { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
-          { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
-          { path: "/approveticket", element: <ApproveTicketForm /> },
+          // { path: "/viewothertypes", element: <ViewOtherTypes /> },
+          // { path: "/editothertype/:id", element: <EditOtherType /> },
+          // { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+          // { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
+          // { path: "/approveticket", element: <ApproveTicketForm /> },
 
           // Others
           { path: "server-error", element: <ServerErrorPage /> },
@@ -207,63 +208,87 @@ export const router = createBrowserRouter([
       // Allowance
 
       // Employee
-      { path: "/create-new-employee", element: <AddNewEmployee /> },
-      { path: "/staffs", element: <StaffList /> },
-      { path: "/staffs/:id", element: <EditInfo /> },
-      { path: "/employeelist", element: <EmployeeList /> },
-      { path: "/detail-employee/:id", element: <DetailEmployee /> },
-      { path: "/edit-employee/:id", element: <EditEmployee /> },
+
+      // { path: "/employeelist", element: <EmployeeList /> },
+      // { path: "/detail-employee/:id", element: <DetailEmployee /> },
+      // { path: "/edit-employee/:id", element: <EditEmployee /> },
 
       // Contract
-      { path: "/list-contract", element: <Contracts /> },
+      // { path: "/list-contract", element: <Contracts /> },
 
-      { path: "/detail-contract/:id", element: <DetailContract /> },
-      { path: "/edit-contract/:id", element: <EditContract /> },
-      { path: "/add-contract/:id", element: <NewContract /> },
+
 
       // Overtime
-      { path: "/other-list-overtime", element: <OtherOTList /> },
-      { path: "/my-list-overtime", element: <MyOTList /> },
-      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
-      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+
+
 
       //MyOT
 
-      { path: "/other-leave-list", element: <OtherLeaveList /> },
-      { path: "/leave-list", element: <MyLeaveList /> },
-      { path: "/leave-list/:id", element: <MyLeaveDetails /> },
+      // { path: "/leave-list/:id", element: <MyLeaveDetails /> },
 
       // Ticket
-      { path: "/viewothertypes", element: <ViewOtherTypes /> },
-      { path: "/editothertype/:id", element: <EditOtherType /> },
-      { path: "/createtickettype", element: <CreateTicketTypeForm /> },
-      { path: "/mytickets", element: <MyTicketList /> },
-      { path: "/mytickets/:id", element: <MyTicketDetails /> },
-      { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
-      { path: "/otheruserstickets", element: <OtherUsersTicketList /> },
-      { path: "/otheruserstickets/:id", element: <TicketApprovalForm /> },
-      { path: "/approveticket", element: <ApproveTicketForm /> },
+      // { path: "/viewothertypes", element: <ViewOtherTypes /> },
+      // { path: "/editothertype/:id", element: <EditOtherType /> },
+      // { path: "/createtickettype", element: <CreateTicketTypeForm /> },
+      // { path: "/detail-own-ticket", element: <DetailOwnTicket /> },
+      // { path: "/approveticket", element: <ApproveTicketForm /> },
 
       // Candidate
-      { path: "/viewcandidate", element: <ViewCandidate /> },
-      { path: "/candidates", element: <CandidateList /> },
-      { path: "/candidates/:id", element: <CandidateDetails /> },
-      { path: "/detailcandidate/:id", element: <Candidate /> },
+      // { path: "/viewcandidate", element: <ViewCandidate /> },
+      // { path: "/candidates", element: <CandidateList /> },
+      // { path: "/candidates/:id", element: <CandidateDetails /> },
+      // { path: "/detailcandidate/:id", element: <Candidate /> },
 
       // Department
-      { path: "/departments", element: <DepartmentList /> },
-      { path: "/departments/:id", element: <DepartmentDetails /> },
+      // { path: "/departments", element: <DepartmentList /> },
+      // { path: "/departments/:id", element: <DepartmentDetails /> },
 
-      { path: "/staffskills", element: <StaffSkillsList /> },
-      { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
+      // { path: "/staffskills", element: <StaffSkillsList /> },
+      // { path: "/deletestaffskill", element: <DeleteStaffSkillFormm /> },
 
       //payslip
-      { path: "/payslips", element: <Payroll /> },
-      
-      //NEW VERSION 13/7 , 8:56PM
-      { path: "/myPayslips", element: <MyPaySlips /> },
+      // { path: "/payslips", element: <Payroll /> },
 
+      // { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+
+
+      //department
+      { path: "/departments", element: <DepartmentList /> },
+      { path: "/departments/:id", element: <DepartmentDetails /> }, 
+      //employeee
+      { path: "/staffs", element: <StaffList /> },
+      { path: "/staffs/:id", element: <EditInfo /> },
+      { path: "/create-new-staff", element: <AddNewEmployee /> },
+      //candidate
+
+      { path: "/candidates/", element: <CandidateList /> },
+      { path: "/candidates/:id", element: <CandidateDetails /> },
+      //contract
+      { path: "/contracts", element: <Contracts /> },
+      { path: "/contracts/:id", element: <DetailContract /> },
+      { path: "/edit-contract/:id", element: <EditContract /> },
+      { path: "/add-contract/:id", element: <NewContract /> },  
+      //ot
+      { path: "/other-list-overtime", element: <OtherOTList /> },
+      { path: "/detail-overtime-log/:id", element: <DetailOvertime /> },
+      { path: "/my-list-overtime", element: <MyOTList /> },
+      { path: "/detail-own-overtime-log/:id", element: <DetailOwnOvertime /> },
+
+      //leave
+      { path: "/other-leave-list", element: <OtherLeaveList /> },
+      { path: "/my-leave-list", element: <MyLeaveList /> },
+      { path: "/my-leave-list/:id", element: <MyLeaveDetails /> },
+      //other
+      { path: "/mytickets", element: <MyTicketList /> },
+      { path: "/mytickets/:id", element: <MyTicketDetails /> },
+      { path: "/other-users-tickets", element: <OtherUsersTicketList /> },
+      { path: "/other-users-tickets/:id", element: <TicketApprovalForm /> },
+
+      //payslip
+
+      { path: "/payslips", element: <Payslips /> },
       { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+
 
       // Others
       { path: "server-error", element: <ServerErrorPage /> },

@@ -46,6 +46,7 @@ import Contract from "../../app/models/contract";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -155,7 +156,7 @@ export default function Contracts() {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
             <Typography sx={cellStyle}>{staffName}</Typography>
-          </Box>
+          </Box>  
         );
       },
     },
@@ -439,7 +440,7 @@ export default function Contracts() {
   const [gridHeight, setGridHeight] = useState(0);
   const contracts = useAppSelector(contractSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const { contractAdded, contractsLoaded } = useAppSelector((state) => state.contract);
+  const { contractAdded, contractsLoaded, status: contractStatus } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -469,6 +470,8 @@ export default function Contracts() {
       setRows(contracts);
     }
   }, [contractsLoaded, contracts]);
+
+  if (contractStatus.includes('pending')) <LoadingComponent message="Đang Tải Hợp Đồng"/>
 
   return (
     <>

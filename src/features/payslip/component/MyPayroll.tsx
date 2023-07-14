@@ -96,7 +96,7 @@ function MyPayroll() {
                                     <TableCell align="center">{item.totalCompPaid}</TableCell>
                                     <TableCell align="center">{moment(item.changeAt).format("DD-MM-YYYY")}</TableCell>
                                     <TableCell align="center">
-                                        {item.payslipStatus ? (
+                                        {item.status ==="approved" ? (
                                             <ChipCustome status="approved">Đã thanh toán</ChipCustome>
 
                                         ) : (
