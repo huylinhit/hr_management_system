@@ -197,9 +197,15 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
   useEffect(() => {
     if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
   }, [userInforsLoaded]);
+
   useEffect(() => {
-    if ((currentUser.user && !leaveDayDetailLoaded) || selectedUser)
-      dispatch(fetchLeaveDayDetailAsync(selectedUser));
+    if ((currentUser.user && !leaveDayDetailLoaded) || selectedUser) {
+      if (isOwn) {
+        dispatch(fetchLeaveDayDetailAsync(currentUser.user!.userInfor.staffId));
+      } else {
+        dispatch(fetchLeaveDayDetailAsync(selectedUser));
+      }
+    }
   }, [dispatch, selectedUser]);
 
   useEffect(() => {
