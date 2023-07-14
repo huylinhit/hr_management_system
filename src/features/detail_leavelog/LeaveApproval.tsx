@@ -265,7 +265,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
     if (logLeave) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ của nhân viên", path: "/other-leave-list" },
+          { title: "Đơn nghỉ của nhân viên", path: "/log-leaves" },
           { title: `Phản hồi đơn`, path: "" },
         ])
       );

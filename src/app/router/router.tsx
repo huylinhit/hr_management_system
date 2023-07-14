@@ -243,7 +243,7 @@ export const router = createBrowserRouter([
 
       //leave
       { path: "/log-leaves", element: <OtherLeaveList /> },
-      { path: "/log-leaves/:leaveId/staffs/:staffId", element: <LeaveDetail /> },
+      { path: "/log-leaves/:id/staffs/:staffid", element: <LeaveApproval /> },
 
       //Thiếu Log Leave của người khác
 

@@ -110,9 +110,6 @@ const staffNameColors = [
   "#FAECEC",
 ];
 export default function OthersLeaveList() {
-  const handleRowClick = () => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của nhân viên", path: "/log-leaves" }]));
-  };
   const columns: GridColDef[] = [
     {
       field: "button",
@@ -123,7 +120,6 @@ export default function OthersLeaveList() {
         <IconButton
           component={Link}
           to={`/log-leaves/${params.row.leaveLogId}/staffs/${params.row.staffId}`}
-          onClick={handleRowClick}
         >
           <MoreHorizIcon />
         </IconButton>
@@ -462,9 +458,7 @@ export default function OthersLeaveList() {
   const currentUser = useAppSelector((state) => state.account);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const otherUsersLogLeaves = logLeaves.filter(
-    (logLeave) =>
-      logLeave.staffId !== currentUser.user?.userInfor.staffId &&
-      logLeave.enable
+    (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId && logLeave.enable
   );
   console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();
@@ -490,7 +484,7 @@ export default function OthersLeaveList() {
     };
   }, []);
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/othersleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/log-leaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {

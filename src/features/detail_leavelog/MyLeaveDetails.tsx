@@ -261,7 +261,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     if (logLeave) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ phép của tôi", path: "/myleaves" },
+          { title: "Đơn nghỉ phép của tôi", path: "/own-log-leaves" },
           { title: "Chỉnh sửa đơn", path: "" },
         ])
       );
@@ -381,6 +381,11 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           path: "/enable",
           value: false,
         },
+        {
+          op: "replace",
+          path: "/status",
+          value: 'cancelled',
+        },
       ],
     };
     if (!currentUser.user) return;
@@ -497,6 +502,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
               InputProps={textFieldInputProps}
               variant="standard"
               onChange={handleLeaveChange}
+              disabled={!logLeave.enable}
               select
               sx={{ ...infoStyle }}
             >
@@ -565,7 +571,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Nội dung đơn"
           defaultValue={`${logLeave?.description}`}
-          disabled={logLeave?.status !== "Pending"}
+          disabled={logLeave?.status !== "pending"}
           onChange={debouncedDescriptionInput}
         />
 
@@ -590,7 +596,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
         <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
           <SubjectIcon fontSize="small" sx={{ mr: "5px" }} />
           <Typography sx={headerStyle}>Trạng thái</Typography>
-          {logLeave?.status === "Approved" ? (
+          {logLeave?.status === "approved" ? (
             <Typography
               sx={{
                 backgroundColor: "#D0F9E5",
@@ -605,9 +611,9 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                 ml: "5px",
               }}
             >
-              Approved
+              Chấp nhận
             </Typography>
-          ) : logLeave?.status === "Pending" ? (
+          ) : logLeave?.status === "pending" ? (
             <Typography
               sx={{
                 backgroundColor: "#FFF5D1",
@@ -622,9 +628,9 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                 ml: "5px",
               }}
             >
-              Pending
+              Chờ duyệt
             </Typography>
-          ) : logLeave?.status === "Rejected" ? (
+          ) : logLeave?.status === "rejected" ? (
             <Typography
               sx={{
                 backgroundColor: "#FFE7E7",
@@ -639,7 +645,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                 ml: "5px",
               }}
             >
-              Rejected
+              Từ chối
             </Typography>
           ) : (
             <Typography
@@ -656,7 +662,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
                 ml: "5px",
               }}
             >
-              Cancelled
+              Đã hủy
             </Typography>
           )}
         </Box>
