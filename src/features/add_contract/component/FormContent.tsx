@@ -6,8 +6,8 @@ import { Contract } from "../model/contract";
 
 // interface
 interface Props {
-    contractForm: Contract;
-    setContractForm: Function;
+  contractForm: Contract;
+  setContractForm: Function;
 }
 
 export default function FormContent({ contractForm, setContractForm }: Props) {
@@ -50,7 +50,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             placeholder="Loại lương"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue=""
+            defaultValue="Gross To Net"
             onChange={(e) =>
               setContractForm((prevForm: any) => ({
                 ...prevForm,
@@ -81,6 +81,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
+                disablePast
                 onChange={(e: any) =>
                   setContractForm((prevForm: any) => ({
                     ...prevForm,
@@ -98,6 +99,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
+                disablePast
                 onChange={(e: any) =>
                   setContractForm((prevForm: any) => ({
                     ...prevForm,

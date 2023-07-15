@@ -270,6 +270,7 @@ export default function NewStaff({
           <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Chức vụ</Typography>
           <TextField
             select
+            disabled
             required
             type="text"
             defaultValue="false"
