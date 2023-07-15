@@ -6,11 +6,13 @@ import Contract from "../../models/contract";
 interface ContractState {
   contractsLoaded: boolean;
   contractAdded: boolean;
+  contractUpdated: boolean,
+  contracts: Contract | null;
   status: string
 }
 
 const contractAdapter = createEntityAdapter<Contract>({
-  selectId: (contract) => contract.staffId,
+  selectId: contract => contract.staffId,
 });
 
 export const fetchContractsAsync = createAsyncThunk<Contract[], void, { state: RootState }>(
@@ -41,8 +43,8 @@ export const fetchContractAsync = createAsyncThunk<Contract, number>(
   'contract/fetchContractAsync',
   async (staffId, thunkAPI) => {
     try {
-      const contract = await agent.Contract.details(staffId);
-      return contract;
+      return await agent.Contract.details(staffId);
+
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -55,9 +57,18 @@ export const contractSlice = createSlice({
   initialState: contractAdapter.getInitialState<ContractState>({
     contractsLoaded: false,
     contractAdded: false,
+    contractUpdated: false,
+    contracts: null,
     status: "idle"
   }),
-  reducers: {},
+  reducers: {
+    setContractAdded: (state, action) => {
+      state.contractAdded = action.payload;
+    },
+    setContractUpdated: (state, action) => {
+      state.contractUpdated = action.payload;
+    },
+  },
   extraReducers: (builder => {
     // List
     builder.addCase(fetchContractsAsync.pending, (state) => {
@@ -102,4 +113,5 @@ export const contractSlice = createSlice({
   })
 })
 
+export const { setContractAdded, setContractUpdated } = contractSlice.actions;
 export const contractSelectors = contractAdapter.getSelectors((state: RootState) => state.contract)

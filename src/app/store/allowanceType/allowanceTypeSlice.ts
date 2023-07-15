@@ -6,6 +6,8 @@ import { AllowanceType } from "../../models/allowanceType";
 interface AllowanceState {
     allowanceTypesLoaded: boolean;
     allowanceTypes: AllowanceType | null;
+    allowanceTypeAdded: boolean;
+    allowanceTypeUpdated: boolean,
     status: string
   }
 
@@ -30,9 +32,18 @@ const allowanceTypesAdapter = createEntityAdapter<AllowanceType>({
       initialState: allowanceTypesAdapter.getInitialState<AllowanceState>({
         allowanceTypesLoaded: false,
         allowanceTypes: null,
+        allowanceTypeAdded: false,
+        allowanceTypeUpdated: false,
         status: "idle"
       }),
-      reducers: {},
+      reducers: {
+        setAllowanceTypeAdded: (state, action) => {
+          state.allowanceTypeAdded = action.payload;
+        },
+        setAllowanceTypeUpdated: (state, action) => {
+          state.allowanceTypeUpdated = action.payload;
+        },
+      },
       extraReducers: (builder => {
           builder.addCase(fetchAllowanceTypesAsync.pending, (state) => {
               state.status = 'pendingFetchAllowanceTypes'
@@ -50,4 +61,5 @@ const allowanceTypesAdapter = createEntityAdapter<AllowanceType>({
       })
   })
   
+  export const { setAllowanceTypeAdded, setAllowanceTypeUpdated } = allowanceTypeSlice.actions;
   export const allowanceTypeSelectors = allowanceTypesAdapter.getSelectors((state: RootState) => state.allowanceType)

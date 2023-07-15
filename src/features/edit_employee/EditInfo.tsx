@@ -546,11 +546,11 @@ export default function EditInfo() {
             Xác nhận
           </Button>
         </Box>
-        {isExistContract ? (
+        {!!isExistContract ? (
           <Button
           variant="contained"
           component={Link}
-          to={`/contracts/${userInfor.staffId}`}
+          to={`/contracts/${isExistContract.contractId}/staffs/${userInfor.staffId}/staff`}
           sx={{
             fontWeight: "bold",
             textTransform: "none",

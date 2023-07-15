@@ -1,17 +1,9 @@
-import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
-
-// model
-import Contract from "../../../app/models/contract";
-import { Department } from "../../../app/models/departments";
-import { Employee } from "../../../app/models/employee";
+import { Grid, Typography } from "@mui/material";
 
 // data
-import { CONTRACTTYPE, DEPARTMENT } from "../../../app/store/data";
-import { ContractType } from "../../../app/models/contractType";
+import Contract from "../../../app/models/contract";
 import { UserInfor } from "../../../app/models/userInfor";
 import moment from "moment";
-
 
 // interface
 interface Props {
@@ -20,14 +12,14 @@ interface Props {
 }
 
 export default function DetailJob({ contract, employee }: Props) {
-  // -------------------------- VAR -----------------------------  
+  // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
   return (
-    <Grid sx={{ paddingBottom: "10px"}}>
+    <Grid sx={{ paddingBottom: "10px" }}>
       <Typography
         sx={{
           color: "#246DD6",
@@ -80,7 +72,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={8}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.contractType?.name} 
+              {contract?.contractType?.name}
             </Typography>
           </Grid>
         </Grid>

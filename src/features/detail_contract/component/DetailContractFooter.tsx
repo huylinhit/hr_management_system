@@ -1,13 +1,14 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import { UserInfor } from "../../../app/models/userInfor";
 
 interface Props {
   employee: UserInfor | undefined;
+  prevpage: string | undefined;
 }
 
-export default function DetailContractFooter({ employee }: Props) {
+export default function DetailContractFooter({ employee, prevpage }: Props) {
   return (
     <Grid
       container
@@ -27,7 +28,9 @@ export default function DetailContractFooter({ employee }: Props) {
           }}
           startIcon={<ArrowBackIcon />}
           component={Link}
-          to={`/staffs/${employee?.staffId}`}
+          to={
+            prevpage === "list" ? "/contracts" : `/staffs/${employee?.staffId}`
+          }
         >
           Quay về
         </Button>

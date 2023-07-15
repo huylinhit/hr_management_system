@@ -14,21 +14,19 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
-  fetchContractValidDetailASync,
+  fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
-import { fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
 
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
   const { id, staffid } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(id)));
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const { employeesLoaded } = useAppSelector((state) => state.employee);
 
-  console.log(id);
-
-  const contract = useAppSelector((state: any) => contractSelectors.selectById(state, Number(id)));
-  const { status } = useAppSelector((state) => state.contract);
+  const contract = useAppSelector((state: any) => contractSelectors.selectById(state, Number(staffid)));
+  const { status, contractsLoaded } = useAppSelector((state) => state.contract);
 
   const allowanceUpdate = contract?.allowances.map((allowance) => {
     return {
@@ -56,15 +54,11 @@ export default function EditContract() {
   const [allowanceForm, setAllowanceForm] = useState(allowanceUpdate);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchEmployeeAsync(Number(id)));
-    dispatch(fetchContractValidDetailASync(Number(id)));
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchAllowanceTypesAsync());
-  }, [dispatch]);
+    if(employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
+    if(contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
+  }, [dispatch, employeesLoaded, contractsLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending")) return <LoadingComponent message="Loading edit contract..." />;
+  if (status.includes("pending")) return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -120,7 +114,7 @@ export default function EditContract() {
             padding: "30px 20px 0 30px",
           }}
         >
-          <DetailContractFooter contract={contract} setOpenSubmitDialog={setOpenSubmitDialog} />
+          <DetailContractFooter contract={contract} staffid={staffid} setOpenSubmitDialog={setOpenSubmitDialog} />
         </Grid>
       </Container>
 

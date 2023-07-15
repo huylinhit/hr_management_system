@@ -14,7 +14,12 @@ export default function DetailEmployeeInfo({ employee }: Props) {
     <Box sx={{ padding: "0 35px" }}>
       <Grid>
         <Typography
-          sx={{ color: "#246DD6", fontWeight: "600", fontSize: "25px", marginBottom: "8px" }}
+          sx={{
+            color: "#246DD6",
+            fontWeight: "600",
+            fontSize: "25px",
+            marginBottom: "8px",
+          }}
         >
           Thông tin người lao động
         </Typography>
@@ -32,7 +37,9 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Họ và tên:</Typography>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              Họ và tên:
+            </Typography>
           </Grid>
           <Grid item xs={5}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
@@ -40,7 +47,9 @@ export default function DetailEmployeeInfo({ employee }: Props) {
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Giới tính:</Typography>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              Giới tính:
+            </Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
@@ -60,31 +69,13 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Sinh ngày:</Typography>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              Sinh ngày:
+            </Typography>
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
               {moment(employee?.dob).format("DD-MM-YYYY")}
-            </Typography>
-          </Grid>
-        </Grid>
-        
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}
-        >
-          <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>CMND|CCCD:</Typography>
-          </Grid>
-          <Grid item xs={9}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.citizenId} 
             </Typography>
           </Grid>
         </Grid>
@@ -100,7 +91,31 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Địa chỉ:</Typography>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              CMND|CCCD:
+            </Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
+              {employee?.citizenId}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            maxWidth: "100%",
+            padding: "0 30px 10px 30px",
+          }}
+        >
+          <Grid item xs={2}>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              Địa chỉ:
+            </Typography>
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
@@ -120,11 +135,13 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Số điện thoại:</Typography>
+            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
+              Số điện thoại:
+            </Typography>
           </Grid>
           <Grid item xs={9}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.phone} 
+              {employee?.phone}
             </Typography>
           </Grid>
         </Grid>
