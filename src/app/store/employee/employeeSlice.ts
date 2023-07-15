@@ -5,6 +5,8 @@ import { UserInfor } from "../../models/userInfor";
 
 interface EmployeeState {
     employeesLoaded: boolean;
+    employeeAdded: boolean;
+    employeeUpdated: boolean,
     employees: UserInfor | null;
     status: string
   }
@@ -42,10 +44,19 @@ export const fetchEmployeeAsync = createAsyncThunk<UserInfor, number>(
       name: 'employees',
       initialState: employeesAdapter.getInitialState<EmployeeState>({
         employeesLoaded: false,
+        employeeAdded: false,
+        employeeUpdated: false,
         employees: null,
         status: "idle"
       }),
-      reducers: {},
+      reducers: {
+        setEmployeeAdded: (state, action) => {
+          state.employeeAdded = action.payload;
+        },
+        setEmployeeUpdated: (state, action) => {
+          state.employeeUpdated = action.payload;
+        },
+      },
       extraReducers: (builder => {
           builder.addCase(fetchEmployeesAsync.pending, (state) => {
               state.status = 'pendingFetchEmployees'
@@ -75,4 +86,5 @@ export const fetchEmployeeAsync = createAsyncThunk<UserInfor, number>(
       })
   })
   
+  export const { setEmployeeAdded, setEmployeeUpdated } = employeeSlice.actions;
   export const employeeSelectors = employeesAdapter.getSelectors((state: RootState) => state.employee)

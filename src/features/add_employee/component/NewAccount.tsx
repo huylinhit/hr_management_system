@@ -1,17 +1,22 @@
 import { Container, Grid, TextField, Typography } from "@mui/material";
 import { User } from "../model/user";
-import { useState } from "react";
 
 // interface
 interface Props {
   setUserForm: Function;
-  userForm: User
+  userForm: User;
+  confirmPwd: String;
+  setConfirmPwd: Function;
 }
 
-export default function NewAccount({ setUserForm, userForm }: Props) {
-  const [confirmPwd, setConfirmPwd] = useState("")
-  const error = confirmPwd === userForm.password
-  
+export default function NewAccount({
+  setUserForm,
+  userForm,
+  confirmPwd,
+  setConfirmPwd,
+}: Props) {
+  const error = confirmPwd === userForm.password;
+
   return (
     <Container
       sx={{
@@ -31,7 +36,11 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
       >
         {/* NHẬP USERNAME */}
         <Grid item xs={10}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Tên đăng nhập</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Tên đăng nhập
+          </Typography>
           <TextField
             required
             type="text"
@@ -50,7 +59,11 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
 
         {/* NHẬP EMAIL */}
         <Grid item xs={10}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Email</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Email
+          </Typography>
           <TextField
             required
             type="text"
@@ -69,7 +82,11 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
 
         {/* NHẬP PASSWORD */}
         <Grid item xs={10}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Mật khẩu</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Mật khẩu
+          </Typography>
           <TextField
             required
             type="password"
@@ -88,10 +105,14 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
 
         {/* NHẬP PASSWORD AGAIN */}
         <Grid item xs={10}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Xác nhận mật khẩu</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Xác nhận mật khẩu
+          </Typography>
           <TextField
             required
-            error={!error}
+            error={userForm.password === "" ? false : !error}
             type="password"
             placeholder={confirmPwd === "" ? "Nhập lại mật khẩu" : ""}
             defaultValue={confirmPwd === "" ? "" : confirmPwd}
@@ -100,26 +121,6 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
             onChange={(e) => setConfirmPwd(e.target.value)}
           />
         </Grid>
-
-        {/* NHẬP ROLE */}
-        {/* <Grid item xs={10}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Vai trò</Typography>
-          <TextField
-            required
-            type="text"
-            placeholder={userForm.role === "" ? "Nhập role" : ""}
-            defaultValue={userForm.role === "" ? "" : userForm.role}
-            placeholder="Nhập vai trò"
-            size="small"
-            sx={{ width: "100%", marginBottom: "15px" }}
-            onChange={(e) =>
-              setUserForm((prevForm: any) => ({
-                ...prevForm,
-                role: e.target.value,
-              }))
-            }
-          />
-        </Grid> */}
       </Grid>
     </Container>
   );

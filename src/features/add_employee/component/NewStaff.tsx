@@ -8,9 +8,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Department } from "../../../app/models/department";
 import { User } from "../model/user";
 import dayjs from "dayjs";
@@ -47,7 +48,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Họ</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Họ
+          </Typography>
           <TextField
             required
             type="text"
@@ -64,7 +69,11 @@ export default function NewStaff({
           />
         </Grid>
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Tên</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Tên
+          </Typography>
           <TextField
             required
             type="text"
@@ -92,7 +101,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Giới tính</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Giới tính
+          </Typography>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -115,7 +128,11 @@ export default function NewStaff({
         </Grid>
 
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Quốc tịch</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Quốc tịch
+          </Typography>
           <TextField
             required
             type="text"
@@ -143,7 +160,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Số điện thoại</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Số điện thoại
+          </Typography>
           <TextField
             required
             type="text"
@@ -160,10 +181,15 @@ export default function NewStaff({
           />
         </Grid>
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Ngày sinh</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Ngày sinh
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
+                defaultValue={dayjs(userForm.dob)}
                 onChange={(e: any) =>
                   setUserForm((prevForm: any) => ({
                     ...prevForm,
@@ -187,7 +213,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={12}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Địa chỉ</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Địa chỉ
+          </Typography>
           <TextField
             required
             type="text"
@@ -215,7 +245,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>CCCD|CMND</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            CCCD|CMND
+          </Typography>
           <TextField
             required
             type="text"
@@ -244,7 +278,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Phòng ban</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Phòng ban
+          </Typography>
           <TextField
             select
             required
@@ -267,7 +305,11 @@ export default function NewStaff({
           </TextField>
         </Grid>
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Chức vụ</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Chức vụ
+          </Typography>
           <TextField
             select
             disabled
@@ -299,7 +341,9 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
             Tên tài khoản ngân hàng
           </Typography>
           <TextField
@@ -324,7 +368,9 @@ export default function NewStaff({
           />
         </Grid>
         <Grid item xs={5}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
             Số tài khoản ngân hàng
           </Typography>
           <TextField
@@ -359,7 +405,11 @@ export default function NewStaff({
         }}
       >
         <Grid item xs={12}>
-          <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Ngân hàng</Typography>
+          <Typography
+            sx={{ fontSize: "how to compare string1 is as same as string2" }}
+          >
+            Ngân hàng
+          </Typography>
           <TextField
             required
             type="text"

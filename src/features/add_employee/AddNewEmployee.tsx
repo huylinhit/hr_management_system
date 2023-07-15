@@ -8,18 +8,21 @@ import {
   Button,
   Container,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
+// component
+import NewAccount from "./component/NewAccount";
+import NewStaff from "./component/NewStaff";
+
+// data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import {
   departmentSelectors,
   fetchDepartmentsAsync,
 } from "../department/departmentSlice";
 import agent from "../../app/api/agent";
-
-// component
-import NewAccount from "./component/NewAccount";
-import NewStaff from "./component/NewStaff";
-import { useNavigate } from "react-router-dom";
+import { setEmployeeAdded } from "../../app/store/employee/employeeSlice";
 
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
@@ -30,13 +33,14 @@ export default function AddNewEmployee() {
   const [step, setStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
   const [isValid, setIsValid] = useState(true);
+  const [confirmPwd, setConfirmPwd] = useState("");
   const [userForm, setUserForm] = useState({
     username: "",
     password: "",
     email: "",
     lastName: "",
     firstName: "",
-    dob: "",
+    dob: "2000-01-01",
     phone: "",
     gender: false,
     address: "",
@@ -54,7 +58,6 @@ export default function AddNewEmployee() {
   );
   const { departmentsLoaded } = useAppSelector((state) => state.department);
   // -------------------------- EFFECT --------------------------
-
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
@@ -62,7 +65,7 @@ export default function AddNewEmployee() {
   const areAllFieldsNotNull = (object: any): boolean => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
-        if (object[key] === "" || object[key] === 0) {
+        if (object[key] === "" || object[key] === 0 || confirmPwd === "") {
           return false;
         }
       }
@@ -98,11 +101,18 @@ export default function AddNewEmployee() {
     await agent.Account.register(userForm)
       .then((response) => {
         console.log("Add new employee successfully: ", response);
+        dispatch(setEmployeeAdded(true));
         setStep((prevActiveStep) => prevActiveStep + 1);
-        setTimeout(() => history("/staffs"), 2000);
+        toast.success("Đã thêm nhân viên thành công");
+        setTimeout(() => history("/staffs"), 1000);
       })
       .catch((error) => {
-        console.error("Error add new employee ", error);
+        if (Array.isArray(error)) {
+          error.forEach((errorMessage: string) => {
+            toast.error(errorMessage);
+            console.log(errorMessage);
+          });
+        }
         setStep(0);
       });
   };
@@ -163,7 +173,12 @@ export default function AddNewEmployee() {
             <React.Fragment>
               <form onSubmit={handleSubmit}>
                 {step === 0 && (
-                  <NewAccount setUserForm={setUserForm} userForm={userForm} />
+                  <NewAccount
+                    setUserForm={setUserForm}
+                    userForm={userForm}
+                    confirmPwd={confirmPwd}
+                    setConfirmPwd={setConfirmPwd}
+                  />
                 )}
                 {step === 1 && (
                   <NewStaff
