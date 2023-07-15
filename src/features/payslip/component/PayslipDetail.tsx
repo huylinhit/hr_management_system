@@ -52,7 +52,8 @@ function PayslipDetail() {
 
     const logotsStaff = logots
         .filter(c => {
-            return moment(c.logStart).month() === moment(payslip?.payday).month() &&
+            console.log("Thang: ",moment(c.logStart).month() + 1 );
+            return moment(c.logStart).month() + 1 === moment(payslip?.payday).month() + 1&&
                 c.status === 'approved' &&
                 c.staffId === payslip?.staffId;
         })
