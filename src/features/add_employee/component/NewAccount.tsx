@@ -102,24 +102,24 @@ export default function NewAccount({ setUserForm, userForm }: Props) {
         </Grid>
 
         {/* NHẬP ROLE */}
-        <Grid item xs={10}>
+        {/* <Grid item xs={10}>
           <Typography sx={{ fontSize: "how to compare string1 is as same as string2" }}>Vai trò</Typography>
           <TextField
             required
             type="text"
-            // placeholder={userForm.role === "" ? "Nhập role" : ""}
-            // defaultValue={userForm.role === "" ? "" : userForm.role}
+            placeholder={userForm.role === "" ? "Nhập role" : ""}
+            defaultValue={userForm.role === "" ? "" : userForm.role}
             placeholder="Nhập vai trò"
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
-            // onChange={(e) =>
-            //   setUserForm((prevForm: any) => ({
-            //     ...prevForm,
-            //     role: e.target.value,
-            //   }))
-            // }
+            onChange={(e) =>
+              setUserForm((prevForm: any) => ({
+                ...prevForm,
+                role: e.target.value,
+              }))
+            }
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   );

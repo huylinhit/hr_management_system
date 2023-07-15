@@ -59,6 +59,17 @@ export default function AddNewEmployee() {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
   // -------------------------- FUNCTION ------------------------
+  const areAllFieldsNotNull = (object: any): boolean => {
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        if (object[key] === "" || object[key] === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const isStepOptional = (step: number) => {
     return step === 1;
   };
@@ -83,8 +94,8 @@ export default function AddNewEmployee() {
   };
 
   const handleSubmit = async () => {
-    console.log(userForm)
-   await agent.Account.register(userForm)
+    console.log(userForm);
+    await agent.Account.register(userForm)
       .then((response) => {
         console.log("Add new employee successfully: ", response);
         setStep((prevActiveStep) => prevActiveStep + 1);
@@ -92,10 +103,12 @@ export default function AddNewEmployee() {
       })
       .catch((error) => {
         console.error("Error add new employee ", error);
-        setStep(0)
+        setStep(0);
       });
   };
   // -------------------------- MAIN ----------------------------
+  const disabled = !areAllFieldsNotNull(userForm);
+
   return (
     <Box sx={{ padding: "10px 30px 0 30px", width: "calc(100vh - 240)" }}>
       <Typography
@@ -173,6 +186,7 @@ export default function AddNewEmployee() {
                   <Box sx={{ flex: "1 1 auto" }} />
 
                   <Button
+                    disabled={step === 1 ? disabled : false}
                     variant="contained"
                     size="small"
                     sx={{ fontSize: "17px", borderRadius: "10px" }}

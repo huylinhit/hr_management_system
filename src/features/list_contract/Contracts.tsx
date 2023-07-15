@@ -129,7 +129,7 @@ export default function Contracts() {
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
-        const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
+        const staffName = `${params.row.staff?.lastName}  ${params.row.staff?.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
         const staffNameColor = staffNameColors[rowIndex];
         return (
