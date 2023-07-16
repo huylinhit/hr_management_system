@@ -77,7 +77,7 @@ export default function NewStaff({
           <TextField
             required
             type="text"
-            placeholder={userForm.firstName === "" ? "Nhập firstName" : ""}
+            placeholder={userForm.firstName === "" ? "Nhập tên" : ""}
             defaultValue={userForm.firstName === "" ? "" : userForm.firstName}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
@@ -121,9 +121,9 @@ export default function NewStaff({
             <FormControlLabel
               value={false}
               control={<Radio />}
-              label="Female"
+              label="Nữ"
             />
-            <FormControlLabel value={true} control={<Radio />} label="Male" />
+            <FormControlLabel value={true} control={<Radio />} label="Nam" />
           </RadioGroup>
         </Grid>
 

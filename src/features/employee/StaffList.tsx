@@ -478,7 +478,7 @@ export default function StaffList() {
               variant="outlined"
               startIcon={<AddIcon />}
               component={Link}
-              to="/create-new-staff"
+              to="/staffs/add"
               sx={{
                 mb: "5px",
                 textTransform: "none",

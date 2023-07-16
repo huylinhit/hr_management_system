@@ -112,8 +112,8 @@ export default function NewAccount({
           </Typography>
           <TextField
             required
-            error={userForm.password === "" ? false : !error}
-            helperText="Mât khẩu đã nhập không khớp. Hãy thử lại."
+            error={confirmPwd === "" ? false : !error}
+            helperText={confirmPwd === "" || error ? "" : "Mât khẩu đã nhập không khớp. Hãy thử lại."}
             type="password"
             placeholder={confirmPwd === "" ? "Nhập lại mật khẩu" : ""}
             defaultValue={confirmPwd === "" ? "" : confirmPwd}

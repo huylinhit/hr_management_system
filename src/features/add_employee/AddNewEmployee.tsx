@@ -65,7 +65,7 @@ export default function AddNewEmployee() {
   const areAllFieldsNotNull = (object: any): boolean => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
-        if (object[key] === "" || object[key] === 0 || confirmPwd === "") {
+        if (object[key] === "" || object[key] === 0 || confirmPwd === "" || confirmPwd !== userForm.password) {
           return false;
         }
       }
