@@ -12,7 +12,7 @@ const initialState: AccountState = {
   user: null,
 };
 
-export const signInUser = createAsyncThunk<User, FieldValues>(
+export const  signInUser = createAsyncThunk<User, FieldValues>(
   "account/signInUser",
   async (data, thunkAPI) => {
     try {
@@ -67,8 +67,6 @@ export const accountSlice = createSlice({
         let claims = JSON.parse(atob(action.payload.token.split('.')[1]));
         let roles = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
         state.user = { ...action.payload, roles: typeof (roles) === 'string' ? [roles] : roles }
-        console.log("Here", state.user);
-
       }
     );
     builder.addMatcher(isAnyOf(signInUser.rejected), (state, action) => {
