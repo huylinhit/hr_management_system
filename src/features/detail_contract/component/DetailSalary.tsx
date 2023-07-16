@@ -1,12 +1,7 @@
-import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 // data
-import { ALLOWANCE, ALLOWANCETYPE } from "../../../app/store/data";
 import Contract from "../../../app/models/contract";
-import { Employee } from "../../../app/models/employee";
-import { AllowanceType } from "../../../app/models/allowanceType";
-import { Allowance } from "../../../app/models/allowance";
 import { UserInfor } from "../../../app/models/userInfor";
 
 // interface
@@ -194,7 +189,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             </Typography>
           </Grid>
         </Grid>
-      </Grid> 
+      </Grid>
     </Grid>
   );
 }

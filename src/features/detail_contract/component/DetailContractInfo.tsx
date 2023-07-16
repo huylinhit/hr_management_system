@@ -7,7 +7,6 @@ import DetaiNote from "./DetailNote";
 
 // model
 import Contract from "../../../app/models/contract";
-import { Employee } from "../../../app/models/employee";
 import { UserInfor } from "../../../app/models/userInfor";
 
 // interface
@@ -28,14 +27,14 @@ export default function DetailContractInfo({ contract, employee }: Props) {
             marginBottom: "5px",
           }}
         >
-          Hợp đồng lao động 
+          Hợp đồng lao động
         </Typography>
       </Grid>
 
       <Grid>
-        <DetailJob contract={contract} employee={employee}/>
-        <DetailSalary contract={contract} employee={employee}/>
-        <DetaiNote contract={contract}/>
+        <DetailJob contract={contract} employee={employee} />
+        <DetailSalary contract={contract} employee={employee} />
+        <DetaiNote contract={contract} />
       </Grid>
     </Box>
   );

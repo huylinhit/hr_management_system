@@ -28,16 +28,7 @@ import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
+
 const headerStyle = {
   color: "#7C7C7C",
   fontWeight: 700,
@@ -69,26 +60,7 @@ const colors = [
   "#00FFFF",
   "#FFD700",
 ];
-const staffNameColors = [
-  "#F1F1EF",
-  "#F3EEEE",
-  "#F8ECDF",
-  "#FAF3DD",
-  "#EEF3ED",
-  "#E9F3F7",
-  "#F6F3F8",
-  "#F9F2F5",
-  "#FAECEC",
-];
 export default function Contracts() {
-  const handleRowClick = () => {
-    dispatch(
-      setHeaderTitle([
-        { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
-        { title: "Chỉnh sửa đơn", path: `` },
-      ])
-    );
-  };
   const columns: GridColDef[] = [
     {
       field: "button",
@@ -98,7 +70,7 @@ export default function Contracts() {
       renderCell: (params) => (
         <IconButton
           component={Link}
-          to={`/contracts/${params.row.contractId}/staffs/${params.row.staffId}`}
+          to={`/contracts/${params.row.contractId}/staffs/${params.row.staffId}/list`}
         >
           <MoreHorizIcon />
         </IconButton>
@@ -130,8 +102,6 @@ export default function Contracts() {
       renderCell: (params) => {
         const staffId = params.row.staffId;
         const staffName = `${params.row.staff?.lastName}  ${params.row.staff?.firstName}`;
-        const rowIndex = staffId % staffNameColors.length;
-        const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
@@ -172,7 +142,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />
           <div>Loại lương</div>
         </Typography>
       ),
@@ -201,9 +171,7 @@ export default function Contracts() {
       ),
       renderCell: (params) => {
         return (
-          <>
             <Typography sx={cellStyle}>{params.value}</Typography>
-          </>
         );
       },
     },
@@ -284,9 +252,7 @@ export default function Contracts() {
           0
         );
         return (
-          <>
             <CurrencyFormatter value={allowances} />
-          </>
         );
       },
     },
@@ -360,7 +326,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />
           <div>Thời gian thay đổi</div>
         </Typography>
       ),
@@ -387,29 +353,18 @@ export default function Contracts() {
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
 
-  const [gridHeight, setGridHeight] = useState(0);
   const contracts = useAppSelector(contractSelectors.selectAll);
   const dispatch = useAppDispatch();
   const {
-    contractAdded,
     contractsLoaded,
     status: contractStatus,
   } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
-  const [open, setOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Hợp Đồng Nhân Viên", path: "/contracts" }]));
   }, [location, dispatch]);
-
-  const handleOpenDialog = () => {
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     if (!contractsLoaded) {
@@ -432,54 +387,11 @@ export default function Contracts() {
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            {/* <TextField
-              id="standard-basic"
-              placeholder="Nhập để tìm..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-                style: { fontFamily: fontStyle },
-              }}
-              variant="standard"
-            /> */}
-          </Grid>
-          <Grid item>
-            {/* <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<FilterAltOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Filter
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<ImportExportOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Sort
-            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
-              onClick={handleOpenDialog}
+          //     component={Link}
+          // to={`/contracts/staffs/${userInfor.staffId}/add`}
               sx={{
                 mb: "5px",
                 textTransform: "none",

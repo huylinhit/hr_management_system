@@ -99,7 +99,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
-                disablePast
+                disabled={contractForm.contractTypeId === 1 ? false : true}
                 onChange={(e: any) =>
                   setContractForm((prevForm: any) => ({
                     ...prevForm,

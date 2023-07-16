@@ -134,8 +134,8 @@ export const router = createBrowserRouter([
           { path: "/candidates/:id", element: <CandidateDetails /> },
           //contract
           { path: "/contracts", element: <Contracts /> },
-          { path: "/contracts/:id/staffs/:staffid", element: <DetailContract /> },
-          { path: "/contracts/:id/edit", element: <EditContract /> },
+          { path: "/contracts/:id/staffs/:staffid/:prevpage", element: <DetailContract /> },
+          { path: "/contracts/:id/staffs/:staffid/edit", element: <EditContract /> },
           { path: "/contracts/staffs/:id/add", element: <NewContract /> },
 
           //leave
