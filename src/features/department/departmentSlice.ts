@@ -10,6 +10,7 @@ interface DepartmentState {
   filtersLoaded: boolean;
   status: string;
   departmentsChanged: boolean;
+  departmentAdded: boolean;
 }
 
 const departmentsAdapter = createEntityAdapter<Department>({
@@ -62,10 +63,14 @@ export const departmentSlice = createSlice({
     filtersLoaded: false,
     status: "idle",
     departmentsChanged: false,
+    departmentAdded: false,
   }),
   reducers: {
     setDepartmentChanged: (state, action) => {
       state.departmentsChanged = action.payload;
+    },
+    setDepartmentEmployeeAdded: (state, action) => {
+      state.departmentAdded = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -91,13 +96,13 @@ export const departmentSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchDepartmentAsync.rejected, (state, action) => {
-    console.log(action);
+      console.log(action);
       state.status = "idle";
     });
   },
 });
 
-export const {setDepartmentChanged} = departmentSlice.actions;
+export const { setDepartmentChanged, setDepartmentEmployeeAdded } = departmentSlice.actions;
 export const departmentSelectors = departmentsAdapter.getSelectors(
   (state: RootState) => state.department
 );

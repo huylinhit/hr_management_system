@@ -42,7 +42,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { setDepartmentChanged } from "./departmentSlice";
+import { setDepartmentChanged, setDepartmentEmployeeAdded } from "./departmentSlice";
 
 interface Props {
   open: boolean;
@@ -120,7 +120,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tên nhân viên</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tên nhân viên</>
         </Typography>
       ),
     },
@@ -131,7 +131,7 @@ export default function DepartmentForm({
       width: 200,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Phòng ban</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Phòng ban</>
         </Typography>
       ),
     },
@@ -142,7 +142,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số điện thoại</>
         </Typography>
       ),
     },
@@ -153,7 +153,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Email</>
         </Typography>
       ),
     },
@@ -165,8 +165,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Giới tính</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
         </Typography>
       ),
 
@@ -217,7 +216,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
         </Typography>
       ),
     },
@@ -228,7 +227,7 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Quốc gia</>
         </Typography>
       ),
     },
@@ -240,7 +239,7 @@ export default function DepartmentForm({
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
     },
@@ -250,6 +249,7 @@ export default function DepartmentForm({
   );
   const dispatch = useAppDispatch();
   const { userInforsLoaded, filtersLoaded } = useAppSelector((state) => state.userInfor);
+  const { departmentAdded } = useAppSelector((state) => state.department);
   const [rows, setRows] = useState<UserInfor[]>([]);
   const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
   const [departmentName, setDepartmentName] = useState("");
@@ -265,8 +265,10 @@ export default function DepartmentForm({
 
   // If userInfors is not loaded, load it using dispatch
   useEffect(() => {
-    if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
-  }, [dispatch, userInforsLoaded]);
+    if (!userInforsLoaded || departmentAdded) {
+      dispatch(fetchUserInforsAsync());
+    }
+  }, [dispatch, userInforsLoaded, departmentAdded]);
 
   // // If userInfors is loaded, set rows
   useEffect(() => {
@@ -282,7 +284,11 @@ export default function DepartmentForm({
   const handleSave = () => {
     // Get Employees that are selected
     const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.id));
-
+    const updatedEmployees = selectedEmployees.map((employee) => ({
+      ...employee,
+      departmentId: departmentId,
+      isManager: false,
+    }));
     if (createOrAdd == false) {
       const departmentCreate = {
         DepartmentName: departmentName,
@@ -302,15 +308,23 @@ export default function DepartmentForm({
         });
     } else {
       const departmentUpdate = {
-        DepartmentName: departmentNameParam,
-        ManagerId: 0,
-        UserInfors: selectedEmployees,
+        patchDocument: [
+          {
+            op: "replace",
+            path: "/userInfors",
+            value: updatedEmployees,
+          },
+        ],
       };
-      agent.Department.update(departmentId, departmentUpdate)
+      agent.Department.patch(departmentId, departmentUpdate.patchDocument)
         .then((response) => {
+          dispatch(setDepartmentEmployeeAdded(true));
+          dispatch(setDepartmentChanged(true));
+          toast.success("Thêm nhân viên thành công 😊");
           console.log("Department updated successfully:", response);
         })
         .catch((error) => {
+          toast.error("Xảy ra lỗi khi thêm 😥");
           console.error("Error updating department:", error);
         });
     }
@@ -356,7 +370,7 @@ export default function DepartmentForm({
                 <Typography variant="body1" sx={{ color: "#FF6969", fontWeight: "bold", mt: 3 }}>
                   <Box display="flex" alignItems="center">
                     <AccountCircleIcon sx={{ mr: "5px" }} />
-                    <div>Quản lý mới: {managerName}</div>
+                    <>Quản lý mới: {managerName}</>
                   </Box>
                 </Typography>
               </Grid>

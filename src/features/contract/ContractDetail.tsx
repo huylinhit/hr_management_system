@@ -4,11 +4,11 @@ import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 function ContractDetail() {
   return (
     <>
-      <div style={{ paddingTop: "25px", marginLeft: "35px" }}>
+      <Typography style={{ paddingTop: "25px", marginLeft: "35px" }}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Thông tin hợp đồng
         </Typography>
-      </div>
+      </Typography>
       <Container component={Paper}>
         <Container sx={{ py: "40px" }}>
           <Container
@@ -25,59 +25,35 @@ function ContractDetail() {
                 <Grid sx={{ display: "flex" }}>
                   <Grid item xs={3}>
                     <Container>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Họ và tên:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Sinh ngày:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         CMND:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Địa chỉ:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Số điện thoại:{" "}
                       </Typography>
                     </Container>
                   </Grid>
                   <Grid item xs={3}>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      Võ Minh Hoàng
-                    </Typography>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      2003/07/23
-                    </Typography>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      1000000001
-                    </Typography>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      abcd không biết
-                    </Typography>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      0123456789
-                    </Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>Võ Minh Hoàng</Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>2003/07/23</Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>1000000001</Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>abcd không biết</Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>0123456789</Typography>
                   </Grid>
                   <Grid item xs={3} sx={{ ml: "175px" }}>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      Giới tính:{" "}
-                    </Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>Giới tính: </Typography>
                   </Grid>
                   <Grid item xs={3}>
-                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                      Nữ
-                    </Typography>
+                    <Typography sx={{ fontSize: "18px", mb: "8px" }}>Nữ</Typography>
                   </Grid>
                 </Grid>
               </Container>
@@ -85,9 +61,7 @@ function ContractDetail() {
                 Hợp đồng lao động
               </Typography>
               <Container>
-                <Typography
-                  sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}
-                >
+                <Typography sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}>
                   1. Công việc, phòng ban và thời hạn hợp đồng
                 </Typography>
                 <Container>
@@ -96,52 +70,34 @@ function ContractDetail() {
                       <Typography sx={{ fontSize: "18px", mb: "8px" }}>
                         Phòng ban công tác:{" "}
                       </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Loại hợp đồng:{" "}
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Từ ngày:{" "}
-                      </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Loại hợp đồng: </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Từ ngày: </Typography>
                     </Grid>
                     <Grid item xs={3} sx={{ ml: "5px" }}>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Marketing{" "}
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Không giới hạn
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        2023/07/23{" "}
-                      </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Marketing </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Không giới hạn</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>2023/07/23 </Typography>
                     </Grid>
                     <Grid item xs={3} sx={{ ml: "50px" }}>
-                      <div style={{ height: "70px" }}></div>
+                      <Typography style={{ height: "70px" }}></Typography>
                       <Typography sx={{ fontSize: "18px" }}>-</Typography>
                     </Grid>
                     <Grid item xs={3} sx={{ ml: "100px" }}>
-                      <div style={{ height: "70px" }}></div>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Đến ngày:{" "}
-                      </Typography>
+                      <Typography style={{ height: "70px" }}></Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Đến ngày: </Typography>
                     </Grid>
                   </Grid>
                 </Container>
-                <Typography
-                  sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}
-                >
+                <Typography sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}>
                   2. Lương, phụ cấp và các khoản bổ sung khác
                 </Typography>
                 <Container>
                   <Grid sx={{ display: "flex" }}>
                     <Grid item xs={3}>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Lương căn bản:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Các phụ cấp mỗi tháng:{" "}
                       </Typography>
                       <Container>
@@ -164,9 +120,7 @@ function ContractDetail() {
                           Phụ cấp chức vụ:
                         </Typography>
                       </Container>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Hình thức trả lương:{" "}
                       </Typography>
                       <Container>
@@ -200,74 +154,46 @@ function ContractDetail() {
                       </Container>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        20.000.000 VND
-                      </Typography>
-                      <div
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>20.000.000 VND</Typography>
+                      <Typography
                         style={{
                           height: "38px",
                         }}
-                      ></div>
+                      ></Typography>
 
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        3.000.000 VND
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        3.000.000 VND
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Chuyển khoản
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        09876541332
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        Võ Minh Hoàng
-                      </Typography>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        VMH Bank
-                      </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>3.000.000 VND</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>3.000.000 VND</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Chuyển khoản</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>09876541332</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>Võ Minh Hoàng</Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>VMH Bank</Typography>
                     </Grid>
 
                     <Grid item xs={3} sx={{ ml: "70px" }}>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Lương tính thuế:{" "}
                       </Typography>
                     </Grid>
                     <Grid item xs={3} sx={{ ml: "15px" }}>
-                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>
-                        20.000.000 VND
-                      </Typography>
+                      <Typography sx={{ fontSize: "18px", mb: "8px" }}>20.000.000 VND</Typography>
                     </Grid>
                   </Grid>
                 </Container>
-                <Typography
-                  sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}
-                >
+                <Typography sx={{ fontWeight: "bold", fontSize: "20px", mb: "8px" }}>
                   3. Thời gian làm việc và ghi chú
                 </Typography>
                 <Container>
                   <Grid sx={{ display: "flex" }}>
                     <Grid item xs={3}>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Số ngày làm việc một tuần:{" "}
                       </Typography>
-                      <Typography
-                        sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}
-                      >
+                      <Typography sx={{ fontSize: "18px", fontWeight: "500", mb: "8px" }}>
                         Ghi chú:{" "}
                       </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography
-                        sx={{ fontSize: "18px", ml: "5px", mb: "8px" }}
-                      >
-                        5
-                      </Typography>
+                      <Typography sx={{ fontSize: "18px", ml: "5px", mb: "8px" }}>5</Typography>
                     </Grid>
                   </Grid>
                 </Container>

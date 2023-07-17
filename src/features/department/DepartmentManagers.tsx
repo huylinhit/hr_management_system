@@ -40,6 +40,8 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import PhoneIcon from "@mui/icons-material/Phone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { setDepartmentEmployeeAdded } from "./departmentSlice";
 
 interface Props {
   open: boolean;
@@ -246,7 +248,7 @@ export default function DepartmentManagers({
   const [managerName, setManagerName] = useState("");
   const [managerId, setManagerId] = useState("");
   const [selectedId, setSelectedId] = useState("");
-
+  const dispatch = useAppDispatch();
   const handleAccountIconClick = (row: any) => {
     setSelectedId((prevId) => (prevId === row.id ? "" : row.id));
     // Handle any additional logic for the button click
@@ -268,9 +270,12 @@ export default function DepartmentManagers({
     };
     agent.Department.update(departmentId, departmentUpdate)
       .then((response) => {
+        toast.success("Thay đổi quản lý thành công 😊");
+        dispatch(setDepartmentEmployeeAdded(true));
         console.log("Department created successfully:", response);
       })
       .catch((error) => {
+        toast.success("Thay đổi quản lý thất bại 😥");
         console.error("Error creating department:", error);
       });
 
