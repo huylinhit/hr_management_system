@@ -15,7 +15,7 @@ import {
   debounce,
 } from "@mui/material";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import moment from "moment";
@@ -241,6 +241,7 @@ const fieldStyle = {
 };
 export default function DetailOvertime2({ open, handleClose, handleChange }: any) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { id, staffid } = useParams<{ id: string; staffid: string }>();
   // const staffId = parseInt(staffid!);
   const overtimeId = parseInt(id!);
@@ -383,10 +384,11 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         setLogOvertimeAdded(true);
         console.log("Ticket updated successfully: ", response);
         toast.success("Duyệt đơn thành công 😊");
+        navigate('/log-overtimes')
       })
       .catch((error) => {
-        // console.log("Error updating ticket: ", error);
-        toast.error("Xảy ra lỗi khi duyệt đơn 😥");
+        console.log("Error updating ticket: ", error);
+        // toast.error("Xảy ra lỗi khi duyệt đơn 😥");
       });
   };
 

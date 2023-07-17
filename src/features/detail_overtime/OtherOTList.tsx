@@ -108,7 +108,7 @@ export default function OtherOTList() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của nhân viên", path: "/log-overtimes" },
+        { title: "Đơn tăng ca của nhân viên", path: "/log-overtimes" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );

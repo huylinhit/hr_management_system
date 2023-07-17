@@ -44,7 +44,6 @@ function PayslipDetail() {
   const totalAllowances = allowances?.reduce((total, item) => total + item.allowanceSalary, 0);
   const date = payslip?.createAt;
 
-  console.log("allowances: ", allowances);
   //log Ot
   const logots = useAppSelector(logOvertimeSelectors.selectAll);
   const { logOtsLoaded, status: logOtStatus } = useAppSelector((state) => state.logot);
@@ -59,7 +58,6 @@ function PayslipDetail() {
       c.staffId === payslip?.staffId
     );
   });
-  console.log("logot: ", logotsStaff);
 
   const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
   const totalLogotDays = logotsStaff.reduce((total, item) => total + item.days, 0);
@@ -77,8 +75,6 @@ function PayslipDetail() {
     );
   });
 
-  console.log("log leave: ", logLeavesStaff);
-
   const { logleavesLoaded, status: logleaveStatus } = useAppSelector((state) => state.logleave);
   const unpaidLeaveDays = logLeavesStaff
     .filter((c) => c.leaveTypeId === 3)
@@ -87,10 +83,10 @@ function PayslipDetail() {
   const unpaidLeaveHours = logLeavesStaff
     .filter((c) => c.leaveTypeId === 1)
     .reduce((total, item) => total + item.leaveHours, 0);
-  //Need Change
-  // const unpaidLeaveDaySalary = logLeavesStaff.reduce((total, item) =>{
-  //     return total + item.amount;
-  // }, 0)
+
+  const paycut = logLeavesStaff.reduce((total, item) => {
+    return total + item.amount;
+  }, 0);
   const paidLeaveDays = logLeavesStaff
     .filter((c) => c.leaveTypeId === 1 || c.leaveTypeId === 2)
     .reduce((total, item) => {
@@ -102,6 +98,19 @@ function PayslipDetail() {
     .reduce((total, item) => total + item.leaveHours, 0);
 
   //useEffect Contract
+  useEffect(() => {
+    if (payslip) {
+      dispatch(
+        setHeaderTitle([
+          { title: "Lương nhân viên", path: "/payslips" },
+          {
+            title: `Phiếu lương của ${payslip.staff.lastName} ${payslip.staff.firstName}`,
+            path: "",
+          },
+        ])
+      );
+    }
+  }, [dispatch, location, payslip]);
 
   useEffect(() => {
     if (payslip) {
@@ -139,13 +148,14 @@ function PayslipDetail() {
     }
   }, [payslipsLoaded, payslipId, staffId]);
 
-  if (payslipStatus.includes("pending")) return <LoadingComponent message="Loading Payslip" />;
+  if (payslipStatus.includes("pending"))
+    return <LoadingComponent message="Đang tải bảng lương..." />;
 
-  if (logOtStatus.includes("pending")) return <LoadingComponent message="Loading Log Overtime" />;
+  if (logOtStatus.includes("pending")) return <LoadingComponent message="Đang tải ngày làm thêm" />;
 
-  if (logleaveStatus.includes("pending")) return <LoadingComponent message="Loading Log Leaves" />;
+  if (logleaveStatus.includes("pending")) return <LoadingComponent message="Đang tải ngày nghỉ" />;
 
-  if (contractStatus.includes("pending")) return <LoadingComponent message="Loading Contract" />;
+  if (contractStatus.includes("pending")) return <LoadingComponent message="Đang tải hợp đồng" />;
 
   return (
     <>
@@ -182,7 +192,7 @@ function PayslipDetail() {
               <PayslipDetailSalary
                 negotiableGrossSalaryEmployee={payslip?.grossStandardSalary!}
                 totalAllowance={totalAllowances}
-                payCut={0} // Need Change
+                payCut={paycut} // Need Change
                 actualGrossSalaryEmployee={payslip?.grossActualSalary!}
                 bhxhEmp={payslip?.bhxhemp!}
                 bhytEmp={payslip?.bhytemp!}

@@ -87,7 +87,7 @@ export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Danh sách lương", path: "/payslips" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -120,7 +120,7 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"right"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> Tên nhân viên
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> Nhân Viên
         </Typography>
       ),
       renderCell: (params) => {
@@ -263,13 +263,13 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tăng ca</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tăng ca</div>
         </Typography>
       ),
       renderCell: (params) => {
         return (
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
+          <Box display={"flex"} alignItems={"right"}>
+            <CurrencyFormatter value={params.value} />
           </Box>
         );
       },
@@ -370,7 +370,7 @@ export default function Payslips() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-  const { user } = useAppSelector((state) => state.account);
+  const {user} = useAppSelector(state => state.account)
   const payslips = useAppSelector(payslipSelectors.selectAll);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
@@ -381,7 +381,7 @@ export default function Payslips() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Lương nhân viên", path: "" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -401,7 +401,7 @@ export default function Payslips() {
       setRows(payslips);
     }
   }, [payslipsLoaded, payslips]);
-  if (status.includes("pending")) return <LoadingComponent message="Loading Payroll..." />;
+  if (status.includes("pending")) return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>

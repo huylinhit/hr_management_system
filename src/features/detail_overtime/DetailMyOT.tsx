@@ -288,7 +288,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         if (logot) {
             dispatch(
                 setHeaderTitle([
-                    { title: "Đơn Tăng Ca Của Tôi", path: "/own-log-overtimes" },
+                    { title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" },
                     { title: `Phản hồi đơn`, path: "" },
                 ])
             );
@@ -377,8 +377,8 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         agent.LogOt.patch(overtimeId, staffId, ticketUpdate.patchDocument)
             .then((response) => {
                 setLogOvertimeAdded(true);
-                console.log("Ticket updated successfully: ", response);
-                toast.success("Duyệt đơn thành công 😊");
+                // console.log("Ticket updated successfully: ", response);
+                toast.success("Cập nhật đơn thành công 😊");
             })
             .catch((error) => {
                 // console.log("Error updating ticket: ", error);
@@ -397,11 +397,6 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                     op: "replace",
                     path: "/enable",
                     value: false,
-                },
-                {
-                    op: "replace",
-                    path: "/status",
-                    value: 'cancelled',
                 },
             ],
         };
@@ -449,7 +444,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                                         fontFamily: fontStyle,
                                     }}
                                     disableElevation={true}
-                                    onClick={handleClickOpenConfirm}
+                                    onClick={handleCancelTicket}
                                 >
                                     Hủy đơn
                                 </Button>
