@@ -130,7 +130,7 @@ export default function Payslips() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={staffName} dependency={payslipsLoaded} />
+            {/* <AvatarCustome id={params.row.staffId} name={staffName} dependency={payslipsLoaded} /> */}
             <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );

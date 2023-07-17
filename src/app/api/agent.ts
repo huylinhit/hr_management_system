@@ -17,7 +17,6 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-
 axios.interceptors.response.use(
   async (response) => {
     await sleep();
@@ -44,7 +43,6 @@ axios.interceptors.response.use(
         toast.error("You are not allowed to do that!");
         break;
       case 404:
-
         toast.error(data.title);
         break;
       case 500:
@@ -59,12 +57,12 @@ axios.interceptors.response.use(
 );
 
 const Errors = {
-  get400Error: () => requests.get('buggy/bad-request'),
-  get401Error: () => requests.get('buggy/unauthorised'),
-  get404Error: () => requests.get('buggy/not-found'),
-  get500Error: () => requests.get('buggy/server-error'),
-  getValidationError: () => requests.get('buggy/validation-error'),
-}
+  get400Error: () => requests.get("buggy/bad-request"),
+  get401Error: () => requests.get("buggy/unauthorised"),
+  get404Error: () => requests.get("buggy/not-found"),
+  get500Error: () => requests.get("buggy/server-error"),
+  getValidationError: () => requests.get("buggy/validation-error"),
+};
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
@@ -85,7 +83,8 @@ const Contract = {
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
   details: (id: number) => requests.get(`contracts/${id}`),
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
-  update: (contractId: number, staffId: number, values: any) => requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
+  update: (contractId: number, staffId: number, values: any) =>
+    requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
   patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
 };
 
@@ -138,6 +137,7 @@ const Candidate = {
   details: (id: number) => requests.get(`candidates/${id}`),
   create: (values: any) => requests.post("candidates", values),
   update: (id: number, values: any) => requests.put(`candidates/${id}`, values),
+  patch: (id: number, values: any) => requests.patch(`candidates/${id}`, values),
 };
 const CandidateSkill = {
   list: () => requests.get("candidateskills"),
@@ -151,6 +151,7 @@ const CandidateSkill = {
 const UserInfors = {
   list: () => requests.get("userinfor"),
   details: (id: number) => requests.get(`userinfor/${id}`),
+  patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
 };
 
 const Payslip = {
@@ -158,8 +159,10 @@ const Payslip = {
   details: (id: number, staffId: number) => requests.get(`payslips/${id}/staffs/${staffId}`),
   listOfStaff: (staffId: number) => requests.get(`payslips/${staffId}`),
   createAllStaff: (time: any) => requests.post(`payslips/staffs/`, time),
-  createByDepartment: (departmentId: number, time: any) => requests.post(`payslips/departments/${departmentId}`, time),
-  createByStaffId: (staffId: number, time: any) => requests.post(`payslips/staffs/${staffId}`, time),
+  createByDepartment: (departmentId: number, time: any) =>
+    requests.post(`payslips/departments/${departmentId}`, time),
+  createByStaffId: (staffId: number, time: any) =>
+    requests.post(`payslips/staffs/${staffId}`, time),
   update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
 };
@@ -170,7 +173,8 @@ const LogOt = {
   listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
   create: (staffId: number, values: any) => requests.post(`logots/staffs/${staffId}`, values),
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
-  patch: (logotId: number, staffId: number, values: any) => requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
+  patch: (logotId: number, staffId: number, values: any) =>
+    requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
 };
 
 const LeaveDayDetail = {
@@ -228,8 +232,7 @@ const agent = {
   Candidate,
   CandidateSkill,
   LeaveDayDetail,
-  Errors
-
+  Errors,
 };
 
 export default agent;

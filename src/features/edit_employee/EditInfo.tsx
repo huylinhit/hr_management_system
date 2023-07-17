@@ -228,10 +228,10 @@ export default function EditInfo() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const userInfor = useAppSelector((state) => userInforSelectors.selectById(state, id!));
   const avatarStorageRef = ref(storage, `staffsAvatar/${userInfor?.staffId}`);
-  
+
   const contracts = useAppSelector(contractSelectors.selectAll);
-  const { contractsLoaded } = useAppSelector((state) => state.contract)
-  const isExistContract = contracts.find((contract) => contract.staffId === Number(id)) 
+  const { contractsLoaded } = useAppSelector((state) => state.contract);
+  const isExistContract = contracts.find((contract) => contract.staffId === Number(id));
 
   const [firstName, setFirstName] = useState(userInfor?.firstName);
   const [lastName, setLastName] = useState(userInfor?.lastName);
@@ -258,14 +258,12 @@ export default function EditInfo() {
   // -------------------------- REDUX ---------------------------
   const dispatch = useAppDispatch();
   const departments = useAppSelector(departmentSelectors.selectAll);
-  const { departmentsLoaded } = useAppSelector(
-    (state) => state.department
-  );
+  const { departmentsLoaded } = useAppSelector((state) => state.department);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    if(!contractsLoaded) dispatch(fetchContractsAsync());
+    if (!contractsLoaded) dispatch(fetchContractsAsync());
   }, [dispatch, contractsLoaded]);
-  
+
   useEffect(() => {
     if (userInfor) {
       dispatch(
@@ -300,15 +298,16 @@ export default function EditInfo() {
       setAccountStatus(userInfor.accountStatus);
     }
   }, [userInfor]);
-  
+
   useEffect(() => {
+    if (!userInfor?.imageFile) return;
     getDownloadURL(avatarStorageRef)
       .then((url) => {
         setAvatarUrl(url);
       })
       .catch(() => {});
   }, [userInfor]);
-  
+
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
@@ -417,6 +416,17 @@ export default function EditInfo() {
     uploadBytes(avatarRef, avatarFile).then(() => {
       console.log("GOOD");
     });
+    const imageUpload = {
+      patchDocument: [
+        {
+          op: "replace",
+          path: "/imageFile",
+          value: "yes",
+        },
+      ],
+    };
+    if (!userInfor) return;
+    agent.UserInfors.patch(userInfor?.staffId, imageUpload.patchDocument);
   };
   const department = departments.find(
     (department) => department.departmentId === userInfor?.departmentId
@@ -548,34 +558,33 @@ export default function EditInfo() {
         </Box>
         {!!isExistContract ? (
           <Button
-          variant="contained"
-          component={Link}
-          to={`/contracts/${isExistContract.contractId}/staffs/${userInfor.staffId}/staff`}
-          sx={{
-            fontWeight: "bold",
-            textTransform: "none",
-            fontFamily: fontStyle,
-          }}
-          disableElevation={true}
-        >
-          Xem hợp đồng
-        </Button>
+            variant="contained"
+            component={Link}
+            to={`/contracts/${isExistContract.contractId}/staffs/${userInfor.staffId}/staff`}
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              fontFamily: fontStyle,
+            }}
+            disableElevation={true}
+          >
+            Xem hợp đồng
+          </Button>
         ) : (
           <Button
-          variant="outlined"
-          component={Link}
-          to={`/contracts/staffs/${userInfor.staffId}/add`}
-          sx={{
-            fontWeight: "bold",
-            textTransform: "none",
-            fontFamily: fontStyle,
-          }}
-          disableElevation={true}
-        >
-          Tạo hợp đồng
-        </Button>
+            variant="outlined"
+            component={Link}
+            to={`/contracts/staffs/${userInfor.staffId}/add`}
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              fontFamily: fontStyle,
+            }}
+            disableElevation={true}
+          >
+            Tạo hợp đồng
+          </Button>
         )}
-        
       </Grid>
       <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
       <Grid>

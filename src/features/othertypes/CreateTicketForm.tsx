@@ -112,7 +112,6 @@ export default function CreateTicketForm({ open, onClose }: Props) {
   const { ticketsLoaded } = useAppSelector((state) => state.ticket);
   const { ticketTypes, ticketTypesLoaded } = useAppSelector((state) => state.ticketType);
   const currentUser = useAppSelector((state) => state.account);
-  console.log(currentUser.user?.userInfor.staffId);
 
   useEffect(() => {
     if (!ticketTypesLoaded) dispatch(fetchTicketTypesAsync());

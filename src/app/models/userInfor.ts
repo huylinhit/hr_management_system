@@ -3,6 +3,7 @@ import { StaffSkill } from "./staffSkill";
 export interface UserInfor {
   staffId: number;
   id: number;
+  imageFile: string;
   lastName: string;
   firstName: string;
   fullName: string;
