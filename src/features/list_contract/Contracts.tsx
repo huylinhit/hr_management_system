@@ -130,7 +130,9 @@ export default function Contracts() {
         const contractTypeName = params.row.contractType.name;
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
+            <Typography style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>
+              ●
+            </Typography>
             <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {contractTypeName}
             </Typography>
@@ -366,7 +368,6 @@ export default function Contracts() {
       dispatch(fetchContractsAsync());
     }
   }, [dispatch, contractsLoaded]);
-
 
   useEffect(() => {
     if (contractsLoaded) {
