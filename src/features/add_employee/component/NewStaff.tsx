@@ -109,8 +109,8 @@ export default function NewStaff({
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            defaultValue={userForm.gender}
+            name="gender"
+            value={userForm.gender}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
@@ -289,7 +289,8 @@ export default function NewStaff({
             type="text"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue={userForm.departmentId}
+            name="departmentId"
+            value={userForm.departmentId}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,

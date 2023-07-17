@@ -11,21 +11,29 @@ import ConfirmSubmitDialog from "./dialog/ConfirmSubmitDialog";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import {
+  employeeSelectors,
+  fetchEmployeeAsync,
+} from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
+import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
 
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
   const { id, staffid } = useParams();
   const dispatch = useAppDispatch();
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const employee = useAppSelector((state) =>
+    employeeSelectors.selectById(state, Number(staffid))
+  );
   const { employeesLoaded } = useAppSelector((state) => state.employee);
 
-  const contract = useAppSelector((state: any) => contractSelectors.selectById(state, Number(staffid)));
+  const contract = useAppSelector((state: any) =>
+    contractSelectors.selectById(state, Number(staffid))
+  );
   const { status, contractsLoaded } = useAppSelector((state) => state.contract);
 
   const allowanceUpdate = contract?.allowances.map((allowance) => {
@@ -51,14 +59,21 @@ export default function EditContract() {
     contractStatus: contract?.contractStatus,
   });
   const [openSubmitDialog, setOpenSubmitDialog] = useState(false);
-  const [allowanceForm, setAllowanceForm] = useState(allowanceUpdate);
+  const [allowanceForm, setAllowanceForm] =
+    useState(allowanceUpdate);
+  const { allowanceTypesLoaded } = useAppSelector((state) => state.allowanceType);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    if(employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
-    if(contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
+    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
   }, [dispatch, employeesLoaded, contractsLoaded]);
+
+  useEffect(() => {
+    if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync());
+  }, [dispatch, allowanceTypesLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending")) return <LoadingComponent message="Loading..." />;
+  if (status.includes("pending"))
+    return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -97,7 +112,10 @@ export default function EditContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
+          <Grid
+            item
+            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
+          >
             <DetailContractInfo
               contract={contract}
               employee={employee}
@@ -114,7 +132,11 @@ export default function EditContract() {
             padding: "30px 20px 0 30px",
           }}
         >
-          <DetailContractFooter contract={contract} staffid={staffid} setOpenSubmitDialog={setOpenSubmitDialog} />
+          <DetailContractFooter
+            contract={contract}
+            staffid={staffid}
+            setOpenSubmitDialog={setOpenSubmitDialog}
+          />
         </Grid>
       </Container>
 
