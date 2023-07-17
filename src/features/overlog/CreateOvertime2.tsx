@@ -123,7 +123,7 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     "&:hover:not(:focus)": {
       backgroundColor: disabled ? null : "#E7E7E7",
     },
-    "&:focus": {
+    "&:focus": {      
       boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
       borderColor: "#505050",
       backgroundColor: "FFFFFF",
@@ -183,6 +183,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   const today = dayjs().startOf("day");
   const minEndDate = today.startOf("day");
   const [startDate, setStartDate] = useState<Date>(today.toDate());
+  console.log("today: ",today);
   const [endDate, setEndDate] = useState<Date>(minEndDate.toDate());
   const currentUser = useAppSelector((state) => state.account);
   const [selectedUser, setSelectedUser] = useState<number>(1);
@@ -218,10 +219,10 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   };
 
   const handleCreateTicket = async () => {
-    // console.log("Here: ", selectedUser);
-    // console.log("Here: ", startDate);
-    // console.log("Here: ", endDate);
-    // console.log("Here: ", reason);
+    console.log("Người được tạo ", selectedUser);
+    console.log("Ngày bắt đầu: ", startDate);
+    console.log("Ngày kết thúc: ", endDate);
+    console.log("Lý do: ", reason);
     const logOvertimeCreate = {
       logStart: startDate,
       logEnd: endDate,

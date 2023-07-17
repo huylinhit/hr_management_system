@@ -43,7 +43,7 @@ function App() {
     setDarkMode(!darkMode);
   }
 
-  if (loading) return <LoadingComponent message="Initialising app..." />;
+  if (loading) return <LoadingComponent message="Đang khởi động..." />;
   const notify = () => toast("Wow so easy!");
   return (
     <Box>

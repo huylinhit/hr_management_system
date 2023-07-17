@@ -2,38 +2,23 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
   MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import React from "react";
-import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase";
-import DownloadIcon from "@mui/icons-material/Download";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -42,15 +27,13 @@ import { fetchLogLeaveAsync, logleaveSelectors, setLogLeaveAdded } from "./logle
 import { fetchLeaveDayDetailAsync } from "./leaveDayDetailSlice";
 import MyTicketDetailSkeleon from "../othertypes/MyTicketDetailSkeleton";
 import {
-  BaseSingleInputFieldProps,
+  BaseSingleInputFieldProps, 
   DatePicker,
   DatePickerProps,
   DateValidationError,
   FieldSection,
-  LocalizationProvider,
   UseDateFieldProps,
 } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 const fontStyle = "Mulish";
@@ -258,6 +241,8 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const [processNote, setProcessNote] = useState(logLeave?.processNote);
   const currentUser = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const location = useLocation();
   console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
@@ -355,6 +340,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
         setLogLeaveAdded(true);
         console.log("Ticket updated successfully: ", response);
         toast.success("Duyệt đơn thành công 😊");
+        navigate('/log-leaves')
       })
       .catch((error) => {
         console.log("Error updating ticket: ", error);
