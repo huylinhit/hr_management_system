@@ -2,43 +2,30 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
   MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import React from "react";
-import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase";
-import DownloadIcon from "@mui/icons-material/Download";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { ToastContainer, toast } from "react-toastify";
 import ConfirmDialog from "../../app/layout/ConfirmDialog";
 import { fetchLogLeaveAsync, logleaveSelectors, setLogLeaveAdded } from "./logleaveSlice";
 import { fetchLeaveDayDetailAsync } from "./leaveDayDetailSlice";
+import { NumbersOutlined } from "@mui/icons-material";
 import MyTicketDetailSkeleon from "../othertypes/MyTicketDetailSkeleton";
 import {
   BaseSingleInputFieldProps,
@@ -53,21 +40,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 const fontStyle = "Mulish";
 
-const menuItemStyle = {
-  fontStyle: fontStyle,
-};
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
-  fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
-};
+ 
 const headerColor = {
   color: "#808080",
 };
@@ -88,9 +61,7 @@ const infoStyle = {
 const verticalSpacing = {
   mb: "10px",
 };
-const styles = {
-  marginBottom: "10px",
-};
+ 
 const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
   "label + &": {
     marginTop: theme.spacing(3),
@@ -126,7 +97,7 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     },
   },
 }));
-const ProcessNoteInput = styled(TextField)(({ theme, disabled }) => ({
+const ProcessNoteInput = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     borderRadius: 4,
     position: "relative",
@@ -232,18 +203,36 @@ const textFieldInputProps = {
     ...infoStyle,
   },
 };
-const fieldStyle = {
-  flexGrow: 1,
-  mb: "2%",
-};
-export default function MyLeaveDetails({ open, handleClose, handleChange }: any) {
+function CurrencyFormatter(value: any) {
+  const formattedValue = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value.value);
+  return (
+    <Typography
+      sx={{
+        padding: "0px 3px ",
+        color: "#000000",
+        fontFamily: fontStyle,
+        borderRadius: "6px",
+        fontWeight: 600,
+        alignItems: "center",
+        display: "inline-block",
+        width: "fit-content",
+        ml: "5px",
+      }}
+    >
+      {formattedValue}
+    </Typography>
+  );
+}
+export default function MyLeaveDetails() {
   const { id } = useParams<{ id: string }>();
 
   const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
   const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
   const { logleavesLoaded } = useAppSelector((state) => state.logleave);
   const today = dayjs().startOf("day");
-  const minEndDate = today.add(1, "day").startOf("day");
   const [startDate, setStartDate] = useState(logLeave?.leaveStart);
   const [endDate, setEndDate] = useState(logLeave?.leaveEnd);
   const [status, setStatus] = useState(logLeave?.status);
@@ -325,7 +314,6 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
     setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
   };
 
-
   const handleTicketApproval = () => {
     console.log(selectedLeaveTypeId);
     console.log(startDate);
@@ -384,7 +372,7 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
         {
           op: "replace",
           path: "/status",
-          value: 'cancelled',
+          value: "cancelled",
         },
       ],
     };
@@ -484,13 +472,34 @@ export default function MyLeaveDetails({ open, handleClose, handleChange }: any)
           defaultValue={`${logLeave?.staff.firstName} ${logLeave?.staff.lastName}`}
           disabled={true}
         />
-
-        {/* <InforRow
+        <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          defaultValue={logLeave?.responsdenceName}
           disabled={true}
-        /> */}
+        />
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+          <NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />
+          <Typography sx={headerStyle}>Khấu trừ</Typography>
+          <CurrencyFormatter value={logLeave.amount} />
+        </Box>
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+          <NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />
+          <Typography sx={headerStyle}>Lương mỗi ngày</Typography>
+          <CurrencyFormatter value={logLeave.salaryPerDay} />
+        </Box>
+        <InforRow
+          icon={<NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />}
+          header="Số ngày nghỉ"
+          defaultValue={`${logLeave.leaveDays} ngày`}
+          disabled={true}
+        />
+        <InforRow
+          icon={<NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />}
+          header="Số giờ nghỉ"
+          defaultValue={`${logLeave.leaveHours} giờ`}
+          disabled={true}
+        />
 
         <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
           <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />

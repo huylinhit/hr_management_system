@@ -235,7 +235,7 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                Đã duyệt
+                Chấp nhận
               </Typography>
             ) : params.value === "pending" ? (
               <Typography
@@ -347,7 +347,7 @@ export default function OthersLeaveList() {
       ),
     },
     {
-      field: "respondenceName",
+      field: "responsdenceName",
       headerName: "Người duyệt",
       width: 250,
       editable: true,

@@ -7,9 +7,7 @@ import {
   Button,
   Grid,
   IconButton,
-  InputAdornment,
   LinearProgress,
-  TextField,
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -20,9 +18,8 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
 import {
@@ -36,7 +33,6 @@ import { deepPurple } from "@mui/material/colors";
 import { storage } from "../../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import NumbersIcon from "@mui/icons-material/Numbers";
