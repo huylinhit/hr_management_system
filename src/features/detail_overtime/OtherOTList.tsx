@@ -570,7 +570,7 @@ export default function OtherOTList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn tăng ca
             </Button>
           </Grid>
 
