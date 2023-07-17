@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // component
 import FormContent from "./component/FormContent";
 import FormFooter from "./component/FormFooter";
 import agent from "../../app/api/agent";
 
+// data
+import { fetchContractsAsync, setContractAdded } from "../../app/store/contract/contractSlice";
+import { useAppDispatch } from "../../app/store/configureStore";
+
 export default function NewContract() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
   const history = useNavigate();
+  const dispatch = useAppDispatch();
   // -------------------------- REDUX ---------------------------
   // -------------------------- STATE ---------------------------
   const [contractForm, setContractForm] = useState({
@@ -22,7 +28,7 @@ export default function NewContract() {
     note: "",
     noOfDependences: 0,
     contractTypeId: 1,
-    salaryType: "",
+    salaryType: "Gross To Net",
     paidDateNote: "",
     contractFile: "",
     contractStatus: true,
@@ -39,7 +45,8 @@ export default function NewContract() {
             key !== "note" &&
             key !== "noOfDependences"
           ) {
-            return false;
+            if (!(key === "endDate" && contractForm.contractTypeId === 2))
+              return false;
           }
         }
       }
@@ -52,10 +59,17 @@ export default function NewContract() {
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
-        setTimeout(() => history(`/staffs`), 2000);
+        dispatch(fetchContractsAsync())
+        toast.success("Đã thêm hợp đồng thành công");
+        history(`/staffs`)
       })
       .catch((error) => {
-        console.error("Error add new contract ", error);
+        if (Array.isArray(error)) {
+          error.forEach((errorMessage: string) => {
+            toast.error(errorMessage);
+            console.log(errorMessage);
+          });
+        }
       });
   };
   // -------------------------- MAIN ----------------------------

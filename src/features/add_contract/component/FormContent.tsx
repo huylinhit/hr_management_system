@@ -30,7 +30,8 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             id="outlined-required"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue={1}
+            name="contractTypeId"
+            value={contractForm.contractTypeId}
             onChange={(e) =>
               setContractForm((prevForm: any) => ({
                 ...prevForm,
@@ -50,7 +51,8 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             placeholder="Loại lương"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue="Gross To Net"
+            name="salaryType"
+            value={contractForm.salaryType}
             onChange={(e) =>
               setContractForm((prevForm: any) => ({
                 ...prevForm,

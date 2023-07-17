@@ -22,7 +22,7 @@ import {
   fetchDepartmentsAsync,
 } from "../department/departmentSlice";
 import agent from "../../app/api/agent";
-import { setEmployeeAdded } from "../../app/store/employee/employeeSlice";
+import { fetchUserInforsAsync } from "../department/userInforSlice";
 
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
@@ -65,7 +65,7 @@ export default function AddNewEmployee() {
   const areAllFieldsNotNull = (object: any): boolean => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
-        if (object[key] === "" || object[key] === 0 || confirmPwd === "") {
+        if (object[key] === "" || object[key] === 0 || confirmPwd === "" || confirmPwd !== userForm.password) {
           return false;
         }
       }
@@ -97,14 +97,11 @@ export default function AddNewEmployee() {
   };
 
   const handleSubmit = async () => {
-    console.log(userForm);
     await agent.Account.register(userForm)
       .then((response) => {
-        console.log("Add new employee successfully: ", response);
-        dispatch(setEmployeeAdded(true));
-        setStep((prevActiveStep) => prevActiveStep + 1);
+        dispatch(fetchUserInforsAsync());
         toast.success("Đã thêm nhân viên thành công");
-        setTimeout(() => history("/staffs"), 1000);
+        history("/staffs")
       })
       .catch((error) => {
         if (Array.isArray(error)) {
