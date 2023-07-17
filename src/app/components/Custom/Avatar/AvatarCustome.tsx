@@ -5,13 +5,17 @@ import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 interface Props {
   id: number;
+  imageFile: string;
   name: string;
   dependency: any;
 }
-export default function AvatarCustome({ id, name, dependency }: Props) {
+export default function AvatarCustome({ imageFile, id, name, dependency }: Props) {
   const [avatarUrl, setAvatarUrl] = useState("");
+
   const storageRef = ref(storage, `staffsAvatar/${id}`);
   useEffect(() => {
+    if (imageFile == null) return;
+
     getDownloadURL(storageRef)
       .then((url) => {
         setAvatarUrl(url);

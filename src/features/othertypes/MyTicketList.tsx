@@ -48,6 +48,7 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
 import { ToastContainer } from "react-toastify";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 
 function CustomToolbar() {
   return (
@@ -132,21 +133,21 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
         const staffName = params.row.staffName;
         const rowIndex = staffId % staffNameColors.length;
-        const staffNameColor = staffNameColors[rowIndex];
+
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar
-              candidateId={staffId}
-              candidateName={staffName}
-              color={staffNameColor}
+            <AvatarCustome
+              imageFile={params.row.userInfor.imageFile}
+              id={staffId}
+              name={staffName}
+              dependency={ticketsLoaded}
             />
             <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
@@ -160,7 +161,7 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -187,7 +188,7 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -203,7 +204,7 @@ export default function MyTicketList() {
     //   editable: true,
     //   renderHeader: () => (
     //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
+    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <>File đính kèm</>
     //     </Typography>
     //   ),
     // },
@@ -215,8 +216,7 @@ export default function MyTicketList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -283,7 +283,7 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -305,7 +305,7 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian tạo</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -323,8 +323,7 @@ export default function MyTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Thời gian thay đổi</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -407,7 +406,6 @@ export default function MyTicketList() {
     prevLocation.current = location;
   }, [dispatch, ticketsLoaded, ticketAdded, key]);
 
-  console.log(tickets);
   useEffect(() => {
     if (ticketsLoaded) {
       setRows(myTickets);

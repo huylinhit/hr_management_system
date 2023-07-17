@@ -21,7 +21,6 @@ export const fetchLeaveDayDetailAsync = createAsyncThunk<
 >("leavedaydetail/fetchLeaveDayDetailAsync", async (staffId, thunkAPI) => {
   try {
     const response = await agent.LeaveDayDetail.list(staffId);
-    console.log(response);
     return response;
   } catch (error: any) {
     thunkAPI.rejectWithValue({ error: error.data });
@@ -42,7 +41,6 @@ export const leaveDayDetailSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchLeaveDayDetailAsync.rejected, (state, action) => {
-      console.log(action.payload);
       state.status = "idle";
     });
   },

@@ -139,8 +139,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -150,7 +149,12 @@ export default function OthersLeaveList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={staffName} dependency={logleavesLoaded} />
+            <AvatarCustome
+              imageFile={params.row.staff.imageFile}
+              id={params.row.staffId}
+              name={staffName}
+              dependency={logleavesLoaded}
+            />
             <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
@@ -163,7 +167,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -187,7 +191,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -211,8 +215,7 @@ export default function OthersLeaveList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -300,7 +303,7 @@ export default function OthersLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Khấu trừ</div>
+          <>Khấu trừ</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
@@ -316,7 +319,7 @@ export default function OthersLeaveList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương mỗi ngày</div>
+          <>Lương mỗi ngày</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
@@ -328,7 +331,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -350,7 +353,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Người duyệt</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Người duyệt</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -372,7 +375,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số ngày nghỉ</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số ngày nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -390,7 +393,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số giờ nghỉ</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số giờ nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -408,7 +411,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -422,7 +425,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -436,8 +439,7 @@ export default function OthersLeaveList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Thời gian thay đổi</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -454,13 +456,11 @@ export default function OthersLeaveList() {
     return <span>{formattedValue}</span>;
   }
 
-  const [gridHeight, setGridHeight] = useState(0);
   const currentUser = useAppSelector((state) => state.account);
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const otherUsersLogLeaves = logLeaves.filter(
     (logLeave) => logLeave.staffId !== currentUser.user?.userInfor.staffId && logLeave.enable
   );
-  console.log(otherUsersLogLeaves);
   const dispatch = useAppDispatch();
 
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
@@ -471,18 +471,7 @@ export default function OthersLeaveList() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      setGridHeight(window.innerHeight - 0); // Adjust the value (200) as needed to leave space for other elements
-    };
 
-    handleResize(); // Set initial height
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/log-leaves" }]));
   }, [location, dispatch]);
@@ -503,7 +492,6 @@ export default function OthersLeaveList() {
     prevLocation.current = location;
   }, [dispatch, logleavesLoaded, logLeaveAdded, key]);
 
-  console.log(logLeaves);
   useEffect(() => {
     if (logleavesLoaded) {
       setRows(otherUsersLogLeaves);

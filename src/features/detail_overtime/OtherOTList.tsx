@@ -143,7 +143,7 @@ export default function OtherOTList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+          <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -153,7 +153,12 @@ export default function OtherOTList() {
         const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={staffName} dependency={logOtsLoaded} />
+            <AvatarCustome
+              imageFile={params.row.staff.imageFile}
+              id={params.row.staffId}
+              name={staffName}
+              dependency={logOtsLoaded}
+            />
             <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
@@ -166,7 +171,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -188,7 +193,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -213,7 +218,7 @@ export default function OtherOTList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -290,7 +295,7 @@ export default function OtherOTList() {
         );
       },
     },
- 
+
     {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
@@ -302,7 +307,7 @@ export default function OtherOTList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương mỗi ngày</div>
+          <>Lương mỗi ngày</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
@@ -314,7 +319,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -336,7 +341,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Người duyệt</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Người duyệt</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -358,7 +363,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số ngày nghỉ</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số ngày nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -376,7 +381,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số giờ nghỉ</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số giờ nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -394,7 +399,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -408,7 +413,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -423,7 +428,7 @@ export default function OtherOTList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Thời gian thay đổi</div>
+          <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (

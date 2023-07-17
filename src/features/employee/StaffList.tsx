@@ -59,6 +59,7 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
 } from "@mui/x-data-grid-pro";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -160,7 +161,7 @@ export default function StaffList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Tên Nhân Viên</div>
+          <>Tên Nhân Viên</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -169,7 +170,12 @@ export default function StaffList() {
 
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar candidateId={staffId} candidateName={staffName} />
+            <AvatarCustome
+              imageFile={params.row.imageFile}
+              id={staffId}
+              name={staffName}
+              dependency={userInforsLoaded}
+            />
             <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
@@ -182,8 +188,7 @@ export default function StaffList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Phòng ban</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Phòng ban</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -211,7 +216,7 @@ export default function StaffList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
-          <div>Số Điện Thoại</div>
+          <>Số Điện Thoại</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -223,8 +228,7 @@ export default function StaffList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Giới tính</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
         </Typography>
       ),
       renderCell(params) {
@@ -277,7 +281,7 @@ export default function StaffList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Email</div>
+          <>Email</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -292,7 +296,7 @@ export default function StaffList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Ngân Hàng</div>
+          <>Ngân Hàng</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -305,7 +309,7 @@ export default function StaffList() {
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -321,7 +325,7 @@ export default function StaffList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -334,7 +338,7 @@ export default function StaffList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Quốc gia</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -349,7 +353,7 @@ export default function StaffList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>TK Ngân Hàng</div>
+          <>TK Ngân Hàng</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,

@@ -97,7 +97,7 @@ export default function DepartmentDetails() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <AccountCircleIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div></div>
+          <></>
         </Typography>
       ),
       renderCell(params) {
@@ -134,7 +134,7 @@ export default function DepartmentDetails() {
       width: 75,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <div>ID</div>
+          <>ID</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -150,13 +150,18 @@ export default function DepartmentDetails() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Tên Nhân Viên</div>
+          <>Tên Nhân Viên</>
         </Typography>
       ),
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={params.value} dependency={location} />
+            <AvatarCustome
+              imageFile={params.row.imageFile}
+              id={params.row.staffId}
+              name={params.value}
+              dependency={location}
+            />
             <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
@@ -171,7 +176,7 @@ export default function DepartmentDetails() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> {/* Add the phone icon here */}
-          <div>Số Điện Thoại</div>
+          <>Số Điện Thoại</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -184,7 +189,7 @@ export default function DepartmentDetails() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Giới tính</div>
+          <>Giới tính</>
         </Typography>
       ),
       renderCell(params) {
@@ -237,7 +242,7 @@ export default function DepartmentDetails() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Email</div>
+          <>Email</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -252,7 +257,7 @@ export default function DepartmentDetails() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Ngân Hàng</div>
+          <>Ngân Hàng</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -265,7 +270,7 @@ export default function DepartmentDetails() {
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -281,7 +286,7 @@ export default function DepartmentDetails() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -294,7 +299,7 @@ export default function DepartmentDetails() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Quốc gia</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Quốc gia</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -309,7 +314,7 @@ export default function DepartmentDetails() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>TK Ngân Hàng</div>
+          <>TK Ngân Hàng</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -424,7 +429,7 @@ export default function DepartmentDetails() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb:'5px',
+                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
                 height: "30px",
