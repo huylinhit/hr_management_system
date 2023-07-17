@@ -22,7 +22,6 @@ import Contract from "../../../app/models/contract";
 function PayslipDetail() {
     const { payslipId, staffId } = useParams();
 
-
     //payslip
     const dispatch = useAppDispatch();
     const payslips = useAppSelector(payslipSelectors.selectAll);
@@ -85,10 +84,10 @@ function PayslipDetail() {
     const unpaidLeaveHours = logLeavesStaff
         .filter(c => c.leaveTypeId === 1)
         .reduce((total, item) => total + item.leaveHours, 0);
-    //Need Change
-    // const unpaidLeaveDaySalary = logLeavesStaff.reduce((total, item) =>{
-    //     return total + item.amount;
-    // }, 0)
+
+    const paycut = logLeavesStaff.reduce((total, item) =>{
+        return total + item.amount;
+    }, 0)
     const paidLeaveDays = logLeavesStaff
         .filter(c => c.leaveTypeId === 1 || c.leaveTypeId === 2)
         .reduce((total, item) => {
@@ -125,13 +124,13 @@ function PayslipDetail() {
         }
     }, [payslipsLoaded, payslipId, staffId])
 
-    if (payslipStatus.includes('pending')) return <LoadingComponent message="Loading Payslip" />
+    if (payslipStatus.includes('pending')) return <LoadingComponent message="Đang tải bảng lương..." />
 
-    if (logOtStatus.includes('pending')) return <LoadingComponent message="Loading Log Overtime" />
+    if (logOtStatus.includes('pending')) return <LoadingComponent message="Đang tải ngày làm thêm" />
 
-    if (logleaveStatus.includes('pending')) return <LoadingComponent message="Loading Log Leaves" />;
+    if (logleaveStatus.includes('pending')) return <LoadingComponent message="Đang tải ngày nghỉ" />;
 
-    if (contractStatus.includes('pending')) return <LoadingComponent message="Loading Contract" />
+    if (contractStatus.includes('pending')) return <LoadingComponent message="Đang tải hợp đồng" />
 
     return (
         <>
@@ -167,7 +166,7 @@ function PayslipDetail() {
                             <PayslipDetailSalary
                                 negotiableGrossSalaryEmployee={payslip?.grossStandardSalary!}
                                 totalAllowance={totalAllowances}
-                                payCut={0} // Need Change
+                                payCut={paycut} // Need Change
                                 actualGrossSalaryEmployee={payslip?.grossActualSalary!}
                                 bhxhEmp={payslip?.bhxhemp!}
                                 bhytEmp={payslip?.bhytemp!}
@@ -223,7 +222,6 @@ function PayslipDetail() {
                 </Box>
             )}
         </>
-
     );
 }
 

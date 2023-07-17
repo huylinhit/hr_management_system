@@ -153,12 +153,12 @@ export const router = createBrowserRouter([
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           // { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
-
+          
           //other
-          { path: "/own-tickets", element: <MyTicketList /> },
-          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
           { path: "/tickets", element: <OtherUsersTicketList /> },
           { path: "/tickets/:id", element: <TicketApprovalForm /> },
+          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+          { path: "/own-tickets", element: <MyTicketList /> },
           // { path: "/detailEmployee/:id", element: <DetailEmployee /> },
 
           //payslip
