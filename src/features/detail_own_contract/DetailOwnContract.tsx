@@ -15,6 +15,7 @@ import {
 import {
   contractSelectors,
   fetchContractAsync,
+  fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
 
 export default function DetailOwnContract() {
@@ -30,7 +31,7 @@ export default function DetailOwnContract() {
   const { employeesLoaded } = useAppSelector((state) => state.employee);
 
   const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, staffId)
+    contractSelectors.selectById(state, 2)
   );
   const { status, contractsLoaded } = useAppSelector((state) => state.contract);
   console.log(contract);
@@ -38,7 +39,7 @@ export default function DetailOwnContract() {
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if(!employeesLoaded) dispatch(fetchEmployeeAsync(staffId));
-    if (!contractsLoaded) dispatch(fetchContractAsync(staffId));
+    if (!contractsLoaded) dispatch(fetchContractsAsync());
   }, [dispatch, contractsLoaded, employeesLoaded]);
   // -------------------------- FUNCTION ------------------------
   if (status.includes("pending"))
