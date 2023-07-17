@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { fetchLogOtsAsync, setLogOvertimeAdded } from "./overtimeSlice";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   isOwn?: boolean;
@@ -180,17 +181,14 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
   const today = dayjs().startOf("day");
-  const minEndDate = today.add(1, "day").startOf("day");
+  const minEndDate = today.startOf("day");
   const [startDate, setStartDate] = useState<Date>(today.toDate());
   const [endDate, setEndDate] = useState<Date>(minEndDate.toDate());
-
   const currentUser = useAppSelector((state) => state.account);
-
   const [selectedUser, setSelectedUser] = useState<number>(1);
-
   const user = useAppSelector((state) => state.account.user);
-
-  const users = useAppSelector(userInforSelectors.selectAll);
+  const allUsers = useAppSelector(userInforSelectors.selectAll);
+  const users = allUsers.filter(c => c.staffId != user?.userInfor.staffId && c.staffId !== 1);
   const { userInforsLoaded, status } = useAppSelector((state) => state.userInfor);
   const { logOtAdded } = useAppSelector((state) => state.logot);
 
@@ -245,7 +243,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          toast.error(`${error.data} 😥`);
+          // toast.error(`${error.data} 😥`);
         });
     } else {
       await agent.LogOt.create(selectedUser, logOvertimeCreate)
@@ -255,7 +253,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          toast.error(`${error.data} 😥`);
+          // toast.error(`${error.data} 😥`);
         });
     }
 

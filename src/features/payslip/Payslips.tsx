@@ -87,7 +87,7 @@ export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của tôi", path: "/mytickets" },
+        { title: "Danh sách lương", path: "/payslips" },
         { title: "Chỉnh sửa đơn", path: `` },
       ])
     );
@@ -377,7 +377,7 @@ export default function Payslips() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Danh sách lương nhân viên", path: "/payslips" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
