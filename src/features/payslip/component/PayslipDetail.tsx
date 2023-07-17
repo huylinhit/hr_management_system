@@ -43,7 +43,6 @@ function PayslipDetail() {
     const totalAllowances = allowances?.reduce((total, item) => total + item.allowanceSalary, 0);
     const date = payslip?.createAt;
 
-    console.log("allowances: ",allowances);
     //log Ot 
     const logots = useAppSelector(logOvertimeSelectors.selectAll);
     const { logOtsLoaded, status: logOtStatus } = useAppSelector(state => state.logot);
@@ -57,7 +56,6 @@ function PayslipDetail() {
                 c.status === 'approved' &&
                 c.staffId === payslip?.staffId;
         })
-    console.log("logot: ", logotsStaff);
 
     const totalLogotSalary = logotsStaff.reduce((total, item) => total + item.amount, 0);
     const totalLogotDays = logotsStaff
@@ -78,7 +76,6 @@ function PayslipDetail() {
             now <= end;
     });
 
-    console.log("log leave: ", logLeavesStaff);
 
     const { logleavesLoaded, status: logleaveStatus } = useAppSelector(state => state.logleave);
     const unpaidLeaveDays = logLeavesStaff
