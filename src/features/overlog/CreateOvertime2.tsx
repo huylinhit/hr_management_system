@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { fetchLogOtsAsync, setLogOvertimeAdded } from "./overtimeSlice";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   isOwn?: boolean;
@@ -122,7 +123,7 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     "&:hover:not(:focus)": {
       backgroundColor: disabled ? null : "#E7E7E7",
     },
-    "&:focus": {
+    "&:focus": {      
       boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
       borderColor: "#505050",
       backgroundColor: "FFFFFF",
@@ -180,17 +181,15 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
   const today = dayjs().startOf("day");
-  const minEndDate = today.add(1, "day").startOf("day");
+  const minEndDate = today.startOf("day");
   const [startDate, setStartDate] = useState<Date>(today.toDate());
+  console.log("today: ",today);
   const [endDate, setEndDate] = useState<Date>(minEndDate.toDate());
-
   const currentUser = useAppSelector((state) => state.account);
-
   const [selectedUser, setSelectedUser] = useState<number>(1);
-
   const user = useAppSelector((state) => state.account.user);
-
-  const users = useAppSelector(userInforSelectors.selectAll);
+  const allUsers = useAppSelector(userInforSelectors.selectAll);
+  const users = allUsers.filter(c => c.staffId != user?.userInfor.staffId && c.staffId !== 1);
   const { userInforsLoaded, status } = useAppSelector((state) => state.userInfor);
   const { logOtAdded } = useAppSelector((state) => state.logot);
 
@@ -220,10 +219,10 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   };
 
   const handleCreateTicket = async () => {
-    // console.log("Here: ", selectedUser);
-    // console.log("Here: ", startDate);
-    // console.log("Here: ", endDate);
-    // console.log("Here: ", reason);
+    console.log("Người được tạo ", selectedUser);
+    console.log("Ngày bắt đầu: ", startDate);
+    console.log("Ngày kết thúc: ", endDate);
+    console.log("Lý do: ", reason);
     const logOvertimeCreate = {
       logStart: startDate,
       logEnd: endDate,
@@ -245,7 +244,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          toast.error(`${error.data} 😥`);
+          // toast.error(`${error.data} 😥`);
         });
     } else {
       await agent.LogOt.create(selectedUser, logOvertimeCreate)
@@ -255,7 +254,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          toast.error(`${error.data} 😥`);
+          // toast.error(`${error.data} 😥`);
         });
     }
 
