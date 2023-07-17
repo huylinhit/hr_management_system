@@ -254,11 +254,11 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
     const [hours, setHours] = useState<number>(logot?.logHours!);
     const [days, setDays] = useState(logot?.days);
     const [amountSalary, setAmountSalary] = useState<number>(logot?.amount!);
-    
+    const [minHours, setMinHours] = useState<number>(1);
+    const [maxHours, setMaxHours] = useState<number>(logot?.logHours!);
+    const [reason, setReason] = useState<string>("");
     // const salaryOneDays: number = logot!.salaryPerDay;
     const [salaryOneHour, setSalaryOneHour] = useState<number>(0);
-
-    console.log("salary ONe HOurs: ",salaryOneHour);
 
 
     useEffect(() => {
@@ -269,11 +269,9 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         setHours(logot?.logHours!);
         setOneDaySalary(logot?.salaryPerDay!);
         setAmountSalary(logot?.amount!);
-        console.log("salary perday: " , logot?.salaryPerDay);
-        console.log("log hour: " , logot?.logHours);
-        console.log("salary hours: " , logot?.salaryPerDay! / logot?.logHours!);
-
-        setSalaryOneHour(logot?.salaryPerDay! / logot?.logHours!);
+        setMaxHours(logot?.logHours!);
+        setReason(logot?.reason!);
+        setSalaryOneHour(logot?.amount! / logot?.logHours!);
 
     }, [logOtsLoaded]);
 
@@ -288,7 +286,6 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
     const [processNote, setProcessNote] = useState(logot?.processNote);
     const location = useLocation();
 
-    console.log(amountSalary);
     // console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
     //#region ==============================USE EFFECT=====================================
     //Set header title
@@ -297,7 +294,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
             dispatch(
                 setHeaderTitle([
                     { title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" },
-                    { title: `Phản hồi đơn`, path: "" },
+                    { title: `Chỉnh sửa đơn`, path: "" },
                 ])
             );
         }
@@ -306,25 +303,22 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
     const handleDays = (e: any) => {
         setDays(e.target.value)
     }
-    // const handleHours = (e: any) => {
-    //     const newValue = e.target.value;
+    const handleHours = (e: any) => {
+        const newValue = e.target.value.toString();
 
-    //     if (typeof newValue === "number") {
-    //         console.log("number: ", newValue);
-    //       // Value is a number
-    //       // Perform actions for a number value here
-    //     } else {
-    //         console.log("Khong phai number");
-    //       // Value is not a number
-    //       // Handle the case when the value is not a number here
-    //     }
-    // }
-    const handleAmount = (e: any) => {
-        setAmountSalary(e.target.value);
+
+        let demo = hours;
+        if (!isNaN(Number(newValue))) {
+            demo = parseInt(newValue);
+        } else {
+        }
+
+        if (minHours <= demo && demo <= maxHours) {
+            setHours(demo);
+            setAmountSalary(prev => Math.floor(salaryOneHour * demo))
+        }
     }
-
-    console.log(hours);
-
+    
     //Get leave day detail
     //#endregion ==============================USE EFFECT=====================================
 
@@ -345,40 +339,27 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         }
     };
     const debouncedDescriptionInput = debounce((event: any) => {
-        setDescription(event.target.value);
+        setReason(event.target.value);
     }, 750);
 
 
     const handleLogOvertimeApprove = () => {
-        console.log(status);
-        console.log(processNote);
         const ticketUpdate = {
             patchDocument: [
-                {
-                    op: "replace",
-                    path: "/status",
-                    value: status,
-                },
-                {
-                    op: "replace",
-                    path: "/processNote",
-                    value: processNote,
-                },
-                {
-                    op: "replace",
-                    path: "/days",
-                    value: days,
-                },
                 {
                     op: "replace",
                     path: "/logHours",
                     value: hours,
                 },
-
                 {
                     op: "replace",
                     path: "/amount",
                     value: amountSalary,
+                },
+                {
+                    op: "replace",
+                    path: "/reason",
+                    value: reason,
                 },
             ],
         };
@@ -386,13 +367,12 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         agent.LogOt.patch(overtimeId, staffId, ticketUpdate.patchDocument)
             .then((response) => {
                 setLogOvertimeAdded(true);
-                // console.log("Ticket updated successfully: ", response);
                 toast.success("Cập nhật đơn thành công 😊");
             })
             .catch((error) => {
-                // console.log("Error updating ticket: ", error);
-                // toast.error("Xảy ra lỗi khi duyệt đơn 😥");
+                // console.log("error: ",error);
             });
+        navigate('/own-log-overtimes')
         handleCloseConfirm();
     };
 
@@ -562,18 +542,18 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                 <InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Tổng Lương"
-                    defaultValue={logot?.amount.toLocaleString()}
-                    // value={amountSalary.toLocaleString()}
+                    // defaultValue={logot?.amount.toLocaleString()}
+                    value={amountSalary ? amountSalary?.toLocaleString() : logot?.amount.toLocaleString()}
                     disabled
                 />
                 <InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Giờ"
                     type='number'
-                    defaultValue={logot?.logHours}
-                    // value={hours}
-                    editable
-                    // onChange={handleHours}
+                    // defaultValue={logot?.logHours}
+                    value={hours ? hours : logot?.logHours}
+                    disabled={logot?.enable === false && true}
+                    onChange={handleHours}
                 /><InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Ngày"
@@ -586,7 +566,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Nội dung đơn"
                     defaultValue={`${logot?.reason}`}
-                    disabled
+                    disabled={logot?.enable === false && true}
                     onChange={debouncedDescriptionInput}
                 />
 
