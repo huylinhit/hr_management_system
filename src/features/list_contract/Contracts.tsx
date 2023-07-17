@@ -95,8 +95,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -104,7 +103,12 @@ export default function Contracts() {
         const staffName = `${params.row.staff?.lastName}  ${params.row.staff?.firstName}`;
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AvatarCustome id={params.row.staffId} name={staffName} dependency={contractsLoaded} />
+            <AvatarCustome
+              imageFile={params.row.staff.imageFile}
+              id={params.row.staffId}
+              name={staffName}
+              dependency={contractsLoaded}
+            />
             <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
@@ -117,8 +121,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Loại hợp đồng</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại hợp đồng</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -143,7 +146,7 @@ export default function Contracts() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />
-          <div>Loại lương</div>
+          <>Loại lương</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -170,9 +173,7 @@ export default function Contracts() {
         </Typography>
       ),
       renderCell: (params) => {
-        return (
-            <Typography sx={cellStyle}>{params.value}</Typography>
-        );
+        return <Typography sx={cellStyle}>{params.value}</Typography>;
       },
     },
 
@@ -183,7 +184,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày bắt đầu</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -197,7 +198,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày kết thúc</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -214,7 +215,7 @@ export default function Contracts() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương thỏa thuận</div>
+          <>Lương thỏa thuận</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.salary} />,
@@ -229,7 +230,7 @@ export default function Contracts() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương đóng thuế</div>
+          <>Lương đóng thuế</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.taxableSalary} />,
@@ -251,9 +252,7 @@ export default function Contracts() {
           (total: any, c: any) => total + c.allowanceSalary,
           0
         );
-        return (
-            <CurrencyFormatter value={allowances} />
-        );
+        return <CurrencyFormatter value={allowances} />;
       },
     },
     {
@@ -264,8 +263,7 @@ export default function Contracts() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -287,7 +285,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -309,7 +307,7 @@ export default function Contracts() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian tạo</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -327,7 +325,7 @@ export default function Contracts() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />
-          <div>Thời gian thay đổi</div>
+          <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -355,10 +353,7 @@ export default function Contracts() {
 
   const contracts = useAppSelector(contractSelectors.selectAll);
   const dispatch = useAppDispatch();
-  const {
-    contractsLoaded,
-    status: contractStatus,
-  } = useAppSelector((state) => state.contract);
+  const { contractsLoaded, status: contractStatus } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const location = useLocation();
 
@@ -372,7 +367,6 @@ export default function Contracts() {
     }
   }, [dispatch, contractsLoaded]);
 
-  console.log(contracts);
 
   useEffect(() => {
     if (contractsLoaded) {
@@ -390,8 +384,8 @@ export default function Contracts() {
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
-          //     component={Link}
-          // to={`/contracts/staffs/${userInfor.staffId}/add`}
+              //     component={Link}
+              // to={`/contracts/staffs/${userInfor.staffId}/add`}
               sx={{
                 mb: "5px",
                 textTransform: "none",

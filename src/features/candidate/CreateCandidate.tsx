@@ -194,6 +194,16 @@ export default function CreateCandidate({ open, onClose }: Props) {
     uploadBytes(avatarRef, avatar).then(() => {
       console.log("GOOD");
     });
+    const imageUpload = {
+      patchDocument: [
+        {
+          op: "replace",
+          path: "/imageFile",
+          value: "yes",
+        },
+      ],
+    };
+    agent.Candidate.patch(candidateId, imageUpload.patchDocument);
   };
   const handleUploadFile = (id: number) => {
     if (selectedFile == null) return;

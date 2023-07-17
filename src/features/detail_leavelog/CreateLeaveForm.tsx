@@ -186,11 +186,6 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
   const [reason, setReason] = useState("");
   const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
-
-
-  
-
-
   const today = dayjs().startOf("day");
   const minEndDate = today.add(1, "day").startOf("day");
   const [startDate, setStartDate] = useState<Date>(today.toDate());
@@ -218,7 +213,6 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
     // setSelectedLeaveTypeId(leaveDayDetail[0].leaveTypeId);
   }, [leaveDayDetail]);
 
-  console.log(selectedLeaveTypeId);
   const handleLeaveChange = (event: any) => {
     const selectedOption = leaveDayDetail!.find(
       (option) => option.leaveType.leaveTypeName === event.target.value

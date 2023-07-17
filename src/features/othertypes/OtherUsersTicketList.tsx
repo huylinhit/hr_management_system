@@ -44,6 +44,7 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
+import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -115,8 +116,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tạo bởi</div>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -125,7 +125,12 @@ export default function OtherUsersTicketList() {
 
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar candidateId={staffId} candidateName={staffName} />
+            <AvatarCustome
+              imageFile={params.row.staff.imageFile}
+              id={params.row.staffId}
+              name={staffName}
+              dependency={ticketsLoaded}
+            />
             <Typography>{params.value}</Typography>
           </Box>
         );
@@ -138,7 +143,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Loại đơn</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -162,7 +167,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Nội dung đơn</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
         </Typography>
       ),
     },
@@ -173,7 +178,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <div>File đính kèm</div>
+          <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <>File đính kèm</>
         </Typography>
       ),
     },
@@ -185,8 +190,7 @@ export default function OtherUsersTicketList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -253,7 +257,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ghi chú</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
         </Typography>
       ),
     },
@@ -264,7 +268,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Thời gian tạo</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian tạo</>
         </Typography>
       ),
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
@@ -277,8 +281,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Thời gian thay đổi</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),

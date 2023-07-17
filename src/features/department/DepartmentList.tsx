@@ -121,7 +121,7 @@ export default function DepartmentList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tên phòng ban</div>
+          <>Tên phòng ban</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -138,19 +138,21 @@ export default function DepartmentList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Quản lý</div>
+          <>Quản lý</>
         </Typography>
       ),
       renderCell: (params) => {
         if (params.row.manager == null) return;
+        const manager = params.row.userInfors.find((user: any) => user.isManager);
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
-              id={params.row.managerId}
-              name={params.row.manager}
+              imageFile={manager.imageFile}
+              id={manager.staffId}
+              name={manager.fullName}
               dependency={departmentsLoaded}
             />
-            <Typography sx={cellStyle}>{params.value}</Typography>
+            <Typography sx={cellStyle}>{manager.fullName}</Typography>
           </Box>
         );
       },
@@ -162,7 +164,7 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số nhân viên</div>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số nhân viên</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -180,7 +182,7 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email quản lý</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Email quản lý</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -198,7 +200,7 @@ export default function DepartmentList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Số điện thoại</div>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số điện thoại</>
         </Typography>
       ),
       renderCell: (params) => {

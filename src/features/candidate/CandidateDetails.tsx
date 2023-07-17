@@ -18,7 +18,12 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { deepPurple } from "@mui/material/colors";
-import { candidatesSelectors, fetchCandidateAsync, setCandidateAdded, setCandidateUpdated } from "./candidateSlice";
+import {
+  candidatesSelectors,
+  fetchCandidateAsync,
+  setCandidateAdded,
+  setCandidateUpdated,
+} from "./candidateSlice";
 import { storage } from "../../firebase";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { departmentSelectors, fetchDepartmentsAsync } from "../department/departmentSlice";
@@ -494,6 +499,18 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
     uploadBytes(avatarRef, avatarFile).then(() => {
       console.log("GOOD");
     });
+    const imageUpload = {
+      patchDocument: [
+        {
+          op: "replace",
+          path: "/imageFile",
+          value: "yes",
+        },
+      ],
+    };
+
+    if (!candidate) return;
+    agent.Candidate.patch(candidate?.candidateId, imageUpload.patchDocument);
   };
 
   const handleAddFileButton = () => {

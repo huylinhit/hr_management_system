@@ -89,7 +89,6 @@ export const ticketSlice = createSlice({
     });
     builder.addCase(fetchTicketsAsync.fulfilled, (state, action) => {
       ticketsAdapter.setAll(state, action.payload);
-      console.log(action.payload);
       state.status = "idle";
       state.ticketsLoaded = true;
     });

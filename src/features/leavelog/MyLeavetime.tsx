@@ -215,7 +215,7 @@ function LeavetimeList() {
                             : item.status === FORMSTATUS.pending
                               ? "default" // or 'disabled' if you want a grayed-out color
                               : "error"
-                        }
+                        } 
                         sx={{ width: "92px" }}
                       />
                     </StyledTableCell>

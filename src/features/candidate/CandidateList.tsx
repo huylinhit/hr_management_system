@@ -121,7 +121,7 @@ export default function OtherUsersTicketList() {
       width: 100,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <div>ID</div>
+          <>ID</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -134,16 +134,20 @@ export default function OtherUsersTicketList() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Tên ứng viên</div>
+          <>Tên ứng viên</>
         </Typography>
       ),
       renderCell: (params) => {
         const candidateId = params.row.candidateId;
         const candidateName = params.row.name;
-
+        const candidateImageFile = params.row.imageFile;
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CandidateAvatar candidateId={candidateId} candidateName={candidateName} />
+            <CandidateAvatar
+              imageFile={candidateImageFile}
+              candidateId={candidateId}
+              candidateName={candidateName}
+            />
             <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
@@ -157,8 +161,7 @@ export default function OtherUsersTicketList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Trạng thái</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -223,8 +226,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Phòng ban</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Phòng ban</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -248,7 +250,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Email</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Email</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -260,8 +262,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Giới tính</div>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
         </Typography>
       ),
       renderCell(params) {
@@ -311,7 +312,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Điện thoại</div>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <>Điện thoại</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -324,7 +325,7 @@ export default function OtherUsersTicketList() {
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Ngày sinh</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -339,7 +340,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Địa chỉ</div>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
         </Typography>
       ),
       renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
@@ -355,7 +356,7 @@ export default function OtherUsersTicketList() {
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <div>Lương mong muốn</div>
+          <>Lương mong muốn</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.expectedSalary} />,
@@ -368,8 +369,7 @@ export default function OtherUsersTicketList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <div>Ngày ứng tuyển</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày ứng tuyển</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -391,12 +391,13 @@ export default function OtherUsersTicketList() {
     const [avatarUrl, setAvatarUrl] = useState("");
     const storageRef = ref(storage, `candidatesAvatar/${candidate.candidateId}`);
     useEffect(() => {
+      if (candidate.imageFile == null) return;
       getDownloadURL(storageRef)
         .then((url) => {
           setAvatarUrl(url);
         })
         .catch((error) => {});
-    }, [candidatesLoaded]);
+    }, [candidatesLoaded, candidateAdded]);
     return (
       <Avatar
         // variant="rounded"
