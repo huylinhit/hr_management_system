@@ -302,7 +302,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   const [expectedSalary, setExpectedSalary] = useState(candidate?.expectedSalary);
   const [result, setResult] = useState(candidate?.result);
   const [ticketFile, setTicketFile] = useState("");
-  const { candidateUpdated } = useAppSelector((state) => state.candidate);
+  const { candidateUpdated, candidateAdded } = useAppSelector((state) => state.candidate);
   const [value, setValue] = useState<Dayjs | null>(null);
   const [candidateSkillToDelete, setCandidateSkillToDelete] = useState<number[]>([]);
   // const candidateSkillsByCandidateId = useAppSelector((state) =>
@@ -359,10 +359,10 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   }, [dispatch, location, candidate, updatedSkills]);
 
   useEffect(() => {
-    if (!candidate && id) {
-      dispatch(fetchCandidateAsync(parseInt(id)));
+    if ((!candidate && id) || candidateAdded) {
+      dispatch(fetchCandidateAsync(parseInt(id!)));
     }
-  }, [id, candidate, dispatch, candidateUpdated]);
+  }, [id, candidate, dispatch, candidateAdded]);
 
   useEffect(() => {
     if (candidate && id) {
@@ -402,7 +402,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
       setExpectedSalary(candidate.expectedSalary);
       setResult(candidate.result);
     }
-  }, [candidate]);
+  }, [candidate, candidateAdded]);
   useEffect(() => {
     getDownloadURL(fileStorageRef)
       .then((url) => {
@@ -541,6 +541,13 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   const handleAddDeleteSkills = (candidateSkillId: number) => {
     setCandidateSkillToDelete([...candidateSkillToDelete, candidateSkillId]);
   };
+  const handleUploadFile = () => {
+    if (selectedFile == null) return;
+    const fileRef = ref(storage, `candidatesFile/${candidate?.candidateId}`);
+    uploadBytes(fileRef, selectedFile).then(() => {
+      console.log("GOOD");
+    });
+  };
   console.log(updatedSkills);
   //Delete candidate skill
   const handleCandidateUpdate = () => {
@@ -582,6 +589,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
           }
         });
         handleUploadImage();
+        handleUploadFile();
         console.log("Candidate updated successfully: ", response);
         toast.success("Cập nhật ứng viên thành công 😊");
         dispatch(setCandidateAdded(true));
@@ -915,7 +923,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
                 </Box>
               ))
             ) : (
-              <Typography>No skills available</Typography>
+              <></>
             )}
           </>
         )}
