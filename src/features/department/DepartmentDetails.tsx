@@ -1,7 +1,11 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { departmentSelectors, fetchDepartmentAsync } from "./departmentSlice";
+import {
+  departmentSelectors,
+  fetchDepartmentAsync,
+  setDepartmentEmployeeAdded,
+} from "./departmentSlice";
 import { useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -188,8 +192,7 @@ export default function DepartmentDetails() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Giới tính</>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
         </Typography>
       ),
       renderCell(params) {
@@ -333,19 +336,20 @@ export default function DepartmentDetails() {
   const [open, setOpen] = useState(false);
   const [openManager, setOpenManager] = useState(false);
 
-  const managerRow = department?.userInfors.find((row) => row.isManager);
-
   const handleOpenDialog = () => setOpen(true);
   const handleCloseDialog = () => setOpen(false);
   const handleOpenManagerDialog = () => setOpenManager(true);
   const handleCloseManagerDialog = () => setOpenManager(false);
 
-  const { status: departmentStatus } = useAppSelector((state) => state.department);
+  const { status: departmentStatus, departmentAdded } = useAppSelector((state) => state.department);
   const location = useLocation();
 
   useEffect(() => {
-    if (!department && id) dispatch(fetchDepartmentAsync(parseInt(id)));
-  }, [id, department, dispatch]);
+    if ((!department && id) || departmentAdded) {
+      dispatch(fetchDepartmentAsync(parseInt(id!)));
+      dispatch(setDepartmentEmployeeAdded(false));
+    }
+  }, [id, department, dispatch, departmentAdded]);
 
   useEffect(() => {
     dispatch(
@@ -487,7 +491,7 @@ export default function DepartmentDetails() {
               loadingOverlay: LinearProgress,
               //toolbar: CustomToolbar,
             }}
-            loading={departmentStatus.includes("pending")}
+            loading={departmentStatus.includes("pending") || departmentAdded}
             rows={department.userInfors}
             columns={columns}
             initialState={{

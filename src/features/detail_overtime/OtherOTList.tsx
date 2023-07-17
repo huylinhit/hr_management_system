@@ -142,8 +142,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Tạo bởi</>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -217,8 +216,7 @@ export default function OtherOTList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Trạng thái</>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -393,6 +391,20 @@ export default function OtherOTList() {
       },
     },
     {
+      field: "createAt",
+      headerName: "Tạo vào lúc",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo vào lúc</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
+    },
+    {
       field: "logStart",
       headerName: "Ngày bắt đầu",
       width: 250,
@@ -427,8 +439,7 @@ export default function OtherOTList() {
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Thời gian thay đổi</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (

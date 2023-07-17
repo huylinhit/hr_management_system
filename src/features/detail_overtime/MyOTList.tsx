@@ -370,6 +370,20 @@ export default function MyOTList() {
       },
     },
     {
+      field: "createAt",
+      headerName: "Tạo vào lúc",
+      width: 250,
+      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo vào lúc</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+      ),
+    },
+    {
       field: "logStart",
       headerName: "Ngày bắt đầu",
       width: 250,

@@ -77,7 +77,7 @@ export default function NewStaff({
           <TextField
             required
             type="text"
-            placeholder={userForm.firstName === "" ? "Nhập firstName" : ""}
+            placeholder={userForm.firstName === "" ? "Nhập tên" : ""}
             defaultValue={userForm.firstName === "" ? "" : userForm.firstName}
             size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
@@ -109,8 +109,8 @@ export default function NewStaff({
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            defaultValue={userForm.gender}
+            name="gender"
+            value={userForm.gender}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
@@ -121,9 +121,9 @@ export default function NewStaff({
             <FormControlLabel
               value={false}
               control={<Radio />}
-              label="Female"
+              label="Nữ"
             />
-            <FormControlLabel value={true} control={<Radio />} label="Male" />
+            <FormControlLabel value={true} control={<Radio />} label="Nam" />
           </RadioGroup>
         </Grid>
 
@@ -289,7 +289,8 @@ export default function NewStaff({
             type="text"
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
-            defaultValue={userForm.departmentId}
+            name="departmentId"
+            value={userForm.departmentId}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,

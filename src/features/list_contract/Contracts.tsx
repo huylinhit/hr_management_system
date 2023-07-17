@@ -130,7 +130,9 @@ export default function Contracts() {
         const contractTypeName = params.row.contractType.name;
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <span style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>●</span>
+            <Typography style={{ marginRight: 10, fontSize: "14px", color: dotColor }}>
+              ●
+            </Typography>
             <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {contractTypeName}
             </Typography>
@@ -367,7 +369,6 @@ export default function Contracts() {
     }
   }, [dispatch, contractsLoaded]);
 
-
   useEffect(() => {
     if (contractsLoaded) {
       setRows(contracts);
@@ -378,7 +379,7 @@ export default function Contracts() {
 
   return (
     <>
-      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
+      {/* <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
             <Button
@@ -408,7 +409,7 @@ export default function Contracts() {
           </Grid>
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
-      </Box>
+      </Box> */}
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid

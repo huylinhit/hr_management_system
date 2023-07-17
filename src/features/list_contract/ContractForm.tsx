@@ -20,30 +20,34 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridRowId,
   GridRowSelectionModel,
 } from "@mui/x-data-grid-pro";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchUserInforsAsync, userInforSelectors } from "./userInforSlice";
+
 import { useEffect, useState } from "react";
-import { UserInfor } from "../../app/models/userInfor";
-import agent from "../../app/api/agent";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Department } from "../../app/models/department";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+
 import moment from "moment";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import SubjectIcon from "@mui/icons-material/Subject";
-import PhoneIcon from "@mui/icons-material/Phone";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { setDepartmentChanged, setDepartmentEmployeeAdded } from "./departmentSlice";
 
+// component
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import SubjectIcon from "@mui/icons-material/Subject";
+import PhoneIcon from "@mui/icons-material/Phone";
+
+// data
+import agent from "../../app/api/agent";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { UserInfor } from "../../app/models/userInfor";
+import { Department } from "../../app/models/department";
+import {
+  employeeSelectors,
+  fetchEmployeesAsync,
+} from "../../app/store/employee/employeeSlice";
+
+// interface
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -53,23 +57,14 @@ interface Props {
   departmentId: number;
 }
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
 const headerStyle = {
   color: "#7C7C7C",
   fontWeight: 700,
   fontFamily: "Mulish",
   fontSize: 15,
 };
-export default function DepartmentForm({
+
+export default function ContractForm({
   open,
   onClose,
   createOrAdd,
@@ -84,7 +79,10 @@ export default function DepartmentForm({
       align: "center",
       width: 50,
       renderCell: (params) => (
-        <IconButton component={Link} to={`/departments/${params.row.departmentId}`}>
+        <IconButton
+          component={Link}
+          to={`/departments/${params.row.departmentId}`}
+        >
           <MoreHorizIcon />
         </IconButton>
       ),
@@ -96,10 +94,15 @@ export default function DepartmentForm({
       width: 50,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleAccountIconClick(params.row)} disabled={createOrAdd}>
+          <IconButton
+            onClick={() => handleAccountIconClick(params.row)}
+            disabled={createOrAdd}
+          >
             <Tooltip title={selectedId === params.row.id ? "Manager" : "Staff"}>
               <AccountCircleIcon
-                sx={{ color: selectedId === params.row.id ? "#F36554" : "#AEAEAE" }}
+                sx={{
+                  color: selectedId === params.row.id ? "#F36554" : "#AEAEAE",
+                }}
               />
             </Tooltip>
           </IconButton>
@@ -120,7 +123,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tên nhân viên</>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Tên nhân viên</div>
         </Typography>
       ),
     },
@@ -131,7 +135,8 @@ export default function DepartmentForm({
       width: 200,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Phòng ban</>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Phòng ban</div>
         </Typography>
       ),
     },
@@ -142,7 +147,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số điện thoại</>
+          <PhoneIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Số điện thoại</div>
         </Typography>
       ),
     },
@@ -153,7 +159,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Email</>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Email</div>
         </Typography>
       ),
     },
@@ -165,7 +172,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Giới tính</div>
         </Typography>
       ),
 
@@ -216,7 +224,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Địa chỉ</div>
         </Typography>
       ),
     },
@@ -227,7 +236,8 @@ export default function DepartmentForm({
       editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Quốc gia</>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Quốc gia</div>
         </Typography>
       ),
     },
@@ -239,19 +249,22 @@ export default function DepartmentForm({
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Ngày sinh</div>
         </Typography>
       ),
     },
   ];
-  const userInfors = useAppSelector((state) =>
-    userInforSelectors.selectAll(state).filter((u) => u.departmentId !== department?.departmentId)
+  const employees = useAppSelector((state) =>
+    employeeSelectors
+      .selectAll(state)
+      .filter((u) => u.departmentId !== department?.departmentId)
   );
   const dispatch = useAppDispatch();
-  const { userInforsLoaded, filtersLoaded } = useAppSelector((state) => state.userInfor);
-  const { departmentAdded } = useAppSelector((state) => state.department);
+  const { employeesLoaded } = useAppSelector((state) => state.employee);
   const [rows, setRows] = useState<UserInfor[]>([]);
-  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+  const [rowSelectionModel, setRowSelectionModel] =
+    useState<GridRowSelectionModel>([]);
   const [departmentName, setDepartmentName] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [managerName, setManagerName] = useState("");
@@ -265,76 +278,21 @@ export default function DepartmentForm({
 
   // If userInfors is not loaded, load it using dispatch
   useEffect(() => {
-    if (!userInforsLoaded || departmentAdded) {
-      dispatch(fetchUserInforsAsync());
-    }
-  }, [dispatch, userInforsLoaded, departmentAdded]);
+    if (!employeesLoaded) dispatch(fetchEmployeesAsync());
+  }, [dispatch, employeesLoaded]);
 
   // // If userInfors is loaded, set rows
   useEffect(() => {
-    if (userInforsLoaded) {
-      setRows(userInfors);
+    if (employeesLoaded) {
+      setRows(employees);
     }
-  }, [userInforsLoaded]);
-
+  }, [employeesLoaded]);
+  employeesLoaded;
   const handleInputChange = (event: any) => {
     setDepartmentName(event.target.value);
   };
 
-  const handleSave = () => {
-    // Get Employees that are selected
-    const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.id));
-    const updatedEmployees = selectedEmployees.map((employee) => ({
-      ...employee,
-      departmentId: departmentId,
-      isManager: false,
-    }));
-    if (createOrAdd == false) {
-      const departmentCreate = {
-        DepartmentName: departmentName,
-        ManagerId: managerId || 0,
-        UserInfors: selectedEmployees,
-      };
-      console.log(departmentCreate);
-      agent.Department.create(departmentCreate)
-        .then((response) => {
-          console.log("Department created successfully:", response);
-          toast.success("Thêm phòng ban thành công 😊");
-          dispatch(setDepartmentChanged(true));
-        })
-        .catch((error) => {
-          console.error("Error creating department:", error);
-          toast.error("Xảy ra lỗi khi thêm 😥");
-        });
-    } else {
-      const departmentUpdate = {
-        patchDocument: [
-          {
-            op: "replace",
-            path: "/userInfors",
-            value: updatedEmployees,
-          },
-        ],
-      };
-      agent.Department.patch(departmentId, departmentUpdate.patchDocument)
-        .then((response) => {
-          dispatch(setDepartmentEmployeeAdded(true));
-          dispatch(setDepartmentChanged(true));
-          toast.success("Thêm nhân viên thành công 😊");
-          console.log("Department updated successfully:", response);
-        })
-        .catch((error) => {
-          toast.error("Xảy ra lỗi khi thêm 😥");
-          console.error("Error updating department:", error);
-        });
-    }
-
-    // Clear the selected rows
-    setRowSelectionModel([]);
-    onClose();
-
-    //console.log(department.UserInfors);
-  };
+  const handleSave = () => {};
 
   return (
     <Dialog fullWidth={true} open={open} onClose={onClose} maxWidth="lg">
@@ -367,10 +325,13 @@ export default function DepartmentForm({
               </Grid>
 
               <Grid item>
-                <Typography variant="body1" sx={{ color: "#FF6969", fontWeight: "bold", mt: 3 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ color: "#FF6969", fontWeight: "bold", mt: 3 }}
+                >
                   <Box display="flex" alignItems="center">
                     <AccountCircleIcon sx={{ mr: "5px" }} />
-                    <>Quản lý mới: {managerName}</>
+                    <div>Quản lý mới: {managerName}</div>
                   </Box>
                 </Typography>
               </Grid>
