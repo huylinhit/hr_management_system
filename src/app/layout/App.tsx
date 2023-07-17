@@ -6,10 +6,9 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import LoadingComponent from "./LoadingComponent";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
+import "react-toastify/dist/ReactToastify.css";
 
-
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
@@ -18,7 +17,6 @@ function App() {
   const initApp = useCallback(async () => {
     try {
       await dispatch(fetchCurrentUser());
-      console.log("FETCH CURRENT USER");
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +55,7 @@ function App() {
           backgroundColor: "#FFFFFF",
         }}
       >
-        <ToastContainer/>
+        <ToastContainer />
         <Outlet />
       </Box>
     </Box>
