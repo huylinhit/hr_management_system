@@ -264,12 +264,11 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
     useEffect(() => {
         if (!logOtsLoaded)
             dispatch(fetchLogOtsAsync());
-
         setDays(logot?.days)
         setHours(logot?.logHours!);
         setOneDaySalary(logot?.salaryPerDay!);
         setAmountSalary(logot?.amount!);
-        setMaxHours(logot?.logHours!);
+        setMaxHours(logot?.days! * 8);
         setReason(logot?.reason!);
         setSalaryOneHour(logot?.amount! / logot?.logHours!);
 
