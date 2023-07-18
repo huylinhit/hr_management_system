@@ -149,7 +149,7 @@ export default function CreateTicketForm({ open, onClose }: Props) {
     if (!isTicketTypeEmpty && !isReasonEmpty) {
       agent.Ticket.create(ticketCreate)
         .then((response) => {
-          handleUploadFile(response.staffId);
+          handleUploadFile(response);
           console.log("Ticket created successfully: ", response);
           toast.success("Tạo đơn thành công 😊");
           dispatch(setTicketAdded(true));
@@ -175,9 +175,14 @@ export default function CreateTicketForm({ open, onClose }: Props) {
     console.log("Selected file:", file);
   };
 
-  const handleUploadFile = (id: number) => {
+  const handleUploadFile = (ticket: any) => {
     if (selectedFile == null) return;
-    const fileRef = ref(storage, `staffFiles/${id}`);
+    const fileRef = ref(
+      storage,
+      `staffsTicketFile/STF${ticket?.staffId.toString().padStart(5, "0")}TK-${ticket?.ticketId
+        .toString()
+        .padStart(5, "0")}`
+    );
     uploadBytes(fileRef, selectedFile).then(() => {
       console.log("GOOD");
     });

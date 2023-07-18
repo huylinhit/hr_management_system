@@ -37,7 +37,11 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { fetchUserInforAsync, userInforSelectors } from "../department/userInforSlice";
+import {
+  fetchUserInforAsync,
+  setUserInforAdded,
+  userInforSelectors,
+} from "../department/userInforSlice";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import agent from "../../app/api/agent";
@@ -250,6 +254,7 @@ export default function EditInfo() {
   const [fullName, setFullName] = useState("");
   const [staffSkillToDelete, setStaffSkillToDelete] = useState<number[]>([]);
   const location = useLocation();
+
   const [updatedSkills, setUpdatedSkills] = useState([{ id: 0, skill: "", level: "" }]);
 
   // -------------------------- STATE ---------------------------
@@ -488,7 +493,7 @@ export default function EditInfo() {
         handleUploadImage();
         console.log("Candidate updated successfully: ", response);
         toast.success("Cập nhật nhân viên thành công 😊");
-        //  dispatch(setCandidateUpdated(true));
+        dispatch(setUserInforAdded(true));
         console.log(dob);
       })
       .catch((error) => {
@@ -525,7 +530,7 @@ export default function EditInfo() {
           }}
           fullWidth
           variant="standard"
-          defaultValue={`${userInfor?.firstName} ${userInfor?.lastName}`}
+          defaultValue={`${userInfor?.lastName} ${userInfor?.firstName}`}
           onChange={debouncedFullNameInput}
         />
 
