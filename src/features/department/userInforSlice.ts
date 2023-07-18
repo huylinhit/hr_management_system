@@ -47,14 +47,18 @@ export const userInforSlice = createSlice({
     filtersLoaded: false,
     status: "idle",
   }),
-  reducers: {},
+  reducers: {
+    setUserInforAdded: (state, action) => {
+      state.userInforAdded = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserInforsAsync.pending, (state) => {
       state.status = "pendingFetchUserInfors";
     });
     builder.addCase(fetchUserInforsAsync.fulfilled, (state, action) => {
       userInforsAdapter.setAll(state, action.payload);
- 
+
       state.status = "idle";
       state.userInforsLoaded = true;
     });
@@ -67,7 +71,7 @@ export const userInforSlice = createSlice({
     });
     builder.addCase(fetchUserInforAsync.fulfilled, (state, action) => {
       userInforsAdapter.upsertOne(state, action.payload);
- 
+
       state.status = "idle";
     });
     builder.addCase(fetchUserInforAsync.rejected, (state, action) => {
@@ -77,6 +81,7 @@ export const userInforSlice = createSlice({
   },
 });
 
+export const { setUserInforAdded } = userInforSlice.actions;
 export const userInforSelectors = userInforsAdapter.getSelectors(
   (state: RootState) => state.userInfor
 );
