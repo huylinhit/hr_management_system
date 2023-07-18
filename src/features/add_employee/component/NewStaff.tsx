@@ -118,11 +118,7 @@ export default function NewStaff({
               }))
             }
           >
-            <FormControlLabel
-              value={false}
-              control={<Radio />}
-              label="Nữ"
-            />
+            <FormControlLabel value={false} control={<Radio />} label="Nữ" />
             <FormControlLabel value={true} control={<Radio />} label="Nam" />
           </RadioGroup>
         </Grid>
@@ -248,39 +244,6 @@ export default function NewStaff({
           <Typography
             sx={{ fontSize: "how to compare string1 is as same as string2" }}
           >
-            CCCD|CMND
-          </Typography>
-          <TextField
-            required
-            type="text"
-            placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
-            defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
-            size="small"
-            sx={{ width: "100%", marginBottom: "20px" }}
-            onChange={(e) =>
-              setUserForm((prevForm: any) => ({
-                ...prevForm,
-                citizenId: e.target.value,
-              }))
-            }
-          />
-        </Grid>
-        <Grid item xs={5}></Grid>
-      </Grid>
-
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
             Phòng ban
           </Typography>
           <TextField
@@ -309,26 +272,22 @@ export default function NewStaff({
           <Typography
             sx={{ fontSize: "how to compare string1 is as same as string2" }}
           >
-            Chức vụ
+            CCCD|CMND
           </Typography>
           <TextField
-            select
-            disabled
             required
             type="text"
-            defaultValue="false"
+            placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
+            defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
             size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
                 ...prevForm,
-                isManager: e.target.value,
+                citizenId: e.target.value,
               }))
             }
-          >
-            <MenuItem value="false">Không</MenuItem>
-            <MenuItem value="true">Quản lý</MenuItem>
-          </TextField>
+          />
         </Grid>
       </Grid>
 

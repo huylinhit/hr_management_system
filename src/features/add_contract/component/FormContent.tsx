@@ -3,6 +3,7 @@ import { Grid, Typography, TextField, MenuItem } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { Contract } from "../model/contract";
+import dayjs from "dayjs";
 
 // interface
 interface Props {
@@ -32,7 +33,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             sx={{ width: "100%", marginBottom: "20px" }}
             name="contractTypeId"
             value={contractForm.contractTypeId}
-            onChange={(e) =>
+            onChange={(e) => 
               setContractForm((prevForm: any) => ({
                 ...prevForm,
                 contractTypeId: e.target.value,

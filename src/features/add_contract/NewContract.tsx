@@ -55,6 +55,12 @@ export default function NewContract() {
   };
 
   const handleSubmit = () => {
+    if (contractForm.contractTypeId === 2 ){
+      setContractForm((prevForm: any) => ({
+        ...prevForm,
+        endDate: "",
+      }))
+    }
     console.log(contractForm);
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {

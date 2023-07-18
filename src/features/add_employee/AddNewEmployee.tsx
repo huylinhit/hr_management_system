@@ -8,7 +8,7 @@ import {
   Button,
   Container,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // component
@@ -23,12 +23,14 @@ import {
 } from "../department/departmentSlice";
 import agent from "../../app/api/agent";
 import { fetchUserInforsAsync } from "../department/userInforSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
   const stepName = ["Tạo tài khoản", "Thông tin cá nhân"];
   const dispatch = useAppDispatch();
   const history = useNavigate();
+  const location = useLocation();
   // -------------------------- STATE ---------------------------
   const [step, setStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
@@ -58,6 +60,13 @@ export default function AddNewEmployee() {
   );
   const { departmentsLoaded } = useAppSelector((state) => state.department);
   // -------------------------- EFFECT --------------------------
+  //Set header
+  useEffect(() => {
+    dispatch(
+      setHeaderTitle([{ title: "Thêm nhân viên", path: "/staffs/add" }])
+    );
+  }, [dispatch, location]);
+
   useEffect(() => {
     if (!departmentsLoaded) dispatch(fetchDepartmentsAsync());
   }, [dispatch, departmentsLoaded]);
@@ -65,7 +74,12 @@ export default function AddNewEmployee() {
   const areAllFieldsNotNull = (object: any): boolean => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
-        if (object[key] === "" || object[key] === 0 || confirmPwd === "" || confirmPwd !== userForm.password) {
+        if (
+          object[key] === "" ||
+          object[key] === 0 ||
+          confirmPwd === "" ||
+          confirmPwd !== userForm.password
+        ) {
           return false;
         }
       }
@@ -101,7 +115,7 @@ export default function AddNewEmployee() {
       .then((response) => {
         dispatch(fetchUserInforsAsync());
         toast.success("Đã thêm nhân viên thành công");
-        history("/staffs")
+        history("/staffs");
       })
       .catch((error) => {
         if (Array.isArray(error)) {
