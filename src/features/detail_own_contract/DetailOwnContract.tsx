@@ -17,10 +17,13 @@ import {
   fetchContractAsync,
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
+import { useLocation } from "react-router-dom";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 export default function DetailOwnContract() {
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
+  const location = useLocation();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   const currentUser = useAppSelector((state) => state.account);
@@ -37,6 +40,10 @@ export default function DetailOwnContract() {
   console.log(contract);
   
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Hợp đồng của tôi", path: "/own-contract" }]));
+  }, [dispatch, location]);
+  
   useEffect(() => {
     if(!employeesLoaded) dispatch(fetchEmployeeAsync(staffId));
     if (!contractsLoaded) dispatch(fetchContractsAsync());

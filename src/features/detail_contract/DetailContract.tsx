@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
@@ -19,29 +19,51 @@ import {
   contractSelectors,
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
   const { id, staffid, prevpage } = useParams();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, Number(staffid))
   );
-  const { employeesLoaded } = useAppSelector((state) => state.employee);
+  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
+  
 
   const contract = useAppSelector((state) =>
     contractSelectors.selectById(state, Number(staffid))
   );
-  const { status, contractsLoaded } = useAppSelector((state) => state.contract);
+  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    if(!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
   }, [dispatch, contractsLoaded, employeesLoaded]);
+
+  useEffect(() => {
+    if (prevpage === "list") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
+          { title: "Hợp đồng", path: "" },
+        ])
+      );
+    } else if (prevpage === "staff") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Danh sách nhân viên", path: "/staffs" },
+          { title: `${employee?.lastName} ${employee?.firstName}`, path: `/staffs/${employee?.staffId}` },
+          { title: "Hợp đồng", path: "" },
+        ])
+      );
+    }
+  }, [dispatch, location]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending"))
+  if (contractStatus.includes("pending") && employeeStatus.includes("pending"))
     return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
