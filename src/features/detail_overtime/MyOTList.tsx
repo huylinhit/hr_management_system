@@ -209,7 +209,7 @@ export default function MyOTList() {
               >
                 Chờ Duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -389,7 +389,7 @@ export default function MyOTList() {
     },
     {
       field: "processNote",
-      headerName: "Ghi chú",
+      headerName: "Phản hồi",
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -409,7 +409,7 @@ export default function MyOTList() {
       ),
     },
     {
-      field: "respondenceName",
+      field: "respondencesId",
       headerName: "Người duyệt",
       width: 250,
       renderHeader: () => (
@@ -453,7 +453,7 @@ export default function MyOTList() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -548,7 +548,7 @@ export default function MyOTList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn tăng ca
             </Button>
           </Grid>
 
