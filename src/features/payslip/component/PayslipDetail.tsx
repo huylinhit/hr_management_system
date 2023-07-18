@@ -102,7 +102,7 @@ function PayslipDetail() {
     if (payslip) {
       dispatch(
         setHeaderTitle([
-          { title: "Lương nhân viên", path: "/payslips" },
+          { title: "Danh sách lương nhân viên", path: "/payslips" },
           {
             title: `Phiếu lương của ${payslip.staff.lastName} ${payslip.staff.firstName}`,
             path: "",
@@ -112,19 +112,6 @@ function PayslipDetail() {
     }
   }, [dispatch, location, payslip]);
 
-  useEffect(() => {
-    if (payslip) {
-      dispatch(
-        setHeaderTitle([
-          { title: "Lương nhân viên", path: "/payslips" },
-          {
-            title: `Phiếu lương của ${payslip.staff.lastName} ${payslip.staff.firstName}`,
-            path: "",
-          },
-        ])
-      );
-    }
-  }, [dispatch, location, payslip]);
   useEffect(() => {
     if (!contractsLoaded) dispatch(fetchContractValidDetailASync(parseInt(staffId!)));
   }, [contractsLoaded]);
