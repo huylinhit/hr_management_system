@@ -136,7 +136,6 @@ export default function OthersLeaveList() {
       field: "staffName",
       headerName: "Tạo bởi",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
@@ -164,7 +163,6 @@ export default function OthersLeaveList() {
       field: "leaveTypeName",
       headerName: "Loại đơn",
       width: 300,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
@@ -188,7 +186,6 @@ export default function OthersLeaveList() {
       field: "description",
       headerName: "Lí do làm đơn",
       width: 300,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
@@ -211,7 +208,6 @@ export default function OthersLeaveList() {
       field: "status",
       headerName: "Trạng thái",
       width: 200,
-      editable: true,
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
@@ -235,7 +231,7 @@ export default function OthersLeaveList() {
                   justifyContent: "center",
                 }}
               >
-                Đã duyệt
+                Chấp nhận
               </Typography>
             ) : params.value === "pending" ? (
               <Typography
@@ -296,7 +292,6 @@ export default function OthersLeaveList() {
       field: "amount",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       headerAlign: "right",
       renderHeader: () => (
@@ -312,7 +307,6 @@ export default function OthersLeaveList() {
       field: "salaryPerDay",
       headerName: "Lương mỗi ngày",
       width: 200,
-      editable: true,
       align: "right",
       headerAlign: "right",
       renderHeader: () => (
@@ -328,7 +322,6 @@ export default function OthersLeaveList() {
       field: "processNote",
       headerName: "Ghi chú",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
@@ -347,10 +340,9 @@ export default function OthersLeaveList() {
       ),
     },
     {
-      field: "respondenceName",
+      field: "responsdenceName",
       headerName: "Người duyệt",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Người duyệt</>
@@ -372,7 +364,6 @@ export default function OthersLeaveList() {
       field: "leaveDays",
       headerName: "Số ngày nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số ngày nghỉ</>
@@ -390,7 +381,6 @@ export default function OthersLeaveList() {
       field: "leaveHours",
       headerName: "Số giờ nghỉ",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số giờ nghỉ</>
@@ -408,7 +398,6 @@ export default function OthersLeaveList() {
       field: "leaveStart",
       headerName: "Ngày bắt đầu",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
@@ -422,7 +411,6 @@ export default function OthersLeaveList() {
       field: "leaveEnd",
       headerName: "Ngày kết thúc",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
@@ -436,7 +424,6 @@ export default function OthersLeaveList() {
       field: "changeStatusTime",
       headerName: "Thời gian thay đổi",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>

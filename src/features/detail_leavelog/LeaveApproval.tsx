@@ -27,32 +27,16 @@ import { fetchLogLeaveAsync, logleaveSelectors, setLogLeaveAdded } from "./logle
 import { fetchLeaveDayDetailAsync } from "./leaveDayDetailSlice";
 import MyTicketDetailSkeleon from "../othertypes/MyTicketDetailSkeleton";
 import {
-  BaseSingleInputFieldProps, 
-  DatePicker,
-  DatePickerProps,
+  BaseSingleInputFieldProps,
   DateValidationError,
   FieldSection,
   UseDateFieldProps,
 } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
+import { NumbersOutlined } from "@mui/icons-material";
 const fontStyle = "Mulish";
 
-const menuItemStyle = {
-  fontStyle: fontStyle,
-};
-const navStyle = {
-  fontSize: 25,
-  fontWeight: 800,
-  fontFamily: fontStyle,
-  textTransform: "none",
-  color: "#333333",
-  borderRadius: "10px",
-  padding: "0px 10px 0px 10px",
-  "&:hover": {
-    backgroundColor: "#F8F8F8", // Set the hover background color
-  },
-};
 const headerColor = {
   color: "#808080",
 };
@@ -66,15 +50,13 @@ const infoStyle = {
   fontFamily: fontStyle,
   fontSize: "15px",
   color: "#000000",
+  // eslint-disable-next-line react/style-prop-object
   "& .MuiInputBase-input.Mui-disabled": {
     WebkitTextFillColor: "#000000",
   },
 };
 const verticalSpacing = {
   mb: "10px",
-};
-const styles = {
-  marginBottom: "10px",
 };
 const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
   "label + &": {
@@ -111,25 +93,9 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     },
   },
 }));
-const ProcessNoteInput = styled(TextField)(({ theme, disabled }) => ({
-  "& .MuiInputBase-input": {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: theme.palette.mode === "light" ? "#FFFFFF" : "#1A2027",
-    fontSize: 15,
-    width: "100%  ",
-    padding: "6px 8px",
-    // Use the system font instead of the default Roboto font.
-    fontFamily: "Mulish",
-
-    "&::disabled": {
-      color: "#000000",
-    },
-  },
-}));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -175,20 +141,6 @@ function ButtonField(props: ButtonFieldProps) {
     </Button>
   );
 }
-function ButtonDatePicker(props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" | "onClose">) {
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <DatePicker
-      slots={{ field: ButtonField, ...props.slots }}
-      slotProps={{ field: { setOpen } as any }}
-      {...props}
-      open={open}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-    />
-  );
-}
 
 const InforRow = (value: any) => {
   return (
@@ -211,17 +163,38 @@ const InforRow = (value: any) => {
   );
 };
 
+function CurrencyFormatter(value: any) {
+  const formattedValue = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value.value);
+  return (
+    <Typography
+      sx={{
+        padding: "0px 3px ",
+        color: "#000000",
+        fontFamily: fontStyle,
+        borderRadius: "6px",
+        fontWeight: 600,
+        alignItems: "center",
+        display: "inline-block",
+        width: "fit-content",
+        ml: "5px",
+      }}
+    >
+      {formattedValue}
+    </Typography>
+  );
+}
+
 const textFieldInputProps = {
   disableUnderline: true,
   style: {
     ...infoStyle,
   },
 };
-const fieldStyle = {
-  flexGrow: 1,
-  mb: "2%",
-};
-export default function LeaveApproval({ open, handleClose, handleChange }: any) {
+
+export default function LeaveApproval() {
   const { id, staffid } = useParams<{ id: string; staffid: string }>();
   const staffId = parseInt(staffid!);
   const logLeaveId = parseInt(id!);
@@ -230,7 +203,6 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
   const { logleavesLoaded } = useAppSelector((state) => state.logleave);
   const today = dayjs().startOf("day");
-  const minEndDate = today.add(1, "day").startOf("day");
   const [startDate, setStartDate] = useState(logLeave?.leaveStart);
   const [endDate, setEndDate] = useState(logLeave?.leaveEnd);
   const [status, setStatus] = useState(logLeave?.status);
@@ -244,7 +216,6 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const navigate = useNavigate();
 
   const location = useLocation();
-  console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
   //Set header title
   useEffect(() => {
@@ -288,17 +259,8 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
   const debouncedProcessNoteInput = debounce((event: any) => {
     setProcessNote(event.target.value);
   }, 750);
-  const handleClickOpenConfirm = () => {
-    setOpenConfirm(true);
-  };
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
-  };
-  const handleSetStartDate = (event: any) => {
-    setStartDate(event);
-    if (dayjs(endDate).isBefore(event, "day")) {
-      setEndDate(event.add(1, "day"));
-    }
   };
   const debouncedDescriptionInput = debounce((event: any) => {
     setDescription(event.target.value);
@@ -306,12 +268,6 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
 
   //Initially get ticket on Firebase
 
-  const handleLeaveChange = (event: any) => {
-    const selectedOption = leaveDayDetail!.find(
-      (option) => option.leaveType.leaveTypeName === event.target.value
-    );
-    setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
-  };
   const handleStatusChange = (event: any) => {
     setStatus(event.target.value);
   };
@@ -331,6 +287,11 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
           path: "/processNote",
           value: processNote,
         },
+        {
+          op: "replace",
+          path: "/respondencesId",
+          value: currentUser.user?.userInfor.staffId,
+        },
       ],
     };
     if (!logLeave) return;
@@ -340,7 +301,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
         setLogLeaveAdded(true);
         console.log("Ticket updated successfully: ", response);
         toast.success("Duyệt đơn thành công 😊");
-        navigate('/log-leaves')
+        navigate("/log-leaves");
       })
       .catch((error) => {
         console.log("Error updating ticket: ", error);
@@ -417,7 +378,29 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          // defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          defaultValue={logLeave?.responsdenceName}
+          disabled={true}
+        />
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+          <NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />
+          <Typography sx={headerStyle}>Khấu trừ</Typography>
+          <CurrencyFormatter value={logLeave.amount} />
+        </Box>
+        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+          <NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />
+          <Typography sx={headerStyle}>Lương mỗi ngày</Typography>
+          <CurrencyFormatter value={logLeave.salaryPerDay} />
+        </Box>
+        <InforRow
+          icon={<NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />}
+          header="Số ngày nghỉ"
+          defaultValue={`${logLeave.leaveDays} ngày`}
+          disabled={true}
+        />
+        <InforRow
+          icon={<NumbersOutlined fontSize="small" sx={{ mr: "5px" }} />}
+          header="Số giờ nghỉ"
+          defaultValue={`${logLeave.leaveHours} giờ`}
           disabled={true}
         />
 
@@ -432,9 +415,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày bắt đầu"
           defaultValue={
-            logLeave?.leaveStart
-              ? `${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}`
-              : ""
+            logLeave?.leaveStart ? `${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}` : ""
           }
           disabled={true}
         />
@@ -489,8 +470,12 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
               <MenuItem value={"approved"}>
                 <ChipCustome status="approved">Chấp nhận</ChipCustome>
               </MenuItem>
-              <MenuItem value={"pending"}><ChipCustome status="pending">Chờ duyệt</ChipCustome></MenuItem>
-              <MenuItem value={"rejected"}><ChipCustome status="rejected">Từ chối</ChipCustome></MenuItem>
+              <MenuItem value={"pending"}>
+                <ChipCustome status="pending">Chờ duyệt</ChipCustome>
+              </MenuItem>
+              <MenuItem value={"rejected"}>
+                <ChipCustome status="rejected">Từ chối</ChipCustome>
+              </MenuItem>
             </BootstrapInput>
           </Box>
         </Box>
@@ -513,7 +498,7 @@ export default function LeaveApproval({ open, handleClose, handleChange }: any) 
             onChange={debouncedProcessNoteInput}
           />
         </Grid>
-      </Container >
+      </Container>
     </>
   );
 }

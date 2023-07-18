@@ -118,7 +118,6 @@ export default function MyOTList() {
       field: "staffName",
       headerName: "Tạo bởi",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
@@ -147,7 +146,6 @@ export default function MyOTList() {
       field: "otTypeName",
       headerName: "Loại đơn",
       width: 300,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại đơn</>
@@ -166,33 +164,9 @@ export default function MyOTList() {
       },
     },
     {
-      field: "reason",
-      headerName: "Lí do làm đơn",
-      width: 300,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <>
-          {params.value === "" ? (
-            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
-              Chưa có nội dung
-            </Typography>
-          ) : (
-            <Typography sx={cellStyle}>{params.value}</Typography>
-          )}
-        </>
-      ),
-    },
-
-    {
       field: "status",
       headerName: "Trạng thái",
       width: 200,
-      editable: true,
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
@@ -235,7 +209,7 @@ export default function MyOTList() {
               >
                 Chờ Duyệt
               </Typography>
-            ) : params.value === "Rejected" ? (
+            ) : params.value === "rejected" ? (
               <Typography
                 sx={{
                   backgroundColor: "#FFE7E7",
@@ -276,24 +250,147 @@ export default function MyOTList() {
     },
     {
       field: "salaryPerDay",
-      headerName: "Lương mỗi ngày",
+      headerName: "Lương một ngày",
       width: 200,
-      editable: true,
       align: "right",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           {/* Add the phone icon here */}
-          <>Lương mỗi ngày</>
+          <>Lương một ngày</>
         </Typography>
       ),
       renderCell: (params) => <CurrencyFormatter value={params.row.salaryPerDay} />,
     },
     {
-      field: "processNote",
-      headerName: "Ghi chú",
+      field: "amount",
+      headerName: "Tổng lương làm thêm",
+      width: 200,
+      align: "right",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          {/* Add the phone icon here */}
+          <>Tổng lương làm thêm</>
+        </Typography>
+      ),
+      renderCell: (params) => <CurrencyFormatter value={params.row.amount} />,
+    },
+    {
+      field: "logStart",
+      headerName: "Ngày bắt đầu",
       width: 250,
-      editable: true,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+      ),
+    },
+    {
+      field: "logEnd",
+      headerName: "Ngày kết thúc",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+      ),
+    },
+
+    {
+      field: "days",
+      headerName: "Số ngày làm",
+      width: 150,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{}} fontSize="small" /> <>Số ngày làm</>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "logHours",
+      headerName: "Số giờ làm",
+      width: 150,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{}} fontSize="small" /> <>Số giờ làm</>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "createAt",
+      headerName: "Tạo vào lúc",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo vào lúc</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+      ),
+    },
+    {
+      field: "changeStatusTime",
+      headerName: "Thời gian thay đổi",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Thời gian thay đổi</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+      ),
+    },
+
+
+    {
+      field: "reason",
+      headerName: "Lí do làm đơn",
+      width: 300,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Nội dung đơn</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <>
+          {params.value === "" ? (
+            <Typography sx={{ fontStyle: "italic", ...cellStyle, color: "#929292" }}>
+              Chưa có nội dung
+            </Typography>
+          ) : (
+            <Typography sx={cellStyle}>{params.value}</Typography>
+          )}
+        </>
+      ),
+    },
+    {
+      field: "processNote",
+      headerName: "Phản hồi",
+      width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ghi chú</>
@@ -312,10 +409,9 @@ export default function MyOTList() {
       ),
     },
     {
-      field: "respondenceName",
+      field: "respondencesId",
       headerName: "Người duyệt",
       width: 250,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Người duyệt</>
@@ -331,99 +427,6 @@ export default function MyOTList() {
             <Typography sx={cellStyle}>{params.value}</Typography>
           )}
         </>
-      ),
-    },
-    {
-      field: "days",
-      headerName: "Số ngày nghỉ",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số ngày nghỉ</>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ ...cellStyle }}>{params.value} ngày</Typography>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "logHours",
-      headerName: "Số giờ nghỉ",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số giờ nghỉ</>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography sx={{ ...cellStyle }}>{params.value} giờ</Typography>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "createAt",
-      headerName: "Tạo vào lúc",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo vào lúc</>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
-      ),
-    },
-    {
-      field: "logStart",
-      headerName: "Ngày bắt đầu",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày bắt đầu</>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
-      ),
-    },
-    {
-      field: "logEnd",
-      headerName: "Ngày kết thúc",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày kết thúc</>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
-      ),
-    },
-    {
-      field: "changeStatusTime",
-      headerName: "Thời gian thay đổi",
-      width: 250,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Thời gian thay đổi</>
-        </Typography>
-      ),
-      renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
       ),
     },
   ];
@@ -450,7 +453,7 @@ export default function MyOTList() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -545,7 +548,7 @@ export default function MyOTList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn tăng ca
             </Button>
           </Grid>
 

@@ -632,6 +632,22 @@ export default function Sidebar() {
                         primary="Hợp Đồng Nhân Viên"
                       />
                     </ListItemButton>
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "contract-list" })}
+                      onClick={() => handleActiveClick("contract-list")}
+                      dense
+                      component={Link}
+                      to="/own-contract"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <MailOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Hợp Đồng Của Tôi"
+                      />
+                    </ListItemButton>
                   </Collapse>
                 </>
               </List>

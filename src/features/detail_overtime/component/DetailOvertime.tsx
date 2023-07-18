@@ -218,6 +218,8 @@ const InforRow = (value: any) => {
           disabled={value.disabled}
           InputProps={textFieldInputProps}
           defaultValue={value.defaultValue}
+          value={value.value}
+          type={value.type}
           variant="standard"
           placeholder="Trống"
           onChange={value.onChange}
@@ -243,74 +245,78 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id, staffid } = useParams<{ id: string; staffid: string }>();
+  const { user } = useAppSelector(state => state.account);
+
   // const staffId = parseInt(staffid!);
   const overtimeId = parseInt(id!);
   const staffId = parseInt(staffid!);
   const { logOtsLoaded, status: LogOtStatus } = useAppSelector(state => state.logot);
   const logot = useAppSelector(state => logOvertimeSelectors.selectById(state, overtimeId));
-
-  const [hours, setHours] = useState(logot?.logHours);
+  const [oneDaySalary, setOneDaySalary] = useState<number>(logot?.salaryPerDay!);
+  const [hours, setHours] = useState<number>(logot?.logHours!);
   const [days, setDays] = useState(logot?.days);
-  const [oneDaySalary, setOneDaySalary] = useState(logot?.salaryPerDay);
-  const [amountSalary, setAmountSalary] = useState(logot?.amount);
+  const [amountSalary, setAmountSalary] = useState<number>(logot?.amount!);
+  const [minHours, setMinHours] = useState<number>(1);
+  const [maxHours, setMaxHours] = useState<number>(logot?.logHours!);
+  const [reason, setReason] = useState<string>("");
+  // const salaryOneDays: number = logot!.salaryPerDay;
+  const [salaryOneHour, setSalaryOneHour] = useState<number>(0);
 
-
-
-
-  console.log("Log overtime: ", logot);
+  const today = dayjs().startOf("day");
+  const minEndDate = today.add(1, "day").startOf("day");
+  const [startDate, setStartDate] = useState(logot?.logStart);
+  const [endDate, setEndDate] = useState(logot?.logEnd);
+  const [status, setStatus] = useState(logot?.status);
+  const [description, setDescription] = useState(logot?.reason);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [processNote, setProcessNote] = useState(logot?.processNote);
+  const location = useLocation();
 
   useEffect(() => {
     if (!logOtsLoaded)
       dispatch(fetchLogOtsAsync());
 
     setDays(logot?.days)
-    setHours(logot?.logHours);
+    setHours(logot?.logHours!);
+    setOneDaySalary(logot?.salaryPerDay!);
+    setAmountSalary(logot?.amount!);
+    setMaxHours(logot?.days! * 8);
+    setReason(logot?.reason!);
+    setSalaryOneHour(logot?.amount! / logot?.logHours!);  
 
-    setOneDaySalary(logot?.salaryPerDay);
-    setAmountSalary(logot?.amount);
-
-  }, [logOtsLoaded]);
-
-  const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
-  const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
-  const { logleavesLoaded } = useAppSelector((state) => state.logleave);
-  const today = dayjs().startOf("day");
-  const minEndDate = today.add(1, "day").startOf("day");
-  const [startDate, setStartDate] = useState(logLeave?.leaveStart);
-  const [endDate, setEndDate] = useState(logLeave?.leaveEnd);
-  const [status, setStatus] = useState(logLeave?.status);
-  const [selectedLeaveTypeId, setSelectedLeaveTypeId] = useState(2);
-  const [description, setDescription] = useState(logLeave?.description);
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [ticketChanged, setTicketChanged] = useState(false);
-  const [processNote, setProcessNote] = useState(logLeave?.processNote);
-  const currentUser = useAppSelector((state) => state.account);
-  const location = useLocation();
+  }, [logOtsLoaded, dispatch]);
   // console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
   //Set header title
   useEffect(() => {
-    if (logLeave) {
+    if (logot) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn nghỉ của nhân viên", path: "/log-leaves" },
+          { title: "Đơn tăng ca", path: "/log-overtimes" },
           { title: `Phản hồi đơn`, path: "" },
         ])
       );
     }
-  }, [dispatch, location, logLeave]);
+  }, [dispatch, location, logot]);
 
   const handleDays = (e: any) => {
     setDays(e.target.value)
   }
+
   const handleHours = (e: any) => {
-    setHours(e.target.value)
-  }
-  const handleAmount = (e: any) => {
-    setAmountSalary(e.target.value);
+    const newValue = e.target.value.toString();
+    let demo = hours;
+    if (!isNaN(Number(newValue))) {
+      demo = parseInt(newValue);
+    } else {
+    }
+
+    if (minHours <= demo && demo <= maxHours) {
+      setHours(demo);
+      setAmountSalary(prev => Math.floor(salaryOneHour * demo))
+    }
   }
 
-  //Get leave day detail
   //#endregion ==============================USE EFFECT=====================================
 
   //#region ===========================HANDLE ACTION======================================
@@ -334,20 +340,17 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   }, 750);
 
   //Initially get ticket on Firebase
-
-  const handleLeaveChange = (event: any) => {
-    const selectedOption = leaveDayDetail!.find(
-      (option) => option.leaveType.leaveTypeName === event.target.value
-    );
-    setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
-  };
   const handleStatusChange = (event: any) => {
     setStatus(event.target.value);
   };
 
   const handleLogOvertimeApprove = () => {
-    console.log(status);
-    console.log(processNote);
+    console.log("Here: ", status);
+    console.log("Here: ", user?.userInfor.staffId);
+    console.log("Here: ", processNote);
+    console.log("Here: ", hours);
+    console.log("Here: ", amountSalary  );
+
     const ticketUpdate = {
       patchDocument: [
         {
@@ -357,13 +360,13 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         },
         {
           op: "replace",
-          path: "/processNote",
-          value: processNote,
+          path: "/respondencesId",
+          value: user?.userInfor.staffId,
         },
         {
           op: "replace",
-          path: "/days",
-          value: days,
+          path: "/processNote",
+          value: processNote,
         },
         {
           op: "replace",
@@ -382,12 +385,12 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
     agent.LogOt.patch(overtimeId, staffId, ticketUpdate.patchDocument)
       .then((response) => {
         setLogOvertimeAdded(true);
-        console.log("Ticket updated successfully: ", response);
+        // console.log("Ticket updated successfully: ", response);
         toast.success("Duyệt đơn thành công 😊");
         navigate('/log-overtimes')
       })
       .catch((error) => {
-        console.log("Error updating ticket: ", error);
+        // console.log("Error updating ticket: ", error);
         // toast.error("Xảy ra lỗi khi duyệt đơn 😥");
       });
   };
@@ -465,7 +468,8 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          // defaultValue={`${logLeave?.respondenceName ? logLeave.respondenceName : ""}`}
+          value={logot?.respondencesId ? `STF-0000${logot?.respondencesId}` : "Trống"}
+          // defaultValue={}
           disabled={true}
         />
 
@@ -498,42 +502,31 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
-          header="Lương Một Ngày"
+          header="Lương Một Ngày (8 Tiếng)"
           defaultValue={logot?.salaryPerDay.toLocaleString()}
+          disabled
+        />
+
+        <InforRow
+          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Tổng Lương"
+          // defaultValue={logot?.amount.toLocaleString()}
+          value={amountSalary ? amountSalary?.toLocaleString() : logot?.amount.toLocaleString()}
           disabled
         />
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
-          header="Tổng Lương"
-          defaultValue={logot?.amount.toLocaleString()}
-          editable={true}
-        />
-        {/* <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
-          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-          <Typography sx={{ ...headerStyle, ...headerColor }}>Giờ</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <input onChange={handleHours} value={hours} style={{ padding: "8px", fontSize: "16px" }} type="number" />
-          </Box>
-        </Box>
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
-          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-          <Typography sx={{ ...headerStyle, ...headerColor }}>Ngày</Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <input onChange={handleDays} value={days} style={{ padding: "8px", fontSize: "16px" }} type="number" />
-          </Box>
-        </Box> */}
-        <InforRow
-          icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Giờ"
-          defaultValue={`${logot?.logHours}`}
-          editable={true}
+          type='number'
+          value={hours ? hours : logot?.logHours}
+          disabled={logot?.enable === false && true}
           onChange={handleHours}
         /><InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày"
           defaultValue={`${logot?.days}`}
           onChange={handleDays}
-          editable={true}
+          disabled
         />
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
@@ -568,12 +561,13 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
             <BootstrapInput
               fullWidth
               defaultValue={logot?.status}
+
               InputProps={textFieldInputProps}
               variant="standard"
               onChange={handleStatusChange}
               select
             >
-              <MenuItem value={"approved"}><ChipCustome status="approved" >Chấp Nhận</ChipCustome></MenuItem>
+              <MenuItem value={"approved"}><ChipCustome status="payment" >Chấp Nhận</ChipCustome></MenuItem>
               <MenuItem value={"pending"}><ChipCustome status="pending">Chờ Duyệt</ChipCustome></MenuItem>
               <MenuItem value={"rejected"}><ChipCustome status="rejected">Từ Chối</ChipCustome></MenuItem>
             </BootstrapInput>

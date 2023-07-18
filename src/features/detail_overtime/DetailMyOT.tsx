@@ -15,7 +15,7 @@ import {
     debounce,
 } from "@mui/material";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import moment from "moment";
@@ -217,6 +217,8 @@ const InforRow = (value: any) => {
                     disabled={value.disabled}
                     InputProps={textFieldInputProps}
                     defaultValue={value.defaultValue}
+                    value={value.value}
+                    type={value.type}
                     variant="standard"
                     placeholder="Trống"
                     onChange={value.onChange}
@@ -240,47 +242,49 @@ const fieldStyle = {
 };
 export default function DetailMyOT({ open, handleClose, handleChange }: any) {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const { user } = useAppSelector(state => state.account)
     const { id } = useParams<{ id: string; staffid: string }>();
     const staffId: number = user?.userInfor.staffId!;
     const overtimeId = parseInt(id!);
     const { logOtsLoaded, status: LogOtStatus } = useAppSelector(state => state.logot);
     const logot = useAppSelector(state => logOvertimeSelectors.selectById(state, overtimeId));
-
-    const [hours, setHours] = useState(logot?.logHours);
+    const [oneDaySalary, setOneDaySalary] = useState<number>(logot?.salaryPerDay!);
+    const [hours, setHours] = useState<number>(logot?.logHours!);
     const [days, setDays] = useState(logot?.days);
-    const [oneDaySalary, setOneDaySalary] = useState(logot?.salaryPerDay);
-    const [amountSalary, setAmountSalary] = useState(logot?.amount);
+    const [amountSalary, setAmountSalary] = useState<number>(logot?.amount!);
+    const [minHours, setMinHours] = useState<number>(1);
+    const [maxHours, setMaxHours] = useState<number>(logot?.logHours!);
+    const [reason, setReason] = useState<string>("");
+    // const salaryOneDays: number = logot!.salaryPerDay;
+    const [salaryOneHour, setSalaryOneHour] = useState<number>(0);
 
-    console.log("Log overtime: ", logot);
 
     useEffect(() => {
         if (!logOtsLoaded)
             dispatch(fetchLogOtsAsync());
-
         setDays(logot?.days)
-        setHours(logot?.logHours);
-
-        setOneDaySalary(logot?.salaryPerDay);
-        setAmountSalary(logot?.amount);
+        setHours(logot?.logHours!);
+        setOneDaySalary(logot?.salaryPerDay!);
+        setAmountSalary(logot?.amount!);
+        setMaxHours(logot?.days! * 8);
+        setReason(logot?.reason!);
+        setSalaryOneHour(logot?.amount! / logot?.logHours!);
 
     }, [logOtsLoaded]);
 
-    const logLeave = useAppSelector((state) => logleaveSelectors.selectById(state, id!));
-    const { leaveDayDetail, leaveDayDetailLoaded } = useAppSelector((state) => state.leaveDayDetail);
-    const { logleavesLoaded } = useAppSelector((state) => state.logleave);
     const today = dayjs().startOf("day");
     const minEndDate = today.add(1, "day").startOf("day");
-    const [startDate, setStartDate] = useState(logLeave?.leaveStart);
-    const [endDate, setEndDate] = useState(logLeave?.leaveEnd);
-    const [status, setStatus] = useState(logLeave?.status);
-    const [selectedLeaveTypeId, setSelectedLeaveTypeId] = useState(2);
-    const [description, setDescription] = useState(logLeave?.description);
+    const [startDate, setStartDate] = useState(logot?.logStart);
+    const [endDate, setEndDate] = useState(logot?.logEnd);
+    const [status, setStatus] = useState(logot?.status);
+    const [description, setDescription] = useState(logot?.reason);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [ticketChanged, setTicketChanged] = useState(false);
-    const [processNote, setProcessNote] = useState(logLeave?.processNote);
-    const currentUser = useAppSelector((state) => state.account);
+    const [processNote, setProcessNote] = useState(logot?.processNote);
     const location = useLocation();
+
     // console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
     //#region ==============================USE EFFECT=====================================
     //Set header title
@@ -289,22 +293,31 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
             dispatch(
                 setHeaderTitle([
                     { title: "Đơn tăng ca của tôi", path: "/own-log-overtimes" },
-                    { title: `Phản hồi đơn`, path: "" },
+                    { title: `Chỉnh sửa đơn`, path: "" },
                 ])
             );
         }
-    }, [dispatch, location, logLeave]);
+    }, [dispatch, location, logot]);
 
     const handleDays = (e: any) => {
         setDays(e.target.value)
     }
     const handleHours = (e: any) => {
-        setHours(e.target.value)
-    }
-    const handleAmount = (e: any) => {
-        setAmountSalary(e.target.value);
-    }
+        const newValue = e.target.value.toString();
 
+
+        let demo = hours;
+        if (!isNaN(Number(newValue))) {
+            demo = parseInt(newValue);
+        } else {
+        }
+
+        if (minHours <= demo && demo <= maxHours) {
+            setHours(demo);
+            setAmountSalary(prev => Math.floor(salaryOneHour * demo))
+        }
+    }
+    
     //Get leave day detail
     //#endregion ==============================USE EFFECT=====================================
 
@@ -325,51 +338,27 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         }
     };
     const debouncedDescriptionInput = debounce((event: any) => {
-        setDescription(event.target.value);
+        setReason(event.target.value);
     }, 750);
 
-    //Initially get ticket on Firebase
-
-    const handleLeaveChange = (event: any) => {
-        const selectedOption = leaveDayDetail!.find(
-            (option) => option.leaveType.leaveTypeName === event.target.value
-        );
-        setSelectedLeaveTypeId(selectedOption!.leaveTypeId);
-    };
-    const handleStatusChange = (event: any) => {
-        setStatus(event.target.value);
-    };
 
     const handleLogOvertimeApprove = () => {
-        console.log(status);
-        console.log(processNote);
         const ticketUpdate = {
             patchDocument: [
-                {
-                    op: "replace",
-                    path: "/status",
-                    value: status,
-                },
-                {
-                    op: "replace",
-                    path: "/processNote",
-                    value: processNote,
-                },
-                {
-                    op: "replace",
-                    path: "/days",
-                    value: days,
-                },
                 {
                     op: "replace",
                     path: "/logHours",
                     value: hours,
                 },
-
                 {
                     op: "replace",
                     path: "/amount",
                     value: amountSalary,
+                },
+                {
+                    op: "replace",
+                    path: "/reason",
+                    value: reason,
                 },
             ],
         };
@@ -377,13 +366,12 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
         agent.LogOt.patch(overtimeId, staffId, ticketUpdate.patchDocument)
             .then((response) => {
                 setLogOvertimeAdded(true);
-                // console.log("Ticket updated successfully: ", response);
                 toast.success("Cập nhật đơn thành công 😊");
             })
             .catch((error) => {
-                // console.log("Error updating ticket: ", error);
-                toast.error("Xảy ra lỗi khi duyệt đơn 😥");
+                // console.log("error: ",error);
             });
+        navigate('/own-log-overtimes')
         handleCloseConfirm();
     };
 
@@ -398,9 +386,13 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                     path: "/enable",
                     value: false,
                 },
+                {
+                    op: "replace",
+                    path: "/status",
+                    value: 'cancel',
+                },
             ],
         };
-        console.log("Here");
 
         agent.LogOt.patch(
             parseInt(id!),
@@ -411,6 +403,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                 console.log("Ticket cancelled successfully: ", response);
                 setTicketChanged(true);
                 toast.success("Hủy đơn thành công 😊");
+                navigate('/own-log-overtimes')
             })
             .catch((error) => {
                 console.log("Error cancelling ticket", error);
@@ -548,16 +541,18 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                 <InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Tổng Lương"
-                    defaultValue={logot?.amount.toLocaleString()}
+                    // defaultValue={logot?.amount.toLocaleString()}
+                    value={amountSalary ? amountSalary?.toLocaleString() : logot?.amount.toLocaleString()}
                     disabled
-
                 />
                 <InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Giờ"
-                    defaultValue={`${logot?.logHours}`}
-                    disabled
-
+                    type='number'
+                    // defaultValue={logot?.logHours}
+                    value={hours ? hours : logot?.logHours}
+                    disabled={logot?.enable === false && true}
+                    onChange={handleHours}
                 /><InforRow
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Ngày"
@@ -570,7 +565,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                     icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
                     header="Nội dung đơn"
                     defaultValue={`${logot?.reason}`}
-                    disabled
+                    disabled={logot?.enable === false && true}
                     onChange={debouncedDescriptionInput}
                 />
 
@@ -595,7 +590,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                 <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
                     <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
                     <Typography sx={{ ...headerStyle, ...headerColor }}>Trạng thái</Typography>
-                    {logLeave?.status === "approved" ? (
+                    {logot?.status === "approved" ? (
                         <Typography
                             sx={{
                                 backgroundColor: "#D0F9E5",
@@ -629,7 +624,7 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                         >
                             Chờ duyệt
                         </Typography>
-                    ) : logLeave?.status === "rejected" ? (
+                    ) : logot?.status === "rejected" ? (
                         <Typography
                             sx={{
                                 backgroundColor: "#FFE7E7",
@@ -669,19 +664,12 @@ export default function DetailMyOT({ open, handleClose, handleChange }: any) {
                 <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "5%", mb: "1%" }}></Box>
 
                 <Grid item xs={9}>
-                    <TextField
-                        sx={{
-                            width: "100%",
-                        }}
-                        variant="standard"
-                        multiline
-                        label="Nhập phản hồi..."
-                        InputProps={{
-                            disableUnderline: true,
-                            style: { fontFamily: fontStyle },
-                        }}
-                        defaultValue={logot?.processNote}
-                        onChange={debouncedProcessNoteInput}
+
+                    <InforRow
+                        icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
+                        header="Phản hồi đơn"
+                        defaultValue={logot?.processNote !== null ? `${logot?.processNote}` : "Trống"}
+                        disabled
                     />
                 </Grid>
             </Container>
