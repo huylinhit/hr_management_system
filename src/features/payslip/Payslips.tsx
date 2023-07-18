@@ -2,7 +2,13 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useRef, useState } from "react";
-import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -112,7 +118,9 @@ export default function Payslips() {
       field: "payslipId",
       headerName: "ID",
       flex: 100,
-      renderCell: (params) => <Typography sx={cellStyle}>{params.value}</Typography>,
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>{params.value}</Typography>
+      ),
     },
     {
       field: "staffName",
@@ -120,7 +128,11 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"right"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> Nhân Viên
+          <AccountCircleOutlinedIcon
+            style={{ marginRight: 5 }}
+            fontSize="small"
+          />{" "}
+          Nhân Viên
         </Typography>
       ),
       renderCell: (params) => {
@@ -150,7 +162,8 @@ export default function Payslips() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -263,7 +276,8 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <div>Tăng ca</div>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <div>Tăng ca</div>
         </Typography>
       ),
       renderCell: (params) => {
@@ -280,7 +294,8 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số ngày nghỉ</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Số ngày nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -298,7 +313,8 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số giờ nghỉ</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Số giờ nghỉ</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -315,16 +331,20 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Phòng ban</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Phòng ban</>
         </Typography>
       ),
       renderCell: (params) => {
         const departmentName = params.row.staff.department.departmentName;
-        const rowIndex = params.row.staff.department.departmentId % colors.length;
+        const rowIndex =
+          params.row.staff.department.departmentId % colors.length;
         const dotColor = colors[rowIndex];
         return (
           <Box display={"flex"} alignItems={"center"}>
-            <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
+            <Typography
+              style={{ marginRight: 10, fontSize: "18px", color: dotColor }}
+            >
               ●
             </Typography>
             <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
@@ -340,12 +360,17 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo vào lúc</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Tạo vào lúc</>
         </Typography>
       ),
       renderCell: (params) => {
         moment.locale("vi");
-        return <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>;
+        return (
+          <Typography sx={cellStyle}>
+            {moment(params.value).format("LLL")}
+          </Typography>
+        );
       },
     },
     {
@@ -354,11 +379,14 @@ export default function Payslips() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
+        <Typography sx={cellStyle}>
+          {moment(params.value).format("LLL")}
+        </Typography>
       ),
     },
   ];
@@ -370,7 +398,7 @@ export default function Payslips() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-  const {user} = useAppSelector(state => state.account)
+  const { user } = useAppSelector((state) => state.account);
   const payslips = useAppSelector(payslipSelectors.selectAll);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
@@ -381,7 +409,7 @@ export default function Payslips() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn tăng ca của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Danh sách lương nhân viên", path: "/payslips" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -401,7 +429,8 @@ export default function Payslips() {
       setRows(payslips);
     }
   }, [payslipsLoaded, payslips]);
-  if (status.includes("pending")) return <LoadingComponent message="Đang tải danh sách lương..." />;
+  if (status.includes("pending"))
+    return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
