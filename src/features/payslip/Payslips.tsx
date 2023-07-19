@@ -182,6 +182,52 @@ export default function Payslips() {
         );
       },
     },
+
+    {
+      field: "departmentName",
+      headerName: "Số giờ nghỉ",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Phòng ban</>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        const departmentName = params.row.staff.department.departmentName;
+        const rowIndex =
+          params.row.staff.department.departmentId % colors.length;
+        const dotColor = colors[rowIndex];
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography
+              style={{ marginRight: 10, fontSize: "18px", color: dotColor }}
+            >
+              ●
+            </Typography>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
+              {departmentName}
+            </Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "payday",
+      headerName: "Thời gian thay đổi",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Lương Tháng</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>
+          {moment(params.value).format("LL")}
+        </Typography>
+      ),
+    },
     {
       field: "grossStandardSalary",
       headerName: "Lương mỗi ngày",
@@ -326,36 +372,6 @@ export default function Payslips() {
       },
     },
     {
-      field: "departmentName",
-      headerName: "Số giờ nghỉ",
-      width: 250,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Phòng ban</>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const departmentName = params.row.staff.department.departmentName;
-        const rowIndex =
-          params.row.staff.department.departmentId % colors.length;
-        const dotColor = colors[rowIndex];
-        return (
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography
-              style={{ marginRight: 10, fontSize: "18px", color: dotColor }}
-            >
-              ●
-            </Typography>
-            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
-              {departmentName}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-
-    {
       field: "createAt",
       width: 250,
       renderHeader: () => (
@@ -368,7 +384,7 @@ export default function Payslips() {
         moment.locale("vi");
         return (
           <Typography sx={cellStyle}>
-            {moment(params.value).format("LLL")}
+            {moment(params.value).format("LL")}
           </Typography>
         );
       },
@@ -385,7 +401,7 @@ export default function Payslips() {
       ),
       renderCell: (params) => (
         <Typography sx={cellStyle}>
-          {moment(params.value).format("LLL")}
+          {moment(params.value).format("LL")}
         </Typography>
       ),
     },
@@ -502,7 +518,7 @@ export default function Payslips() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo bảng lương
             </Button>
           </Grid>
 

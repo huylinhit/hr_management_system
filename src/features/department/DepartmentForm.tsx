@@ -56,7 +56,7 @@ interface Props {
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton />
+      <GridToolbarColumnsButton /> 
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
       <GridToolbarExport />
@@ -117,7 +117,6 @@ export default function DepartmentForm({
       field: "fullName",
       headerName: "Tên Nhân Viên",
       width: 200,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tên nhân viên</>
@@ -139,7 +138,6 @@ export default function DepartmentForm({
       field: "phone",
       headerName: "Số điện thoại",
       width: 200,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <PhoneIcon style={{ marginRight: 5 }} fontSize="small" /> <>Số điện thoại</>
@@ -150,7 +148,6 @@ export default function DepartmentForm({
       field: "email",
       headerName: "Email",
       width: 200,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Email</>
@@ -162,7 +159,6 @@ export default function DepartmentForm({
       field: "gioiTinh",
       headerName: "Giới tính",
       width: 150,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
           <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Giới tính</>
@@ -213,7 +209,6 @@ export default function DepartmentForm({
       field: "address",
       headerName: "Địa chỉ",
       width: 200,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Địa chỉ</>
@@ -224,7 +219,6 @@ export default function DepartmentForm({
       field: "country",
       headerName: "Quốc gia",
       width: 200,
-      editable: true,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <SubjectIcon style={{ marginRight: 5 }} fontSize="small" /> <>Quốc gia</>
@@ -235,7 +229,6 @@ export default function DepartmentForm({
       field: "dob",
       headerName: "Ngày sinh",
       width: 200,
-      editable: true,
       valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
@@ -284,6 +277,8 @@ export default function DepartmentForm({
   const handleSave = () => {
     // Get Employees that are selected
     const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.id));
+    console.log("Row selection model: ", rowSelectionModel );
+    console.log("Selected Employees: : ", selectedEmployees );
     const updatedEmployees = selectedEmployees.map((employee) => ({
       ...employee,
       departmentId: departmentId,
@@ -295,7 +290,7 @@ export default function DepartmentForm({
         ManagerId: managerId || 0,
         UserInfors: selectedEmployees,
       };
-      console.log(departmentCreate);
+      console.log("Department Infor: ",departmentCreate);
       agent.Department.create(departmentCreate)
         .then((response) => {
           console.log("Department created successfully:", response);
@@ -425,8 +420,3 @@ export default function DepartmentForm({
     </Dialog>
   );
 }
-
-const handleButtonClick = (id: any) => {
-  // Handle button click for the corresponding row ID
-  console.log(`Button clicked for ID ${id}`);
-};

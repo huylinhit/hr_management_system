@@ -633,8 +633,8 @@ export default function Sidebar() {
                       />
                     </ListItemButton>
                     <ListItemButton
-                      className={cx("list-item", { activeButton: active === "contract-list" })}
-                      onClick={() => handleActiveClick("contract-list")}
+                      className={cx("list-item", { activeButton: active === "own-contract" })}
+                      onClick={() => handleActiveClick("own-contract")}
                       dense
                       component={Link}
                       to="/own-contract"
