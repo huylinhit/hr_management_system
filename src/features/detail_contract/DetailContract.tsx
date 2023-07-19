@@ -86,10 +86,6 @@ export default function DetailContract() {
       </Grid>
 
       <Container
-        sx={{
-          backgroundColor: "white",
-          padding: "15px",
-        }}
       >
         <Grid
           container

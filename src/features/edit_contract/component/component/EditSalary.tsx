@@ -53,7 +53,7 @@ export default function EditSalary({
 }: Props) {
   // -------------------------- VAR -----------------------------
   const allowanceType = useAppSelector((state: any) => allowanceTypeSelectors.selectAll(state))
-  const allowanceList: Array<AllowanceList> = allowanceForm!.map((allowance) => ({
+  const allowanceList: Array<AllowanceList> = allowanceForm!?.map((allowance) => ({
     ...allowance,
     allowanceName: allowanceType.find((a) => a.allowanceTypeId === allowance.allowanceTypeId)?.allowanceName
   }))
@@ -149,7 +149,7 @@ export default function EditSalary({
           <Grid item xs={7}></Grid>
         </Grid>
 
-        {allowanceList.map((a, index) => (
+        {allowanceList?.map((a, index) => (
           <Grid
             container
             key={a.allowanceTypeId}

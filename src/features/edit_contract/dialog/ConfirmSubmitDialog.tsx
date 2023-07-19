@@ -55,16 +55,16 @@ export default function ConfirmSubmitDialog({
   const dispatch = useAppDispatch();
 
   const allowanceUpdate: Array<AllowanceField> = allowanceForm!
-    .slice(0, Number(contract?.allowances.length))
-    .map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
+    ?.slice(0, Number(contract?.allowances.length))
+    ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
       allowanceSalary,
     }));
 
   const allowanceAdd: Array<AllowanceField> = allowanceForm!
-    .slice(Number(contract?.allowances.length))
-    .map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
+    ?.slice(Number(contract?.allowances.length))
+    ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
       allowanceSalary,
