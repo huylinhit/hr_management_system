@@ -19,7 +19,7 @@ import {
   fetchContractsAsync,
   setContractAdded,
 } from "../../../app/store/contract/contractSlice";
-import { useAppDispatch } from "../../../app/store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
 
 interface AllowanceField {
   allowanceId: number;
@@ -31,6 +31,7 @@ interface Props {
   open: boolean;
   setOpen: Function;
   contract: Contract | undefined;
+  setContractForm: Function;
   initialContractForm: Object;
   staffId: number | undefined;
   item: Object;
@@ -42,6 +43,7 @@ export default function ConfirmSubmitDialog({
   open,
   setOpen,
   contract,
+  setContractForm,
   initialContractForm,
   staffId,
   item,
@@ -75,6 +77,8 @@ export default function ConfirmSubmitDialog({
   );
   // -------------------------- STATE ---------------------------
   const [isError, setIsError] = useState(false);
+  // -------------------------- REDUX ---------------------------
+  const currentUser = useAppSelector((state) => state.account);
   // -------------------------- FUNCTION ------------------------
   const handleClose = () => {
     setOpen(false);
@@ -117,6 +121,16 @@ export default function ConfirmSubmitDialog({
 
   const handleSubmit = () => {
     setIsError(false);
+
+    // -----------
+    const currentDateTime = new Date();
+    const submitTime = currentDateTime.toLocaleString();
+    setContractForm((prevFormData: any) => ({
+      ...prevFormData,
+      changeAt: submitTime,
+      responseId: currentUser.user?.userInfor.staffId
+    }));
+    // ------------
 
     if (isChanged) {
       agent.Contract.update(Number(contract?.contractId), Number(staffId), item)

@@ -9,7 +9,10 @@ import FormFooter from "./component/FormFooter";
 import agent from "../../app/api/agent";
 
 // data
-import { fetchContractsAsync, setContractAdded } from "../../app/store/contract/contractSlice";
+import {
+  fetchContractsAsync,
+  setContractAdded,
+} from "../../app/store/contract/contractSlice";
 import { useAppDispatch } from "../../app/store/configureStore";
 
 export default function NewContract() {
@@ -29,8 +32,10 @@ export default function NewContract() {
     noOfDependences: 0,
     contractTypeId: 1,
     salaryType: "Gross To Net",
-    paidDateNote: "",
     contractFile: "",
+    createAt: "",
+    responseId: 0,
+    changeAt: "",
     contractStatus: true,
   });
   // -------------------------- EFFECT --------------------------
@@ -55,19 +60,28 @@ export default function NewContract() {
   };
 
   const handleSubmit = () => {
-    if (contractForm.contractTypeId === 2 ){
+    if (contractForm.contractTypeId === 2) {
       setContractForm((prevForm: any) => ({
         ...prevForm,
         endDate: "",
-      }))
+      }));
     }
+    // -----------
+    const currentDateTime = new Date();
+    const submitTime = currentDateTime.toLocaleString();
+    setContractForm((prevFormData: any) => ({
+      ...prevFormData,
+      createAt: submitTime,
+    }));
+    // ------------
+
     console.log(contractForm);
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
-        dispatch(fetchContractsAsync())
+        dispatch(fetchContractsAsync());
         toast.success("Đã thêm hợp đồng thành công");
-        history(`/staffs`)
+        history(`/staffs`);
       })
       .catch((error) => {
         if (Array.isArray(error)) {
@@ -83,8 +97,6 @@ export default function NewContract() {
 
   return (
     <Box sx={{ padding: "10px 120px", width: "calc(100vh - 240)" }}>
-      
-
       <Grid
         container
         sx={{
