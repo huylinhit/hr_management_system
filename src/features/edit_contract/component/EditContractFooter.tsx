@@ -7,12 +7,14 @@ interface Props {
   contract: Contract | undefined;
   setOpenSubmitDialog: Function;
   staffid: string | undefined;
+  prevpage: string | undefined
 }
 
 export default function EditContractFooter({
   contract,
   staffid,
   setOpenSubmitDialog,
+  prevpage
 }: Props) {
   return (
     <Grid
@@ -33,7 +35,7 @@ export default function EditContractFooter({
           }}
           startIcon={<ArrowBackIcon />}
           component={Link}
-          to={`/contracts/${contract?.contractId}/staffs/${staffid}/staff/`}
+          to={`/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}`}
         >
           Quay về
         </Button>

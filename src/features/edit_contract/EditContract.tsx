@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // component
 import LoadingComponent from "../../app/layout/LoadingComponent";
@@ -20,11 +20,13 @@ import {
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
 import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
-  const { id, staffid } = useParams();
+  const { id, staffid, prevpage } = useParams();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, Number(staffid))
@@ -63,6 +65,25 @@ export default function EditContract() {
     useState(allowanceUpdate);
   const { allowanceTypesLoaded } = useAppSelector((state) => state.allowanceType);
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if (prevpage === "list") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
+          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+        ])
+      );
+    } else if (prevpage === "staff") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Danh sách nhân viên", path: "/staffs" },
+          { title: `${employee?.lastName} ${employee?.firstName}`, path: `/staffs/${employee?.staffId}` },
+          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+        ])
+      );
+    }
+  }, [dispatch, location]);
+
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
@@ -136,6 +157,7 @@ export default function EditContract() {
             contract={contract}
             staffid={staffid}
             setOpenSubmitDialog={setOpenSubmitDialog}
+            prevpage={prevpage}
           />
         </Grid>
       </Container>

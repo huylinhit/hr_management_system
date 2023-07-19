@@ -84,7 +84,7 @@ export default function DetailContract() {
           aria-label="delete"
           sx={{ padding: "10px 10px 20px 10px" }}
           component={Link}
-          to={`/contracts/${id}/staffs/${staffid}/edit`}
+          to={`/contracts/${id}/staffs/${staffid}/${prevpage}/edit`}
         >
           <LuEdit style={{ fontSize: "25px", color: "#007FFF" }} />
         </IconButton>
