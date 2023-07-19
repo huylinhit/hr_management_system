@@ -11,6 +11,7 @@ import { UserInfor } from "../../../app/models/userInfor";
 
 //
 interface AllowanceField {
+  allowanceId: number;
   allowanceTypeId: number;
   allowanceSalary: number;
 }

@@ -8,8 +8,18 @@ import AddAllowanceDialog from "../../dialog/AddAllowanceDialog";
 // data
 import Contract from "../../../../app/models/contract";
 import { UserInfor } from "../../../../app/models/userInfor";
+import { useAppSelector } from "../../../../app/store/configureStore";
+import { allowanceTypeSelectors } from "../../../../app/store/allowanceType/allowanceTypeSlice";
+
+interface AllowanceList {
+  allowanceId: number;
+  allowanceTypeId: number;
+  allowanceSalary: number;
+  allowanceName: string|undefined
+}
 
 interface AllowanceField {
+  allowanceId: number;
   allowanceTypeId: number;
   allowanceSalary: number;
 }
@@ -31,11 +41,16 @@ export default function EditSalary({
   setAllowanceForm,
 }: Props) {
   // -------------------------- VAR -----------------------------
-  const allowanceList: Array<AllowanceField> = allowanceForm!
+  const allowanceType = useAppSelector((state: any) => allowanceTypeSelectors.selectAll(state))
+  const allowanceList: Array<AllowanceList> = allowanceForm!.map((allowance) => ({
+    ...allowance,
+    allowanceName: allowanceType.find((a) => a.allowanceTypeId === allowance.allowanceTypeId)?.allowanceName
+  }))
   //--------------------------- STATE ---------------------------
   const [openDeleteAllowance, setOpenDeleteAllowance] = useState(false);
   const [openAddAllowance, setOpenAddAllowance] = useState(false);
   // -------------------------- REDUX ---------------------------
+  
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
@@ -127,10 +142,11 @@ export default function EditSalary({
           </Grid>
           <Grid item xs={7}></Grid>
         </Grid>
-        {contract?.allowances.map((a, index) => (
+
+        {allowanceList.map((a, index) => (
           <Grid
             container
-            key={a.allowanceId}
+            key={a.allowanceTypeId}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -141,7 +157,7 @@ export default function EditSalary({
           >
             <Grid item xs={4}>
               <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
-                {a.allowanceType.allowanceName}:
+                {a.allowanceName}:
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -259,8 +275,8 @@ export default function EditSalary({
       <AddAllowanceDialog
         open={openAddAllowance}
         setOpen={setOpenAddAllowance}
-        id={employee?.staffId}
-        contract={contract}
+        allowanceForm={allowanceForm}
+        setAllowanceForm={setAllowanceForm}
       />
     </Grid>
   );

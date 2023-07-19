@@ -16,32 +16,37 @@ import { useAppSelector } from "../../../app/store/configureStore";
 import { allowanceTypeSelectors } from "../../../app/store/allowanceType/allowanceTypeSlice";
 import Contract from "../../../app/models/contract";
 
+interface AllowanceField {
+  allowanceId: number;
+  allowanceTypeId: number;
+  allowanceSalary: number;
+}
+
 interface Props {
   open: boolean;
   setOpen: Function;
-  id: number | undefined;
-  contract: Contract | undefined;
+  allowanceForm: Array<AllowanceField> | undefined;
+  setAllowanceForm: Function;
 }
 
 export default function AddAllowanceDialog({
   open,
   setOpen,
-  id,
-  contract,
+  allowanceForm,
+  setAllowanceForm
 }: Props) {
   // -------------------------- VAR -----------------------------
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const allowanceList: Array<AllowanceField> = allowanceForm!
   // -------------------------- STATE ---------------------------
-  const [form, setForm] = useState({ allowanceTypeId: 0, allowanceSalary: 0 });
+  const [form, setForm] = useState({ allowanceId: 0, allowanceTypeId: 0, allowanceSalary: 0 });
   // -------------------------- REDUX ---------------------------
   const allowanceType = useAppSelector((state) =>
     allowanceTypeSelectors.selectAll(state)
   ).filter(
     (type) =>
-      !contract?.allowances
-        .map((a) => a.allowanceTypeId)
-        .includes(type.allowanceTypeId)
+      !allowanceForm?.map((a) => a.allowanceTypeId).includes(type.allowanceTypeId)
   );
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
@@ -50,14 +55,10 @@ export default function AddAllowanceDialog({
   };
 
   const handleAdd = () => {
-    agent.Allowance.create(Number(contract?.contractId), form)
-      .then((response) => {
-        console.log("Add new allowance successfully: ", response);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error add new allowance ", error);
-      });
+    const updatedAllowanceForm = [...allowanceList, form];
+
+    // Set the new array to the state
+    setAllowanceForm(updatedAllowanceForm);
 
     setOpen(false);
   };

@@ -31,13 +31,15 @@ export default function EditContract() {
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, Number(staffid))
   );
-  const { employeesLoaded } = useAppSelector((state) => state.employee);
+  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
 
   const contract = useAppSelector((state: any) =>
     contractSelectors.selectById(state, Number(staffid))
   );
-  const { status, contractsLoaded } = useAppSelector((state) => state.contract);
+  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
 
+  
+  
   const allowanceUpdate = contract?.allowances.map((allowance) => {
     return {
       allowanceId: allowance.allowanceId,
@@ -60,6 +62,7 @@ export default function EditContract() {
     contractFile: contract?.contractFile,
     contractStatus: contract?.contractStatus,
   });
+  const [initialContractForm, setInitialContractForm] = useState(contractForm)
   const [openSubmitDialog, setOpenSubmitDialog] = useState(false);
   const [allowanceForm, setAllowanceForm] =
     useState(allowanceUpdate);
@@ -93,8 +96,8 @@ export default function EditContract() {
     if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync());
   }, [dispatch, allowanceTypesLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending"))
-    return <LoadingComponent message="Loading..." />;
+  if (employeeStatus.includes("pending") && contractStatus.includes("pending"))
+    return <LoadingComponent message="Đang tải..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -165,10 +168,12 @@ export default function EditContract() {
       <ConfirmSubmitDialog
         open={openSubmitDialog}
         setOpen={setOpenSubmitDialog}
-        contractId={contract?.contractId}
+        contract={contract}
+        initialContractForm={initialContractForm}
         staffId={contract?.staffId}
         item={contractForm}
         allowanceForm={allowanceForm}
+        prevpage={prevpage}
       />
     </Box>
   );
