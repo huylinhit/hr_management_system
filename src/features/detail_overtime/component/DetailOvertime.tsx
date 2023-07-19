@@ -292,7 +292,7 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
     if (logot) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn tăng ca", path: "/log-overtimes" },
+          { title: "Đơn tăng ca của nhân viên", path: "/log-overtimes" },
           { title: `Phản hồi đơn`, path: "" },
         ])
       );
