@@ -162,7 +162,7 @@ export default function EditSalary({
             }}
           >
             <Grid item xs={4}>
-              <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
+              <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
                 {a.allowanceName}:
               </Typography>
             </Grid>

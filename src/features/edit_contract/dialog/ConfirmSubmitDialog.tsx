@@ -133,12 +133,14 @@ export default function ConfirmSubmitDialog({
       handleAllowance();
     }
 
-    if (!isError) dispatch(fetchContractsAsync());
-    dispatch(fetchContractAsync(Number(staffId)));
-    dispatch(setContractAdded(true));
-    history(
-      `/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}}`
-    );
+    if (!isError) {
+      dispatch(fetchContractsAsync());
+      dispatch(fetchContractAsync(Number(staffId)));
+      dispatch(setContractAdded(true));
+      history(
+        `/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}}`
+      );
+    }
     setOpen(false);
   };
   // -------------------------- MAIN ----------------------------
