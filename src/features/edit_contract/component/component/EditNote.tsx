@@ -6,9 +6,20 @@ import Contract from "../../../../app/models/contract";
 // interface
 interface Props {
   contract: Contract | undefined;
-  setContractForm: Function
+  setContractForm: Function;
 }
+const fontStyle = "Mulish";
 
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
 export default function EditNote({ contract, setContractForm }: Props) {
   return (
     <Grid>
@@ -25,7 +36,7 @@ export default function EditNote({ contract, setContractForm }: Props) {
       </Typography>
 
       <Grid>
-      <Grid
+        <Grid
           container
           sx={{
             display: "flex",
@@ -36,10 +47,10 @@ export default function EditNote({ contract, setContractForm }: Props) {
           }}
         >
           <Grid item xs={4}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Số ngày làm việc một tuần:</Typography>
+            <Typography sx={headerStyle}>Số ngày làm việc một tuần:</Typography>
           </Grid>
           <Grid item xs={7}>
-          <TextField
+            <TextField
               required
               id="outlined-required"
               label="Số ngày làm việc"
@@ -55,7 +66,7 @@ export default function EditNote({ contract, setContractForm }: Props) {
             />
           </Grid>
         </Grid>
-        
+
         <Grid
           container
           sx={{
@@ -67,10 +78,10 @@ export default function EditNote({ contract, setContractForm }: Props) {
           }}
         >
           <Grid item xs={4}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>Ghi chú:</Typography>
+            <Typography sx={headerStyle}>Ghi chú:</Typography>
           </Grid>
           <Grid item xs={7}>
-          <TextField
+            <TextField
               id="outlined-required"
               label="Ghi chú"
               size="small"
@@ -86,12 +97,12 @@ export default function EditNote({ contract, setContractForm }: Props) {
           </Grid>
         </Grid>
 
-        <Grid sx={{
+        {/* <Grid sx={{
             maxWidth: "100%",
             padding: "0 30px 10px 30px",
           }}>
             <Button variant="contained" size="small" sx={{ borderRadius:"10px" }}>Xem file</Button>
-          </Grid>
+          </Grid> */}
       </Grid>
     </Grid>
   );

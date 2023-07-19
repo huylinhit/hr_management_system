@@ -2,14 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
-import {
-  Avatar,
-  Button,
-  Grid,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@mui/material";
+import { Avatar, Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -443,13 +436,6 @@ export default function OtherUsersTicketList() {
       dispatch(setCandidateUpdated(false));
     }
   }, [dispatch, candidatesLoaded, candidateAdded, candidateUpdated]);
-
-  //Get all candidate skills
-  useEffect(() => {
-    if (!candidateSkillsLoaded) {
-      dispatch(fetchCandidateSkillsAsync());
-    }
-  }, [dispatch, candidateSkillsLoaded]);
 
   useEffect(() => {
     if (candidatesLoaded) {

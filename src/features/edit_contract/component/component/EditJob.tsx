@@ -17,12 +17,19 @@ interface Props {
   employee: UserInfor | undefined;
   setContractForm: Function;
 }
+const fontStyle = "Mulish";
 
-export default function EditJob({
-  contract,
-  employee,
-  setContractForm,
-}: Props) {
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
+export default function EditJob({ contract, employee, setContractForm }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
@@ -38,6 +45,7 @@ export default function EditJob({
           fontSize: "20px",
           marginBottom: "5px",
           paddingLeft: "30px",
+          fontFamily: fontStyle,
         }}
       >
         1. Công việc, phòng ban và thời hạn hợp đồng
@@ -55,14 +63,10 @@ export default function EditJob({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Phòng ban công tác:
-            </Typography>
+            <Typography sx={headerStyle}>Phòng ban công tác:</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.departmentName}
-            </Typography>
+            <Typography sx={infoStyle}>{employee?.departmentName}</Typography>
           </Grid>
         </Grid>
 
@@ -77,9 +81,7 @@ export default function EditJob({
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Loại hợp đồng:
-            </Typography>
+            <Typography sx={headerStyle}>Loại hợp đồng:</Typography>
           </Grid>
           <Grid item xs={9}>
             <TextField
@@ -114,17 +116,13 @@ export default function EditJob({
           }}
         >
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Từ ngày:
-            </Typography>
+            <Typography sx={headerStyle}>Từ ngày:</Typography>
           </Grid>
           <Grid item xs={3.5}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
                 <DatePicker
-                  value={dayjs(
-                    moment(contract?.startDate).format("YYYY-MM-DD")
-                  )}
+                  value={dayjs(moment(contract?.startDate).format("YYYY-MM-DD"))}
                   onChange={(e) =>
                     setContractForm((prevForm: any) => ({
                       ...prevForm,
@@ -136,14 +134,10 @@ export default function EditJob({
             </LocalizationProvider>
           </Grid>
           <Grid item xs={0.5}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              -
-            </Typography>
+            <Typography sx={infoStyle}>-</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Đến ngày:
-            </Typography>
+            <Typography sx={headerStyle}>Đến ngày:</Typography>
           </Grid>
           <Grid item xs={3}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

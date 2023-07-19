@@ -22,9 +22,10 @@ export default function DetailContractInfo({ contract, employee }: Props) {
         <Typography
           sx={{
             color: "#246DD6",
-            fontWeight: "600",
-            fontSize: "25px",
+            fontWeight: 600,
+            fontSize: "30px",
             marginBottom: "5px",
+            fontFamily: "Mulish"
           }}
         >
           Hợp đồng lao động
