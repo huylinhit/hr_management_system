@@ -83,8 +83,8 @@ export default function Payslips() {
     const handleRowClick = () => {
         dispatch(
             setHeaderTitle([
-                { title: "Danh sách lương", path: "/own-payslips" },
-                { title: "Chỉnh sửa đơn", path: `` },
+                { title: "Danh sách lương của tôi", path: "/own-payslips" },
+                // { title: "Chi tiết lương", path: `` },
             ])
         );
     };
@@ -486,7 +486,7 @@ export default function Payslips() {
             >
               Sort
             </Button> */}
-                        <Button
+                        {/* <Button
                             variant="outlined"
                             startIcon={<AddIcon />}
                             onClick={handleOpenDialog}
@@ -508,7 +508,7 @@ export default function Payslips() {
                             }}
                         >
                             Tạo bảng lương
-                        </Button>
+                        </Button> */}
                     </Grid>
 
                     <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />

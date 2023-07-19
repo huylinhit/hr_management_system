@@ -69,6 +69,7 @@ import DetailOvertime2 from "../../features/detail_overtime/component/DetailOver
 import DetailMyOT from "../../features/detail_overtime/DetailMyOT";
 import MyPayslips from "../../features/payslip/MyPayslips";
 import DetailOwnContract from "../../features/detail_own_contract/DetailOwnContract";
+import OwnPayslipDetail from "../../features/payslip/component/OwnPayslipDetail";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -166,7 +167,7 @@ export const router = createBrowserRouter([
           { path: "/payslips", element: <Payslips /> },
           { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
           { path: "/own-payslips", element: <MyPayslips /> },
-          // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
+          { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
           //Contract
           { path: "/editcontract", element: <EditContract /> },
           // { path: "/contractdetail", element: <ContractDetail /> },

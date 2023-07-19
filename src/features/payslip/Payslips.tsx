@@ -93,8 +93,8 @@ export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Danh sách lương", path: "/payslips" },
-        { title: "Chỉnh sửa lương", path: `` },
+        { title: "Danh sách lương nhân viên", path: "/payslips" },
+        // { title: "Chỉnh sửa lương", path: `` },
       ])
     );
   };
