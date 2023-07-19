@@ -33,7 +33,7 @@ export default function EditContractFooter({
           }}
           startIcon={<ArrowBackIcon />}
           component={Link}
-          to={`/contracts/${contract?.contractId}/staffs/${staffid}/staff`}
+          to={`/contracts/${contract?.contractId}/staffs/${staffid}/staff/`}
         >
           Quay về
         </Button>
