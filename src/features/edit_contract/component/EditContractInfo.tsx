@@ -39,7 +39,8 @@ export default function EditContractInfo({
           sx={{
             color: "#246DD6",
             fontWeight: "600",
-            fontSize: "25px",
+            fontSize: "30px",
+            fontFamily: "Mulish",
             marginBottom: "5px",
           }}
         >
@@ -48,11 +49,7 @@ export default function EditContractInfo({
       </Grid>
 
       <Grid>
-        <EditJob
-          contract={contract}
-          employee={employee}
-          setContractForm={setContractForm}
-        />
+        <EditJob contract={contract} employee={employee} setContractForm={setContractForm} />
         <EditSalary
           contract={contract}
           employee={employee}

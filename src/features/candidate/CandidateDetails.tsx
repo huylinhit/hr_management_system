@@ -343,10 +343,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   };
   //#endregion
 
-  const { candidateSkillsLoaded, candidateSkillAdded } = useAppSelector(
-    (state) => state.candidateSkill
-  );
-
+ 
   useEffect(() => {
     if (candidate) {
       dispatch(
@@ -445,9 +442,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   const debouncedAddressInput = debounce((event: any) => {
     setAddress(event.target.value);
   }, 750);
-  const debouncedDepartmentInput = debounce((event: any) => {
-    setDepartment(event.target.value);
-  }, 750);
+ 
   const debouncedExpectedSalaryInput = debounce((event: any) => {
     setExpectedSalary(event.target.value);
   }, 750);

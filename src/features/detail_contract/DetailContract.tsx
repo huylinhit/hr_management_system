@@ -11,15 +11,11 @@ import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
-import {
-  contractSelectors,
-  fetchContractAsync,
-} from "../../app/store/contract/contractSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
+import { contractSelectors, fetchContractAsync } from "../../app/store/contract/contractSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+
+const fontStyle = "Mulish";
 
 export default function DetailContract() {
   // -------------------------- VAR -----------------------------
@@ -28,15 +24,10 @@ export default function DetailContract() {
   const location = useLocation();
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, Number(staffid))
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
-  
 
-  const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(staffid))
-  );
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(staffid)));
   const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
@@ -56,7 +47,10 @@ export default function DetailContract() {
       dispatch(
         setHeaderTitle([
           { title: "Danh sách nhân viên", path: "/staffs" },
-          { title: `${employee?.lastName} ${employee?.firstName}`, path: `/staffs/${employee?.staffId}` },
+          {
+            title: `${employee?.lastName} ${employee?.firstName}`,
+            path: `/staffs/${employee?.staffId}`,
+          },
           { title: "Hợp đồng", path: "" },
         ])
       );
@@ -67,7 +61,7 @@ export default function DetailContract() {
     return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
+    <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
       <Grid container>
         <Typography
           sx={{
@@ -76,6 +70,7 @@ export default function DetailContract() {
             fontWeight: "700",
             fontSize: "30px",
             lineHeight: "39px",
+            fontFamily: fontStyle,
           }}
         >
           Thông tin hợp đồng
@@ -99,8 +94,8 @@ export default function DetailContract() {
         <Grid
           container
           sx={{
-            borderRadius: "15px",
-            border: "1px solid #E2E1E5",
+            // borderRadius: "15px",
+            // border: "1px solid #E2E1E5",
             background: "#FFF",
             margin: "0 10px",
             maxWidth: "1085px",
@@ -111,10 +106,7 @@ export default function DetailContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
-          >
+          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>
@@ -128,6 +120,6 @@ export default function DetailContract() {
           <DetailContractFooter employee={employee} prevpage={prevpage} />
         </Grid>
       </Container>
-    </Box>
+    </Container>
   );
 }

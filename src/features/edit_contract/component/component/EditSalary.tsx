@@ -32,7 +32,18 @@ interface Props {
   allowanceForm: Array<AllowanceField> | undefined;
   setAllowanceForm: Function;
 }
+const fontStyle = "Mulish";
 
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
 export default function EditSalary({
   contract,
   employee,
@@ -63,6 +74,7 @@ export default function EditSalary({
           fontSize: "20px",
           marginBottom: "5px",
           paddingLeft: "30px",
+          fontFamily: fontStyle,
         }}
       >
         2. Lương, phụ cấp và các khoản bổ sung khác
@@ -80,9 +92,7 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Lương căn bản:
-            </Typography>
+            <Typography sx={headerStyle}>Lương căn bản:</Typography>
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -102,9 +112,7 @@ export default function EditSalary({
             />
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Lương tính thuế:
-            </Typography>
+            <Typography sx={headerStyle}>Lương tính thuế:</Typography>
           </Grid>
           <Grid item xs={2}>
             <TextField
@@ -136,9 +144,7 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={4}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Các phụ cấp (mỗi tháng):
-            </Typography>
+            <Typography sx={headerStyle}>Các phụ cấp (mỗi tháng):</Typography>
           </Grid>
           <Grid item xs={7}></Grid>
         </Grid>
@@ -168,10 +174,10 @@ export default function EditSalary({
                 sx={{ width: "150px" }}
                 margin="dense"
                 defaultValue={a.allowanceSalary}
-                onChange={(e) =>{
-                  const updateField = [...allowanceList]
-                  updateField[index].allowanceSalary = Number(e.target.value)
-                  setAllowanceForm(updateField)
+                onChange={(e) => {
+                  const updateField = [...allowanceList];
+                  updateField[index].allowanceSalary = Number(e.target.value);
+                  setAllowanceForm(updateField);
                 }}
               />
             </Grid>
@@ -197,14 +203,10 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Hình thức trả lương:
-            </Typography>
+            <Typography sx={headerStyle}>Hình thức trả lương:</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              Chuyển khoản
-            </Typography>
+            <Typography sx={infoStyle}>Chuyển khoản</Typography>
           </Grid>
         </Grid>
         <Grid
@@ -218,14 +220,12 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
-              Số tài khoản ngân hàng:
+            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
+              Số TK ngân hàng:
             </Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.bankAccount}
-            </Typography>
+            <Typography sx={infoStyle}>{employee?.bankAccount}</Typography>
           </Grid>
         </Grid>
         <Grid
@@ -239,14 +239,12 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
+            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
               Chủ tài khoản:
             </Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.bankAccountName}
-            </Typography>
+            <Typography sx={infoStyle}>{employee?.bankAccountName}</Typography>
           </Grid>
         </Grid>
         <Grid
@@ -260,14 +258,12 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>
+            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
               Ngân hàng:
             </Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.bank}
-            </Typography>
+            <Typography sx={infoStyle}>{employee?.bank}</Typography>
           </Grid>
         </Grid>
       </Grid>

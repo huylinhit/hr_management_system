@@ -22,6 +22,18 @@ import {
 import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 
+const fontStyle = "Mulish";
+
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
   const { id, staffid, prevpage } = useParams();
@@ -124,8 +136,8 @@ export default function EditContract() {
         <Grid
           container
           sx={{
-            borderRadius: "15px",
-            border: "1px solid #E2E1E5",
+            // borderRadius: "15px",
+            // border: "1px solid #E2E1E5",
             background: "#FFF",
             margin: "0 10px",
             maxWidth: "1085px",

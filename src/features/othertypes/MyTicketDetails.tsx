@@ -349,7 +349,6 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
   //#endregion ===========================HANDLE ACTION======================================
   return (
     <>
-      <Box sx={{ paddingLeft: "10%", mt: "0%", paddingRight: "10%" }}></Box>
       <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
