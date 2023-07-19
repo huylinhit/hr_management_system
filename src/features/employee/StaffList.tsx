@@ -47,7 +47,11 @@ import NumbersIcon from "@mui/icons-material/Numbers";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import moment from "moment";
-import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
+import {
+  fetchUserInforsAsync,
+  setUserInforAdded,
+  userInforSelectors,
+} from "../department/userInforSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
@@ -166,7 +170,7 @@ export default function StaffList() {
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
-        const staffName = params.row.fullName;
+        const staffName = `${params.row.lastName} ${params.row.firstName}`;
 
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -176,7 +180,7 @@ export default function StaffList() {
               name={staffName}
               dependency={userInforsLoaded}
             />
-            <Typography sx={cellStyle}>{params.value}</Typography>
+            <Typography sx={cellStyle}>{staffName}</Typography>
           </Box>
         );
       },
@@ -306,16 +310,13 @@ export default function StaffList() {
       headerName: "Ngày sinh",
       width: 200,
       editable: true,
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>
-          {moment(params.row.dob).format("MMM Do, YYYY, HH:mm")}
-        </Typography>
+        <Typography sx={cellStyle}>{moment(params.row.dob).format("MMM Do, YYYY")}</Typography>
       ),
     },
     {
@@ -394,6 +395,7 @@ export default function StaffList() {
   const [employeeDeleted, setEmployeeDeleted] = useState<UserInfor>();
   const [rows, setRows] = useState<UserInfor[]>([]);
   const [open, setOpen] = useState(false);
+
   const { userInforsLoaded, userInforAdded } = useAppSelector((state) => state.userInfor);
   // -------------------------- REDUX ---------------------------
   const userInfors = useAppSelector(userInforSelectors.selectAll);
@@ -402,15 +404,18 @@ export default function StaffList() {
   //#region -------------------------- EFFECT --------------------------
   //Get userinfors
   useEffect(() => {
-    if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
-  }, [dispatch, userInforsLoaded]);
+    if (!userInforsLoaded || userInforAdded) {
+      dispatch(fetchUserInforsAsync());
+      dispatch(setUserInforAdded(false));
+    }
+  }, [dispatch, userInforsLoaded, userInforAdded]);
 
   //If userInfors is loaded, set rows
   useEffect(() => {
     if (userInforsLoaded) {
       setRows(activeEmployees);
     }
-  }, [userInforsLoaded]);
+  }, [userInfors]);
 
   //Set header
   useEffect(() => {

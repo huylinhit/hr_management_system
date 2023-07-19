@@ -11,11 +11,13 @@ import { LoadingButton } from "@mui/lab";
 import { Container, Paper, Typography, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { fetchCurrentUser, signInUser } from "./accountSlice";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {user} = useAppSelector(state => state.account)
+  const [unauthorized, setUnauthorized] = useState(false);
+  const { user } = useAppSelector((state) => state.account);
   const {
     register,
     handleSubmit,
@@ -25,20 +27,24 @@ export default function Login() {
   });
 
   async function submitForm(data: FieldValues) {
-    await dispatch(signInUser(data));
-    await dispatch(fetchCurrentUser());
-    navigate(`/own-log-leaves`);
+    try {
+      await dispatch(signInUser(data));
+      await dispatch(fetchCurrentUser());
+      navigate(`/own-log-leaves`);
+    } catch (error) {
+      console.log(error);
+      setUnauthorized(true);
+    }
   }
 
   return (
     <Container
-      maxWidth="sm"
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        mt:'200px'
+        mt: "200px",
       }}
     >
       <Typography
@@ -48,7 +54,7 @@ export default function Login() {
           fontWeight: 700,
           color: "#000000",
           padding: "12px",
-          mb:"30px",
+          mb: "30px",
           textTransform: "none",
         }}
       >
@@ -73,17 +79,25 @@ export default function Login() {
           error={!!errors.password}
           helperText={errors?.password?.message as string}
         />
+        {unauthorized ? (
+          <>
+            <Typography sx={{ color: "red", position: "absolute", mt: "10px" }}>
+              Sai tên đăng nhập hoặc mật khẩu
+            </Typography>
+          </>
+        ) : (
+          <></>
+        )}
         <LoadingButton
           loading={isSubmitting}
           disabled={!isValid}
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 5, mb: 2 }}
         >
           Sign In
         </LoadingButton>
-
       </Box>
     </Container>
   );
