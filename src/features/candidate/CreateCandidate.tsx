@@ -37,6 +37,7 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { setCandidateAdded } from "./candidateSlice";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
+import { LoadingButton } from "@mui/lab";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -88,7 +89,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
   const [isLastNameEmpty, setIsLastNameEmpty] = useState(true);
   const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(true);
   const [isEmailEmpty, setIsEmailEmpty] = useState(true);
-
+  const [isAddProcess, setIsAddProcess] = useState(false);
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -226,7 +227,12 @@ export default function CreateCandidate({ open, onClose }: Props) {
     updatedFields[index].level = value;
     setFields(updatedFields);
   }, 500);
+  const handleCloseDialog = () => {
+    onClose();
+    setFields([{ skill: "", level: "" }]);
+  };
   const handleCreateCandidate = () => {
+    setIsAddProcess(true);
     const candidateCreate = {
       name: lastName + " " + firstName,
       email: email,
@@ -238,22 +244,29 @@ export default function CreateCandidate({ open, onClose }: Props) {
     };
 
     agent.Candidate.create(candidateCreate)
-      .then((response) => {
+      .then(async (response) => {
         handleUploadImage(response.candidateId);
         handleUploadFile(response.candidateId);
         const candidateId = response.candidateId;
-        fields.forEach((candidateSkill) => {
+
+        const candidateSkillPromises = fields.map((candidateSkill) => {
           const candidateSkillCreate = {
             candidateId: candidateId,
             skillName: candidateSkill.skill,
             level: candidateSkill.level,
           };
-          agent.CandidateSkill.create(candidateSkillCreate);
+
+          return agent.CandidateSkill.create(candidateSkillCreate);
         });
+
+        await Promise.all(candidateSkillPromises);
+
+        setIsAddProcess(false);
         console.log(response.candidateId);
-        console.log("Candidate created successfuly", response);
+        console.log("Candidate created successfully", response);
         toast.success("Đã thêm ứng viên 😊");
         dispatch(setCandidateAdded(true));
+        onClose();
       })
       .catch((error: any) => {
         console.log("error creating staff skill: ", error);
@@ -262,7 +275,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
   };
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="lg">
+      <Dialog open={open} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
         <Container maxWidth="md" sx={{ padding: "20px", borderRadius: "40px" }}>
           <Box
             sx={{
@@ -325,8 +338,8 @@ export default function CreateCandidate({ open, onClose }: Props) {
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
                   >
-                    <FormControlLabel value={"false"} control={<Radio />} label="Female" />
-                    <FormControlLabel value={"true"} control={<Radio />} label="Male" />
+                    <FormControlLabel value={"false"} control={<Radio />} label="Nữ" />
+                    <FormControlLabel value={"true"} control={<Radio />} label="Nam" />
                   </RadioGroup>
                 </FormControl>
               </Grid>
@@ -489,13 +502,14 @@ export default function CreateCandidate({ open, onClose }: Props) {
             </Grid>
           </Box>
           <Container sx={{ display: "flex", justifyContent: "right" }}>
-            <Button
+            <LoadingButton
+              loading={isAddProcess}
               onClick={handleCreateCandidate}
               variant="contained"
               sx={{ borderRadius: "40px" }}
             >
               Thêm
-            </Button>
+            </LoadingButton>
           </Container>
         </Container>
       </Dialog>

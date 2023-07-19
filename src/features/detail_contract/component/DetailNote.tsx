@@ -7,6 +7,18 @@ import Contract from "../../../app/models/contract";
 interface Props {
   contract: Contract | undefined;
 }
+const fontStyle = "Mulish";
+
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
 
 export default function DetaiNote({ contract }: Props) {
   return (
@@ -17,7 +29,8 @@ export default function DetaiNote({ contract }: Props) {
           fontWeight: "600",
           fontSize: "20px",
           marginBottom: "5px",
-          paddingLeft: "30px",
+
+          fontFamily: fontStyle,
         }}
       >
         3. Thời gian làm việc và ghi chú
@@ -31,18 +44,13 @@ export default function DetaiNote({ contract }: Props) {
             justifyContent: "center",
             alignItems: "flex-start",
             maxWidth: "100%",
-            padding: "0 30px 10px 30px",
           }}
         >
           <Grid item xs={4}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Số ngày làm việc một tuần:
-            </Typography>
+            <Typography sx={headerStyle}>Số ngày làm việc một tuần:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.workDatePerWeek}
-            </Typography>
+            <Typography sx={infoStyle}>{contract?.workDatePerWeek}</Typography>
           </Grid>
         </Grid>
 
@@ -53,34 +61,24 @@ export default function DetaiNote({ contract }: Props) {
             justifyContent: "center",
             alignItems: "flex-start",
             maxWidth: "100%",
-            padding: "0 30px 10px 30px",
           }}
         >
           <Grid item xs={4}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Ghi chú:
-            </Typography>
+            <Typography sx={headerStyle}>Ghi chú:</Typography>
           </Grid>
           <Grid item xs={7}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.note}
-            </Typography>
+            <Typography sx={infoStyle}>{contract?.note}</Typography>
           </Grid>
         </Grid>
 
         <Grid
           sx={{
             maxWidth: "100%",
-            padding: "0 30px 10px 30px",
           }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            sx={{ borderRadius: "10px" }}
-          >
+          {/* <Button variant="contained" size="small" sx={{ borderRadius: "10px" }}>
             Xem file
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
     </Grid>

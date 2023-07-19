@@ -10,7 +10,18 @@ interface Props {
   contract: Contract | undefined;
   employee: UserInfor | undefined;
 }
+const fontStyle = "Mulish";
 
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  fontSize: "16px",
+};
+const infoStyle = {
+  fontFamily: fontStyle,
+  fontWeight: 500,
+  fontSize: "16px",
+};
 export default function DetailJob({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
@@ -26,7 +37,8 @@ export default function DetailJob({ contract, employee }: Props) {
           fontWeight: "600",
           fontSize: "20px",
           marginBottom: "5px",
-          paddingLeft: "30px",
+   
+          fontFamily: fontStyle,
         }}
       >
         1. Công việc, phòng ban và thời hạn hợp đồng
@@ -40,18 +52,14 @@ export default function DetailJob({ contract, employee }: Props) {
             justifyContent: "center",
             alignItems: "flex-start",
             maxWidth: "100%",
-            padding: "0 30px 10px 30px",
+            
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Phòng ban công tác:
-            </Typography>
+            <Typography sx={headerStyle}>Phòng ban công tác:</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {employee?.departmentName}
-            </Typography>
+            <Typography sx={infoStyle}>{employee?.departmentName}</Typography>
           </Grid>
         </Grid>
 
@@ -62,18 +70,13 @@ export default function DetailJob({ contract, employee }: Props) {
             justifyContent: "center",
             alignItems: "flex-start",
             maxWidth: "100%",
-            padding: "0 30px 10px 30px",
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Loại hợp đồng:
-            </Typography>
+            <Typography sx={headerStyle}>Loại hợp đồng:</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.contractType?.name}
-            </Typography>
+            <Typography sx={infoStyle}>{contract?.contractType?.name}</Typography>
           </Grid>
         </Grid>
 
@@ -84,33 +87,24 @@ export default function DetailJob({ contract, employee }: Props) {
             justifyContent: "center",
             alignItems: "flex-start",
             maxWidth: "100%",
-            padding: "0 30px 5px 30px",
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Từ ngày:
-            </Typography>
+            <Typography sx={headerStyle}>Từ ngày:</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
+            <Typography sx={infoStyle}>
               {moment(contract?.startDate).format("DD-MM-YYYY")}
             </Typography>
           </Grid>
           <Grid item xs={1}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              -
-            </Typography>
+            <Typography sx={infoStyle}>-</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={{ fontWeight: "550", fontSize: "18px" }}>
-              Đến ngày:
-            </Typography>
+            <Typography sx={headerStyle}>Đến ngày:</Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {moment(contract?.endDate).format("DD-MM-YYYY")}
-            </Typography>
+            <Typography sx={infoStyle}>{moment(contract?.endDate).format("DD-MM-YYYY")}</Typography>
           </Grid>
         </Grid>
       </Grid>
