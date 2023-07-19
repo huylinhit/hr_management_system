@@ -499,7 +499,7 @@ export default function OtherOTList() {
       setRows(otherOts);
     }
   }, [logOtsLoaded, logOts]);
-
+  console.log("Here");
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>

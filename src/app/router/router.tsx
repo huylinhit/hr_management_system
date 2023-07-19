@@ -165,7 +165,7 @@ export const router = createBrowserRouter([
 
           { path: "/payslips", element: <Payslips /> },
           { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-          // { path: "/own-payslips", element: <MyPayslips /> },
+          { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
           //Contract
           { path: "/editcontract", element: <EditContract /> },
