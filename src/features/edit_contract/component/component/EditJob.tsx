@@ -31,6 +31,7 @@ const infoStyle = {
 };
 export default function EditJob({ contract, employee, setContractForm }: Props) {
   // -------------------------- VAR -----------------------------
+  const disabled = contract?.contractTypeId == 2 ? true : false
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -143,6 +144,7 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
                 <DatePicker
+                disabled={disabled}
                   value={dayjs(moment(contract?.endDate).format("DD-MM-YYYY"))}
                   onChange={(e) =>
                     setContractForm((prevForm: any) => ({

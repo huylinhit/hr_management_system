@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // component
 import LoadingComponent from "../../app/layout/LoadingComponent";
@@ -20,6 +20,7 @@ import {
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
 import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
 
 const fontStyle = "Mulish";
 
@@ -35,19 +36,22 @@ const infoStyle = {
 };
 export default function EditContract() {
   // -------------------------- VAR -----------------------------
-  const { id, staffid } = useParams();
+  const { id, staffid, prevpage } = useParams();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, Number(staffid))
   );
-  const { employeesLoaded } = useAppSelector((state) => state.employee);
+  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
 
   const contract = useAppSelector((state: any) =>
     contractSelectors.selectById(state, Number(staffid))
   );
-  const { status, contractsLoaded } = useAppSelector((state) => state.contract);
+  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
 
+  
+  
   const allowanceUpdate = contract?.allowances.map((allowance) => {
     return {
       allowanceId: allowance.allowanceId,
@@ -70,11 +74,31 @@ export default function EditContract() {
     contractFile: contract?.contractFile,
     contractStatus: contract?.contractStatus,
   });
+  const [initialContractForm, setInitialContractForm] = useState(contractForm)
   const [openSubmitDialog, setOpenSubmitDialog] = useState(false);
   const [allowanceForm, setAllowanceForm] =
     useState(allowanceUpdate);
   const { allowanceTypesLoaded } = useAppSelector((state) => state.allowanceType);
   // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if (prevpage === "list") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
+          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+        ])
+      );
+    } else if (prevpage === "staff") {
+      dispatch(
+        setHeaderTitle([
+          { title: "Danh sách nhân viên", path: "/staffs" },
+          { title: `${employee?.lastName} ${employee?.firstName}`, path: `/staffs/${employee?.staffId}` },
+          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+        ])
+      );
+    }
+  }, [dispatch, location]);
+
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
@@ -84,8 +108,8 @@ export default function EditContract() {
     if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync());
   }, [dispatch, allowanceTypesLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (status.includes("pending"))
-    return <LoadingComponent message="Loading..." />;
+  if (employeeStatus.includes("pending") && contractStatus.includes("pending"))
+    return <LoadingComponent message="Đang tải..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
@@ -148,6 +172,7 @@ export default function EditContract() {
             contract={contract}
             staffid={staffid}
             setOpenSubmitDialog={setOpenSubmitDialog}
+            prevpage={prevpage}
           />
         </Grid>
       </Container>
@@ -155,10 +180,12 @@ export default function EditContract() {
       <ConfirmSubmitDialog
         open={openSubmitDialog}
         setOpen={setOpenSubmitDialog}
-        contractId={contract?.contractId}
+        contract={contract}
+        initialContractForm={initialContractForm}
         staffId={contract?.staffId}
         item={contractForm}
         allowanceForm={allowanceForm}
+        prevpage={prevpage}
       />
     </Box>
   );

@@ -502,7 +502,7 @@ export default function EditInfo() {
       });
   };
 
-  if (!userInfor) {
+  if (!userInfor && !contracts) {
     return <CandidateDetailSkeleton />; // Render a loading state while fetching candidate data
   }
   return (
@@ -565,7 +565,7 @@ export default function EditInfo() {
           <Button
             variant="contained"
             component={Link}
-            to={`/contracts/${isExistContract.contractId}/staffs/${userInfor.staffId}/staff`}
+            to={`/contracts/${isExistContract.contractId}/staffs/${userInfor?.staffId}/staff`}
             sx={{
               fontWeight: "bold",
               textTransform: "none",
@@ -579,7 +579,7 @@ export default function EditInfo() {
           <Button
             variant="outlined"
             component={Link}
-            to={`/contracts/staffs/${userInfor.staffId}/add`}
+            to={`/contracts/staffs/${userInfor?.staffId}/add`}
             sx={{
               fontWeight: "bold",
               textTransform: "none",
@@ -796,7 +796,7 @@ export default function EditInfo() {
         </Typography>
       </Grid>
 
-      {userInfor.staffSkills && (
+      {userInfor?.staffSkills && (
         <>
           {updatedSkills.length > 0 ? (
             updatedSkills.map((option, index) => (

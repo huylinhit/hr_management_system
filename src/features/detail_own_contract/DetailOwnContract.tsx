@@ -14,7 +14,6 @@ import {
 } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
-  fetchContractAsync,
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
 import { useLocation } from "react-router-dom";

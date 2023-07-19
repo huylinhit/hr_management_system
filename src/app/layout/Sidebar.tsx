@@ -91,7 +91,7 @@ export default function Sidebar() {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, [avatarUrl, dispatch]);
 
   const handleOpenLeaveLog = () => {
@@ -218,7 +218,10 @@ export default function Sidebar() {
                           component={Link}
                           to="/own-log-leaves"
                         >
-                          <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <ListItemIcon
+                            className={cx("list-item-content")}
+                            sx={{ minWidth: "30px" }}
+                          >
                             <HotelOutlinedIcon fontSize="small" />
                           </ListItemIcon>
                           <ListItemText
@@ -243,12 +246,17 @@ export default function Sidebar() {
                     <Collapse in={openOT} timeout="auto" unmountOnExit>
                       <List disablePadding>
                         <ListItemButton
-                          className={cx("list-item", { activeButton: active === "my-overtime-list" })}
+                          className={cx("list-item", {
+                            activeButton: active === "my-overtime-list",
+                          })}
                           onClick={() => handleActiveClick("my-overtime-list")}
                           component={Link}
                           to="/own-log-overtimes"
                         >
-                          <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                          <ListItemIcon
+                            className={cx("list-item-content")}
+                            sx={{ minWidth: "30px" }}
+                          >
                             <WatchLaterOutlinedIcon fontSize="small" />
                           </ListItemIcon>
                           <ListItemText
@@ -346,6 +354,22 @@ export default function Sidebar() {
                         className={cx("list-item-content")}
                         primaryTypographyProps={{ ...listItemStyle }}
                         primary="Phòng Ban"
+                      />
+                    </ListItemButton>
+
+                    <ListItemButton
+                      className={cx("list-item", { activeButton: active === "department-details" })}
+                      onClick={() => handleActiveClick("department-details")}
+                      component={Link}
+                      to={`/departments/${user.userInfor.departmentId}`}
+                    >
+                      <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Phòng Ban của tôi"
                       />
                     </ListItemButton>
 
@@ -602,7 +626,6 @@ export default function Sidebar() {
                         primary="Lương Của Tôi"
                       />
                     </ListItemButton>
-
                   </Collapse>
                 </>
                 {/*Contract */}
@@ -652,7 +675,6 @@ export default function Sidebar() {
                 </>
               </List>
             )}
-
           </Box>
         </Box>
       </Drawer>
