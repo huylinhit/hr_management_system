@@ -82,27 +82,15 @@ export default function NewContract() {
   const disabled = !areAllFieldsNotNull(contractForm);
 
   return (
-    <Box sx={{ padding: "10px 40px 30px 40px", width: "calc(100vh - 240)" }}>
-      <Grid container>
-        <Typography
-          sx={{
-            padding: "5px 0",
-            fontStyle: "normal",
-            fontWeight: "700",
-            fontSize: "30px",
-            lineHeight: "39px",
-          }}
-        >
-          Thêm hợp đồng
-        </Typography>
-      </Grid>
+    <Box sx={{ padding: "10px 120px", width: "calc(100vh - 240)" }}>
+      
 
       <Grid
         container
         sx={{
           border: "solid 1px rgba(226, 225, 229, 1)",
           borderRadius: "10px",
-          padding: "30px 0",
+          padding: "30px 20px",
           marginTop: "20px",
         }}
       >

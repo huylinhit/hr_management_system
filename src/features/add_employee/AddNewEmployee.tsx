@@ -132,18 +132,6 @@ export default function AddNewEmployee() {
 
   return (
     <Box sx={{ padding: "10px 30px 0 30px", width: "calc(100vh - 240)" }}>
-      <Typography
-        sx={{
-          padding: "5px 0",
-          fontStyle: "normal",
-          fontWeight: "700",
-          fontSize: "30px",
-          lineHeight: "39px",
-        }}
-      >
-        Thêm nhân viên mới
-      </Typography>
-
       <Container
         sx={{
           backgroundColor: "white",
@@ -174,56 +162,48 @@ export default function AddNewEmployee() {
             })}
           </Stepper>
 
-          {step === stepName.length && isValid ? (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1, fontSize: "20px" }}>
-                Bạn đã hoàn thành các bước
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <form onSubmit={handleSubmit}>
-                {step === 0 && (
-                  <NewAccount
-                    setUserForm={setUserForm}
-                    userForm={userForm}
-                    confirmPwd={confirmPwd}
-                    setConfirmPwd={setConfirmPwd}
-                  />
-                )}
-                {step === 1 && (
-                  <NewStaff
-                    setUserForm={setUserForm}
-                    departments={departments}
-                    userForm={userForm}
-                  />
-                )}
+          <React.Fragment>
+            <form onSubmit={handleSubmit}>
+              {step === 0 && (
+                <NewAccount
+                  setUserForm={setUserForm}
+                  userForm={userForm}
+                  confirmPwd={confirmPwd}
+                  setConfirmPwd={setConfirmPwd}
+                />
+              )}
+              {step === 1 && (
+                <NewStaff
+                  setUserForm={setUserForm}
+                  departments={departments}
+                  userForm={userForm}
+                />
+              )}
 
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    disabled={step === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1, fontSize: "17px", borderRadius: "10px" }}
-                  >
-                    Quay về
-                  </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  disabled={step === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1, fontSize: "17px", borderRadius: "10px" }}
+                >
+                  Quay về
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
 
-                  <Button
-                    disabled={step === 1 ? disabled : false}
-                    variant="contained"
-                    size="small"
-                    sx={{ fontSize: "17px", borderRadius: "10px" }}
-                    onClick={step === 1 ? handleSubmit : handleNext}
-                  >
-                    {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
-                  </Button>
-                </Box>
-              </form>
-            </React.Fragment>
-          )}
+                <Button
+                  disabled={step === 1 ? disabled : false}
+                  variant="contained"
+                  size="small"
+                  sx={{ fontSize: "17px", borderRadius: "10px" }}
+                  onClick={step === 1 ? handleSubmit : handleNext}
+                >
+                  {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
+                </Button>
+              </Box>
+            </form>
+          </React.Fragment>
         </Box>
       </Container>
     </Box>
