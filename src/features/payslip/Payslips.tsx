@@ -93,8 +93,8 @@ export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Danh sách lương", path: "/payslips" },
-        { title: "Chỉnh sửa đơn", path: `` },
+        { title: "Danh sách lương nhân viên", path: "/payslips" },
+        // { title: "Chỉnh sửa lương", path: `` },
       ])
     );
   };
@@ -416,6 +416,7 @@ export default function Payslips() {
   }
   const { user } = useAppSelector((state) => state.account);
   const payslips = useAppSelector(payslipSelectors.selectAll);
+  const otherPayslips = payslips.filter(c => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
@@ -423,6 +424,8 @@ export default function Payslips() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
+
+  console.log("Here: Payslips");
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Danh sách lương nhân viên", path: "/payslips" }]));
@@ -442,9 +445,9 @@ export default function Payslips() {
 
   useEffect(() => {
     if (payslipsLoaded) {
-      setRows(payslips);
+      setRows(otherPayslips);
     }
-  }, [payslipsLoaded, payslips]);
+  }, [payslipsLoaded, dispatch]);
   if (status.includes("pending"))
     return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
