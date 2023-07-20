@@ -32,8 +32,10 @@ const headerStyle = {
   mb: "5px",
 };
 const validateCitizenID = (citizenID: any) => {
-  return citizenID.length === 12;
+  const citizenIDRegex = /^\d{12}$/;
+  return citizenIDRegex.test(citizenID);
 };
+
 export default function NewStaff({ setUserForm, departments, userForm }: Props) {
   return (
     <Grid container sx={{ mt: "50px" }}>
@@ -191,6 +193,7 @@ export default function NewStaff({ setUserForm, departments, userForm }: Props) 
           <TextField
             required
             error={!validateCitizenID(userForm.citizenId)}
+            helperText={!validateCitizenID(userForm.citizenId) ? "CCCD|CMND phải có 12 số" : ""}
             type="text"
             placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
             defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
