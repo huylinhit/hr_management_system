@@ -36,6 +36,8 @@ import { Payslip } from "../../app/models/payslip";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
+import { CheckCircle } from "@mui/icons-material";
+import ConfirmPayslips from "./component/ConfirmPayslips";
 
 function CustomToolbar() {
   return (
@@ -421,6 +423,7 @@ export default function Payslips() {
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
   const [open, setOpen] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
@@ -437,6 +440,14 @@ export default function Payslips() {
 
   const handleCloseDialog = () => {
     setOpen(false);
+  };
+
+  const handleOpenConfirmDialog = () => {
+    setOpenConfirmDialog(true)
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setOpenConfirmDialog(false)
   };
 
   useEffect(() => {
@@ -500,6 +511,44 @@ export default function Payslips() {
             >
               Sort
             </Button> */}
+            <Button
+              variant="outlined"
+              startIcon={<CheckCircle />}
+              onClick={handleOpenConfirmDialog}
+              sx={{
+                mb: "5px",
+                mr: "12px",
+                border: "1px solid rgb(57,219,57)",
+                textTransform: "none",
+                fontFamily: "Mulish",
+                fontWeight: "bold",
+                height: "30px",
+                color: "#fff",
+                backgroundColor: "rgb(57,219,57)",
+                "&:hover": {
+                  backgroundColor: "#fff",
+                  color: "rgb(57,219,57)",
+                  border: "1px solid rgb(57,219,57)"
+                },
+                "&:active": {
+                  // backgroundColor: "#0066CD",
+                  // color: "#FFFFFF",
+                },
+              }}
+            >
+              Duyệt lương
+            </Button>
+
+            <ConfirmPayslips
+              payslips={payslips}
+              department={null}
+              open={openConfirmDialog}
+              onClose={handleCloseConfirmDialog}
+              createOrAdd={false}
+              departmentNameParam=""
+              departmentId={0}
+            />
+
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
