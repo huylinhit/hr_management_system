@@ -228,7 +228,7 @@ const textFieldInputProps = {
 interface Props {
   fromDepartment?: boolean;
 }
-export default function EditInfo() {
+export default function SelfDetails() {
   //-------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>();
   const [avatarUrl, setAvatarUrl] = useState<string | ArrayBuffer | null>("");
@@ -598,6 +598,7 @@ export default function EditInfo() {
         ) : (
           <Button
             variant="outlined"
+            disabled
             onClick={handleOpenDialog}
             sx={{
               fontWeight: "bold",
@@ -606,7 +607,7 @@ export default function EditInfo() {
             }}
             disableElevation={true}
           >
-            Tạo hợp đồng
+            Chưa có hợp đồng
           </Button>
         )}
       </Grid>
@@ -625,6 +626,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Số điện thoại</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.phone}
           onChange={debouncedPhoneInput}
           InputProps={textFieldInputProps}
@@ -638,6 +640,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Mail</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.email}
           onChange={debouncedEmailInput}
           InputProps={textFieldInputProps}
@@ -651,6 +654,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Địa chỉ</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.address}
           onChange={debouncedAddressInput}
           InputProps={textFieldInputProps}
@@ -711,6 +715,8 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Giới tính</Typography>
         <BootstrapInput
           fullWidth
+          disabled
+          sx={infoStyle}
           defaultValue={userInfor?.gender ? 1 : 0}
           InputProps={textFieldInputProps}
           variant="standard"
@@ -724,21 +730,15 @@ export default function EditInfo() {
       <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
         <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
         <Typography sx={headerStyle}>Ngày sinh</Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <ButtonDatePicker
-            label={`${dayjs(dob) === null ? "Trống" : dayjs(dob).format("MMM DD, YYYY")}`}
-            value={dayjs(
-              new Date(
-                dayjs(dob)
-                  .toDate()
-                  .setMinutes(
-                    dayjs(dob).toDate().getMinutes() + dayjs(dob).toDate().getTimezoneOffset()
-                  )
-              )
-            )}
-            onChange={(newValue: any) => setDob(newValue)}
-          />
-        </LocalizationProvider>
+        <BootstrapInput
+          fullWidth
+          disabled
+          defaultValue={userInfor?.dob}
+          InputProps={textFieldInputProps}
+          sx={infoStyle}
+          variant="standard"
+          onChange={debouncedCountryInput}
+        ></BootstrapInput>
       </Box>
 
       <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
@@ -746,6 +746,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Quốc tịch</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.country}
           InputProps={textFieldInputProps}
           sx={infoStyle}
@@ -759,6 +760,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>CMND|CCCD</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.citizenId}
           InputProps={textFieldInputProps}
           sx={infoStyle}
@@ -772,6 +774,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Tk ngân hàng</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.bankAccount}
           InputProps={textFieldInputProps}
           sx={infoStyle}
@@ -785,6 +788,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Tên tài khoản</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.bankAccountName}
           InputProps={textFieldInputProps}
           sx={infoStyle}
@@ -798,6 +802,7 @@ export default function EditInfo() {
         <Typography sx={{ ...headerStyle, ...headerColor }}>Ngân hàng</Typography>
         <BootstrapInput
           fullWidth
+          disabled
           defaultValue={userInfor?.bank}
           InputProps={textFieldInputProps}
           sx={infoStyle}
@@ -823,6 +828,7 @@ export default function EditInfo() {
               <Box display="flex" alignItems="center" sx={verticalSpacing} key={option.id}>
                 <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
                 <BootstrapInput
+                  disabled
                   InputProps={{
                     ...textFieldInputProps,
                     endAdornment: (
@@ -842,6 +848,7 @@ export default function EditInfo() {
 
                 <BootstrapInput
                   fullWidth
+                  disabled
                   InputProps={textFieldInputProps}
                   onChange={(e) => debouncedUpdatedLevelChange(index, e.target.value)}
                   defaultValue={option.level}
@@ -855,51 +862,6 @@ export default function EditInfo() {
           )}
         </>
       )}
-      {fields.map((field, index) => (
-        <React.Fragment key={index}>
-          <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
-            <SubjectIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-            <BootstrapInput
-              InputProps={textFieldInputProps}
-              variant="standard"
-              placeholder="Tên kỹ năng..."
-              onChange={(e) => debouncedSkillChange(index, e.target.value)}
-              sx={{ width: "250px", paddingRight: "10px" }}
-            />
-            <BootstrapInput
-              fullWidth
-              InputProps={textFieldInputProps}
-              onChange={(e) => debouncedLevelChange(index, e.target.value)}
-              variant="standard"
-              placeholder="Trình độ..."
-            />
-          </Box>
-        </React.Fragment>
-      ))}
-      <Grid item xs={16}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={handleAddField}
-          sx={{
-            color: "#A9A9A9",
-            backgroundColor: "white",
-            borderColor: "#B8B8B8",
-            "&:hover": {
-              backgroundColor: "#E2E2E2",
-              color: "#A9A9A9",
-              borderColor: "#E2E2E2",
-            },
-            "&:active": {
-              backgroundColor: "#DFDFDF",
-              borderColor: "#DFDFDF",
-              color: "#858585",
-            },
-          }}
-        >
-          Thêm kỹ năng
-        </Button>
-      </Grid>
     </Container>
   );
 }

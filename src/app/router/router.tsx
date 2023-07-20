@@ -70,6 +70,7 @@ import DetailMyOT from "../../features/detail_overtime/DetailMyOT";
 import MyPayslips from "../../features/payslip/MyPayslips";
 import DetailOwnContract from "../../features/detail_own_contract/DetailOwnContract";
 import OwnPayslipDetail from "../../features/payslip/component/OwnPayslipDetail";
+import SelfDetails from "../../features/detail_employee/SelfDetails";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -103,16 +104,19 @@ export const router = createBrowserRouter([
 
       // Staff routes
       {
-        element: <RequireAuth roles={['Staff']} />, children: [
+        element: <RequireAuth roles={["Staff"]} />,
+        children: [
           { path: "/own-log-leaves", element: <MyLeaveList /> },
           { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           { path: "/own-tickets", element: <MyTicketList /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
+          { path: "/staffs/:id", element: <SelfDetails /> },
+
           // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
-        ]
+        ],
       },
       //HR Staff routes
       {
@@ -154,7 +158,7 @@ export const router = createBrowserRouter([
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           // { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
-          
+
           //other
           { path: "/tickets", element: <OtherUsersTicketList /> },
           { path: "/tickets/:id", element: <TicketApprovalForm /> },
@@ -175,7 +179,6 @@ export const router = createBrowserRouter([
       },
       { path: "/", element: <HomePage /> },
       { path: "/my-payroll", element: <MyPayroll /> },
-
 
       // { path: "/payroll", element: <Payroll /> },
 
