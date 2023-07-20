@@ -316,7 +316,7 @@ export default function StaffList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.row.dob).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.row.dob).format("LL")}</Typography>
       ),
     },
     {

@@ -271,7 +271,7 @@ export default function OtherUsersTicketList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian tạo</>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      valueFormatter: (params) => moment(params.value).format("LLL"),
     },
 
     {
@@ -284,7 +284,7 @@ export default function OtherUsersTicketList() {
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      valueFormatter: (params) => moment(params.value).format("LLL"),
     },
   ];
   function CandidateAvatar(staff: any) {

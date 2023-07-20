@@ -1,5 +1,7 @@
 import { Container, Grid, TextField, Typography } from "@mui/material";
 import { User } from "../model/user";
+import { validateEmail, validatePassword } from "../../../utils/validationUtils";
+import { useState } from "react";
 
 // interface
 interface Props {
@@ -24,14 +26,13 @@ const headerStyle = {
 
 export default function NewAccount({ setUserForm, userForm, confirmPwd, setConfirmPwd }: Props) {
   const error = confirmPwd === userForm.password;
-  const validateEmail = (email: any) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const [emailError, setEmailError] = useState(false);
+  const handleEmailBlur = (e: any) => {
+    const email = e.target.value;
+    const isEmailValid = validateEmail(email);
+    setEmailError(!isEmailValid);
   };
-  const validatePassword = (password: any) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
-    return passwordRegex.test(password);
-  };
+
   return (
     <Grid container sx={{ mt: "50px" }}>
       {/* NHẬP USERNAME */}
@@ -57,7 +58,9 @@ export default function NewAccount({ setUserForm, userForm, confirmPwd, setConfi
         <Typography sx={headerStyle}>Email</Typography>
         <TextField
           required
-          error={!validateEmail(userForm.email)}
+          onBlur={handleEmailBlur}
+          error={emailError}
+          helperText={emailError ? "Email không hợp lệ" : ""}
           type="text"
           placeholder={userForm.email === "" ? "Nhập email" : ""}
           defaultValue={userForm.email === "" ? "" : userForm.email}

@@ -11,6 +11,13 @@ interface Props {
 }
 const fontStyle = "Mulish";
 
+const gridStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  maxWidth: "100%",
+  mb: "10px",
+};
 const headerStyle = {
   fontWeight: 700,
   fontFamily: fontStyle,
@@ -43,15 +50,7 @@ export default function DetailSalary({ contract, employee }: Props) {
       </Typography>
 
       <Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Lương căn bản:</Typography>
           </Grid>
@@ -66,15 +65,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={4}>
             <Typography sx={headerStyle}>Các phụ cấp (mỗi tháng):</Typography>
           </Grid>
@@ -102,15 +93,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
         ))}
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Hình thức trả lương:</Typography>
           </Grid>
@@ -118,15 +101,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             <Typography sx={infoStyle}>Chuyển khoản</Typography>
           </Grid>
         </Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>Số TK ngân hàng:</Typography>
           </Grid>
@@ -134,15 +109,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             <Typography sx={infoStyle}>{employee?.bankAccount}</Typography>
           </Grid>
         </Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>Chủ tài khoản:</Typography>
           </Grid>
@@ -150,15 +117,7 @@ export default function DetailSalary({ contract, employee }: Props) {
             <Typography sx={infoStyle}>{employee?.bankAccountName}</Typography>
           </Grid>
         </Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "500", fontSize: "18px" }}>Ngân hàng:</Typography>
           </Grid>

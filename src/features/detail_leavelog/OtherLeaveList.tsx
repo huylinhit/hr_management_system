@@ -404,7 +404,7 @@ export default function OthersLeaveList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
     {
@@ -417,7 +417,7 @@ export default function OthersLeaveList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
     {
@@ -430,7 +430,7 @@ export default function OthersLeaveList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY, HH:mm")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
   ];

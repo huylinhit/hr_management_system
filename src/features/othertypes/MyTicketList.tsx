@@ -309,11 +309,9 @@ export default function MyTicketList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>
-          {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
-        </Typography>
+        <Typography sx={cellStyle}>{moment(params.row.createAt).format("LLL")}</Typography>
       ),
-      // valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      // valueFormatter: (params) => moment(params.value).format("LLL"),
     },
 
     {
@@ -329,17 +327,13 @@ export default function MyTicketList() {
       renderCell: (params) => (
         <Box>
           {params.value ? (
-            <Typography sx={cellStyle}>
-              {moment(params.value).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
+            <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
           ) : (
-            <Typography sx={cellStyle}>
-              {moment(params.row.createAt).format("MMM Do, YYYY, HH:mm")}
-            </Typography>
+            <Typography sx={cellStyle}>{moment(params.row.createAt).format("LLL")}</Typography>
           )}
         </Box>
       ),
-      //valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY, HH:mm"),
+      //valueFormatter: (params) => moment(params.value).format("LLL"),
     },
   ];
   function CandidateAvatar(candidate: any) {
