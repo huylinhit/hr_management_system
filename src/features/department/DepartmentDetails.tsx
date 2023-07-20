@@ -270,16 +270,14 @@ export default function DepartmentDetails() {
       headerName: "Ngày sinh",
       width: 200,
       editable: true,
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      valueFormatter: (params) => moment(params.value).format("LL"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => {
-        return (
-          <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
-        );
+        return <Typography sx={cellStyle}>{moment(params.value).format("LL")}</Typography>;
       },
     },
     {

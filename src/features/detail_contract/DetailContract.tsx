@@ -113,7 +113,7 @@ export default function DetailContract() {
             padding: "30px 20px 0 30px",
           }}
         >
-          <DetailContractFooter employee={employee} prevpage={prevpage} />
+          {/* <DetailContractFooter employee={employee} prevpage={prevpage} /> */}
         </Grid>
       </Container>
     </Container>

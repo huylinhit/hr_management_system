@@ -8,7 +8,7 @@ const payslipAdapter = createEntityAdapter<Payslip>({
     selectId: payslip => payslip.payslipId
 });
 
-export const fetchPayslipsAsync = createAsyncThunk<Payslip[]>(
+export const fetchPayslipsAsync = createAsyncThunk<Payslip[], void>(
     'payslips/fetchPayslipsAsync',
     async (_, thunkAPI) =>{
         try{
@@ -69,7 +69,7 @@ export const payslipSlice = createSlice({
             state.status = 'pendingFetchPayslips'
         });
         builder.addCase(fetchPayslipsStaffAsync.fulfilled, (state, action) =>{
-            payslipAdapter.upsertMany(state, action.payload)
+            payslipAdapter.setAll(state, action.payload)
             state.status = 'idle';
             state.payslipsLoaded = true;
         });

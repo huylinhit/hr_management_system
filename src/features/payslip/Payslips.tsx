@@ -93,8 +93,8 @@ export default function Payslips() {
   const handleRowClick = () => {
     dispatch(
       setHeaderTitle([
-        { title: "Danh sách lương", path: "/payslips" },
-        { title: "Chỉnh sửa đơn", path: `` },
+        { title: "Danh sách lương nhân viên", path: "/payslips" },
+        // { title: "Chỉnh sửa lương", path: `` },
       ])
     );
   };
@@ -181,6 +181,52 @@ export default function Payslips() {
           </>
         );
       },
+    },
+
+    {
+      field: "departmentName",
+      headerName: "Số giờ nghỉ",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Phòng ban</>
+        </Typography>
+      ),
+      renderCell: (params) => {
+        const departmentName = params.row.staff.department.departmentName;
+        const rowIndex =
+          params.row.staff.department.departmentId % colors.length;
+        const dotColor = colors[rowIndex];
+        return (
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography
+              style={{ marginRight: 10, fontSize: "18px", color: dotColor }}
+            >
+              ●
+            </Typography>
+            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
+              {departmentName}
+            </Typography>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "payday",
+      headerName: "Thời gian thay đổi",
+      width: 250,
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
+          <>Lương Tháng</>
+        </Typography>
+      ),
+      renderCell: (params) => (
+        <Typography sx={cellStyle}>
+          {moment(params.value).format("LL")}
+        </Typography>
+      ),
     },
     {
       field: "grossStandardSalary",
@@ -326,36 +372,6 @@ export default function Payslips() {
       },
     },
     {
-      field: "departmentName",
-      headerName: "Số giờ nghỉ",
-      width: 250,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Phòng ban</>
-        </Typography>
-      ),
-      renderCell: (params) => {
-        const departmentName = params.row.staff.department.departmentName;
-        const rowIndex =
-          params.row.staff.department.departmentId % colors.length;
-        const dotColor = colors[rowIndex];
-        return (
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography
-              style={{ marginRight: 10, fontSize: "18px", color: dotColor }}
-            >
-              ●
-            </Typography>
-            <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
-              {departmentName}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-
-    {
       field: "createAt",
       width: 250,
       renderHeader: () => (
@@ -368,7 +384,7 @@ export default function Payslips() {
         moment.locale("vi");
         return (
           <Typography sx={cellStyle}>
-            {moment(params.value).format("LLL")}
+            {moment(params.value).format("LL")}
           </Typography>
         );
       },
@@ -385,7 +401,7 @@ export default function Payslips() {
       ),
       renderCell: (params) => (
         <Typography sx={cellStyle}>
-          {moment(params.value).format("LLL")}
+          {moment(params.value).format("LL")}
         </Typography>
       ),
     },
@@ -400,6 +416,7 @@ export default function Payslips() {
   }
   const { user } = useAppSelector((state) => state.account);
   const payslips = useAppSelector(payslipSelectors.selectAll);
+  const otherPayslips = payslips.filter(c => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
@@ -407,6 +424,8 @@ export default function Payslips() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
+
+  console.log("Here: Payslips");
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Danh sách lương nhân viên", path: "/payslips" }]));
@@ -426,9 +445,9 @@ export default function Payslips() {
 
   useEffect(() => {
     if (payslipsLoaded) {
-      setRows(payslips);
+      setRows(otherPayslips);
     }
-  }, [payslipsLoaded, payslips]);
+  }, [payslipsLoaded, dispatch]);
   if (status.includes("pending"))
     return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
@@ -502,7 +521,7 @@ export default function Payslips() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo bảng lương
             </Button>
           </Grid>
 

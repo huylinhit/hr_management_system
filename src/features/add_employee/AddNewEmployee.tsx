@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Stepper,
-  Typography,
-  Step,
-  StepLabel,
-  Button,
-  Container,
-} from "@mui/material";
+import { Box, Stepper, Typography, Step, StepLabel, Button, Container } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -17,14 +9,16 @@ import NewStaff from "./component/NewStaff";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  departmentSelectors,
-  fetchDepartmentsAsync,
-} from "../department/departmentSlice";
+import { departmentSelectors, fetchDepartmentsAsync } from "../department/departmentSlice";
 import agent from "../../app/api/agent";
 import { fetchUserInforsAsync } from "../department/userInforSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-
+const fontStyle = "Mulish";
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  mb: "5px",
+};
 export default function AddNewEmployee() {
   // -------------------------- VAR -----------------------------
   const stepName = ["Tạo tài khoản", "Thông tin cá nhân"];
@@ -55,16 +49,12 @@ export default function AddNewEmployee() {
     bank: "",
   });
   // -------------------------- REDUX ---------------------------
-  const departments = useAppSelector((state) =>
-    departmentSelectors.selectAll(state)
-  );
+  const departments = useAppSelector((state) => departmentSelectors.selectAll(state));
   const { departmentsLoaded } = useAppSelector((state) => state.department);
   // -------------------------- EFFECT --------------------------
   //Set header
   useEffect(() => {
-    dispatch(
-      setHeaderTitle([{ title: "Thêm nhân viên", path: "/staffs/add" }])
-    );
+    dispatch(setHeaderTitle([{ title: "Thêm nhân viên", path: "/staffs/add" }]));
   }, [dispatch, location]);
 
   useEffect(() => {
@@ -131,81 +121,75 @@ export default function AddNewEmployee() {
   const disabled = !areAllFieldsNotNull(userForm);
 
   return (
-    <Box sx={{ padding: "10px 30px 0 30px", width: "calc(100vh - 240)" }}>
-      <Container
-        sx={{
-          backgroundColor: "white",
-          padding: "15px",
-        }}
-      >
-        <Box sx={{ width: "100%", paddingBottom: "15px" }}>
-          <Stepper activeStep={step}>
-            {stepName.map((label, index) => {
-              const stepProps: { completed?: boolean } = {};
-              const labelProps: {
-                optional?: React.ReactNode;
-              } = {};
-              if (isStepOptional(index)) {
-                labelProps.optional = (
-                  <Typography variant="caption"></Typography>
-                );
-              }
-              if (isStepSkipped(index)) {
-                stepProps.completed = false;
-              }
+    <Container
+      maxWidth="md"
+      sx={{
+        backgroundColor: "white",
+        padding: "15px",
+        height: "1200px",
+      }}
+    >
+      <Stepper activeStep={step}>
+        {stepName.map((label, index) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: {
+            optional?: React.ReactNode;
+          } = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = <Typography variant="caption"></Typography>;
+          }
+          if (isStepSkipped(index)) {
+            stepProps.completed = false;
+          }
 
-              return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel style={headerStyle} {...labelProps}>
+                {label}
+              </StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
 
-          <React.Fragment>
-            <form onSubmit={handleSubmit}>
-              {step === 0 && (
-                <NewAccount
-                  setUserForm={setUserForm}
-                  userForm={userForm}
-                  confirmPwd={confirmPwd}
-                  setConfirmPwd={setConfirmPwd}
-                />
-              )}
-              {step === 1 && (
-                <NewStaff
-                  setUserForm={setUserForm}
-                  departments={departments}
-                  userForm={userForm}
-                />
-              )}
+      <React.Fragment>
+        <form onSubmit={handleSubmit}>
+          {step === 0 && (
+            <NewAccount
+              setUserForm={setUserForm}
+              userForm={userForm}
+              confirmPwd={confirmPwd}
+              setConfirmPwd={setConfirmPwd}
+            />
+          )}
+          {step === 1 && (
+            <NewStaff setUserForm={setUserForm} departments={departments} userForm={userForm} />
+          )}
 
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  disabled={step === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1, fontSize: "17px", borderRadius: "10px" }}
-                >
-                  Quay về
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              disabled={step === 0}
+              onClick={handleBack}
+              sx={{ mr: 1, fontSize: "17px", borderRadius: "10px" }}
+            >
+              Quay về
+            </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
 
-                <Button
-                  disabled={step === 1 ? disabled : false}
-                  variant="contained"
-                  size="small"
-                  sx={{ fontSize: "17px", borderRadius: "10px" }}
-                  onClick={step === 1 ? handleSubmit : handleNext}
-                >
-                  {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
-                </Button>
-              </Box>
-            </form>
-          </React.Fragment>
-        </Box>
-      </Container>
-    </Box>
+            <Button
+              disabled={step === 1 ? disabled : false}
+              variant="contained"
+              size="small"
+              sx={{ fontSize: "17px", borderRadius: "10px" }}
+              onClick={step === 1 ? handleSubmit : handleNext}
+            >
+              {step === stepName.length - 1 ? "Hoàn thành" : "Tiếp"}
+            </Button>
+          </Box>
+        </form>
+      </React.Fragment>
+    </Container>
   );
 }

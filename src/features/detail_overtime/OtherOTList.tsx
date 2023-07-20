@@ -142,8 +142,7 @@ export default function OtherOTList() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Tạo bởi</>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
         </Typography>
       ),
       renderCell: (params) => {
@@ -192,8 +191,7 @@ export default function OtherOTList() {
       align: "left",
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Trạng thái</>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
         </Typography>
       ),
       renderCell(params) {
@@ -308,7 +306,7 @@ export default function OtherOTList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LL")}</Typography>
       ),
     },
     {
@@ -321,7 +319,7 @@ export default function OtherOTList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LL")}</Typography>
       ),
     },
 
@@ -369,7 +367,7 @@ export default function OtherOTList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
     {
@@ -378,15 +376,13 @@ export default function OtherOTList() {
       width: 250,
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Thời gian thay đổi</>
+          <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Thời gian thay đổi</>
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LLL")}</Typography>
       ),
     },
-
 
     {
       field: "reason",
@@ -499,7 +495,7 @@ export default function OtherOTList() {
       setRows(otherOts);
     }
   }, [logOtsLoaded, logOts]);
-
+  console.log("Here");
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>

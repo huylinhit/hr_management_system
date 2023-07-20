@@ -11,7 +11,13 @@ interface Props {
   employee: UserInfor | undefined;
 }
 const fontStyle = "Mulish";
-
+const gridStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  maxWidth: "100%",
+  mb: "10px",
+};
 const headerStyle = {
   fontWeight: 700,
   fontFamily: fontStyle,
@@ -37,7 +43,7 @@ export default function DetailJob({ contract, employee }: Props) {
           fontWeight: "600",
           fontSize: "20px",
           marginBottom: "5px",
-   
+
           fontFamily: fontStyle,
         }}
       >
@@ -45,16 +51,7 @@ export default function DetailJob({ contract, employee }: Props) {
       </Typography>
 
       <Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-            
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Phòng ban công tác:</Typography>
           </Grid>
@@ -63,15 +60,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Loại hợp đồng:</Typography>
           </Grid>
@@ -80,15 +69,7 @@ export default function DetailJob({ contract, employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Từ ngày:</Typography>
           </Grid>

@@ -311,14 +311,14 @@ export default function OtherUsersTicketList() {
       headerName: "Ngày sinh",
       width: 200,
       editable: true,
-      valueFormatter: (params) => moment(params.value).format("MMM Do, YYYY"),
+      valueFormatter: (params) => moment(params.value).format("LL"),
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" /> <>Ngày sinh</>
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LL")}</Typography>
       ),
     },
 
@@ -362,7 +362,7 @@ export default function OtherUsersTicketList() {
         </Typography>
       ),
       renderCell: (params) => (
-        <Typography sx={cellStyle}>{moment(params.value).format("MMM Do, YYYY")}</Typography>
+        <Typography sx={cellStyle}>{moment(params.value).format("LL")}</Typography>
       ),
     },
   ];

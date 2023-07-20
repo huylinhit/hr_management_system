@@ -536,6 +536,23 @@ export default function Sidebar() {
                         primary="Danh sách ứng viên"
                       />
                     </ListItemButton>
+
+                    {/* <ListItemButton
+                      className={cx("list-item", { activeButton: active === "create-candidate" })}
+                      onClick={() => handleActiveClick("create-candidate")}
+                      dense
+                      component={Link}
+                      to="/candidates"
+                    >
+                      <ListItemIcon className={cx("list-item-content")} sx={{ minWidth: "30px" }}>
+                        <PeopleAltOutlinedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        className={cx("list-item-content")}
+                        primaryTypographyProps={{ ...listItemStyle }}
+                        primary="Tạo mới ứng viên"
+                      />
+                    </ListItemButton> */}
                   </Collapse>
                 </>
                 {/*Other Tickets*/}
@@ -656,8 +673,8 @@ export default function Sidebar() {
                       />
                     </ListItemButton>
                     <ListItemButton
-                      className={cx("list-item", { activeButton: active === "contract-list" })}
-                      onClick={() => handleActiveClick("contract-list")}
+                      className={cx("list-item", { activeButton: active === "own-contract" })}
+                      onClick={() => handleActiveClick("own-contract")}
                       dense
                       component={Link}
                       to="/own-contract"
