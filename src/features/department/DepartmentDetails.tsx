@@ -85,7 +85,7 @@ export default function DepartmentDetails() {
       renderCell(params) {
         return (
           <>
-            <IconButton component={Link} to={`/staffs/${params.row.staffId}`}>
+            <IconButton component={Link} to={`/staffs/${params.row.staffId}`} state={true}>
               <MoreHorizIcon />
             </IconButton>
           </>

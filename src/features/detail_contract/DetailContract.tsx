@@ -55,10 +55,9 @@ export default function DetailContract() {
         ])
       );
     }
-  }, [dispatch, location]);
+  }, [dispatch, location, contract, employee]);
   // -------------------------- FUNCTION ------------------------
-  if (contractStatus.includes("pending") && employeeStatus.includes("pending"))
-    return <LoadingComponent message="Loading..." />;
+  if (!contract || !employee) return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
