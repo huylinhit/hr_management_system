@@ -163,11 +163,14 @@ export default function Payslips() {
                             <ChipCustome status="pending">Chờ duyệt</ChipCustome>
                         ) : params.value === "waiting" ? (
                             <ChipCustome status="waiting">Chờ thanh toán</ChipCustome>
-                        ) : params.value === "payment" ? (
+                        ) : params.value === "approved" ? (
                             <ChipCustome status="payment">Đã thanh toán</ChipCustome>
-                        ) : (
+                        ) : params.value === 'rejected' ? (
                             <ChipCustome status="rejected">Đã hủy</ChipCustome>
-                        )}
+                        ) : (
+                            <ChipCustome status="cancel">Không hợp lệ</ChipCustome>
+                        )
+                        }
                     </>
                 );
             },

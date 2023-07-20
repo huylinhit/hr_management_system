@@ -202,6 +202,7 @@ for (let id = 1; id <= 12; id++) {
     time.push({ id, month, year });
 }
 export default function CreatePayslipMainForm({ isOwn, open, onClose }: Props) {
+    const { user } = useAppSelector(state => state.account);
     const [selectedOption, setSelectedOption] = useState(0);
     const [selectedDepartment, setSelectedDepartment] = useState(1);
     const [selectedUser, setSelectedUser] = useState<number>(1);
@@ -240,7 +241,8 @@ export default function CreatePayslipMainForm({ isOwn, open, onClose }: Props) {
     const handleCreatePayslip = async () => {
         const payslipCreateDto = {
             month: time[selectedTime - 1].month,
-            year: time[selectedTime - 1].year
+            year: time[selectedTime - 1].year,
+            creatorId: user?.userInfor.staffId
         }
 
         // console.log("Current Selected: ", selectedOption);

@@ -47,6 +47,10 @@ import { Payslip } from "../../../app/models/payslip";
 import { fetchPayslipsAsync } from "../payslipSlice";
 import AvatarCustome from "../../../app/components/Custom/Avatar/AvatarCustome";
 import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
+import style from './payslip.module.scss'
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(style)
 
 interface Props {
     open: boolean;
@@ -57,6 +61,20 @@ interface Props {
     department: Department | null;
     departmentId: number;
 }
+
+interface PayslipUpdate {
+    changerId: number
+    enable: boolean
+    status: string
+}
+
+
+interface PayslipParticalUpdate {
+    path: string
+    op: string
+    value: string
+}
+
 
 const fontStyle = "Mulish";
 
@@ -466,64 +484,83 @@ export default function ConfirmPayslips({
         setDepartmentName(event.target.value);
     };
 
-    const handleSave = () => {
-        console.log("Row: ", rowSelectionModel);
-        // Get Employees that are selected
-        // const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.payslipId));
-        // console.log("Row selection model: ", rowSelectionModel);
-        // console.log("Selected Employees: : ", selectedEmployees);
-        // const updatedEmployees = selectedEmployees.map((employee) => ({
-        //     ...employee,
-        //     departmentId: departmentId,
-        //     isManager: false,
-        // }));
-        // if (createOrAdd == false) {
-        //     const departmentCreate = {
-        //         DepartmentName: departmentName,
-        //         ManagerId: managerId || 0,
-        //         UserInfors: selectedEmployees,
-        //     };
-        //     console.log("Department Infor: ", departmentCreate);
-        //     agent.Department.create(departmentCreate)
-        //         .then((response) => {
-        //             console.log("Department created successfully:", response);
-        //             toast.success("Thêm phòng ban thành công 😊");
-        //             // dispatch(setDepartmentChanged(true));
-        //             dispatch(fetchPayslipsAsync())
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error creating department:", error);
-        //             toast.error("Xảy ra lỗi khi thêm 😥");
-        //         });
-        // } else {
-        //     const departmentUpdate = {
-        //         patchDocument: [
-        //             {
-        //                 op: "replace",
-        //                 path: "/userInfors",
-        //                 value: updatedEmployees,
-        //             },
-        //         ],
-        //     };
-        //     agent.Department.patch(departmentId, departmentUpdate.patchDocument)
-        //         .then((response) => {
-        //             dispatch(setDepartmentEmployeeAdded(true));
-        //             dispatch(setDepartmentChanged(true));
-        //             toast.success("Thêm nhân viên thành công 😊");
-        //             console.log("Department updated successfully:", response);
-        //         })
-        //         .catch((error) => {
-        //             toast.error("Xảy ra lỗi khi thêm 😥");
-        //             console.error("Error updating department:", error);
-        //         });
-        // }
+    const handleSave = async () => {
+        let updateStatus = false;
 
-        // // Clear the selected rows
-        // setRowSelectionModel([]);
-        // onClose();
+        let updatePayslip: PayslipUpdate = {
+            changerId: user?.userInfor.staffId!,
+            enable: true,
+            status: "approved"
+        }
 
-        //console.log(department.UserInfors);
+        if (rowSelectionModel.length !== 0) {
+            for (const id of rowSelectionModel) {
+                const PayslipId = parseInt(id.toString());
+                try {
+                    await agent.Payslip.update(PayslipId, updatePayslip);
+                    //   console.log("thanh cong");
+                    updateStatus = true;
+                } catch (error) {
+                    //   console.log("that bai", error);
+                    updateStatus = false;
+                }
+            }
+        }
+
+        console.log(updateStatus);
+
+        if (updateStatus) {
+            console.log("Cap nhat thanh cong")
+            toast.success("Cập nhật thành công");
+            dispatch(fetchPayslipsAsync());
+        }
+
+        onClose();
+        setRowSelectionModel([]);
     };
+
+    const handleDeleteSalary = async () => {
+        let updateStatus = false;
+
+        let particalUpdatePayslip: PayslipParticalUpdate[] = [
+            {
+                path: "/enable",
+                op: "replace",
+                value: "false"
+            },
+            {
+                path: "/status",
+                op: "replace",
+                value: "rejected"
+            },
+            {
+                path: "/changerId",
+                op: "replace",
+                value: `${user?.userInfor.staffId.toString()}`
+            }
+        ]
+        if (rowSelectionModel.length !== 0) {
+            for (const id of rowSelectionModel) {
+                const PayslipId = parseInt(id.toString());
+                try {
+                    await agent.Payslip.patch(PayslipId, particalUpdatePayslip);
+                    //   console.log("thanh cong");
+                    updateStatus = true;
+                } catch (error) {
+                    //   console.log("that bai", error);
+                    updateStatus = false;
+                }
+            }
+        }
+        if (updateStatus) {
+            console.log("Cap nhat thanh cong")
+            toast.success("Hủy bảng lương thành công");
+            dispatch(fetchPayslipsAsync());
+        }
+
+        onClose();
+        setRowSelectionModel([]);
+    }
 
     return (
         <Dialog sx={{ padding: "100px" }} fullScreen open={open} onClose={onClose} maxWidth="lg">
@@ -533,19 +570,30 @@ export default function ConfirmPayslips({
             </DialogTitle>
 
             <DialogContent >
-                <Grid container spacing={4} display="flex" alignItems="center">
-                    <Grid item xs={4}>
-                        <TextField
-                            id="departmentName"
-                            label="Tìm kiếm"
-                            variant="standard"
-                            sx={{ width: "100%" }}
-                            onChange={handleInputChange}
-                        />
+                <Grid
+                    container
+                    //  spacing={4} 
+                    mb="4px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+
+                    height="50px">
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%">
+                        <Box display="flex" alignItems="center">
+                            <TextField
+                                id="departmentName"
+                                // label="Tìm kiếm"
+                                variant="standard"
+                                placeholder="Tìm kiếm"
+                                sx={{ width: "100%" }}
+                                onChange={handleInputChange}
+                            />
+                        </Box>
                     </Grid>
 
-                    <Grid item>
-                        <Box sx={{ color: "#FF6969", fontWeight: "bold", mt: 3 }}>
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                        <Box sx={{ color: "#FF6969", fontWeight: "bold" }}>
                             <Box display="flex" alignItems="center">
                                 <AccountCircleIcon sx={{ mr: "5px" }} />
                                 <>
@@ -556,7 +604,18 @@ export default function ConfirmPayslips({
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid></Grid>
+
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                        <Box display="flex" justifyContent="end" width="100%">
+                            <Button
+                                className={cx("delete-salary-button")}
+                                variant="contained"
+                                onClick={handleDeleteSalary}
+                            >
+                                Hủy bảng lương
+                            </Button>
+                        </Box>
+                    </Grid>
                 </Grid>
 
                 <DataGrid
@@ -587,7 +646,7 @@ export default function ConfirmPayslips({
                     pageSizeOptions={[5]}
                     checkboxSelection
                     isRowSelectable={(params: GridRowParams) =>
-                        params.row.payslipId 
+                        params.row.payslipId
                     }
                     disableRowSelectionOnClick
                     onRowSelectionModelChange={(newRowSelectionModel) => {
