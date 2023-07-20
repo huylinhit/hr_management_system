@@ -32,12 +32,13 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { FileDownloadDoneSharp } from "@mui/icons-material";
 import { storage } from "../../firebase";
 import { ref, uploadBytes } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, validate } from "uuid";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { setCandidateAdded } from "./candidateSlice";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { LoadingButton } from "@mui/lab";
+import { validateEmail } from "../../utils/validationUtils";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -70,7 +71,7 @@ const headerStyle = {
   fontFamily: fontStyle,
   mb: "5px",
 };
-const textFieldStyle = {};
+
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -88,7 +89,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
   const [expectedSalary, setExpectedSalary] = useState(0);
   const [isLastNameEmpty, setIsLastNameEmpty] = useState(true);
   const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(true);
-  const [isEmailEmpty, setIsEmailEmpty] = useState(true);
   const [isAddProcess, setIsAddProcess] = useState(false);
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -97,7 +97,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
   const [skillCount, setSkillCount] = useState(0);
   const [fields, setFields] = useState([{ skill: "", level: "" }]);
   const [dragging, setDragging] = useState(false);
-
+  const [emailError, setEmailError] = useState(false);
   const handleDragEnter = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
@@ -126,6 +126,13 @@ export default function CreateCandidate({ open, onClose }: Props) {
     console.log(files[0]);
   };
 
+  const handleEmailBlur = (e: any) => {
+    const email = e.target.value;
+    const isEmailValid = validateEmail(email);
+    setEmailError(!isEmailValid);
+  };
+
+  //#region DEBOUNCED INPUT
   const debouncedFirstNameInput = debounce((event: any) => {
     setFirstName(event.target.value);
     setIsFirstNameEmpty(false);
@@ -138,7 +145,6 @@ export default function CreateCandidate({ open, onClose }: Props) {
 
   const debouncedEmailInput = debounce((event: any) => {
     setEmail(event.target.value);
-    setIsEmailEmpty(false);
   }, 500);
 
   const debouncedGenderInput = debounce((event: any) => {
@@ -161,11 +167,25 @@ export default function CreateCandidate({ open, onClose }: Props) {
     setExpectedSalary(event.target.value);
   }, 500);
 
+  const debouncedSkillChange = debounce((index: number, value: string) => {
+    const updatedFields = [...fields];
+    updatedFields[index].skill = value;
+    setFields(updatedFields);
+  }, 500);
+
+  const debouncedLevelChange = debounce((index: number, value: string) => {
+    const updatedFields = [...fields];
+    updatedFields[index].level = value;
+    setFields(updatedFields);
+  }, 500);
+  //#endregion
+
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setSelectedFile(file);
     console.log("Selected file:", file);
   };
+
   const handleAvatarSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setAvatar(file);
@@ -178,11 +198,13 @@ export default function CreateCandidate({ open, onClose }: Props) {
     }
     console.log(file);
   };
+
   const handleAddAvatarButton = () => {
     if (avatarInputRef.current) {
       avatarInputRef.current.click();
     }
   };
+
   const handleAddFileButton = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -206,6 +228,7 @@ export default function CreateCandidate({ open, onClose }: Props) {
     };
     agent.Candidate.patch(candidateId, imageUpload.patchDocument);
   };
+
   const handleUploadFile = (id: number) => {
     if (selectedFile == null) return;
     const fileRef = ref(storage, `candidatesFile/${id}`);
@@ -213,26 +236,19 @@ export default function CreateCandidate({ open, onClose }: Props) {
       console.log("GOOD");
     });
   };
+
   const handleAddField = () => {
     setFields([...fields, { skill: "", level: "" }]);
   };
-  const debouncedSkillChange = debounce((index: number, value: string) => {
-    const updatedFields = [...fields];
-    updatedFields[index].skill = value;
-    setFields(updatedFields);
-  }, 500);
 
-  const debouncedLevelChange = debounce((index: number, value: string) => {
-    const updatedFields = [...fields];
-    updatedFields[index].level = value;
-    setFields(updatedFields);
-  }, 500);
   const handleCloseDialog = () => {
     onClose();
     setFields([{ skill: "", level: "" }]);
+    setEmailError(false);
   };
   const handleCreateCandidate = () => {
     setIsAddProcess(true);
+    if (!validateEmail(email)) return;
     const candidateCreate = {
       name: lastName + " " + firstName,
       email: email,
@@ -366,6 +382,9 @@ export default function CreateCandidate({ open, onClose }: Props) {
                 <Typography sx={headerStyle}>Email</Typography>
                 <TextField
                   onChange={debouncedEmailInput}
+                  onBlur={handleEmailBlur}
+                  error={emailError}
+                  helperText={emailError ? "Email không hợp lệ" : ""}
                   fullWidth
                   id="outlined"
                   placeholder="Nhập email..."

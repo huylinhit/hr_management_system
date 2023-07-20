@@ -8,7 +8,13 @@ interface Props {
   contract: Contract | undefined;
 }
 const fontStyle = "Mulish";
-
+const gridStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  maxWidth: "100%",
+  mb: "10px",
+};
 const headerStyle = {
   fontWeight: 700,
   fontFamily: fontStyle,
@@ -37,15 +43,7 @@ export default function DetaiNote({ contract }: Props) {
       </Typography>
 
       <Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={4}>
             <Typography sx={headerStyle}>Số ngày làm việc một tuần:</Typography>
           </Grid>
@@ -54,15 +52,7 @@ export default function DetaiNote({ contract }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={4}>
             <Typography sx={headerStyle}>Ghi chú:</Typography>
           </Grid>

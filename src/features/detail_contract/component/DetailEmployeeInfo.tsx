@@ -10,7 +10,13 @@ interface Props {
 }
 
 const fontStyle = "Mulish";
-
+const gridStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  maxWidth: "100%",
+  mb: "10px",
+};
 const headerStyle = {
   fontWeight: 700,
   fontFamily: fontStyle,
@@ -39,15 +45,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
       </Grid>
 
       <Grid>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={2}>
             <Typography sx={headerStyle}>Họ và tên:</Typography>
           </Grid>
@@ -64,15 +62,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={2}>
             <Typography sx={headerStyle}>Sinh ngày:</Typography>
           </Grid>
@@ -81,15 +71,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={2}>
             <Typography sx={headerStyle}>CMND|CCCD:</Typography>
           </Grid>
@@ -98,15 +80,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={2}>
             <Typography sx={headerStyle}>Địa chỉ:</Typography>
           </Grid>
@@ -115,15 +89,7 @@ export default function DetailEmployeeInfo({ employee }: Props) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            maxWidth: "100%",
-          }}
-        >
+        <Grid container sx={gridStyle}>
           <Grid item xs={2}>
             <Typography sx={headerStyle}>Số điện thoại:</Typography>
           </Grid>

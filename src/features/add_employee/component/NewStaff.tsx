@@ -15,6 +15,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Department } from "../../../app/models/department";
 import { User } from "../model/user";
 import dayjs from "dayjs";
+import { validateCitizenID } from "../../../utils/validationUtils";
+import { useState } from "react";
 
 // interface
 interface Props {
@@ -31,12 +33,14 @@ const headerStyle = {
   fontFamily: fontStyle,
   mb: "5px",
 };
-const validateCitizenID = (citizenID: any) => {
-  const citizenIDRegex = /^\d{12}$/;
-  return citizenIDRegex.test(citizenID);
-};
 
 export default function NewStaff({ setUserForm, departments, userForm }: Props) {
+  const [citizenIdError, setCitizenIdError] = useState(false);
+  const handleCitizenIdBlur = (e: any) => {
+    const citizenId = e.target.value;
+    const isCitizenIdValid = validateCitizenID(citizenId);
+    setCitizenIdError(!isCitizenIdValid);
+  };
   return (
     <Grid container sx={{ mt: "50px" }}>
       <Grid container spacing={2} sx={{ ...verticalSpacing }}>
@@ -192,8 +196,9 @@ export default function NewStaff({ setUserForm, departments, userForm }: Props) 
           <Typography sx={headerStyle}>CCCD|CMND</Typography>
           <TextField
             required
-            error={!validateCitizenID(userForm.citizenId)}
-            helperText={!validateCitizenID(userForm.citizenId) ? "CCCD|CMND phải có 12 số" : ""}
+            onBlur={handleCitizenIdBlur}
+            error={citizenIdError}
+            helperText={citizenIdError ? "CCCD|CMND phải có 12 số" : ""}
             type="text"
             placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
             defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
