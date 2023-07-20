@@ -22,43 +22,31 @@ interface Props {
   departments: Department[];
   userForm: User;
 }
+const fontStyle = "Mulish";
+const verticalSpacing = {
+  marginBottom: "10px",
+};
+const headerStyle = {
+  fontWeight: 700,
+  fontFamily: fontStyle,
+  mb: "5px",
+};
+const validateCitizenID = (citizenID: any) => {
+  const citizenIDRegex = /^\d{12}$/;
+  return citizenIDRegex.test(citizenID);
+};
 
-export default function NewStaff({
-  setUserForm,
-  departments,
-  userForm,
-}: Props) {
+export default function NewStaff({ setUserForm, departments, userForm }: Props) {
   return (
-    <Container
-      sx={{
-        margin: "20px 0",
-        border: "solid 1px rgba(226, 225, 229, 1)",
-        borderRadius: "10px",
-        padding: "30px 0",
-        width: "100%",
-      }}
-    >
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Họ
-          </Typography>
+    <Grid container sx={{ mt: "50px" }}>
+      <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Họ</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.lastName === "" ? "Nhập họ" : ""}
             defaultValue={userForm.lastName === "" ? "" : userForm.lastName}
-            size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -68,18 +56,13 @@ export default function NewStaff({
             }
           />
         </Grid>
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Tên
-          </Typography>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Tên</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.firstName === "" ? "Nhập tên" : ""}
             defaultValue={userForm.firstName === "" ? "" : userForm.firstName}
-            size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -91,21 +74,9 @@ export default function NewStaff({
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Giới tính
-          </Typography>
+      <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Giới tính</Typography>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -123,18 +94,13 @@ export default function NewStaff({
           </RadioGroup>
         </Grid>
 
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Quốc tịch
-          </Typography>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Quốc tịch</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.country === "" ? "Nhập quốc tịch" : ""}
             defaultValue={userForm.country === "" ? "" : userForm.country}
-            size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -146,27 +112,14 @@ export default function NewStaff({
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Số điện thoại
-          </Typography>
+      <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Số điện thoại</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.phone === "" ? "Nhập số điện thoại" : ""}
             defaultValue={userForm.phone === "" ? "" : userForm.phone}
-            size="small"
             sx={{ width: "100%", marginBottom: "15px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -176,50 +129,30 @@ export default function NewStaff({
             }
           />
         </Grid>
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Ngày sinh
-          </Typography>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Ngày sinh</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DatePicker
-                defaultValue={dayjs(userForm.dob)}
-                onChange={(e: any) =>
-                  setUserForm((prevForm: any) => ({
-                    ...prevForm,
-                    dob: e?.format("YYYY-MM-DD"),
-                  }))
-                }
-              />
-            </DemoContainer>
+            <DatePicker
+              defaultValue={dayjs(userForm.dob)}
+              onChange={(e: any) =>
+                setUserForm((prevForm: any) => ({
+                  ...prevForm,
+                  dob: e?.format("YYYY-MM-DD"),
+                }))
+              }
+            />
           </LocalizationProvider>
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          padding: "0 45px",
-        }}
-      >
+      <Grid container>
         <Grid item xs={12}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Địa chỉ
-          </Typography>
+          <Typography sx={headerStyle}>Địa chỉ</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.address === "" ? "Nhập địa chỉ" : ""}
             defaultValue={userForm.address === "" ? "" : userForm.address}
-            size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -231,26 +164,13 @@ export default function NewStaff({
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Phòng ban
-          </Typography>
+      <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Phòng ban</Typography>
           <TextField
             select
             required
             type="text"
-            size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             name="departmentId"
             value={userForm.departmentId}
@@ -268,18 +188,15 @@ export default function NewStaff({
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            CCCD|CMND
-          </Typography>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>CCCD|CMND</Typography>
           <TextField
             required
+            error={!validateCitizenID(userForm.citizenId)}
+            helperText={!validateCitizenID(userForm.citizenId) ? "CCCD|CMND phải có 12 số" : ""}
             type="text"
             placeholder={userForm.citizenId === "" ? "Nhập CCCD|CMND" : ""}
             defaultValue={userForm.citizenId === "" ? "" : userForm.citizenId}
-            size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -291,33 +208,14 @@ export default function NewStaff({
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Tên tài khoản ngân hàng
-          </Typography>
+      <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Tên tài khoản ngân hàng</Typography>
           <TextField
             required
             type="text"
-            placeholder={
-              userForm.bankAccountName === ""
-                ? "Nhập tên tài khoản ngân hàng"
-                : ""
-            }
-            defaultValue={
-              userForm.bankAccountName === "" ? "" : userForm.bankAccountName
-            }
-            size="small"
+            placeholder={userForm.bankAccountName === "" ? "Nhập tên tài khoản ngân hàng" : ""}
+            defaultValue={userForm.bankAccountName === "" ? "" : userForm.bankAccountName}
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -327,22 +225,13 @@ export default function NewStaff({
             }
           />
         </Grid>
-        <Grid item xs={5}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Số tài khoản ngân hàng
-          </Typography>
+        <Grid item xs={6}>
+          <Typography sx={headerStyle}>Số tài khoản ngân hàng</Typography>
           <TextField
             required
             type="text"
-            placeholder={
-              userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""
-            }
-            defaultValue={
-              userForm.bankAccount === "" ? "" : userForm.bankAccount
-            }
-            size="small"
+            placeholder={userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""}
+            defaultValue={userForm.bankAccount === "" ? "" : userForm.bankAccount}
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -354,28 +243,14 @@ export default function NewStaff({
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          padding: "0 45px",
-        }}
-      >
+      <Grid container>
         <Grid item xs={12}>
-          <Typography
-            sx={{ fontSize: "how to compare string1 is as same as string2" }}
-          >
-            Ngân hàng
-          </Typography>
+          <Typography sx={headerStyle}>Ngân hàng</Typography>
           <TextField
             required
             type="text"
             placeholder={userForm.bank === "" ? "Nhập ngân hàng" : ""}
             defaultValue={userForm.bank === "" ? "" : userForm.bank}
-            size="small"
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -386,6 +261,6 @@ export default function NewStaff({
           />
         </Grid>
       </Grid>
-    </Container>
+    </Grid>
   );
 }
