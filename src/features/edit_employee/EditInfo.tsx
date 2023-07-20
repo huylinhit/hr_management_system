@@ -50,6 +50,7 @@ import { deepPurple } from "@mui/material/colors";
 import CandidateDetailSkeleton from "../candidate/CandidateDetailSkeleton";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
+import NewContract from "../add_contract/NewContract";
 const fontStyle = "Mulish";
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
@@ -224,6 +225,9 @@ const textFieldInputProps = {
     ...infoStyle,
   },
 };
+interface Props {
+  fromDepartment?: boolean;
+}
 export default function EditInfo() {
   //-------------------------- VAR -----------------------------
   const { id } = useParams<{ id: string }>();
@@ -236,7 +240,7 @@ export default function EditInfo() {
   const contracts = useAppSelector(contractSelectors.selectAll);
   const { contractsLoaded } = useAppSelector((state) => state.contract);
   const isExistContract = contracts.find((contract) => contract.staffId === Number(id));
-
+  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState(userInfor?.firstName);
   const [lastName, setLastName] = useState(userInfor?.lastName);
   const [email, setEmail] = useState(userInfor?.email);
@@ -254,9 +258,9 @@ export default function EditInfo() {
   const [fullName, setFullName] = useState("");
   const [staffSkillToDelete, setStaffSkillToDelete] = useState<number[]>([]);
   const location = useLocation();
-
+  const fromDepartment = location.state;
   const [updatedSkills, setUpdatedSkills] = useState([{ id: 0, skill: "", level: "" }]);
-
+  console.log(fromDepartment);
   // -------------------------- STATE ---------------------------
   const [fields, setFields] = useState([{ skill: "", level: "" }]);
 
@@ -270,7 +274,17 @@ export default function EditInfo() {
   }, [dispatch, contractsLoaded]);
 
   useEffect(() => {
-    if (userInfor) {
+    if (!userInfor) return;
+
+    if (fromDepartment) {
+      dispatch(
+        setHeaderTitle([
+          { title: `Danh sách phòng ban`, path: "/departments" },
+          { title: `${userInfor.departmentName}`, path: `/departments/${userInfor.departmentId}` },
+          { title: `${userInfor.lastName} ${userInfor.firstName}`, path: "" },
+        ])
+      );
+    } else {
       dispatch(
         setHeaderTitle([
           { title: "Danh sách nhân viên", path: "/staffs" },
@@ -401,7 +415,13 @@ export default function EditInfo() {
       avatarInputRef.current.click();
     }
   };
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
 
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
   const handleAvatarSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setAvatarFile(file);
@@ -578,8 +598,7 @@ export default function EditInfo() {
         ) : (
           <Button
             variant="outlined"
-            component={Link}
-            to={`/contracts/staffs/${userInfor?.staffId}/add`}
+            onClick={handleOpenDialog}
             sx={{
               fontWeight: "bold",
               textTransform: "none",
@@ -591,6 +610,7 @@ export default function EditInfo() {
           </Button>
         )}
       </Grid>
+      <NewContract open={open} onClose={handleCloseDialog} /> 
       <Box sx={{ borderBottom: "2px solid #333333", mb: "10px", mt: "1%" }}></Box>
       <Grid>
         <Typography
