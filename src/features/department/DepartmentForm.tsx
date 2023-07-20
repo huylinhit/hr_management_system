@@ -11,6 +11,7 @@ import {
   Grid,
   Tooltip,
   Box,
+  debounce,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -56,7 +57,7 @@ interface Props {
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton /> 
+      <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
       <GridToolbarExport />
@@ -249,6 +250,7 @@ export default function DepartmentForm({
   const [selectedId, setSelectedId] = useState("");
   const [managerName, setManagerName] = useState("");
   const [managerId, setManagerId] = useState("");
+  const [isDepartmentNameEmpty, setIsDepartmentNameEmpty] = useState(false);
 
   const handleAccountIconClick = (row: any) => {
     setSelectedId((prevId) => (prevId === row.id ? "" : row.id));
@@ -270,15 +272,29 @@ export default function DepartmentForm({
     }
   }, [userInforsLoaded]);
 
-  const handleInputChange = (event: any) => {
+  const handleClose = () => {
+    onClose();
+    setDepartmentName("");
+  };
+  const handleDepartmentNameInput = debounce((event: any) => {
     setDepartmentName(event.target.value);
+  }, 750);
+
+  const handleDepartmentNameBlur = (e: any) => {
+    const departmentNameChecker = e.target.value === "";
+
+    console.log("CHECKER");
+    setIsDepartmentNameEmpty(departmentNameChecker);
   };
 
   const handleSave = () => {
     // Get Employees that are selected
     const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.id));
-    console.log("Row selection model: ", rowSelectionModel );
-    console.log("Selected Employees: : ", selectedEmployees );
+
+    const newEmployees = selectedEmployees.map((row) => row.staffId);
+    console.log("Row selection model: ", rowSelectionModel);
+    console.log("Selected Employees: : ", selectedEmployees);
+
     const updatedEmployees = selectedEmployees.map((employee) => ({
       ...employee,
       departmentId: departmentId,
@@ -288,9 +304,16 @@ export default function DepartmentForm({
       const departmentCreate = {
         DepartmentName: departmentName,
         ManagerId: managerId || 0,
-        UserInfors: selectedEmployees,
+        UserInfors: newEmployees,
       };
-      console.log("Department Infor: ",departmentCreate);
+
+      console.log(departmentCreate.ManagerId);
+      console.log(departmentCreate.UserInfors);
+      if (departmentName === "") {
+        toast.error("Bạn quên nhập tên phòng ban 😥");
+        return;
+      }
+
       agent.Department.create(departmentCreate)
         .then((response) => {
           console.log("Department created successfully:", response);
@@ -332,7 +355,7 @@ export default function DepartmentForm({
   };
 
   return (
-    <Dialog fullWidth={true} open={open} onClose={onClose} maxWidth="lg">
+    <Dialog open={open} onClose={onClose} maxWidth="lg">
       {createOrAdd ? (
         <DialogTitle sx={{ fontSize: 25, fontWeight: 600, marginBottom: 1 }}>
           Thêm nhân viên
@@ -343,7 +366,7 @@ export default function DepartmentForm({
         </DialogTitle>
       )}
 
-      <DialogContent sx={{ height: "600px" }}>
+      <DialogContent sx={{ height: "700px" }}>
         {createOrAdd ? (
           <Typography sx={{ fontSize: 20, fontWeight: 600, marginBottom: 1 }}>
             {departmentNameParam}
@@ -354,10 +377,13 @@ export default function DepartmentForm({
               <Grid item xs={4}>
                 <TextField
                   id="departmentName"
-                  label="Tên Phòng Ban"
+                  onBlur={handleDepartmentNameBlur}
+                  error={isDepartmentNameEmpty}
+                  helperText={isDepartmentNameEmpty ? "Nhập tên phòng ban" : ""}
+                  placeholder="Nhập tên phòng ban"
                   variant="standard"
                   sx={{ width: "100%" }}
-                  onChange={handleInputChange}
+                  onChange={handleDepartmentNameInput}
                 />
               </Grid>
 
@@ -376,7 +402,7 @@ export default function DepartmentForm({
 
         <DataGrid
           sx={{
-            height: "550px",
+            height: "610px",
             mt: "10px",
             fontSize: 16,
             fontWeight: 550,
