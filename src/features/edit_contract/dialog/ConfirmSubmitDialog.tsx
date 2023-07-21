@@ -114,7 +114,7 @@ export default function ConfirmSubmitDialog({
         .then((response) => toast.success("Đã thêm phụ cấp thành công"))
         .catch((error) => {
           setIsError(true);
-          toast.success("Lỗi khi thêm phụ cấp");
+          toast.error("Lỗi khi thêm phụ cấp");
         });
     });
   };

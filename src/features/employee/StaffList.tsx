@@ -2,20 +2,7 @@ import {
   Grid,
   Button,
   Typography,
-  TextField,
-  Autocomplete,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  styled,
-  tableCellClasses,
-  Container,
   Box,
-  InputAdornment,
   LinearProgress,
   IconButton,
   Tooltip,
@@ -25,27 +12,16 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
 import { UserInfor } from "../../app/models/userInfor";
-import DeleteDialog from "./component/DeleteDialog";
 import AddIcon from "@mui/icons-material/Add";
 import CreateCandidate from "../candidate/CreateCandidate";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import NumbersOutlinedIcon from "@mui/icons-material/NumbersOutlined";
-import TextFormatOutlinedIcon from "@mui/icons-material/TextFormatOutlined";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import SubjectIcon from "@mui/icons-material/Subject";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import moment from "moment";
 import {
   fetchUserInforsAsync,
