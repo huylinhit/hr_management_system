@@ -50,7 +50,6 @@ export default function DetailContract() {
   const contract = useAppSelector((state) =>
     contractSelectors.selectById(state, Number(staffid))
   );
-  console.log(contract);
 
   const { status: contractStatus, contractsLoaded } = useAppSelector(
     (state) => state.contract
