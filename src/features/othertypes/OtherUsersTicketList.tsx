@@ -99,7 +99,7 @@ export default function OtherUsersTicketList() {
       headerName: "",
       width: 75,
       renderCell: (params) => (
-        <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
+        <IconButton component={Link} to={`/tickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
       ),
