@@ -123,7 +123,7 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     "&:hover:not(:focus)": {
       backgroundColor: disabled ? null : "#E7E7E7",
     },
-    "&:focus": {      
+    "&:focus": {
       boxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.5)`, // Add vertical offset to boxShadow
       borderColor: "#505050",
       backgroundColor: "FFFFFF",
@@ -183,13 +183,12 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   const today = dayjs().startOf("day");
   const minEndDate = today.startOf("day");
   const [startDate, setStartDate] = useState<Date>(today.toDate());
-  console.log("today: ",today);
   const [endDate, setEndDate] = useState<Date>(minEndDate.toDate());
   const currentUser = useAppSelector((state) => state.account);
   const [selectedUser, setSelectedUser] = useState<number>(1);
   const user = useAppSelector((state) => state.account.user);
   const allUsers = useAppSelector(userInforSelectors.selectAll);
-  const users = allUsers.filter(c => c.staffId != user?.userInfor.staffId && c.staffId !== 1);
+  const users = allUsers.filter((c) => c.staffId != user?.userInfor.staffId && c.staffId !== 1);
   const { userInforsLoaded, status } = useAppSelector((state) => state.userInfor);
   const { logOtAdded } = useAppSelector((state) => state.logot);
 
@@ -244,6 +243,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
+          console.error("Error creating ticket: ", error);
           // toast.error(`${error.data} 😥`);
         });
     } else {
@@ -255,6 +255,8 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
         })
         .catch((error) => {
           // toast.error(`${error.data} 😥`);
+          // console.log("LOOIX DO MAN");
+          // console.error("Error creating ticket: ", error);
         });
     }
 
@@ -356,7 +358,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
                 label={`${
                   dayjs(endDate) === null ? "Trống" : dayjs(endDate).format("MMM DD, YYYY")
                 }`}
-                minDate={dayjs(startDate).add(1, "day")}
+                minDate={dayjs(startDate)}
                 value={dayjs(
                   new Date(
                     dayjs(endDate)

@@ -40,6 +40,7 @@ import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
 import styles from "./Sidebar.module.scss";
 import classNames from "classnames/bind";
+import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 const cx = classNames.bind(styles);
 
@@ -81,11 +82,15 @@ export default function Sidebar() {
   const [openContract, setOpenContract] = useState(true);
   const [openTicket, setOpenTicket] = useState(true);
   const [pageTitle, setPageTitle] = useState("Default Page");
+  const { departmentAdded, departmentsChanged } = useAppSelector((state) => state.department);
   const { user } = useAppSelector((state) => state.account);
 
   const [avatarUrl, setAvatarUrl] = useState("");
   const storageRef = ref(storage, `staffsAvatar/${user?.userInfor.staffId}`);
 
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [departmentsChanged, dispatch]);
   useEffect(() => {
     getDownloadURL(storageRef)
       .then((url) => {
