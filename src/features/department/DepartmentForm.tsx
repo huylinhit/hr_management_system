@@ -44,6 +44,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setDepartmentChanged, setDepartmentEmployeeAdded } from "./departmentSlice";
+import { fetchCurrentUser } from "../account/accountSlice";
 
 interface Props {
   open: boolean;
@@ -283,7 +284,6 @@ export default function DepartmentForm({
   const handleDepartmentNameBlur = (e: any) => {
     const departmentNameChecker = e.target.value === "";
 
-    console.log("CHECKER");
     setIsDepartmentNameEmpty(departmentNameChecker);
   };
 
@@ -292,8 +292,6 @@ export default function DepartmentForm({
     const selectedEmployees = rows.filter((row) => rowSelectionModel.includes(row.id));
 
     const newEmployees = selectedEmployees.map((row) => row.staffId);
-    console.log("Row selection model: ", rowSelectionModel);
-    console.log("Selected Employees: : ", selectedEmployees);
 
     const updatedEmployees = selectedEmployees.map((employee) => ({
       ...employee,
@@ -307,8 +305,6 @@ export default function DepartmentForm({
         UserInfors: newEmployees,
       };
 
-      console.log(departmentCreate.ManagerId);
-      console.log(departmentCreate.UserInfors);
       if (departmentName === "") {
         toast.error("Bạn quên nhập tên phòng ban 😥");
         return;
@@ -318,6 +314,7 @@ export default function DepartmentForm({
         .then((response) => {
           console.log("Department created successfully:", response);
           toast.success("Thêm phòng ban thành công 😊");
+          dispatch(fetchCurrentUser());
           dispatch(setDepartmentChanged(true));
         })
         .catch((error) => {
@@ -338,6 +335,7 @@ export default function DepartmentForm({
         .then((response) => {
           dispatch(setDepartmentEmployeeAdded(true));
           dispatch(setDepartmentChanged(true));
+          dispatch(fetchCurrentUser());
           toast.success("Thêm nhân viên thành công 😊");
           console.log("Department updated successfully:", response);
         })
@@ -433,7 +431,6 @@ export default function DepartmentForm({
           disableRowSelectionOnClick
           onRowSelectionModelChange={(newRowSelectionModel) => {
             setRowSelectionModel(newRowSelectionModel);
-            console.log(newRowSelectionModel);
           }}
         />
       </DialogContent>

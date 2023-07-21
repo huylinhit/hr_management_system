@@ -22,7 +22,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 
-import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
+import {
+  contractSelectors,
+  fetchContractsAsync,
+  setContractUpdated,
+} from "../../app/store/contract/contractSlice";
 import Contract from "../../app/models/contract";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
@@ -94,9 +98,10 @@ export default function Contracts() {
       width: 250,
       editable: true,
       renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Tạo bởi</>
-        </Typography>
+        <Box display={"flex"} alignItems={"center"} justifyContent={"center"} sx={headerStyle}>
+          <AccountCircleOutlinedIcon style={{ marginRight: 5 }} fontSize="small" />
+          Tạo bởi
+        </Box>
       ),
       renderCell: (params) => {
         const staffId = params.row.staffId;
@@ -120,9 +125,10 @@ export default function Contracts() {
       width: 300,
       editable: true,
       renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Loại hợp đồng</>
-        </Typography>
+        <Box display={"flex"} justifyContent="center" alignItems="center" sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" />
+          Loại hợp đồng
+        </Box>
       ),
       renderCell: (params) => {
         const rowIndex = params.row.contractTypeId % colors.length;
@@ -137,6 +143,30 @@ export default function Contracts() {
               {contractTypeName}
             </Typography>
           </Box>
+        );
+      },
+    },
+
+    {
+      field: "contractStatus",
+      headerName: "Trạng thái",
+      width: 200,
+      editable: true,
+      align: "left",
+      renderHeader: () => (
+        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
+        </Typography>
+      ),
+      renderCell(params) {
+        return (
+          <>
+            {params.value === true ? (
+              <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
+            ) : (
+              <ChipCustome status="rejected">Hết Hạn</ChipCustome>
+            )}
+          </>
         );
       },
     },
@@ -169,10 +199,10 @@ export default function Contracts() {
       width: 200,
       editable: true,
       renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
+        <Box display={"flex"} alignItems={"left"} sx={headerStyle}>
           <NumbersIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
           <Typography sx={headerStyle}>Người phụ thuộc</Typography>
-        </Typography>
+        </Box>
       ),
       renderCell: (params) => {
         return <Typography sx={cellStyle}>{params.value}</Typography>;
@@ -258,29 +288,6 @@ export default function Contracts() {
       },
     },
     {
-      field: "contractStatus",
-      headerName: "Trạng thái",
-      width: 200,
-      editable: true,
-      align: "left",
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"left"} sx={headerStyle}>
-          <FormatListBulletedIcon style={{ marginRight: 5 }} fontSize="small" /> <>Trạng thái</>
-        </Typography>
-      ),
-      renderCell(params) {
-        return (
-          <>
-            {params.value === true ? (
-              <ChipCustome status="waiting">Hiệu Lực</ChipCustome>
-            ) : (
-              <ChipCustome status="rejected">Hết Hạn</ChipCustome>
-            )}
-          </>
-        );
-      },
-    },
-    {
       field: "processNote",
       headerName: "Ghi chú",
       width: 250,
@@ -352,10 +359,15 @@ export default function Contracts() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-
+  const { user } = useAppSelector((state) => state.account);
   const contracts = useAppSelector(contractSelectors.selectAll);
+  const otherContracts = contracts.filter((c) => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
-  const { contractsLoaded, status: contractStatus } = useAppSelector((state) => state.contract);
+  const {
+    contractsLoaded,
+    status: contractStatus,
+    contractUpdated,
+  } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const location = useLocation();
 
@@ -364,18 +376,19 @@ export default function Contracts() {
   }, [location, dispatch]);
 
   useEffect(() => {
-    if (!contractsLoaded) {
+    if (!contractsLoaded || contractUpdated) {
       dispatch(fetchContractsAsync());
+      dispatch(setContractUpdated(false));
     }
-  }, [dispatch, contractsLoaded]);
+  }, [dispatch, contractsLoaded, contractUpdated]);
 
   useEffect(() => {
     if (contractsLoaded) {
-      setRows(contracts);
+      setRows(otherContracts);
     }
-  }, [contractsLoaded, contracts]);
+  }, [contractsLoaded, contracts, contractUpdated]);
 
-  if (contractStatus.includes("pending")) <LoadingComponent message="Đang Tải Hợp Đồng" />;
+  if (!contracts) <LoadingComponent message="Đang Tải Hợp Đồng" />;
 
   return (
     <>

@@ -99,7 +99,7 @@ export default function OtherUsersTicketList() {
       headerName: "",
       width: 75,
       renderCell: (params) => (
-        <IconButton component={Link} to={`/otheruserstickets/${params.row.ticketId}`}>
+        <IconButton component={Link} to={`/tickets/${params.row.ticketId}`}>
           <MoreHorizIcon />
         </IconButton>
       ),
@@ -126,7 +126,7 @@ export default function OtherUsersTicketList() {
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
-              imageFile={params.row.staff.imageFile}
+              imageFile={params.row.userInfor.imageFile}
               id={params.row.staffId}
               name={staffName}
               dependency={ticketsLoaded}

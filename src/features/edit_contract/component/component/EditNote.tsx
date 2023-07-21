@@ -51,9 +51,9 @@ export default function EditNote({ contract, setContractForm }: Props) {
           </Grid>
           <Grid item xs={7}>
             <TextField
-              required
               id="outlined-required"
               label="Số ngày làm việc"
+              disabled
               size="small"
               margin="dense"
               defaultValue={contract?.workDatePerWeek}
