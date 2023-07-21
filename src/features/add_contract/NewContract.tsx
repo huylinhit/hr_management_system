@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Dialog, Grid, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -14,8 +14,11 @@ import {
   setContractAdded,
 } from "../../app/store/contract/contractSlice";
 import { useAppDispatch } from "../../app/store/configureStore";
-
-export default function NewContract() {
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+export default function NewContract({ open, onClose }: Props) {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
   const history = useNavigate();
@@ -50,8 +53,7 @@ export default function NewContract() {
             key !== "note" &&
             key !== "noOfDependences"
           ) {
-            if (!(key === "endDate" && contractForm.contractTypeId === 2))
-              return false;
+            if (!(key === "endDate" && contractForm.contractTypeId === 2)) return false;
           }
         }
       }
@@ -64,7 +66,7 @@ export default function NewContract() {
       setContractForm((prevForm: any) => ({
         ...prevForm,
         endDate: "",
-      }));
+      }))
     }
     // -----------
     const currentDateTime = new Date();
@@ -79,9 +81,9 @@ export default function NewContract() {
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
-        dispatch(fetchContractsAsync());
+        dispatch(fetchContractsAsync())
         toast.success("Đã thêm hợp đồng thành công");
-        history(`/staffs`);
+        history(`/staffs`)
       })
       .catch((error) => {
         if (Array.isArray(error)) {
@@ -96,34 +98,29 @@ export default function NewContract() {
   const disabled = !areAllFieldsNotNull(contractForm);
 
   return (
-    <Box sx={{ padding: "10px 120px", width: "calc(100vh - 240)" }}>
-      <Grid
-        container
-        sx={{
-          border: "solid 1px rgba(226, 225, 229, 1)",
-          borderRadius: "10px",
-          padding: "30px 20px",
-          marginTop: "20px",
-        }}
-      >
-        <FormContent
-          contractForm={contractForm}
-          setContractForm={setContractForm}
-        />
-      </Grid>
+    <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
+      <Box sx={{ width: "calc(100vh - 240)" }}>
+        <Grid
+          container
+          sx={{
+            // border: "solid 1px rgba(226, 225, 229, 1)",
+            // borderRadius: "10px",
+            padding: "30px 20px",
+            marginTop: "20px",
+          }}
+        >
+          <FormContent contractForm={contractForm} setContractForm={setContractForm} />
+        </Grid>
 
-      <Grid
-        container
-        sx={{
-          padding: "30px 0",
-        }}
-      >
-        <FormFooter
-          id={Number(id)}
-          handleSubmit={handleSubmit}
-          disabled={disabled}
-        />
-      </Grid>
-    </Box>
+        <Grid
+          container
+          sx={{
+            padding: "30px 0",
+          }}
+        >
+          <FormFooter id={Number(id)} handleSubmit={handleSubmit} disabled={disabled} />
+        </Grid>
+      </Box>
+    </Dialog>
   );
 }

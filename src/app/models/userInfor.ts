@@ -1,8 +1,9 @@
+import Contract from "./contract";
 import { StaffSkill } from "./staffSkill";
 
 export interface UserInfor {
   staffId: number;
-  id: number;
+  id: string;
   imageFile: string;
   lastName: string;
   firstName: string;
@@ -26,4 +27,5 @@ export interface UserInfor {
   workTimeByYear: number;
   accountStatus: boolean;
   staffSkills: StaffSkill[];
+  personnelContract: Contract;
 }
