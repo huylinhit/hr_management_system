@@ -54,23 +54,35 @@ export default function EditContract() {
     employeeSelectors.selectById(state, Number(staffid))
   );
   const { status: employeeStatus, employeesLoaded } = useAppSelector(
-    (state) => state.employee 
+    (state) => state.employee
   );
 
   const contract = useAppSelector((state: any) =>
-    contractSelectors.selectById(state, Number(staffid))
+    contractSelectors.selectById(state, Number(id ))
   );
   const { status: contractStatus, contractsLoaded } = useAppSelector(
     (state) => state.contract
   );
 
-  const allowanceUpdate = contract?.allowances.map((allowance) => {
+  const [allowanceUpdate, setAllowanceUpdate] = useState(contract?.allowances.map((allowance) => {
     return {
       allowanceId: allowance.allowanceId,
       allowanceTypeId: allowance.allowanceTypeId,
       allowanceSalary: allowance.allowanceSalary,
     };
-  });
+  }));
+
+  console.log("contract: ",contract);
+  console.log("allowance: ", allowanceUpdate);
+  // const allowanceUpdate = contract?.allowances.map((allowance) => {
+  //   return {
+  //     allowanceId: allowance.allowanceId,
+  //     allowanceTypeId: allowance.allowanceTypeId,
+  //     allowanceSalary: allowance.allowanceSalary,
+  //   };
+  // });
+
+
   // -------------------------- STATE ---------------------------
   const [contractForm, setContractForm] = useState({
     startDate: contract?.startDate,
@@ -126,20 +138,34 @@ export default function EditContract() {
 
   useEffect(() => {
     if (!employeesLoaded)
-     dispatch(fetchEmployeeAsync(Number(staffid)));
-    if (!contractsLoaded) 
-    dispatch(fetchContractAsync(Number(staffid)));
+      dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!contractsLoaded)
+      dispatch(fetchContractAsync(Number(staffid)));
+
+
+
   }, [dispatch, employeesLoaded, contractsLoaded]);
 
   useEffect(() => {
-    if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync());
+    setAllowanceUpdate(contract?.allowances.map((allowance) => {
+      return {
+        allowanceId: allowance.allowanceId,
+        allowanceTypeId: allowance.allowanceTypeId,
+        allowanceSalary: allowance.allowanceSalary,
+      };
+    }))
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!allowanceTypesLoaded)
+      dispatch(fetchAllowanceTypesAsync());
   }, [dispatch, allowanceTypesLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (employeeStatus.includes("pending") )
-    return <LoadingComponent message="Đang tải nhân viên..." />; 
+  if (employeeStatus.includes("pending"))
+    return <LoadingComponent message="Đang tải nhân viên..." />;
 
   if (contractStatus.includes("pending"))
-  return <LoadingComponent message="Đang tải hợp đồng" />; 
+    return <LoadingComponent message="Đang tải hợp đồng" />;
 
   // -------------------------- MAIN ----------------------------
   return (

@@ -95,10 +95,6 @@ export default function ConfirmSubmitDialog({
   };
 
   const handleAllowance = () => {
-    console.log("allowanceUpdate: ", allowanceUpdate);
-    console.log("allowanceAdd: ", allowanceAdd);
-    console.log("allowanceDelete: ", allowanceDeleteList);
-
     allowanceUpdate?.forEach((allowance) => {
       const allowanceUpdate = {
         allowanceTypeId: allowance.allowanceTypeId,
@@ -110,11 +106,11 @@ export default function ConfirmSubmitDialog({
         allowanceUpdate
       )
         .then((response) => {
-          toast.success("Đã cập nhật phụ cấp thành công");
+          // toast.success("Đã cập nhật phụ cấp thành công");
         })
         .catch((error) => {
           setIsError(true);
-          toast.success("Lỗi khi cập nhật phụ cấp");
+          // toast.success("Lỗi khi cập nhật phụ cấp");
         });
     });
 
@@ -127,11 +123,11 @@ export default function ConfirmSubmitDialog({
       agent.Allowance.create(Number(contract?.contractId), allowanceAdd)
         .then((response) => {
           //dispatch(fetchContractsAsync());
-          toast.success("Đã thêm phụ cấp thành công");
+          // toast.success("Đã thêm phụ cấp thành công");
         })
         .catch((error) => {
           setIsError(true);
-          toast.error("Lỗi khi thêm phụ cấp");
+          // toast.error("Lỗi khi thêm phụ cấp");
         });
     });
 
@@ -147,14 +143,14 @@ export default function ConfirmSubmitDialog({
         .then((response) => {
           console.log("Delete contract successfully:", response);
           // dispatch(fetchContractAsync(Number(contract?.staffId)))
-          toast.success("Đã xóa phụ cấp thành công");
+          // toast.success("Đã xóa phụ cấp thành công");
         })
         .catch((error) => {
           console.error("Error delete contract:", error);
-          toast.error("Lỗi khi xóa phụ cấp");
+          // toast.error("Lỗi khi xóa phụ cấp");
         });
     });
-    dispatch(setContractUpdated(true));
+    toast.success("Cập nhật thành công")
     dispatch(fetchContractsAsync());
     // ------------------------------
   };
@@ -192,7 +188,7 @@ export default function ConfirmSubmitDialog({
       dispatch(fetchContractsAsync());
       dispatch(fetchContractAsync(Number(staffId)));
       dispatch(setContractAdded(true));
-      history(`/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}}`);
+      history(`/contracts/${contract?.contractId}/staffs/${staffId}/list`);
     }
     setOpen(false);
     dispatch(setContractUpdated(true));

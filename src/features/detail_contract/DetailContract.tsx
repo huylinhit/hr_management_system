@@ -48,8 +48,6 @@ export default function DetailContract() {
     (state) => state.employee
   );
 
-    console.log("Id: ", id);  
-
   const contract = useAppSelector((state) =>
     contractSelectors.selectById(state, Number(id))
   );
