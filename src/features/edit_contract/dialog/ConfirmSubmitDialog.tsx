@@ -81,6 +81,10 @@ export default function ConfirmSubmitDialog({
   const allowanceDeleteList: Array<AllowanceField> = allowanceDelete!?.filter(
     (a) => a.allowanceId !== 0
   );
+
+  const isChanged = !(
+    JSON.stringify(item) === JSON.stringify(initialContractForm)
+  );
   // -------------------------- STATE ---------------------------
   const [isError, setIsError] = useState(false);
   // -------------------------- REDUX ---------------------------
