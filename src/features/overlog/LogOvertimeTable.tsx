@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from "@mui/material";
 import { useState } from "react";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { LogOt } from "../../app/models/logOt";
@@ -20,7 +20,7 @@ function LogOvertimeTable({ logOts, totalLogOtDays, totalLogOtHours, totalLogOtS
 
     const dispatch = useAppDispatch();
 
-    console.log("here: ",now.getMonth());
+    console.log("here: ", now.getMonth());
 
     const handleClick = () => {
         setOpen(!open);
@@ -29,7 +29,14 @@ function LogOvertimeTable({ logOts, totalLogOtDays, totalLogOtHours, totalLogOtS
     return (
         <>
             <ListItemButton onClick={handleClick}>
-                <ListItemText primary="(4*) Diễn giải chi tiết ngày làm thêm (VND)" />
+                <ListItemText
+                    primary={
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                            (4*) Diễn giải chi tiết ngày làm thêm (VND)
+                        </Typography>
+                    }
+
+                />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

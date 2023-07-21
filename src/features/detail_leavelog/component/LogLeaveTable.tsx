@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from "@mui/material";
 import { useState } from "react";
 import { LogLeave } from "../../../app/models/logLeave";
 import moment from "moment";
@@ -21,7 +21,13 @@ function LogLeaveTable({ logLeavesStaff, unpaidLeaveDays, paidLeaveDays, unpaidL
     return (
         <>
             <ListItemButton onClick={handleClick}>
-                <ListItemText primary="(2*) Diễn giải chi tiết ngày nghỉ" />
+                <ListItemText
+                  primary={
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                            (2*) Diễn giải chi tiết ngày nghỉ (VND)
+                        </Typography>
+                    }
+                  />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

@@ -106,7 +106,7 @@ function ButtonField(props: ButtonFieldProps) {
         </Button>
     );
 }
-const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
+export const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     "label + &": {
         marginTop: theme.spacing(3),
     },
@@ -201,6 +201,12 @@ for (let id = 1; id <= 12; id++) {
 
     time.push({ id, month, year });
 }
+export interface PayslipCreationDto {
+    month: number
+    year: number
+    creatorId: number
+}
+
 export default function CreatePayslipMainForm({ isOwn, open, onClose }: Props) {
     const { user } = useAppSelector(state => state.account);
     const [selectedOption, setSelectedOption] = useState(0);

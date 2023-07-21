@@ -38,6 +38,7 @@ import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
 import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
+import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
 
 function CustomToolbar() {
   return (
@@ -581,7 +582,12 @@ export default function Payslips() {
             </Button>
           </Grid>
 
-          <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
+          <CreatePayslipNewVersion
+            open={open}
+              onClose={handleCloseDialog}
+          />
+
+          {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
