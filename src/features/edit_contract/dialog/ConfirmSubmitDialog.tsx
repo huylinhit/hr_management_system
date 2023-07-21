@@ -37,6 +37,7 @@ interface Props {
   item: Object;
   allowanceForm: Array<AllowanceField> | undefined;
   prevpage: string | undefined;
+  allowanceDelete: Array<AllowanceField> | undefined
 }
 
 export default function ConfirmSubmitDialog({
@@ -48,6 +49,7 @@ export default function ConfirmSubmitDialog({
   staffId,
   item,
   allowanceForm,
+  allowanceDelete,
   prevpage,
 }: Props) {
   // -------------------------- VAR -----------------------------
@@ -56,8 +58,11 @@ export default function ConfirmSubmitDialog({
   const history = useNavigate();
   const dispatch = useAppDispatch();
 
+  const deleteLength = Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length)
+  const length = Number(contract?.allowances.length)
+
   const allowanceUpdate: Array<AllowanceField> = allowanceForm!
-    ?.slice(0, Number(contract?.allowances.length))
+    ?.slice(0, length - deleteLength)
     ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
@@ -65,12 +70,14 @@ export default function ConfirmSubmitDialog({
     }));
 
   const allowanceAdd: Array<AllowanceField> = allowanceForm!
-    ?.slice(Number(contract?.allowances.length))
+    ?.slice(length - deleteLength)
     ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
       allowanceSalary,
     }));
+
+  const allowanceDeleteList: Array<AllowanceField> = allowanceDelete!?.filter((a) => a.allowanceId !== 0)
 
   const isChanged = !(
     JSON.stringify(item) === JSON.stringify(initialContractForm)
@@ -116,6 +123,25 @@ export default function ConfirmSubmitDialog({
           setIsError(true);
           toast.error("Lỗi khi thêm phụ cấp");
         });
+    });
+    // ------------------------------
+    allowanceDeleteList?.forEach((allowance) => {
+      const allowanceAdd = {
+        allowanceTypeId: allowance.allowanceTypeId,
+        allowanceSalary: allowance.allowanceSalary,
+      };
+
+      agent.Allowance.delete(allowance.allowanceId)
+      .then((response) => {
+        console.log("Delete contract successfully:", response);
+        dispatch(fetchContractAsync(Number(contract?.staffId)))
+        toast.success("Đã xóa phụ cấp thành công");
+        
+      })
+      .catch((error) => {
+        console.error("Error delete contract:", error);
+        toast.error("Lỗi khi xóa phụ cấp");
+      });
     });
   };
 

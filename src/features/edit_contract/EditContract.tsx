@@ -25,6 +25,13 @@ import {
 } from "../../app/store/allowanceType/allowanceTypeSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 
+
+interface AllowanceField {
+  allowanceId: number;
+  allowanceTypeId: number;
+  allowanceSalary: number;
+}
+
 const fontStyle = "Mulish";
 
 const headerStyle = {
@@ -87,6 +94,7 @@ export default function EditContract() {
   const { allowanceTypesLoaded } = useAppSelector(
     (state) => state.allowanceType
   );
+  const [allowanceDelete, setAllowanceDelete] = useState<AllowanceField[]>();
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if (prevpage === "list") {
@@ -175,6 +183,8 @@ export default function EditContract() {
               setContractForm={setContractForm}
               allowanceForm={allowanceForm}
               setAllowanceForm={setAllowanceForm}
+              allowanceDelete={allowanceDelete}
+              setAllowanceDelete={setAllowanceDelete}
             />
           </Grid>
         </Grid>
@@ -203,6 +213,7 @@ export default function EditContract() {
         staffId={contract?.staffId}
         item={contractForm}
         allowanceForm={allowanceForm}
+        allowanceDelete={allowanceDelete}
         prevpage={prevpage}
       />
     </Box>
