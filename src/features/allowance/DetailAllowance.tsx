@@ -1,5 +1,5 @@
 import { ConstructionOutlined, ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemText, Collapse, TableContainer, TableRow, TableCell, Table, TableBody, TableHead, Paper } from "@mui/material";
+import { ListItemButton, ListItemText, Collapse, TableContainer, TableRow, TableCell, Table, TableBody, TableHead, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import axios from "axios";
@@ -20,7 +20,13 @@ function DetailAllowance({ allowances, totalAllowance }: Props) {
     return (
         <>
             <ListItemButton onClick={handleClick}>
-                <ListItemText primary="(1*) Diễn giải chi tiết phúc lợi (VND)" />
+                <ListItemText
+                    primary={
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                            (1*) Diễn giải chi tiết phúc lợi (VND)
+                        </Typography>
+                    }
+                />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

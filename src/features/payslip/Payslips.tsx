@@ -38,6 +38,7 @@ import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
 import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
+import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
 
 function CustomToolbar() {
   return (
@@ -514,7 +515,6 @@ export default function Payslips() {
             >
               Sort
             </Button> */}
-            {user?.roles?.includes("HRManager") && (
               <Button
                 variant="outlined"
                 startIcon={<CheckCircle />}
@@ -542,9 +542,7 @@ export default function Payslips() {
               >
                 Duyệt lương
               </Button>
-            )}
 
-            {user?.roles?.includes("HRManager") && (
               <ConfirmPayslips
                 payslips={payslips}
                 department={null}
@@ -554,7 +552,6 @@ export default function Payslips() {
                 departmentNameParam=""
                 departmentId={0}
               />
-            )}
 
             <Button
               variant="outlined"
@@ -581,7 +578,12 @@ export default function Payslips() {
             </Button>
           </Grid>
 
-          <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
+          <CreatePayslipNewVersion
+            open={open}
+            onClose={handleCloseDialog}
+          />
+
+          {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>

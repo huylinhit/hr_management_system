@@ -12,7 +12,7 @@ interface ContractState {
 }
 
 const contractAdapter = createEntityAdapter<Contract>({
-  selectId: contract => contract.staffId,
+  selectId: contract => contract.contractId,
 });
 
 export const fetchContractsAsync = createAsyncThunk<Contract[], void, { state: RootState }>(

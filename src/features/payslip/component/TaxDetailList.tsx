@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { ListItemButton, ListItemText, Collapse, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from "@mui/material";
 import { useState } from "react";
 import { TaxDetail } from "../../../app/models/taxDetail";
 
@@ -19,7 +19,14 @@ function TaxDetailList({
     return (
         <>
             <ListItemButton onClick={handleClick}>
-                <ListItemText primary="(3*) Chi tiết thuế thu nhập cá nhân (VND)" />
+                <ListItemText
+                    primary={
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                            (3*) Chi tiết thuế thu nhập cá nhân (VND)
+                        </Typography>
+                    }
+
+                />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

@@ -54,7 +54,7 @@ export default function EditContract() {
     employeeSelectors.selectById(state, Number(staffid))
   );
   const { status: employeeStatus, employeesLoaded } = useAppSelector(
-    (state) => state.employee
+    (state) => state.employee 
   );
 
   const contract = useAppSelector((state: any) =>
@@ -125,16 +125,22 @@ export default function EditContract() {
   }, [dispatch, location]);
 
   useEffect(() => {
-    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
-    if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
+    if (!employeesLoaded)
+     dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!contractsLoaded) 
+    dispatch(fetchContractAsync(Number(staffid)));
   }, [dispatch, employeesLoaded, contractsLoaded]);
 
   useEffect(() => {
     if (!allowanceTypesLoaded) dispatch(fetchAllowanceTypesAsync());
   }, [dispatch, allowanceTypesLoaded]);
   // -------------------------- FUNCTION ------------------------
-  if (employeeStatus.includes("pending") && contractStatus.includes("pending"))
-    return <LoadingComponent message="Đang tải..." />;
+  if (employeeStatus.includes("pending") )
+    return <LoadingComponent message="Đang tải nhân viên..." />; 
+
+  if (contractStatus.includes("pending"))
+  return <LoadingComponent message="Đang tải hợp đồng" />; 
+
   // -------------------------- MAIN ----------------------------
   return (
     <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>

@@ -85,14 +85,14 @@ const Contract = {
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
   update: (contractId: number, staffId: number, values: any) =>
     requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
-  patch: (id: number, values: any) => requests.patch(`contracts/${id}`, values),
+  patch: (contractId: number, staffId:number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
 };
 
 const Department = {
   list: () => requests.get("departments"),
   details: (id: number) => requests.get(`departments/${id}`),
   create: (values: any) => requests.post("departments", values),
-  update: (id: number, values: any) => requests.put(`departments/${id}`, values),
+  update: (id: number, values: any) => requests.put(`departments/${id}`, values), 
   patch: (id: number, values: any) => requests.patch(`departments/${id}`, values),
 };
 
