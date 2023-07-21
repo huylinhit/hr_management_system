@@ -423,6 +423,17 @@ export default function Contracts() {
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box> */}
+      <Box
+        sx={{
+          mb: "5px",
+          textTransform: "none",
+          fontFamily: "Mulish",
+          height: "30px",
+          
+        }}
+      >
+
+      </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid

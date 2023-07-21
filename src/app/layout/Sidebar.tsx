@@ -363,14 +363,13 @@ export default function Sidebar() {
                   </Collapse>
                 </>
                 {/*Contract */}
-                <>
+                {/* <>
                   <ListItemButton className={cx("header")} onClick={handleOpenContract}>
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...headerStyle }}
                       primary="HỢP ĐỒNG"
                     />
-                    {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
                   <Collapse in={openContract} timeout="auto" unmountOnExit>
                    
@@ -391,8 +390,7 @@ export default function Sidebar() {
                       />
                     </ListItemButton>
                   </Collapse>
-                  
-                </>
+                </> */}
               </List>
               </>
             )}
@@ -670,14 +668,13 @@ export default function Sidebar() {
                   </Collapse>
                 </>
                 {/*Contract */}
-                <>
+                {/* <>
                   <ListItemButton className={cx("header")} onClick={handleOpenContract}>
                     <ListItemText
                       className={cx("list-item-content")}
                       primaryTypographyProps={{ ...headerStyle }}
                       primary="HỢP ĐỒNG"
                     />
-                    {/* {openTicket ? <ExpandLess /> : <ExpandMore />} */}
                   </ListItemButton>
                   <Collapse in={openContract} timeout="auto" unmountOnExit>
                     <ListItemButton
@@ -713,8 +710,9 @@ export default function Sidebar() {
                       />
                     </ListItemButton>
                   </Collapse>
-                  {/*Ứng viên Candidates*/}
-                  <>
+                </> */}
+                {/*Ứng viên Candidates*/}
+                <>
                     <ListItemButton className={cx("header")} onClick={handleOpenCandidate}>
                       <ListItemText
                         className={cx("list-item-content")}
@@ -759,7 +757,6 @@ export default function Sidebar() {
                     </ListItemButton> */}
                     </Collapse>
                   </>
-                </>
               </List>
             )}
           </Box>

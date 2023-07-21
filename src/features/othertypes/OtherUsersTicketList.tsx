@@ -171,17 +171,7 @@ export default function OtherUsersTicketList() {
         </Typography>
       ),
     },
-    {
-      field: "ticketFile",
-      headerName: "File",
-      width: 300,
-      editable: true,
-      renderHeader: () => (
-        <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-          <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <>File đính kèm</>
-        </Typography>
-      ),
-    },
+
     {
       field: "ticketStatus",
       headerName: "Trạng thái",
@@ -250,6 +240,17 @@ export default function OtherUsersTicketList() {
         );
       },
     },
+    // {
+    //   field: "ticketFile",
+    //   headerName: "File",
+    //   width: 300,
+    //   editable: true,
+    //   renderHeader: () => (
+    //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
+    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <>File đính kèm</>
+    //     </Typography>
+    //   ),
+    // },
     {
       field: "processNote",
       headerName: "Ghi chú",
@@ -296,7 +297,7 @@ export default function OtherUsersTicketList() {
         .then((url) => {
           setAvatarUrl(url);
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }, [ticketsLoaded]);
     return (
       <Avatar
@@ -425,6 +426,26 @@ export default function OtherUsersTicketList() {
             >
               Tạo đơn mới
             </Button> */}
+            <Box
+              sx={{
+                mb: "5px",
+                textTransform: "none",
+                fontFamily: "Mulish",
+                height: "30px",
+                color: "#FFFFFF",
+                backgroundColor: "#007FFF",
+                "&:hover": {
+                  backgroundColor: "#0073E7",
+                  color: "#FFFFFF",
+                },
+                "&:active": {
+                  backgroundColor: "#0066CD",
+                  color: "#FFFFFF",
+                },
+              }}
+            >
+
+            </Box>
           </Grid>
 
           <CreateTicketForm open={open} onClose={handleCloseDialog} />

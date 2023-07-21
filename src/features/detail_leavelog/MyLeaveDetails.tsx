@@ -510,7 +510,8 @@ export default function MyLeaveDetails() {
               InputProps={textFieldInputProps}
               variant="standard"
               onChange={handleLeaveChange}
-              disabled={!logLeave.enable}
+              disabled
+              // disabled={!logLeave.enable}
               select
               sx={{ ...infoStyle }}
             >
@@ -522,8 +523,19 @@ export default function MyLeaveDetails() {
             </BootstrapInput>
           </Box>
         </Box>
-
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày bắt đầu"
+          defaultValue={`${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}`}
+          disabled={true}
+        />
+         <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày kết thúc"
+          defaultValue={`${moment(logLeave?.leaveEnd).format("MMM Do, YYYY")}`}
+          disabled={true}
+        />
+        {/* <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
           <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
           <Typography sx={headerStyle}>Ngày bắt đầu</Typography>
           <Box sx={{ flexGrow: 1 }}>
@@ -543,6 +555,7 @@ export default function MyLeaveDetails() {
                   )
                 )}
                 onChange={handleSetStartDate}
+                disabled
               />
             </LocalizationProvider>
           </Box>
@@ -567,11 +580,12 @@ export default function MyLeaveDetails() {
                       )
                   )
                 )}
+                disabled
                 onChange={(newValue: any) => setEndDate(newValue)}
               />
             </LocalizationProvider>
           </Box>
-        </Box>
+        </Box> */}
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}

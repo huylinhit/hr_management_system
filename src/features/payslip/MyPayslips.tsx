@@ -512,6 +512,26 @@ export default function Payslips() {
                         >
                             Tạo bảng lương
                         </Button> */}
+                        <Box
+                            sx={{
+                                mb: "5px",
+                                textTransform: "none",
+                                fontFamily: "Mulish",
+                                height: "30px",
+                                color: "#FFFFFF",
+                                backgroundColor: "#007FFF",
+                                "&:hover": {
+                                    backgroundColor: "#0073E7",
+                                    color: "#FFFFFF",
+                                },
+                                "&:active": {
+                                    backgroundColor: "#0066CD",
+                                    color: "#FFFFFF",
+                                },
+                            }}
+                        >
+
+                        </Box>
                     </Grid>
 
                     <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
