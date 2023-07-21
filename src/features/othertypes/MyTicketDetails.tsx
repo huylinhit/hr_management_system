@@ -191,7 +191,7 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
     if (ticket) {
       dispatch(
         setHeaderTitle([
-          { title: "Đơn khác của tôi", path: "/mytickets" },
+          { title: "Đơn khác của tôi", path: "/own-tickets" },
           { title: "Chỉnh sửa đơn", path: "" },
         ])
       );

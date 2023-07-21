@@ -86,7 +86,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
   useEffect(() => {
     dispatch(
       setHeaderTitle([
-        { title: "Đơn khác của nhân viên", path: "/log-leaves" },
+        { title: "Đơn khác của nhân viên", path: "/tickets" },
         { title: "Phản hồi đơn", path: "" },
       ])
     );
