@@ -16,6 +16,7 @@ import { headerSlice } from "../layout/headerSlice";
 import { contractSlice } from "./contract/contractSlice";
 import { allowanceTypeSlice } from "./allowanceType/allowanceTypeSlice";
 import { leaveDayDetailSlice } from "../../features/detail_leavelog/leaveDayDetailSlice";
+import { allowanceSlice } from "../../features/edit_contract/component/allowanceSlice";
 
 export const store = configureStore({
     reducer: {
@@ -33,8 +34,10 @@ export const store = configureStore({
         employee: employeeSlice.reducer,
         candidate: candidateSlice.reducer,
         header: headerSlice.reducer,
+        allowance: allowanceSlice.reducer,
         allowanceType: allowanceTypeSlice.reducer,
         leaveDayDetail: leaveDayDetailSlice.reducer,
+        
     }
 })
 
