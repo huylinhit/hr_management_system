@@ -159,36 +159,70 @@ export default function Sidebar() {
         >
           <Box>
             <List className={cx("container")}>
-              <ListItemButton
-                component={Link}
-                to={`/staffs/${user?.userInfor.staffId}`}
-                className={cx("header")}
-              >
-                <Avatar
-                  variant="rounded"
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    bgcolor: deepPurple[500],
-                    mr: "12px",
-                  }}
-                  src={avatarUrl}
-                  alt=""
+              {user && user.roles?.includes("HRStaff") && (
+                <ListItemButton
+                  component={Link}
+                  to={`/staffs/${user?.userInfor.staffId}`}
+                  className={cx("header")}
                 >
-                  {user?.userInfor.fullName.charAt(0)}
-                </Avatar>
-                <ListItemText
-                  className={cx("list-item-content")}
-                  primaryTypographyProps={{
-                    // color: "#000000",
-                    // color: "#000",
-                    fontWeight: 600,
-                    fontFamily: "Mulish",
-                    fontSize: 16,
-                  }}
-                  primary={user?.userInfor.fullName}
-                />
-              </ListItemButton>
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      bgcolor: deepPurple[500],
+                      mr: "12px",
+                    }}
+                    src={avatarUrl}
+                    alt=""
+                  >
+                    {user?.userInfor.fullName.charAt(0)}
+                  </Avatar>
+                  <ListItemText
+                    className={cx("list-item-content")}
+                    primaryTypographyProps={{
+                      // color: "#000000",
+                      // color: "#000",
+                      fontWeight: 600,
+                      fontFamily: "Mulish",
+                      fontSize: 16,
+                    }}
+                    primary={user?.userInfor.fullName}
+                  />
+                </ListItemButton>
+              )}
+              {user && user.roles?.includes("Staff") && user.roles.length === 1 && (
+                <ListItemButton
+                  component={Link}
+                  to={`/staffss/${user?.userInfor.staffId}`}
+                  className={cx("header")}
+                >
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      bgcolor: deepPurple[500],
+                      mr: "12px",
+                    }}
+                    src={avatarUrl}
+                    alt=""
+                  >
+                    {user?.userInfor.fullName.charAt(0)}
+                  </Avatar>
+                  <ListItemText
+                    className={cx("list-item-content")}
+                    primaryTypographyProps={{
+                      // color: "#000000",
+                      // color: "#000",
+                      fontWeight: 600,
+                      fontFamily: "Mulish",
+                      fontSize: 16,
+                    }}
+                    primary={user?.userInfor.fullName}
+                  />
+                </ListItemButton>
+              )}
               {/* <ListItemButton onClick={handleOpenStaff}>
                 <ListItemIcon sx={{ minWidth: "30px" }}>
                   <Settings fontSize="small" />
