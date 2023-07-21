@@ -126,7 +126,7 @@ export default function OtherUsersTicketList() {
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
-              imageFile={params.row.staff.imageFile}
+              imageFile={params.row.userInfor.imageFile}
               id={params.row.staffId}
               name={staffName}
               dependency={ticketsLoaded}
