@@ -172,7 +172,7 @@ export default function ConfirmSubmitDialog({
       agent.Contract.update(Number(contract?.contractId), Number(staffId), item)
         .then((response) => {
           toast.success("Đã cập nhật hợp đồng thành công");
-          dispatch(setContractUpdated(true));
+
           handleAllowance();
         })
         .catch((error) => {
@@ -191,6 +191,7 @@ export default function ConfirmSubmitDialog({
       history(`/contracts/${contract?.contractId}/staffs/${staffId}/list`);
     }
     setOpen(false);
+    dispatch(setContractUpdated(true));
     dispatch(fetchContractsAsync());
   };
   // -------------------------- MAIN ----------------------------
