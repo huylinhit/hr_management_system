@@ -92,7 +92,7 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
               label="Loại hợp đồng"
               size="small"
               margin="dense"
-              defaultValue={contract?.contractType?.contractTypeId}
+              defaultValue={Number(contract?.contractType?.contractTypeId)}
               onChange={(e) =>
                 setContractForm((prevForm: any) => ({
                   ...prevForm,

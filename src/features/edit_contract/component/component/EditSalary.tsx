@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Grid, IconButton, TextField, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleSharpIcon from "@mui/icons-material/RemoveCircleSharp";
 
 // component
 import AddAllowanceDialog from "../../dialog/AddAllowanceDialog";
@@ -10,12 +11,13 @@ import Contract from "../../../../app/models/contract";
 import { UserInfor } from "../../../../app/models/userInfor";
 import { useAppSelector } from "../../../../app/store/configureStore";
 import { allowanceTypeSelectors } from "../../../../app/store/allowanceType/allowanceTypeSlice";
+import DeleteDialog from "../../dialog/DeleteDialog";
 
 interface AllowanceList {
   allowanceId: number;
   allowanceTypeId: number;
   allowanceSalary: number;
-  allowanceName: string|undefined
+  allowanceName: string | undefined;
 }
 
 interface AllowanceField {
@@ -31,6 +33,8 @@ interface Props {
   setContractForm: Function;
   allowanceForm: Array<AllowanceField> | undefined;
   setAllowanceForm: Function;
+  allowanceDelete: Array<AllowanceField> | undefined
+  setAllowanceDelete: Function
 }
 const fontStyle = "Mulish";
 
@@ -50,18 +54,26 @@ export default function EditSalary({
   setContractForm,
   allowanceForm,
   setAllowanceForm,
+  allowanceDelete,
+  setAllowanceDelete
 }: Props) {
   // -------------------------- VAR -----------------------------
-  const allowanceType = useAppSelector((state: any) => allowanceTypeSelectors.selectAll(state))
-  const allowanceList: Array<AllowanceList> = allowanceForm!.map((allowance) => ({
-    ...allowance,
-    allowanceName: allowanceType.find((a) => a.allowanceTypeId === allowance.allowanceTypeId)?.allowanceName
-  }))
+  const allowanceType = useAppSelector((state: any) =>
+    allowanceTypeSelectors.selectAll(state)
+  );
+  const allowanceList: Array<AllowanceList> = allowanceForm!?.map(
+    (allowance) => ({
+      ...allowance,
+      allowanceName: allowanceType.find(
+        (a) => a.allowanceTypeId === allowance.allowanceTypeId
+      )?.allowanceName,
+    })
+  );
   //--------------------------- STATE ---------------------------
+  const [allowanceDeleted, setAllowanceDeleted] = useState<AllowanceList>()
   const [openDeleteAllowance, setOpenDeleteAllowance] = useState(false);
   const [openAddAllowance, setOpenAddAllowance] = useState(false);
   // -------------------------- REDUX ---------------------------
-  
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
   // -------------------------- MAIN ----------------------------
@@ -149,7 +161,7 @@ export default function EditSalary({
           <Grid item xs={7}></Grid>
         </Grid>
 
-        {allowanceList.map((a, index) => (
+        {allowanceList?.map((a, index) => (
           <Grid
             container
             key={a.allowanceTypeId}
@@ -161,12 +173,18 @@ export default function EditSalary({
               padding: "0 30px 5px 30px",
             }}
           >
-            <Grid item xs={4}>
-              <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
+            <Grid item xs={3.5}>
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "18px",
+                  fontFamily: "Mulish",
+                }}
+              >
                 {a.allowanceName}:
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={1}>
               <TextField
                 required
                 id="outlined-required"
@@ -177,15 +195,28 @@ export default function EditSalary({
                 onChange={(e) => {
                   const updateField = [...allowanceList];
                   updateField[index].allowanceSalary = Number(e.target.value);
-                  setAllowanceForm(updateField);
+                  setAllowanceForm(updateField)
                 }}
               />
+            </Grid>
+            <Grid item xs={5.5}>
+              <IconButton
+                aria-label="add"
+                sx={{ marginLeft: "100px" }}
+                onClick={() => {
+                  setAllowanceDeleted(a)
+                  setOpenDeleteAllowance(true)}}
+              >
+                <RemoveCircleSharpIcon
+                  sx={{ color: "red", fontSize: "35px" }}
+                />
+              </IconButton>
             </Grid>
           </Grid>
         ))}
 
         <IconButton
-          aria-label="delete"
+          aria-label="add"
           sx={{ marginLeft: "100px" }}
           onClick={() => setOpenAddAllowance(true)}
         >
@@ -220,7 +251,9 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}
+            >
               Số TK ngân hàng:
             </Typography>
           </Grid>
@@ -239,7 +272,9 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}
+            >
               Chủ tài khoản:
             </Typography>
           </Grid>
@@ -258,7 +293,9 @@ export default function EditSalary({
           }}
         >
           <Grid item xs={3}>
-            <Typography sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "18px", fontFamily: "Mulish" }}
+            >
               Ngân hàng:
             </Typography>
           </Grid>
@@ -273,6 +310,16 @@ export default function EditSalary({
         setOpen={setOpenAddAllowance}
         allowanceForm={allowanceForm}
         setAllowanceForm={setAllowanceForm}
+      />
+
+      <DeleteDialog
+        open={openDeleteAllowance}
+        setOpen={setOpenDeleteAllowance}
+        allowanceDeleted={allowanceDeleted}
+        allowanceForm={allowanceForm}
+        setAllowanceForm={setAllowanceForm}
+        allowanceDelete={allowanceDelete}
+        setAllowanceDelete={setAllowanceDelete}
       />
     </Grid>
   );

@@ -11,18 +11,12 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  styled,
-  tableCellClasses,
-  Container,
   IconButton,
   Box,
-  Avatar,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { employeeSelectors, fetchEmployeesAsync } from "../../app/store/employee/employeeSlice";
 import { UserInfor } from "../../app/models/userInfor";
 import DeleteDialog from "./component/DeleteDialog";
@@ -31,8 +25,6 @@ import { CiCircleMore } from "react-icons/ci";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import styles from '../payslip/component/payslip.module.scss';
 import classNames from "classnames/bind";
-import { deepOrange } from "@mui/material/colors";
-import { Height } from "@mui/icons-material";
 
 const cx = classNames.bind(styles);
 
