@@ -106,13 +106,16 @@ export const router = createBrowserRouter([
       {
         element: <RequireAuth roles={["Staff"]} />,
         children: [
+          { path: "/departments/:id", element: <DepartmentDetails /> },
           { path: "/own-log-leaves", element: <MyLeaveList /> },
           { path: "/own-log-leaves/:id", element: <MyLeaveDetails /> },
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           { path: "/own-tickets", element: <MyTicketList /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
-          { path: "/staffss/:id", element: <SelfDetails /> },
+          { path: "/own-payslips", element: <MyPayslips /> },
+          { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
+          // { path: "/staffs/:id", element: <SelfDetails /> },
 
           // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
@@ -125,25 +128,25 @@ export const router = createBrowserRouter([
           //Dashboard
           { path: "/dashboard", element: <DashBoard /> },
           { path: "/other-leave-list/:id", element: <LeaveApproval /> },
-          // Others
+
           //department
           { path: "/departments", element: <DepartmentList /> },
           { path: "/departments/:id", element: <DepartmentDetails /> },
+
           //employeee
           { path: "/staffs", element: <StaffList /> },
           { path: "/staffs/:id", element: <EditInfo /> },
           { path: "/staffs/add", element: <AddNewEmployee /> },
 
           //candidate
-
           { path: "/candidates/", element: <CandidateList /> },
           { path: "/candidates/:id", element: <CandidateDetails /> },
+
           //contract
           { path: "/contracts", element: <Contracts /> },
           { path: "/contracts/:id/staffs/:staffid/:prevpage", element: <DetailContract /> },
           { path: "/own-contract", element: <DetailOwnContract /> },
           { path: "/contracts/:id/staffs/:staffid/:prevpage/edit", element: <EditContract /> },
-          // { path: "/contracts/staffs/:id/add", element: <NewContract /> },
 
           //leave
           { path: "/log-leaves", element: <OtherLeaveList /> },
@@ -153,35 +156,25 @@ export const router = createBrowserRouter([
 
           //ot
           { path: "/log-overtimes", element: <OtherOTList /> },
-          // { path: "/log-overtimes/:id", element: <DetailOvertime /> },
           { path: "/log-overtimes/:id/staffs/:staffid", element: <DetailOvertime2 /> },
           { path: "/own-log-overtimes", element: <MyOTList /> },
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
-          // { path: "/own-log-overtimes/:id", element: <DetailOwnOvertime /> },
 
           //other
           { path: "/tickets", element: <OtherUsersTicketList /> },
           { path: "/tickets/:id", element: <TicketApprovalForm /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
           { path: "/own-tickets", element: <MyTicketList /> },
-          // { path: "/detailEmployee/:id", element: <DetailEmployee /> },
 
           //payslip
-
           { path: "/payslips", element: <Payslips /> },
           { path: "/payslips/:payslipId/staffs/:staffId", element: <PayslipDetail /> },
           { path: "/own-payslips", element: <MyPayslips /> },
           { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
-          //Contract
-          // { path: "/editcontract", element: <EditContract /> },
-          // { path: "/contractdetail", element: <ContractDetail /> },
         ],
       },
+
       { path: "/", element: <HomePage /> },
-      { path: "/my-payroll", element: <MyPayroll /> },
-
-      // { path: "/payroll", element: <Payroll /> },
-
       // Others
       { path: "server-error", element: <ServerErrorPage /> },
       { path: "not-found", element: <NotFound /> },

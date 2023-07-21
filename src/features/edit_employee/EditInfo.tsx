@@ -267,7 +267,7 @@ export default function EditInfo() {
   // -------------------------- REDUX ---------------------------
   const dispatch = useAppDispatch();
   const departments = useAppSelector(departmentSelectors.selectAll);
-  const { departmentsLoaded } = useAppSelector((state) => state.department);
+  const { departmentsLoaded } = useAppSelector((state: any) => state.department);
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if (!contractsLoaded) dispatch(fetchContractsAsync());
@@ -581,6 +581,18 @@ export default function EditInfo() {
             Xác nhận
           </Button>
         </Box>
+        {/* <Button
+            variant="outlined"
+            onClick={handleOpenDialog}
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              fontFamily: fontStyle,
+            }}
+            disableElevation={true}
+          >
+            Tạo hợp đồng
+          </Button> */}
         {!!isExistContract ? (
           <Button
             variant="contained"

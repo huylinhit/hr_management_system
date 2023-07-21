@@ -112,8 +112,8 @@ export default function DepartmentDetails() {
                 params.row.isManager === true
                   ? "Manager"
                   : selectedId === params.row.id
-                  ? "Manager"
-                  : "Staff"
+                    ? "Manager"
+                    : "Staff"
               }
             >
               <AccountCircleIcon
@@ -122,8 +122,8 @@ export default function DepartmentDetails() {
                     params.row.isManager === true
                       ? "#007FFF"
                       : selectedId === params.row.id
-                      ? "#FF5353"
-                      : "#AEAEAE",
+                        ? "#FF5353"
+                        : "#AEAEAE",
                 }}
               />
             </Tooltip>
@@ -333,6 +333,7 @@ export default function DepartmentDetails() {
   const department = useAppSelector((state) => departmentSelectors.selectById(state, id!));
   const [open, setOpen] = useState(false);
   const [openManager, setOpenManager] = useState(false);
+  const { user } = useAppSelector(state => state.account);
 
   const handleOpenDialog = () => setOpen(true);
   const handleCloseDialog = () => setOpen(false);
@@ -406,57 +407,62 @@ export default function DepartmentDetails() {
             >
               Sort
             </Button> */}
-            <Tooltip title="Đổi quản lý">
-              <Button
-                variant="text"
-                sx={{
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  textTransform: "none",
-                  borderRadius: "10px",
+            {user?.roles?.includes("HRStaff") && (
+              <>
+                <Tooltip title="Đổi quản lý">
+                  <Button
+                    variant="text"
+                    sx={{
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      textTransform: "none",
+                      borderRadius: "10px",
 
-                  marginRight: 0,
-                  padding: "0px 10px 0px 10px",
-                  color: "#007FFF",
-                }}
-                disableElevation={true}
-                startIcon={<AccountCircleIcon />}
-                onClick={handleOpenManagerDialog}
-              >
-                Quản lý: {department?.manager}
-              </Button>
-            </Tooltip>
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={handleOpenDialog}
-              sx={{
-                mb: "5px",
-                textTransform: "none",
-                fontFamily: "Mulish",
-                height: "30px",
-                color: "#FFFFFF",
-                backgroundColor: "#007FFF",
-                "&:hover": {
-                  backgroundColor: "#0073E7",
-                  color: "#FFFFFF",
-                },
-                "&:active": {
-                  backgroundColor: "#0066CD",
-                  color: "#FFFFFF",
-                },
-              }}
-            >
-              Thêm nhân viên
-            </Button>
-            <DepartmentForm
-              department={department ?? null}
-              open={open}
-              onClose={handleCloseDialog}
-              createOrAdd={true}
-              departmentNameParam={department?.departmentName ?? "none"}
-              departmentId={department?.departmentId ?? 0}
-            />
+                      marginRight: 0,
+                      padding: "0px 10px 0px 10px",
+                      color: "#007FFF",
+                    }}
+                    disableElevation={true}
+                    startIcon={<AccountCircleIcon />}
+                    onClick={handleOpenManagerDialog}
+                  >
+                    Quản lý: {department?.manager}
+                  </Button>
+                </Tooltip>
+                <Button
+                  variant="outlined"
+                  startIcon={<AddIcon />}
+                  onClick={handleOpenDialog}
+                  sx={{
+                    mb: "5px",
+                    textTransform: "none",
+                    fontFamily: "Mulish",
+                    height: "30px",
+                    color: "#FFFFFF",
+                    backgroundColor: "#007FFF",
+                    "&:hover": {
+                      backgroundColor: "#0073E7",
+                      color: "#FFFFFF",
+                    },
+                    "&:active": {
+                      backgroundColor: "#0066CD",
+                      color: "#FFFFFF",
+                    },
+                  }}
+                >
+                  Thêm nhân viên
+                </Button>
+                <DepartmentForm
+                  department={department ?? null}
+                  open={open}
+                  onClose={handleCloseDialog}
+                  createOrAdd={true}
+                  departmentNameParam={department?.departmentName ?? "none"}
+                  departmentId={department?.departmentId ?? 0}
+                />
+              </>
+            )}
+
           </Grid>
 
           <DepartmentManagers

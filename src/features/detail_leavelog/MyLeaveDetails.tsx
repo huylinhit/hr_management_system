@@ -9,7 +9,7 @@ import {
   debounce,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
 import agent from "../../app/api/agent";
@@ -40,7 +40,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 const fontStyle = "Mulish";
 
- 
+
 const headerColor = {
   color: "#808080",
 };
@@ -61,7 +61,7 @@ const infoStyle = {
 const verticalSpacing = {
   mb: "10px",
 };
- 
+
 const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
   "label + &": {
     marginTop: theme.spacing(3),
@@ -115,7 +115,7 @@ const ProcessNoteInput = styled(TextField)(({ theme }) => ({
 }));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -241,6 +241,7 @@ export default function MyLeaveDetails() {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [ticketChanged, setTicketChanged] = useState(false);
   const currentUser = useAppSelector((state) => state.account);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -315,10 +316,6 @@ export default function MyLeaveDetails() {
   };
 
   const handleTicketApproval = () => {
-    console.log(selectedLeaveTypeId);
-    console.log(startDate);
-    console.log(endDate);
-    console.log(description);
     const ticketUpdate = {
       patchDocument: [
         {
@@ -359,6 +356,7 @@ export default function MyLeaveDetails() {
         console.log("Error updating ticket: ", error);
         toast.error("Xảy ra lỗi khi cập nhật 😥");
       });
+    navigate("/own-log-leaves")
   };
 
   const handleCancelTicket = () => {
@@ -392,6 +390,7 @@ export default function MyLeaveDetails() {
         console.log("Error cancelling ticket", error);
         // toast.error("Xảy ra lỗi khi hủy đơn 😥");
       });
+    navigate("/own-log-leaves")
     handleCloseConfirm();
   };
   if (!logLeave || !leaveDayDetail) {
@@ -511,7 +510,8 @@ export default function MyLeaveDetails() {
               InputProps={textFieldInputProps}
               variant="standard"
               onChange={handleLeaveChange}
-              disabled={!logLeave.enable}
+              disabled
+              // disabled={!logLeave.enable}
               select
               sx={{ ...infoStyle }}
             >
@@ -523,28 +523,39 @@ export default function MyLeaveDetails() {
             </BootstrapInput>
           </Box>
         </Box>
-
-        <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+        <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày bắt đầu"
+          defaultValue={`${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}`}
+          disabled={true}
+        />
+         <InforRow
+          icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
+          header="Ngày kết thúc"
+          defaultValue={`${moment(logLeave?.leaveEnd).format("MMM Do, YYYY")}`}
+          disabled={true}
+        />
+        {/* <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
           <CalendarMonthIcon sx={{ mr: "5px" }} fontSize="small" />
           <Typography sx={headerStyle}>Ngày bắt đầu</Typography>
           <Box sx={{ flexGrow: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <ButtonDatePicker
                 minDate={today}
-                label={`${
-                  dayjs(startDate) === null ? "Trống" : dayjs(startDate).format("MMM DD, YYYY")
-                }`}
+                label={`${dayjs(startDate) === null ? "Trống" : dayjs(startDate).format("MMM DD, YYYY")
+                  }`}
                 value={dayjs(
                   new Date(
                     dayjs(startDate)
                       .toDate()
                       .setMinutes(
                         dayjs(startDate).toDate().getMinutes() +
-                          dayjs(startDate).toDate().getTimezoneOffset()
+                        dayjs(startDate).toDate().getTimezoneOffset()
                       )
                   )
                 )}
                 onChange={handleSetStartDate}
+                disabled
               />
             </LocalizationProvider>
           </Box>
@@ -556,9 +567,8 @@ export default function MyLeaveDetails() {
           <Box sx={{ flexGrow: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <ButtonDatePicker
-                label={`${
-                  dayjs(endDate) === null ? "Trống" : dayjs(endDate).format("MMM DD, YYYY")
-                }`}
+                label={`${dayjs(endDate) === null ? "Trống" : dayjs(endDate).format("MMM DD, YYYY")
+                  }`}
                 minDate={dayjs(startDate).add(1, "day")}
                 value={dayjs(
                   new Date(
@@ -566,15 +576,16 @@ export default function MyLeaveDetails() {
                       .toDate()
                       .setMinutes(
                         dayjs(endDate).toDate().getMinutes() +
-                          dayjs(endDate).toDate().getTimezoneOffset()
+                        dayjs(endDate).toDate().getTimezoneOffset()
                       )
                   )
                 )}
+                disabled
                 onChange={(newValue: any) => setEndDate(newValue)}
               />
             </LocalizationProvider>
           </Box>
-        </Box>
+        </Box> */}
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}

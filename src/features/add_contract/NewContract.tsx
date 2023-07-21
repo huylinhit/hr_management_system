@@ -118,7 +118,10 @@ export default function NewContract({ open, onClose }: Props) {
             padding: "30px 0",
           }}
         >
-          <FormFooter id={Number(id)} handleSubmit={handleSubmit} disabled={disabled} />
+          <FormFooter id={Number(id)} handleSubmit={handleSubmit} 
+          // disabled={disabled} 
+          disabled={false} 
+          />
         </Grid>
       </Box>
     </Dialog>

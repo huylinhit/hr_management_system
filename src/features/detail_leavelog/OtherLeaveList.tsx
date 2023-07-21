@@ -556,7 +556,7 @@ export default function OthersLeaveList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn nghỉ phép
             </Button>
           </Grid>
 

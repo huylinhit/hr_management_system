@@ -48,7 +48,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.salary}
+              {contract?.salary.toLocaleString()}
             </Typography>
           </Grid>
           <Grid item xs={3}>
@@ -58,7 +58,7 @@ export default function DetailSalary({ contract, employee }: Props) {
           </Grid>
           <Grid item xs={2}>
             <Typography sx={{ fontWeight: "400", fontSize: "18px" }}>
-              {contract?.taxableSalary}
+              {contract?.taxableSalary.toLocaleString()}
             </Typography>
           </Grid>
         </Grid>

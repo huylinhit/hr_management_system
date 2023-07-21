@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import moment from "moment";
@@ -305,6 +305,7 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
   const { candidateUpdated, candidateAdded } = useAppSelector((state) => state.candidate);
   const [value, setValue] = useState<Dayjs | null>(null);
   const [candidateSkillToDelete, setCandidateSkillToDelete] = useState<number[]>([]);
+  const navigate = useNavigate();
   // const candidateSkillsByCandidateId = useAppSelector((state) =>
   //   candidateSkillsSelectors.selectAll(state).filter((s) => s.candidateId == parseInt(id!))
   // );
@@ -594,6 +595,8 @@ export default function CandidateDetails({ open, handleClose, handleChange }: an
         toast.error("Xãy ra lỗi khi cập nhật 😥");
         console.log("Error updating candidate: ", error);
       });
+
+      navigate("/candidates")
   };
   if (!candidate || !candidate.candidateSkills) {
     return <CandidateDetailSkeleton />; // Render a loading state while fetching candidate data

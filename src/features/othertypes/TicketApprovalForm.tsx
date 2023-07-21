@@ -15,7 +15,7 @@ import {
   debounce,
 } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { ticketsSelectors } from "./ticketSlice";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -25,6 +25,7 @@ import { setHeaderTitle } from "../../app/layout/headerSlice";
 import DownloadIcon from "@mui/icons-material/Download";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
+import { toast } from "react-toastify";
 const fontStyle = "Mulish";
 
 const menuItemStyle = {
@@ -67,6 +68,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
   const dispatch = useAppDispatch();
   const [ticketFile, setTicketFile] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
   const storageRef = ref(
     storage,
@@ -79,10 +81,10 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
       .then((url) => {
         setTicketFile(url);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, [ticket]);
   console.log(ticketFile);
-  
+
   useEffect(() => {
     dispatch(
       setHeaderTitle([
@@ -95,25 +97,25 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
     setProcessNote(event.target.value);
   }, 750);
 
-  useEffect(() => {}, [id]);
+  useEffect(() => { }, [id]);
 
   const handleStatusChange = (event: any) => {
     setTicketStatus(event.target.value);
   };
 
   const handleTicketApproval = () => {
-    console.log(ticketStatus);
     const ticketUpdate = {
       ticketStatus: ticketStatus,
       processNote: processNote,
     };
     agent.Ticket.updateStatus(parseInt(id!), ticketUpdate)
       .then((response) => {
-        console.log("Ticket created successfully: ", response);
+        toast.success("Cập nhật đơn thành công")
       })
       .catch((error) => {
-        console.log("Error creating ticket: ", error);
       });
+
+    navigate("/tickets")
   };
   const handleDownload = async (event: any) => {
     event.stopPropagation();
@@ -132,6 +134,9 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
       .catch((error) => {
         console.log("Error cancelling ticket", error);
       });
+      toast.success("Hủy đơn thành công")
+      navigate("/tickets")
+
   };
   return (
     <Box sx={{ paddingLeft: "20%", mt: "20px", paddingRight: "20%" }}>

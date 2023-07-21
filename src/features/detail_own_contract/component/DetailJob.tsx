@@ -23,7 +23,7 @@ export default function DetailJob({ contract, employee }: Props) {
       <Typography
         sx={{
           color: "#246DD6",
-          fontWeight: "600",
+          fontWeight: "700",
           fontSize: "20px",
           marginBottom: "5px",
           paddingLeft: "30px",

@@ -287,7 +287,6 @@ export default function ContractForm({
       setRows(employees);
     }
   }, [employeesLoaded]);
-  employeesLoaded;
   const handleInputChange = (event: any) => {
     setDepartmentName(event.target.value);
   };
