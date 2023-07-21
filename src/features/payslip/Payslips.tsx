@@ -515,7 +515,6 @@ export default function Payslips() {
             >
               Sort
             </Button> */}
-            {user?.roles?.includes("HRManager") && (
               <Button
                 variant="outlined"
                 startIcon={<CheckCircle />}
@@ -543,9 +542,7 @@ export default function Payslips() {
               >
                 Duyệt lương
               </Button>
-            )}
 
-            {user?.roles?.includes("HRManager") && (
               <ConfirmPayslips
                 payslips={payslips}
                 department={null}
@@ -555,7 +552,6 @@ export default function Payslips() {
                 departmentNameParam=""
                 departmentId={0}
               />
-            )}
 
             <Button
               variant="outlined"
@@ -584,7 +580,7 @@ export default function Payslips() {
 
           <CreatePayslipNewVersion
             open={open}
-              onClose={handleCloseDialog}
+            onClose={handleCloseDialog}
           />
 
           {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}

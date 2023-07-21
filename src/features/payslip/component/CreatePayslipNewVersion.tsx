@@ -37,6 +37,7 @@ import agent from "../../../app/api/agent";
 import { toast } from "react-toastify";
 import { BootstrapInput } from "./CreatePayslipMainForm";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { fetchPayslipsAsync } from "../payslipSlice";
 
 const cx = classNames.bind(style)
 
@@ -429,8 +430,6 @@ export default function CreatePayslipNewVersion({
     };
 
     const handleSave = async () => {
-        console.log(rowSelectionModel);
-        console.log(selectedTime);
         
         let updateStatus = false;
 
@@ -443,28 +442,28 @@ export default function CreatePayslipNewVersion({
 
         if (rowSelectionModel.length !== 0) {
             for (const id of rowSelectionModel) {
-                // const PayslipId = parseInt(id.toString());
-                // try {
-                //     await agent.Payslip.update(PayslipId, updatePayslip);
-                //       console.log("thanh cong");
-                //     updateStatus = true;
-                // } catch (error) {
-                //       console.log("that bai", error);
-                //     updateStatus = false;
-                // }
+                const staffId = parseInt(id.toString());
+                try {
+                    await agent.Payslip.createByStaffId(staffId, payslipCreateDto);
+                      console.log("thanh cong");
+                    updateStatus = true;
+                } catch (error) {
+                      console.log("that bai", error);
+                    updateStatus = false;
+                }
             }
         }
 
         console.log(updateStatus);
 
         if (updateStatus) {
-            // console.log("Cap nhat thanh cong")
-            // toast.success("Cập nhật thành công");
-            // dispatch(fetchPayslipsAsync());
+            console.log("Cap nhat thanh cong")
+            toast.success("Cập nhật thành công");
+            dispatch(fetchPayslipsAsync());
         }
 
-        // onClose();
-        // setRowSelectionModel([]);
+        onClose();
+        setRowSelectionModel([]);
     };
 
     if(status.includes('pending')) return <LoadingComponent message="Đang tải nhân viên..."/>
