@@ -58,7 +58,7 @@ export default function ConfirmSubmitDialog({
   const history = useNavigate();
   const dispatch = useAppDispatch();
 
-  const deleteLength = Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length)
+  const deleteLength = allowanceDelete?.filter((a) => a.allowanceId !== 0).length === undefined ? 0 : Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length)
   const length = Number(contract?.allowances.length)
 
   const allowanceUpdate: Array<AllowanceField> = allowanceForm!
@@ -82,6 +82,18 @@ export default function ConfirmSubmitDialog({
   const isChanged = !(
     JSON.stringify(item) === JSON.stringify(initialContractForm)
   );
+  console.log(allowanceForm);
+  console.log(length);
+  console.log(deleteLength);
+  
+  
+  console.log(allowanceUpdate);
+  console.log(allowanceAdd);
+  console.log(allowanceDeleteList);
+  
+  
+  
+  
   // -------------------------- STATE ---------------------------
   const [isError, setIsError] = useState(false);
   // -------------------------- REDUX ---------------------------
