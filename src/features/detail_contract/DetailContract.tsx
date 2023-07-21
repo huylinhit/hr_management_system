@@ -30,6 +30,7 @@ import {
   fetchContractAsync,
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
+import NewContract from "../add_contract/NewContract";
 
 const fontStyle = "Mulish";
 

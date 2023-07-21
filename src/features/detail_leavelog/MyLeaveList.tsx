@@ -470,7 +470,7 @@ export default function MyLeaveList() {
   const key = location.pathname;
 
   useEffect(() => {
-    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của tôi", path: "/myleaves" }]));
+    dispatch(setHeaderTitle([{ title: "Đơn nghỉ phép của tôi", path: "/own-log-leaves" }]));
   }, [location, dispatch]);
 
   const handleOpenDialog = () => {
@@ -565,7 +565,7 @@ export default function MyLeaveList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn nghỉ phép
             </Button>
           </Grid>
 

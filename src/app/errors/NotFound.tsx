@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 function NotFound() {
     return ( 
         <Container component={Paper} sx={{height: 400}}>
-            <Typography variant="h4" >Opps - we could not find what your are looking for!</Typography>
+            <Typography variant="h4" >Trang không tồn tại</Typography>
             
             <Divider/>
 
-            <Button centerRipple component={Link} to='/' fullWidth>Go Back To Home Page</Button>
+            <Button centerRipple component={Link} to='/' fullWidth>Quay về trang chủ</Button>
             
 
         </Container>

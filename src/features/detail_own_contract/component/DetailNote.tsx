@@ -74,13 +74,13 @@ export default function DetaiNote({ contract }: Props) {
             padding: "0 30px 10px 30px",
           }}
         >
-          <Button
+          {/* <Button
             variant="contained"
             size="small"
             sx={{ borderRadius: "10px" }}
           >
             Xem file
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
     </Grid>

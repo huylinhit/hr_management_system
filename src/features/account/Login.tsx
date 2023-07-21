@@ -30,7 +30,7 @@ export default function Login() {
     try {
       await dispatch(signInUser(data));
       await dispatch(fetchCurrentUser());
-      navigate(`/own-log-leaves`);
+      navigate(`/own-log-overtimes`);
     } catch (error) {
       console.log(error);
       setUnauthorized(true);

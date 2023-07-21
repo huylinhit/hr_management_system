@@ -402,7 +402,7 @@ export default function OtherUsersTicketList() {
             >
               Sort
             </Button> */}
-            <Button
+            {/* <Button
               variant="outlined"
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
@@ -424,7 +424,7 @@ export default function OtherUsersTicketList() {
               }}
             >
               Tạo đơn mới
-            </Button>
+            </Button> */}
           </Grid>
 
           <CreateTicketForm open={open} onClose={handleCloseDialog} />
