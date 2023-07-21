@@ -18,6 +18,7 @@ import {
   fetchContractAsync,
   fetchContractsAsync,
   setContractAdded,
+  setContractUpdated,
 } from "../../../app/store/contract/contractSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
 
@@ -37,7 +38,7 @@ interface Props {
   item: Object;
   allowanceForm: Array<AllowanceField> | undefined;
   prevpage: string | undefined;
-  allowanceDelete: Array<AllowanceField> | undefined
+  allowanceDelete: Array<AllowanceField> | undefined;
 }
 
 export default function ConfirmSubmitDialog({
@@ -58,8 +59,8 @@ export default function ConfirmSubmitDialog({
   const history = useNavigate();
   const dispatch = useAppDispatch();
 
-  const deleteLength = Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length)
-  const length = Number(contract?.allowances.length)
+  const deleteLength = Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length);
+  const length = Number(contract?.allowances.length);
 
   const allowanceUpdate: Array<AllowanceField> = allowanceForm!
     ?.slice(0, length - deleteLength)
@@ -77,11 +78,11 @@ export default function ConfirmSubmitDialog({
       allowanceSalary,
     }));
 
-  const allowanceDeleteList: Array<AllowanceField> = allowanceDelete!?.filter((a) => a.allowanceId !== 0)
-
-  const isChanged = !(
-    JSON.stringify(item) === JSON.stringify(initialContractForm)
+  const allowanceDeleteList: Array<AllowanceField> = allowanceDelete!?.filter(
+    (a) => a.allowanceId !== 0
   );
+
+  const isChanged = !(JSON.stringify(item) === JSON.stringify(initialContractForm));
   // -------------------------- STATE ---------------------------
   const [isError, setIsError] = useState(false);
   // -------------------------- REDUX ---------------------------
@@ -92,10 +93,9 @@ export default function ConfirmSubmitDialog({
   };
 
   const handleAllowance = () => {
-
-    console.log("allowanceUpdate: ", allowanceUpdate)
-    console.log("allowanceAdd: ", allowanceAdd)
-    console.log("allowanceDelete: ", allowanceDeleteList)
+    console.log("allowanceUpdate: ", allowanceUpdate);
+    console.log("allowanceAdd: ", allowanceAdd);
+    console.log("allowanceDelete: ", allowanceDeleteList);
 
     allowanceUpdate?.forEach((allowance) => {
       const allowanceUpdate = {
@@ -116,7 +116,6 @@ export default function ConfirmSubmitDialog({
         });
     });
 
-
     allowanceAdd?.forEach((allowance) => {
       const allowanceAdd = {
         allowanceTypeId: allowance.allowanceTypeId,
@@ -125,8 +124,7 @@ export default function ConfirmSubmitDialog({
 
       agent.Allowance.create(Number(contract?.contractId), allowanceAdd)
         .then((response) => {
-
-          dispatch(fetchContractsAsync())
+          //dispatch(fetchContractsAsync());
           toast.success("Đã thêm phụ cấp thành công");
         })
         .catch((error) => {
@@ -134,8 +132,6 @@ export default function ConfirmSubmitDialog({
           toast.error("Lỗi khi thêm phụ cấp");
         });
     });
-
-
 
     // ------------------------------
 
@@ -150,15 +146,14 @@ export default function ConfirmSubmitDialog({
           console.log("Delete contract successfully:", response);
           // dispatch(fetchContractAsync(Number(contract?.staffId)))
           toast.success("Đã xóa phụ cấp thành công");
-
         })
         .catch((error) => {
           console.error("Error delete contract:", error);
           toast.error("Lỗi khi xóa phụ cấp");
         });
     });
+    dispatch(fetchContractsAsync());
     // ------------------------------
-
   };
 
   const handleSubmit = () => {
@@ -170,7 +165,7 @@ export default function ConfirmSubmitDialog({
     setContractForm((prevFormData: any) => ({
       ...prevFormData,
       changeAt: submitTime,
-      responseId: currentUser.user?.userInfor.staffId
+      responseId: currentUser.user?.userInfor.staffId,
     }));
     // ------------
 
@@ -178,6 +173,7 @@ export default function ConfirmSubmitDialog({
       agent.Contract.update(Number(contract?.contractId), Number(staffId), item)
         .then((response) => {
           toast.success("Đã cập nhật hợp đồng thành công");
+          dispatch(setContractUpdated(true));
           handleAllowance();
         })
         .catch((error) => {
@@ -193,11 +189,10 @@ export default function ConfirmSubmitDialog({
       dispatch(fetchContractsAsync());
       dispatch(fetchContractAsync(Number(staffId)));
       dispatch(setContractAdded(true));
-      history(
-        `/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}}`
-      );
+      history(`/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}}`);
     }
     setOpen(false);
+    dispatch(fetchContractsAsync());
   };
   // -------------------------- MAIN ----------------------------
   return (
@@ -208,10 +203,7 @@ export default function ConfirmSubmitDialog({
       aria-labelledby="responsive-dialog-title"
       sx={{ borderRadius: "10px", textAlign: "center" }}
     >
-      <DialogTitle
-        id="responsive-dialog-title"
-        sx={{ fontSize: "25px", color: "#B9B9B9" }}
-      >
+      <DialogTitle id="responsive-dialog-title" sx={{ fontSize: "25px", color: "#B9B9B9" }}>
         Bạn có chắc muốn lưu những thay đổi không?
       </DialogTitle>
       <DialogContent>
@@ -220,18 +212,10 @@ export default function ConfirmSubmitDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", paddingBottom: "15px" }}>
-        <Button
-          variant="outlined"
-          sx={{ margin: "0 10px" }}
-          onClick={handleClose}
-        >
+        <Button variant="outlined" sx={{ margin: "0 10px" }} onClick={handleClose}>
           Hủy
         </Button>
-        <Button
-          variant="contained"
-          sx={{ margin: "0 10px" }}
-          onClick={handleSubmit}
-        >
+        <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleSubmit}>
           Xác nhận
         </Button>
       </DialogActions>

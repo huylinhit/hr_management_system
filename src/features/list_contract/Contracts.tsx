@@ -22,7 +22,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 
-import { contractSelectors, fetchContractsAsync } from "../../app/store/contract/contractSlice";
+import {
+  contractSelectors,
+  fetchContractsAsync,
+  setContractUpdated,
+} from "../../app/store/contract/contractSlice";
 import Contract from "../../app/models/contract";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
@@ -355,11 +359,15 @@ export default function Contracts() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-  const { user } = useAppSelector(state => state.account);
+  const { user } = useAppSelector((state) => state.account);
   const contracts = useAppSelector(contractSelectors.selectAll);
-  const otherContracts = contracts.filter(c => c.staffId !== user?.userInfor.staffId);
+  const otherContracts = contracts.filter((c) => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
-  const { contractsLoaded, status: contractStatus } = useAppSelector((state) => state.contract);
+  const {
+    contractsLoaded,
+    status: contractStatus,
+    contractUpdated,
+  } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const location = useLocation();
 
@@ -368,16 +376,17 @@ export default function Contracts() {
   }, [location, dispatch]);
 
   useEffect(() => {
-    if (!contractsLoaded) {
+    if (!contractsLoaded || contractUpdated) {
       dispatch(fetchContractsAsync());
+      dispatch(setContractUpdated(false));
     }
-  }, [dispatch, contractsLoaded]);
+  }, [dispatch, contractsLoaded, contractUpdated]);
 
   useEffect(() => {
-    if (contractsLoaded) {  
+    if (contractsLoaded) {
       setRows(otherContracts);
     }
-  }, [contractsLoaded, contracts]);
+  }, [contractsLoaded, contracts, contractUpdated]);
 
   if (!contracts) <LoadingComponent message="Đang Tải Hợp Đồng" />;
 
