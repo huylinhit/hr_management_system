@@ -112,7 +112,7 @@ export const router = createBrowserRouter([
           { path: "/own-log-overtimes/:id", element: <DetailMyOT /> },
           { path: "/own-tickets", element: <MyTicketList /> },
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
-          { path: "/staffs/:id", element: <SelfDetails /> },
+          { path: "/staffss/:id", element: <SelfDetails /> },
 
           // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },
