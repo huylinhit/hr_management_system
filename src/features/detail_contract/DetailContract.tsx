@@ -51,14 +51,15 @@ export default function DetailContract() {
     contractSelectors.selectById(state, Number(staffid))
   );
 
-  const { status: contractStatus, contractsLoaded } = useAppSelector(
-    (state) => state.contract
-  );
+ 
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
+ 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
-    if (!contractsLoaded) dispatch(fetchContractAsync(Number(staffid)));
-  }, [dispatch, contractsLoaded, employeesLoaded]);
+    if (!employee && staffid) dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!contract && staffid) dispatch(fetchContractAsync(Number(id)));
+  }, [dispatch, employee, contract]);
 
   useEffect(() => {
     if (prevpage === "list") {
@@ -82,7 +83,7 @@ export default function DetailContract() {
     }
   }, [dispatch, location, contract, employee]);
   // -------------------------- FUNCTION ------------------------
-  if (!contract || !employee) return <LoadingComponent message="Loading..." />;
+  if (!contract) return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>

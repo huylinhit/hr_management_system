@@ -375,7 +375,7 @@ export default function Contracts() {
     }
   }, [contractsLoaded, contracts]);
 
-  if (contractStatus.includes("pending")) <LoadingComponent message="Đang Tải Hợp Đồng" />;
+  if (!contracts) <LoadingComponent message="Đang Tải Hợp Đồng" />;
 
   return (
     <>
