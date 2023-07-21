@@ -28,6 +28,7 @@ import {
 import {
   contractSelectors,
   fetchContractAsync,
+  fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
 
 const fontStyle = "Mulish";
@@ -47,19 +48,22 @@ export default function DetailContract() {
     (state) => state.employee
   );
 
+    console.log("Id: ", id);  
+
   const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(staffid))
+    contractSelectors.selectById(state, Number(id))
   );
 
  
-  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
   const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
  
   // -------------------------- EFFECT --------------------------
+
   useEffect(() => {
-    if (!employee && staffid) dispatch(fetchEmployeeAsync(Number(staffid)));
-    if (!contract && staffid) dispatch(fetchContractAsync(Number(id)));
-  }, [dispatch, employee, contract]);
+    if (!employeesLoaded)
+     dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!contractsLoaded) dispatch(fetchContractsAsync());
+  }, [dispatch, contractsLoaded, employeesLoaded]);
 
   useEffect(() => {
     if (prevpage === "list") {
@@ -83,7 +87,12 @@ export default function DetailContract() {
     }
   }, [dispatch, location, contract, employee]);
   // -------------------------- FUNCTION ------------------------
-  if (!contract) return <LoadingComponent message="Loading..." />;
+  // if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
+  if(contractStatus.includes("pending")) 
+    return <LoadingComponent message="Đang tải hợp đồng"/>
+
+  if(employeeStatus.includes("pending"))      
+    return <LoadingComponent message="Đang tải nhân viên"/>
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>

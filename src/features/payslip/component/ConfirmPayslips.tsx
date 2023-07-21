@@ -654,12 +654,15 @@ export default function ConfirmPayslips({
                     }}
                 />
             </DialogContent>
-            <DialogActions>
-                <Button sx={{ color: "#FF605C" }} onClick={onClose}>
-                    Hủy
-                </Button>
-                <Button onClick={handleSave}>Lưu</Button>
-            </DialogActions>
+            {user?.roles?.includes("HRManager") && (
+                <DialogActions>
+                    <Button sx={{ color: "#FF605C" }} onClick={onClose}>
+                        Hủy
+                    </Button>
+                    <Button onClick={handleSave}>Lưu</Button>
+                </DialogActions>
+            )}
+
         </Dialog>
     );
 }

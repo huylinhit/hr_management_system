@@ -28,7 +28,7 @@ const infoStyle = {
   fontWeight: 500,
   fontSize: "16px",
 };
-export default function DetailJob({ contract, employee }: Props) {
+export default function   DetailJob({ contract, employee }: Props) {
   // -------------------------- VAR -----------------------------
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------

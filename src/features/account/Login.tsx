@@ -96,7 +96,7 @@ export default function Login() {
           variant="contained"
           sx={{ mt: 5, mb: 2 }}
         >
-          Sign In
+          Đăng nhập
         </LoadingButton>
       </Box>
     </Container>
