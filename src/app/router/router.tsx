@@ -173,7 +173,7 @@ export const router = createBrowserRouter([
           { path: "/own-payslips", element: <MyPayslips /> },
           { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
           //Contract
-          { path: "/editcontract", element: <EditContract /> },
+          // { path: "/editcontract", element: <EditContract /> },
           // { path: "/contractdetail", element: <ContractDetail /> },
         ],
       },

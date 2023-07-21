@@ -92,57 +92,67 @@ export default function ConfirmSubmitDialog({
   };
 
   const handleAllowance = () => {
-    allowanceUpdate?.forEach((allowance) => {
-      const allowanceUpdate = {
-        allowanceTypeId: allowance.allowanceTypeId,
-        allowanceSalary: allowance.allowanceSalary,
-      };
-      agent.Allowance.update(
-        Number(allowance.allowanceId),
-        Number(contract?.contractId),
-        allowanceUpdate
-      )
-        .then((response) => {
-          toast.success("Đã cập nhật phụ cấp thành công");
-        })
-        .catch((error) => {
-          setIsError(true);
-          toast.success("Lỗi khi cập nhật phụ cấp");
-        });
-    });
-    // ------------------------------
-    allowanceAdd?.forEach((allowance) => {
-      const allowanceAdd = {
-        allowanceTypeId: allowance.allowanceTypeId,
-        allowanceSalary: allowance.allowanceSalary,
-      };
 
-      agent.Allowance.create(Number(contract?.contractId), allowanceAdd)
-        .then((response) => toast.success("Đã thêm phụ cấp thành công"))
-        .catch((error) => {
-          setIsError(true);
-          toast.error("Lỗi khi thêm phụ cấp");
-        });
-    });
-    // ------------------------------
-    allowanceDeleteList?.forEach((allowance) => {
-      const allowanceAdd = {
-        allowanceTypeId: allowance.allowanceTypeId,
-        allowanceSalary: allowance.allowanceSalary,
-      };
-
-      agent.Allowance.delete(allowance.allowanceId)
-      .then((response) => {
-        console.log("Delete contract successfully:", response);
-        dispatch(fetchContractAsync(Number(contract?.staffId)))
-        toast.success("Đã xóa phụ cấp thành công");
-        
-      })
-      .catch((error) => {
-        console.error("Error delete contract:", error);
-        toast.error("Lỗi khi xóa phụ cấp");
+      allowanceUpdate?.forEach((allowance) => {
+        const allowanceUpdate = {
+          allowanceTypeId: allowance.allowanceTypeId,
+          allowanceSalary: allowance.allowanceSalary,
+        };
+        agent.Allowance.update(
+          Number(allowance.allowanceId),
+          Number(contract?.contractId),
+          allowanceUpdate
+        )
+          .then((response) => {
+            toast.success("Đã cập nhật phụ cấp thành công");
+          })
+          .catch((error) => {
+            setIsError(true);
+            toast.success("Lỗi khi cập nhật phụ cấp");
+          });
       });
-    });
+    
+
+      {
+      console.log("2")
+      allowanceAdd?.forEach((allowance) => {
+          const allowanceAdd = {
+            allowanceTypeId: allowance.allowanceTypeId,
+            allowanceSalary: allowance.allowanceSalary,
+          };
+
+          agent.Allowance.create(Number(contract?.contractId), allowanceAdd)
+            .then((response) => toast.success("Đã thêm phụ cấp thành công"))
+            .catch((error) => {
+              setIsError(true);
+              toast.error("Lỗi khi thêm phụ cấp");
+            });
+        });
+      }
+    
+
+    // ------------------------------
+
+      allowanceDeleteList?.forEach((allowance) => {
+        const allowanceAdd = {
+          allowanceTypeId: allowance.allowanceTypeId,
+          allowanceSalary: allowance.allowanceSalary,
+        };
+
+        agent.Allowance.delete(allowance.allowanceId)
+          .then((response) => {
+            console.log("Delete contract successfully:", response);
+            // dispatch(fetchContractAsync(Number(contract?.staffId)))
+            toast.success("Đã xóa phụ cấp thành công");
+
+          })
+          .catch((error) => {
+            console.error("Error delete contract:", error);
+            toast.error("Lỗi khi xóa phụ cấp");
+          });
+      });
+    // ------------------------------
+
   };
 
   const handleSubmit = () => {

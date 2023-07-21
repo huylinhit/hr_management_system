@@ -19,9 +19,11 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
+  contractSelectors,
   fetchContractAsync,
   fetchContractsAsync,
 } from "../../../app/store/contract/contractSlice";
+import moment from "moment";
 
 interface Props {
   open: boolean;
@@ -32,17 +34,17 @@ interface Props {
 
 export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
   // -------------------------- REDUX ---------------------------
-  const currentUser = useAppSelector((state) => state.account);
+  const { user } = useAppSelector((state) => state.account);
 
-  const convertDateTime = (dateTimeString: string): string => {
-    const [time, date] = dateTimeString.split(" ");
-    const [day, month, year] = date.split("/").map(Number);
-    const [hours, minutes, seconds] = time.split(":").map(Number);
-    const newDate = new Date(year, month - 1, day, hours, minutes, seconds);
-    const formattedDate = newDate.toISOString();
+  // const convertDateTime = (dateTimeString: string): string => {
+  //   const [time, date] = dateTimeString.split(" ");
+  //   const [day, month, year] = date.split("/").map(Number);
+  //   const [hours, minutes, seconds] = time.split(":").map(Number);
+  //   const newDate = new Date(year, month - 1, day, hours, minutes, seconds);
+  //   const formattedDate = newDate.toISOString();
 
-    return formattedDate;
-  };
+  //   return formattedDate;F
+  // };
   // -------------------------- VAR -----------------------------
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -50,15 +52,18 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
   const dispatch = useAppDispatch();
   // -----------
   const currentDateTime = new Date();
-  const submitTime = convertDateTime(currentDateTime.toLocaleString());
+  // const submitTime = convertDateTime(currentDateTime.toLocaleString());
+
+
+
   // -----------
   const newObj: Partial<Contract> | undefined = item
     ? {
-        ...item,
-        contractStatus: false,
-        changeAt: submitTime,
-        responseId: currentUser.user?.userInfor.staffId,
-      }
+      ...item,
+      contractStatus: false,
+      // changeAt: submitTime,
+      responseId: user?.userInfor.staffId
+    }
     : undefined;
   const {
     startDate,
@@ -98,27 +103,49 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    console.log(contractDeleted);
+  const contractPatchDelete = [
+    {
+      "path": "/contractStatus",
+      "op": "replace",
+      "value": false
+    },
+    {
+      "path": "/responseId",
+      "op": "replace",
+      "value": `${user?.userInfor.staffId}`
+    },
+  ]
 
-    agent.Contract.update(
-      Number(item?.contractId),
-      Number(item?.staffId),
-      contractDeleted
+  const handleDelete = async () => {
+
+    let deleteStatus = false;
+    
+    const contractId = parseInt(String(item?.contractId!));
+    const staffId = parseInt(String(item?.staffId!));
+
+    await agent.Contract.patch(
+      contractId,
+      staffId,
+      contractPatchDelete
     )
       .then((response) => {
-        console.log("Delete contract successfully:", response);
-        dispatch(fetchContractsAsync());
-        dispatch(fetchContractAsync(Number(item?.staffId)));
-        toast.success("Đã hủy hợp đồng thành công");
-        history(
-          `/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`
-        );
+        deleteStatus = true;
       })
       .catch((error) => {
-        console.error("Error delete contract:", error);
-        toast.error("Lỗi khi hủy hợp đồng");
+        deleteStatus = false;
       });
+
+    if (deleteStatus) {
+      toast.success("Hủy hợp đồng thành công");
+      dispatch(fetchContractsAsync());
+      dispatch(fetchContractAsync(Number(item?.staffId)));
+      history(
+        `/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`
+      );
+    }
+    else{
+      toast.error("Lỗi khi hủy hợp đồng");  
+    }
 
     setOpen(false);
   };

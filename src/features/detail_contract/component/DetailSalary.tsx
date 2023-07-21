@@ -55,13 +55,13 @@ export default function DetailSalary({ contract, employee }: Props) {
             <Typography sx={headerStyle}>Lương căn bản:</Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={infoStyle}>{contract?.salary}</Typography>
+            <Typography sx={infoStyle}>{contract?.salary.toLocaleString()}</Typography>
           </Grid>
           <Grid item xs={3}>
             <Typography sx={headerStyle}>Lương tính thuế:</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography sx={infoStyle}>{contract?.taxableSalary}</Typography>
+            <Typography sx={infoStyle}>{contract?.taxableSalary.toLocaleString()}</Typography>
           </Grid>
         </Grid>
 
@@ -88,7 +88,7 @@ export default function DetailSalary({ contract, employee }: Props) {
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography sx={infoStyle}>{a.allowanceSalary}</Typography>
+              <Typography sx={infoStyle}>{a.allowanceSalary.toLocaleString()}</Typography>
             </Grid>
           </Grid>
         ))}

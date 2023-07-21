@@ -17,7 +17,7 @@ interface Props {
 
 export default function DetailContractInfo({ contract, employee }: Props) {
   return (
-    <Box sx={{ padding: "0 35px" }}>
+    <Box sx={{ padding: "0 35px" }}>  
       <Grid>
         <Typography
           sx={{
