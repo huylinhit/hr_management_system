@@ -3,7 +3,6 @@ import { Grid, Typography, TextField, MenuItem, Container } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { Contract } from "../model/contract";
-import dayjs from "dayjs";
 
 // interface
 interface Props {

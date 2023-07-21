@@ -14,11 +14,11 @@ export default interface Contract {
 	noOfDependences: number
 	contractTypeId: number
 	salaryType: string
-	paidDateNote: string
 	contractFile: string
+	createAt: any
+	responseId: any
+	changeAt: any
 	contractStatus: boolean
-	createAt: string
-	changeAt: string
 	allowances: Allowance[]
 	contractType: ContractType
 	staff: UserInfor

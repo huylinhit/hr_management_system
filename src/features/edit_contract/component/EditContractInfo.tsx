@@ -23,6 +23,8 @@ interface Props {
   setContractForm: Function;
   allowanceForm: Array<AllowanceField> | undefined;
   setAllowanceForm: Function;
+  allowanceDelete: Array<AllowanceField> | undefined
+  setAllowanceDelete: Function
 }
 
 export default function EditContractInfo({
@@ -31,6 +33,8 @@ export default function EditContractInfo({
   setContractForm,
   allowanceForm,
   setAllowanceForm,
+  allowanceDelete,
+  setAllowanceDelete
 }: Props) {
   return (
     <Box sx={{ padding: "0 35px" }}>
@@ -56,6 +60,8 @@ export default function EditContractInfo({
           setContractForm={setContractForm}
           allowanceForm={allowanceForm}
           setAllowanceForm={setAllowanceForm}
+          allowanceDelete={allowanceDelete}
+              setAllowanceDelete={setAllowanceDelete}
         />
         <EditNote contract={contract} setContractForm={setContractForm} />
       </Grid>

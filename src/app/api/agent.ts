@@ -208,6 +208,7 @@ const AllowanceType = {
 const Allowance = {
   list: () => requests.get("allowances"),
   create: (id: number, values: any) => requests.post(`allowances/contracts/${id}`, values),
+  delete: (id: number) => requests.delete(`allowances/${id}`),
   update: (allowanceId: number, contractId: number, values: any) =>
     requests.put(`allowances/${allowanceId}/contracts/${contractId}`, values),
   patch: (allowanceId: number, contractId: number, values: any) =>
