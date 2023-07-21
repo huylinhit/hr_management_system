@@ -9,7 +9,10 @@ import FormFooter from "./component/FormFooter";
 import agent from "../../app/api/agent";
 
 // data
-import { fetchContractsAsync, setContractAdded } from "../../app/store/contract/contractSlice";
+import {
+  fetchContractsAsync,
+  setContractAdded,
+} from "../../app/store/contract/contractSlice";
 import { useAppDispatch } from "../../app/store/configureStore";
 interface Props {
   open: boolean;
@@ -32,8 +35,10 @@ export default function NewContract({ open, onClose }: Props) {
     noOfDependences: 0,
     contractTypeId: 1,
     salaryType: "Gross To Net",
-    paidDateNote: "",
     contractFile: "",
+    createAt: "",
+    responseId: 0,
+    changeAt: "",
     contractStatus: true,
   });
   // -------------------------- EFFECT --------------------------
@@ -61,15 +66,24 @@ export default function NewContract({ open, onClose }: Props) {
       setContractForm((prevForm: any) => ({
         ...prevForm,
         endDate: "",
-      }));
+      }))
     }
+    // -----------
+    const currentDateTime = new Date();
+    const submitTime = currentDateTime.toLocaleString();
+    setContractForm((prevFormData: any) => ({
+      ...prevFormData,
+      createAt: submitTime,
+    }));
+    // ------------
+
     console.log(contractForm);
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
-        dispatch(fetchContractsAsync());
+        dispatch(fetchContractsAsync())
         toast.success("Đã thêm hợp đồng thành công");
-        history(`/staffs`);
+        history(`/staffs`)
       })
       .catch((error) => {
         if (Array.isArray(error)) {

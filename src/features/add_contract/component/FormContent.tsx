@@ -3,6 +3,7 @@ import { Grid, Typography, TextField, MenuItem, Container } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { Contract } from "../model/contract";
+import { addMonths } from "date-fns";
 import dayjs from "dayjs";
 
 // interface
@@ -21,6 +22,11 @@ const verticalSpacing = {
   mb: "15px",
 };
 export default function FormContent({ contractForm, setContractForm }: Props) {
+  const formatDate : string = contractForm.startDate!
+  const date = new Date(formatDate)
+  const maxDate = dayjs(addMonths(date, 3))
+
+
   return (
     <>
       <Container maxWidth="md">
@@ -92,6 +98,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 disabled={contractForm.contractTypeId === 1 ? false : true}
+                minDate={maxDate}
                 onChange={(e: any) =>
                   setContractForm((prevForm: any) => ({
                     ...prevForm,

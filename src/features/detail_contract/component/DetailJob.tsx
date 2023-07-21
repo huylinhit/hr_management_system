@@ -65,7 +65,9 @@ export default function DetailJob({ contract, employee }: Props) {
             <Typography sx={headerStyle}>Loại hợp đồng:</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography sx={infoStyle}>{contract?.contractType?.name}</Typography>
+            <Typography sx={infoStyle}>
+              {contract?.contractType?.name}
+            </Typography>
           </Grid>
         </Grid>
 
@@ -85,9 +87,29 @@ export default function DetailJob({ contract, employee }: Props) {
             <Typography sx={headerStyle}>Đến ngày:</Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={infoStyle}>{moment(contract?.endDate).format("DD-MM-YYYY")}</Typography>
+            <Typography sx={infoStyle}>
+              {moment(contract?.endDate).format("DD-MM-YYYY")}
+            </Typography>
           </Grid>
         </Grid>
+
+        {contract?.contractStatus === true ? null : (
+          <Grid container sx={gridStyle}>
+            <Grid item xs={11}>
+              <Typography
+                sx={{
+                  fontStyle: "italic",
+                  fontWeight: "700",
+                  fontFamily: fontStyle,
+                  fontSize: "18px",
+                  color: "red",
+                }}
+              >
+                *Hợp đồng không còn hiệu lực
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

@@ -1,41 +1,82 @@
-import Box from "@mui/material/Box";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useRef, useState } from "react";
 import {
     Button,
-    Grid,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextField,
     IconButton,
     LinearProgress,
     Typography,
+    Grid,
+    Tooltip,
+    Box,
 } from "@mui/material";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-    GridToolbarColumnsButton,
     GridToolbarContainer,
+    GridToolbarColumnsButton,
+    GridToolbarFilterButton,
     GridToolbarDensitySelector,
     GridToolbarExport,
-    GridToolbarFilterButton,
+    GridRowId,
+    GridRowSelectionModel,
 } from "@mui/x-data-grid-pro";
-import AddIcon from "@mui/icons-material/Add";
-import { Link, useLocation } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import moment from "moment";
-import "moment/locale/vi";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { setHeaderTitle } from "../../app/layout/headerSlice";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import NumbersIcon from "@mui/icons-material/Numbers";
+import SubjectIcon from "@mui/icons-material/Subject";
+import PhoneIcon from "@mui/icons-material/Phone";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import agent from "../../../app/api/agent";
+import { Department } from "../../../app/models/department";
+import { UserInfor } from "../../../app/models/userInfor";
+import { useAppSelector, useAppDispatch } from "../../../app/store/configureStore";
+import { setDepartmentChanged, setDepartmentEmployeeAdded } from "../../department/departmentSlice";
+import { userInforSelectors, fetchUserInforsAsync } from "../../department/userInforSlice";
+import { Payslip } from "../../../app/models/payslip";
+import { fetchPayslipsAsync } from "../payslipSlice";
+import AvatarCustome from "../../../app/components/Custom/Avatar/AvatarCustome";
+import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
+import style from './payslip.module.scss'
+import classNames from "classnames/bind";
 
-import { ToastContainer } from "react-toastify";
-import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
-import { fetchPayslipsAsync, fetchPayslipsStaffAsync, payslipSelectors } from "./payslipSlice";
-import { Payslip } from "../../app/models/payslip";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
-import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
+const cx = classNames.bind(style)
+
+interface Props {
+    open: boolean;
+    onClose: () => void;
+    payslips: Payslip[];
+    createOrAdd: boolean;
+    departmentNameParam: string;
+    department: Department | null;
+    departmentId: number;
+}
+
+interface PayslipUpdate {
+    changerId: number
+    enable: boolean
+    status: string
+}
+
+
+interface PayslipParticalUpdate {
+    path: string
+    op: string
+    value: string
+}
+
+
+const fontStyle = "Mulish";
 
 const headerStyle = {
     color: "#7C7C7C",
@@ -43,7 +84,8 @@ const headerStyle = {
     fontFamily: "Mulish",
     fontSize: 15,
 };
-const fontStyle = "Mulish";
+
+
 const cellStyle = {
     fontSize: 15,
     fontWeight: 600,
@@ -79,15 +121,24 @@ const staffNameColors = [
     "#F9F2F5",
     "#FAECEC",
 ];
-export default function Payslips() {
-    const handleRowClick = () => {
-        dispatch(
-            setHeaderTitle([
-                { title: "Danh sách lương của tôi", path: "/own-payslips" },
-                // { title: "Chi tiết lương", path: `` },
-            ])
-        );
-    };
+
+function CurrencyFormatter(value: any) {
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    }).format(value.value);
+    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
+}
+export default function ConfirmPayslips({
+    open,
+    onClose,
+    payslips,
+    createOrAdd,
+    departmentNameParam,
+    departmentId,
+    department,
+}: Props) {
+
     const columns: GridColDef[] = [
         {
             field: "button",
@@ -97,8 +148,8 @@ export default function Payslips() {
             renderCell: (params) => (
                 <IconButton
                     component={Link}
-                    to={`/own-payslips/${params.row.payslipId}`}
-                    onClick={handleRowClick}
+                    to={`/payslips/${params.row.payslipId}/staffs/${params.row.staffId}`}
+                // onClick={handleRowClick}
                 >
                     <MoreHorizIcon />
                 </IconButton>
@@ -107,7 +158,8 @@ export default function Payslips() {
         {
             field: "payslipId",
             headerName: "ID",
-            flex: 100,
+            // flex: 100,
+            width: 100,
             renderCell: (params) => (
                 <Typography sx={cellStyle}>{params.value}</Typography>
             ),
@@ -129,16 +181,14 @@ export default function Payslips() {
                 const staffId = params.row.staffId;
                 const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
                 const rowIndex = staffId % staffNameColors.length;
-                const imageFile = params.row.staff.imageFile;
-                const staffNameColor = staffNameColors[rowIndex];
                 return (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <AvatarCustome
+                        {/* <AvatarCustome
                             imageFile={imageFile}
                             id={params.row.staffId}
                             name={staffName}
                             dependency={payslipsLoaded}
-                        />
+                        /> */}
                         <Typography sx={cellStyle}>{staffName}</Typography>
                     </Box>
                 );
@@ -163,14 +213,11 @@ export default function Payslips() {
                             <ChipCustome status="pending">Chờ duyệt</ChipCustome>
                         ) : params.value === "waiting" ? (
                             <ChipCustome status="waiting">Chờ thanh toán</ChipCustome>
-                        ) : params.value === "approved" ? (
+                        ) : params.value === "payment" ? (
                             <ChipCustome status="payment">Đã thanh toán</ChipCustome>
-                        ) : params.value === 'rejected' ? (
-                            <ChipCustome status="rejected">Đã hủy</ChipCustome>
                         ) : (
-                            <ChipCustome status="cancel">Không hợp lệ</ChipCustome>
-                        )
-                        }
+                            <ChipCustome status="rejected">Đã hủy</ChipCustome>
+                        )}
                     </>
                 );
             },
@@ -399,160 +446,220 @@ export default function Payslips() {
             ),
         },
     ];
-
-    function CurrencyFormatter(value: any) {
-        const formattedValue = new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-        }).format(value.value);
-        return <Typography sx={cellStyle}>{formattedValue}</Typography>;
-    }
-    const { user } = useAppSelector((state) => state.account);
-    const payslips = useAppSelector(payslipSelectors.selectAll);
-    const MyPayslips = payslips.filter(c => c.staffId === user?.userInfor.staffId);
+    const userInfors = useAppSelector((state) =>
+        userInforSelectors.selectAll(state).filter((u) => u.departmentId !== department?.departmentId)
+    );
     const dispatch = useAppDispatch();
-    const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
+    const { user } = useAppSelector(state => state.account);
+    const { userInforsLoaded, filtersLoaded } = useAppSelector((state) => state.userInfor);
     const [rows, setRows] = useState<Payslip[]>([]);
-    const [open, setOpen] = useState(false);
-    const location = useLocation();
+    const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+    const [departmentName, setDepartmentName] = useState("");
+    const [selectedId, setSelectedId] = useState("");
+    const [managerName, setManagerName] = useState("");
+    const [managerId, setManagerId] = useState("");
 
-    useEffect(() => {
-        dispatch(setHeaderTitle([{ title: "Danh sách lương của tôi", path: "/own-payslips" }]));
-    }, [location, dispatch]);
 
-    const handleOpenDialog = () => {
-        setOpen(true);
+    const handleAccountIconClick = (row: any) => {
+        setSelectedId((prevId) => (prevId === row.id ? "" : row.id));
+        setManagerName(row.fullName);
+        setManagerId(row.staffId);
     };
 
-    const handleCloseDialog = () => {
-        setOpen(false);
+    // If userInfors is not loaded, load it using dispatch
+
+    // // If userInfors is loaded, set rows
+    // useEffect(() => {
+    //     if (userInforsLoaded) {
+    //         setRows(userInfors);
+    //     }
+    // }, [userInforsLoaded]);
+
+    useEffect(() => {
+        const otherPayslips = payslips.filter(c => c.status === 'pending')
+        setRows(otherPayslips);
+    }, [payslips])
+
+    const handleInputChange = (event: any) => {
+        setDepartmentName(event.target.value);
     };
 
-    useEffect(() => {
-        if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
-    }, [payslipsLoaded, payslips, dispatch]);
+    const handleSave = async () => {
+        let updateStatus = false;
 
-    useEffect(() => {
-        if (payslipsLoaded) {
-            setRows(MyPayslips);
+        let updatePayslip: PayslipUpdate = {
+            changerId: user?.userInfor.staffId!,
+            enable: true,
+            status: "approved"
         }
-    }, [payslipsLoaded, dispatch]);
-    if (status.includes("pending"))
-        return <LoadingComponent message="Đang tải danh sách lương..." />;
+
+        if (rowSelectionModel.length !== 0) {
+            for (const id of rowSelectionModel) {
+                const PayslipId = parseInt(id.toString());
+                try {
+                    await agent.Payslip.update(PayslipId, updatePayslip);
+                    //   console.log("thanh cong");
+                    updateStatus = true;
+                } catch (error) {
+                    //   console.log("that bai", error);
+                    updateStatus = false;
+                }
+            }
+        }
+
+        console.log(updateStatus);
+
+        if (updateStatus) {
+            console.log("Cap nhat thanh cong")
+            toast.success("Cập nhật thành công");
+            dispatch(fetchPayslipsAsync());
+        }
+
+        onClose();
+        setRowSelectionModel([]);
+    };
+
+    const handleDeleteSalary = async () => {
+        let updateStatus = false;
+
+        let particalUpdatePayslip: PayslipParticalUpdate[] = [
+            {
+                path: "/enable",
+                op: "replace",
+                value: "false"
+            },
+            {
+                path: "/status",
+                op: "replace",
+                value: "rejected"
+            },
+            {
+                path: "/changerId",
+                op: "replace",
+                value: `${user?.userInfor.staffId.toString()}`
+            }
+        ]
+        if (rowSelectionModel.length !== 0) {
+            for (const id of rowSelectionModel) {
+                const PayslipId = parseInt(id.toString());
+                try {
+                    await agent.Payslip.patch(PayslipId, particalUpdatePayslip);
+                    //   console.log("thanh cong");
+                    updateStatus = true;
+                } catch (error) {
+                    //   console.log("that bai", error);
+                    updateStatus = false;
+                }
+            }
+        }
+        if (updateStatus) {
+            console.log("Cap nhat thanh cong")
+            toast.success("Hủy bảng lương thành công");
+            dispatch(fetchPayslipsAsync());
+        }
+
+        onClose();
+        setRowSelectionModel([]);
+    }
+
     return (
-        <>
-            <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-                <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
-                <Grid container justifyContent={"space-between"}>
-                    <Grid item>
-                        {/* <TextField
-              id="standard-basic"
-              placeholder="Nhập để tìm..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-                style: { fontFamily: fontStyle },
-              }}
-              variant="standard"
-            /> */}
-                    </Grid>
-                    <Grid item>
-                        {/* <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<FilterAltOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Filter
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<ImportExportOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Sort
-            </Button> */}
-                        {/* <Button
-                            variant="outlined"
-                            startIcon={<AddIcon />}
-                            onClick={handleOpenDialog}
-                            sx={{
-                                mb: "5px",
-                                textTransform: "none",
-                                fontFamily: "Mulish",
-                                height: "30px",
-                                color: "#FFFFFF",
-                                backgroundColor: "#007FFF",
-                                "&:hover": {
-                                    backgroundColor: "#0073E7",
-                                    color: "#FFFFFF",
-                                },
-                                "&:active": {
-                                    backgroundColor: "#0066CD",
-                                    color: "#FFFFFF",
-                                },
-                            }}
-                        >
-                            Tạo bảng lương
-                        </Button> */}
+        <Dialog sx={{ padding: "100px" }} fullScreen open={open} onClose={onClose} maxWidth="lg">
+
+            <DialogTitle sx={{ fontSize: 25, fontWeight: 600, marginBottom: 1 }}>
+                Duyệt bảng lương
+            </DialogTitle>
+
+            <DialogContent >
+                <Grid
+                    container
+                    //  spacing={4} 
+                    mb="4px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+
+                    height="50px">
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%">
+                        <Box display="flex" alignItems="center">
+                            <TextField
+                                id="departmentName"
+                                // label="Tìm kiếm"
+                                variant="standard"
+                                placeholder="Tìm kiếm"
+                                sx={{ width: "100%" }}
+                                onChange={handleInputChange}
+                            />
+                        </Box>
                     </Grid>
 
-                    <CreatePayslipMainForm open={open} onClose={handleCloseDialog} />
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                        <Box sx={{ color: "#FF6969", fontWeight: "bold" }}>
+                            <Box display="flex" alignItems="center">
+                                <AccountCircleIcon sx={{ mr: "5px" }} />
+                                <>
+                                    Người duyệt đơn: <span style={{ color: "#000", fontWeight: "bold", marginLeft: "3px" }}>
+                                        {user?.userInfor.lastName} {user?.userInfor.firstName}
+                                    </span>
+                                </>
+                            </Box>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                        <Box display="flex" justifyContent="end" width="100%">
+                            <Button
+                                className={cx("delete-salary-button")}
+                                variant="contained"
+                                onClick={handleDeleteSalary}
+                            >
+                                Hủy bảng lương
+                            </Button>
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
-            </Box>
 
-            <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
                 <DataGrid
-                    // autoHeight
-                    density="standard"
                     getRowId={(row: any) => row.payslipId}
                     sx={{
-                        height: "83vh",
-                        //border: "none",
-                        color: "#000000",
+                        height: "92%",
                         fontSize: 16,
                         fontWeight: 550,
                         fontFamily: "Mulish",
-                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
-                        backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
                     }}
                     slots={{
                         loadingOverlay: LinearProgress,
                         //toolbar: CustomToolbar,
                     }}
-                    loading={!payslipsLoaded}
+                    //loading = {!departmentsLoaded}
                     rows={rows}
                     columns={columns}
-                    //showCellVerticalBorder
+                    classes={{
+                        columnHeader: "custom-header",
+                    }}
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 20,
+                                pageSize: 10,
                             },
                         },
                     }}
                     pageSizeOptions={[5]}
+                    checkboxSelection
+                    isRowSelectable={(params: GridRowParams) =>
+                        params.row.payslipId
+                    }
                     disableRowSelectionOnClick
+                    onRowSelectionModelChange={(newRowSelectionModel) => {
+                        setRowSelectionModel(newRowSelectionModel);
+                    }}
                 />
-            </Box>
-        </>
+            </DialogContent>
+            <DialogActions>
+                <Button sx={{ color: "#FF605C" }} onClick={onClose}>
+                    Hủy
+                </Button>
+                <Button onClick={handleSave}>Lưu</Button>
+            </DialogActions>
+        </Dialog>
     );
 }

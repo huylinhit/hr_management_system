@@ -19,7 +19,7 @@ import {
   fetchContractsAsync,
   setContractAdded,
 } from "../../../app/store/contract/contractSlice";
-import { useAppDispatch } from "../../../app/store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
 
 interface AllowanceField {
   allowanceId: number;
@@ -31,21 +31,25 @@ interface Props {
   open: boolean;
   setOpen: Function;
   contract: Contract | undefined;
+  setContractForm: Function;
   initialContractForm: Object;
   staffId: number | undefined;
   item: Object;
   allowanceForm: Array<AllowanceField> | undefined;
   prevpage: string | undefined;
+  allowanceDelete: Array<AllowanceField> | undefined
 }
 
 export default function ConfirmSubmitDialog({
   open,
   setOpen,
   contract,
+  setContractForm,
   initialContractForm,
   staffId,
   item,
   allowanceForm,
+  allowanceDelete,
   prevpage,
 }: Props) {
   // -------------------------- VAR -----------------------------
@@ -54,25 +58,36 @@ export default function ConfirmSubmitDialog({
   const history = useNavigate();
   const dispatch = useAppDispatch();
 
+  const deleteLength = Number(allowanceDelete?.filter((a) => a.allowanceId !== 0).length)
+  const length = Number(contract?.allowances.length)
+
   const allowanceUpdate: Array<AllowanceField> = allowanceForm!
-    .slice(0, Number(contract?.allowances.length))
-    .map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
+    ?.slice(0, length - deleteLength)
+    ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
       allowanceSalary,
     }));
 
   const allowanceAdd: Array<AllowanceField> = allowanceForm!
-    .slice(Number(contract?.allowances.length))
-    .map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
+    ?.slice(length - deleteLength)
+    ?.map(({ allowanceId, allowanceTypeId, allowanceSalary }) => ({
       allowanceId,
       allowanceTypeId,
       allowanceSalary,
     }));
 
-  const isChanged = !(JSON.stringify(item) === JSON.stringify(initialContractForm));
+ 
+  const allowanceDeleteList: Array<AllowanceField> = allowanceDelete!?.filter((a) => a.allowanceId !== 0)
+
+  const isChanged = !(
+    JSON.stringify(item) === JSON.stringify(initialContractForm)
+  );
+ 
   // -------------------------- STATE ---------------------------
   const [isError, setIsError] = useState(false);
+  // -------------------------- REDUX ---------------------------
+  const currentUser = useAppSelector((state) => state.account);
   // -------------------------- FUNCTION ------------------------
   const handleClose = () => {
     setOpen(false);
@@ -111,13 +126,42 @@ export default function ConfirmSubmitDialog({
         })
         .catch((error) => {
           setIsError(true);
-          toast.success("Lỗi khi thêm phụ cấp");
+          toast.error("Lỗi khi thêm phụ cấp");
         });
+    });
+    // ------------------------------
+    allowanceDeleteList?.forEach((allowance) => {
+      const allowanceAdd = {
+        allowanceTypeId: allowance.allowanceTypeId,
+        allowanceSalary: allowance.allowanceSalary,
+      };
+
+      agent.Allowance.delete(allowance.allowanceId)
+      .then((response) => {
+        console.log("Delete contract successfully:", response);
+        dispatch(fetchContractAsync(Number(contract?.staffId)))
+        toast.success("Đã xóa phụ cấp thành công");
+        
+      })
+      .catch((error) => {
+        console.error("Error delete contract:", error);
+        toast.error("Lỗi khi xóa phụ cấp");
+      });
     });
   };
 
   const handleSubmit = () => {
     setIsError(false);
+
+    // -----------
+    const currentDateTime = new Date();
+    const submitTime = currentDateTime.toLocaleString();
+    setContractForm((prevFormData: any) => ({
+      ...prevFormData,
+      changeAt: submitTime,
+      responseId: currentUser.user?.userInfor.staffId
+    }));
+    // ------------
 
     if (isChanged) {
       agent.Contract.update(Number(contract?.contractId), Number(staffId), item)

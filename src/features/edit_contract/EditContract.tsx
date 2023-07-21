@@ -19,8 +19,18 @@ import {
   contractSelectors,
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
-import { allowanceTypeSelectors, fetchAllowanceTypesAsync } from "../../app/store/allowanceType/allowanceTypeSlice";
+import {
+  allowanceTypeSelectors,
+  fetchAllowanceTypesAsync,
+} from "../../app/store/allowanceType/allowanceTypeSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
+
+
+interface AllowanceField {
+  allowanceId: number;
+  allowanceTypeId: number;
+  allowanceSalary: number;
+}
 
 const fontStyle = "Mulish";
 
@@ -43,15 +53,17 @@ export default function EditContract() {
   const employee = useAppSelector((state) =>
     employeeSelectors.selectById(state, Number(staffid))
   );
-  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
+  const { status: employeeStatus, employeesLoaded } = useAppSelector(
+    (state) => state.employee
+  );
 
   const contract = useAppSelector((state: any) =>
     contractSelectors.selectById(state, Number(staffid))
   );
-  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
+  const { status: contractStatus, contractsLoaded } = useAppSelector(
+    (state) => state.contract
+  );
 
-  
-  
   const allowanceUpdate = contract?.allowances.map((allowance) => {
     return {
       allowanceId: allowance.allowanceId,
@@ -70,30 +82,43 @@ export default function EditContract() {
     noOfDependences: contract?.noOfDependences,
     contractTypeId: contract?.contractTypeId,
     salaryType: contract?.salaryType,
-    paidDateNote: contract?.paidDateNote,
     contractFile: contract?.contractFile,
+    createAt: contract?.createAt,
+    responseId: contract?.responseId,
+    changeAt: contract?.changeAt,
     contractStatus: contract?.contractStatus,
   });
-  const [initialContractForm, setInitialContractForm] = useState(contractForm)
+  const [initialContractForm, setInitialContractForm] = useState(contractForm);
   const [openSubmitDialog, setOpenSubmitDialog] = useState(false);
-  const [allowanceForm, setAllowanceForm] =
-    useState(allowanceUpdate);
-  const { allowanceTypesLoaded } = useAppSelector((state) => state.allowanceType);
+  const [allowanceForm, setAllowanceForm] = useState(allowanceUpdate);
+  const { allowanceTypesLoaded } = useAppSelector(
+    (state) => state.allowanceType
+  );
+  const [allowanceDelete, setAllowanceDelete] = useState<AllowanceField[]>();
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if (prevpage === "list") {
       dispatch(
         setHeaderTitle([
           { title: "Hợp Đồng Nhân Viên", path: "/contracts" },
-          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+          {
+            title: "Hợp đồng",
+            path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}`,
+          },
         ])
       );
     } else if (prevpage === "staff") {
       dispatch(
         setHeaderTitle([
           { title: "Danh sách nhân viên", path: "/staffs" },
-          { title: `${employee?.lastName} ${employee?.firstName}`, path: `/staffs/${employee?.staffId}` },
-          { title: "Hợp đồng", path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}` },
+          {
+            title: `${employee?.lastName} ${employee?.firstName}`,
+            path: `/staffs/${employee?.staffId}`,
+          },
+          {
+            title: "Hợp đồng",
+            path: `/contracts/${contract?.contractId}/staffs/${staffid}/${prevpage}`,
+          },
         ])
       );
     }
@@ -158,6 +183,8 @@ export default function EditContract() {
               setContractForm={setContractForm}
               allowanceForm={allowanceForm}
               setAllowanceForm={setAllowanceForm}
+              allowanceDelete={allowanceDelete}
+              setAllowanceDelete={setAllowanceDelete}
             />
           </Grid>
         </Grid>
@@ -181,10 +208,12 @@ export default function EditContract() {
         open={openSubmitDialog}
         setOpen={setOpenSubmitDialog}
         contract={contract}
+        setContractForm={setContractForm}
         initialContractForm={initialContractForm}
         staffId={contract?.staffId}
         item={contractForm}
         allowanceForm={allowanceForm}
+        allowanceDelete={allowanceDelete}
         prevpage={prevpage}
       />
     </Box>

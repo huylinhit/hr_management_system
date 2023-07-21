@@ -10,6 +10,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs, { Dayjs } from "dayjs";
+import { addMonths } from "date-fns";
+import { useEffect } from "react";
 
 // interface
 interface Props {
@@ -31,7 +33,13 @@ const infoStyle = {
 };
 export default function EditJob({ contract, employee, setContractForm }: Props) {
   // -------------------------- VAR -----------------------------
-  const disabled = contract?.contractTypeId == 2 ? true : false
+  const disabledEndDate = contract?.contractTypeId == 2 ? true : false
+  const disabledStartDate = contract?.contractStatus == true ? true : false
+  const formatDate : string = contract?.startDate!
+  const date = new Date(formatDate)
+  const maxDate = dayjs(addMonths(date, 3))
+  console.log(contract?.contractTypeId);
+  
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -92,7 +100,7 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
               label="Loại hợp đồng"
               size="small"
               margin="dense"
-              defaultValue={contract?.contractType?.contractTypeId}
+              defaultValue={Number(contract?.contractType?.contractTypeId)}
               onChange={(e) =>
                 setContractForm((prevForm: any) => ({
                   ...prevForm,
@@ -123,6 +131,7 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
                 <DatePicker
+                  disabled={disabledStartDate}
                   value={dayjs(moment(contract?.startDate).format("YYYY-MM-DD"))}
                   onChange={(e) =>
                     setContractForm((prevForm: any) => ({
@@ -144,7 +153,9 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
                 <DatePicker
-                disabled={disabled}
+                disabled={contract?.contractTypeId === 1 ? false : true}
+                minDate={maxDate}
+                // maxDate={maxDate}
                   value={dayjs(moment(contract?.endDate).format("DD-MM-YYYY"))}
                   onChange={(e) =>
                     setContractForm((prevForm: any) => ({
