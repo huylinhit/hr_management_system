@@ -430,7 +430,7 @@ export default function CreatePayslipNewVersion({
     };
 
     const handleSave = async () => {
-        
+
         let updateStatus = false;
 
 
@@ -445,19 +445,17 @@ export default function CreatePayslipNewVersion({
                 const staffId = parseInt(id.toString());
                 try {
                     await agent.Payslip.createByStaffId(staffId, payslipCreateDto);
-                      console.log("thanh cong");
                     updateStatus = true;
                 } catch (error) {
-                      console.log("that bai", error);
+
                     updateStatus = false;
                 }
             }
         }
 
-        console.log(updateStatus);
+
 
         if (updateStatus) {
-            console.log("Cap nhat thanh cong")
             toast.success("Cập nhật thành công");
             dispatch(fetchPayslipsAsync());
         }
@@ -466,7 +464,7 @@ export default function CreatePayslipNewVersion({
         setRowSelectionModel([]);
     };
 
-    if(status.includes('pending')) return <LoadingComponent message="Đang tải nhân viên..."/>
+    if (status.includes('pending')) return <LoadingComponent message="Đang tải nhân viên..." />
 
     return (
         <Dialog sx={{ padding: "100px" }} fullScreen open={open} onClose={onClose} maxWidth="lg">

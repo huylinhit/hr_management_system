@@ -39,3 +39,10 @@ export interface Payslip {
   taxDetails: TaxDetail[]
 }
 
+export interface PayslipParams{
+  orderBy: string,
+  searchTerm?: string,
+  departments: string[],
+  pageNumber: number,
+  pageSize: number
+}

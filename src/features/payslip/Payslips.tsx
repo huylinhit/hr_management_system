@@ -6,8 +6,13 @@ import {
   Button,
   Grid,
   IconButton,
+  InputAdornment,
   LinearProgress,
+  MenuItem,
+  Pagination,
+  TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
@@ -31,14 +36,15 @@ import NumbersIcon from "@mui/icons-material/Numbers";
 
 import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
-import { fetchPayslipsAsync, payslipSelectors } from "./payslipSlice";
+import { fetchFiltersPayslips, fetchPayslipsAsync, payslipSelectors, resetPayslipParams, setPageNumber, setPayslipParams } from "./payslipSlice";
 import { Payslip } from "../../app/models/payslip";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
-import CreatePayslipMainForm from "./component/CreatePayslipMainForm";
+import CreatePayslipMainForm, { BootstrapInput, textFieldInputProps } from "./component/CreatePayslipMainForm";
 import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
 import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
+import AppPagination from "../../app/components/Pagination/AppPagination";
 
 function CustomToolbar() {
   return (
@@ -225,7 +231,7 @@ export default function Payslips() {
       renderHeader: () => (
         <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
           <CalendarMonthIcon style={{ marginRight: 5 }} fontSize="small" />{" "}
-          <>Lương Tháng</>
+          <>Thời gian</>
         </Typography>
       ),
       renderCell: (params) => (
@@ -424,19 +430,52 @@ export default function Payslips() {
   const payslips = useAppSelector(payslipSelectors.selectAll);
   const otherPayslips = payslips.filter(c => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
-  const { payslipsLoaded, status } = useAppSelector((state) => state.payslip);
+  const { payslipsLoaded, status, filtersLoaded, departments, payslipParams, metaData } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
   const [open, setOpen] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
 
-  console.log("Here: Payslips");
+  const [serchTerm, setSearchTerm] = useState(payslipParams.searchTerm);
+
+  const CustomFooter = () => {
+    // Customize the footer component if needed
+    // For now, we return null to remove the footer
+    return null;
+  };
+
+
+  const debouncedSearch = debounce((e: any) => {
+    dispatch(setPayslipParams({ searchTerm: e.target.value }))
+  }, 2500)
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Danh sách lương nhân viên", path: "/payslips" }]));
   }, [location, dispatch]);
+
+  const handleReset = () => {
+    setSearchTerm("");
+    setSelectedDepartment("Toàn bộ phòng ban");
+    dispatch(resetPayslipParams())
+  }
+  const handleSelectedDepartments = (e: any) => {
+
+    const value = e.target.value.toLowerCase();
+
+    if (value.includes("toàn bộ phòng ban")) {
+      dispatch(setPayslipParams({ departments: [] }))
+      setSelectedDepartment("Toàn bộ phòng ban");
+      return;
+
+    }
+
+    setSelectedDepartment(e.target.value);
+    const array = [e.target.value]
+    dispatch(setPayslipParams({ departments: array }))
+  }
 
   const handleOpenDialog = () => {
     setOpen(true);
@@ -456,77 +495,115 @@ export default function Payslips() {
 
   useEffect(() => {
     if (!payslipsLoaded) dispatch(fetchPayslipsAsync());
-  }, [payslipsLoaded, payslips, dispatch]);
+  }, [payslipsLoaded, payslips, filtersLoaded, dispatch]);
+
+  useEffect(() => {
+    if (!filtersLoaded) dispatch(fetchFiltersPayslips());
+  }, [dispatch, filtersLoaded])
 
   useEffect(() => {
     if (payslipsLoaded) {
       setRows(otherPayslips);
     }
   }, [payslipsLoaded, payslips, dispatch]);
-  if (status.includes("pending"))
-    return <LoadingComponent message="Đang tải danh sách lương..." />;
+  // if (status.includes("pending") || !metaData)
+  //   return <LoadingComponent message="Đang tải danh sách lương..." />;
+  if (!filtersLoaded) return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
         <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
-        <Grid container justifyContent={"space-between"}>
-          <Grid item>
-            {/* <TextField
-              id="standard-basic"
-              placeholder="Nhập để tìm..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-                style: { fontFamily: fontStyle },
-              }}
-              variant="standard"
-            /> */}
+        <Grid container justifyContent={"space-between"} alignItems={"center"}
+          sx={{
+            mb: "5px",
+            mr: "12px",
+            height: "52px",
+            // border: "1px solid black"
+          }}>
+          <Grid item xs={4} >
+            <Box display="flex" alignItems="center"
+              // border="1px solid black"
+              height="100%"
+            >
+              <TextField
+                id=""
+                // label="Tìm kiếm"
+                variant="standard"
+                placeholder="Tìm kiếm"
+                value={serchTerm || ''}
+                sx={{
+                  width: "100%",
+                  // height: "52px",
+                  // border:"1px solid blue",
+                  display: "inline-block"
+                }}
+                onChange={(e: any) => {
+                  setSearchTerm(e.target.value);
+                  debouncedSearch(e);
+                }}
+              />
+            </Box>
           </Grid>
-          <Grid item>
-            {/* <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<FilterAltOutlinedIcon />}
-              onClick={handleOpenDialog}
+          <Grid item xs={4} alignItems={"center"} display="flex">
+            <BootstrapInput
+
+              sx={{ width: "50%", marginLeft: "12px", borderRadius: "12px" }}
+              // InputProps={textFieldInputProps}
+              variant="standard"
+              onChange={handleSelectedDepartments}
+              value={selectedDepartment}
+              select
+            // defaultValue={"Phòng ban"}
             >
-              Filter
-            </Button>
+              <MenuItem value="Toàn bộ phòng ban">Toàn bộ phòng ban</MenuItem>
+              {departments?.map((item) => (
+                <MenuItem
+                  key={item} value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))}
+            </BootstrapInput>
             <Button
-              variant="text"
+              variant="outlined"
+              onClick={handleReset}
               sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
+                marginLeft: "12px",
                 textTransform: "none",
-                color: "#7C7C7C",
+                fontFamily: "Mulish",
+                fontWeight: "bold",
+
+
+                backgroundColor: "#fff",
+                color: "rgb(57,219,57)",
+                border: "1px solid rgb(57,219,57)",
+                "&:hover": {
+                  border: "1px solid rgb(57,219,57)",
+                  color: "#fff",
+                  backgroundColor: "rgb(57,219,57)",
+                },
+                "&:active": {
+                  // backgroundColor: "#0066CD",
+                  // color: "#FFFFFF",
+                },
               }}
-              disableElevation={true}
-              startIcon={<ImportExportOutlinedIcon />}
-              onClick={handleOpenDialog}
             >
-              Sort
-            </Button> */}
+              Làm mới
+            </Button>
+          </Grid>
+          <Grid item xs={4} >
+            <Box display="flex" justifyContent="end" alignItems="center">
               <Button
                 variant="outlined"
                 startIcon={<CheckCircle />}
                 onClick={handleOpenConfirmDialog}
                 sx={{
-                  mb: "5px",
-                  mr: "12px",
+                  marginRight: "12px",
                   border: "1px solid rgb(57,219,57)",
                   textTransform: "none",
                   fontFamily: "Mulish",
                   fontWeight: "bold",
-                  height: "30px",
+                  height: "40px",
                   color: "#fff",
                   backgroundColor: "rgb(57,219,57)",
                   "&:hover": {
@@ -553,29 +630,29 @@ export default function Payslips() {
                 departmentId={0}
               />
 
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={handleOpenDialog}
-              sx={{
-                mb: "5px",
-                textTransform: "none",
-                fontFamily: "Mulish",
-                height: "30px",
-                color: "#FFFFFF",
-                backgroundColor: "#007FFF",
-                "&:hover": {
-                  backgroundColor: "#0073E7",
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={handleOpenDialog}
+                sx={{
+                  textTransform: "none",
+                  fontFamily: "Mulish",
+                  height: "40px",
                   color: "#FFFFFF",
-                },
-                "&:active": {
-                  backgroundColor: "#0066CD",
-                  color: "#FFFFFF",
-                },
-              }}
-            >
-              Tạo bảng lương
-            </Button>
+                  backgroundColor: "#007FFF",
+                  "&:hover": {
+                    backgroundColor: "#0073E7",
+                    color: "#FFFFFF",
+                  },
+                  "&:active": {
+                    backgroundColor: "#0066CD",
+                    color: "#FFFFFF",
+                  },
+                }}
+              >
+                Tạo bảng lương
+              </Button>
+            </Box>
           </Grid>
 
           <CreatePayslipNewVersion
@@ -588,13 +665,13 @@ export default function Payslips() {
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
       </Box>
 
-      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%", marginBottom: "1% " }}>
         <DataGrid
           // autoHeight
           density="standard"
           getRowId={(row: any) => row.payslipId}
           sx={{
-            height: "83vh",
+            height: "77vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -605,22 +682,29 @@ export default function Payslips() {
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            //toolbar: CustomToolbar,
           }}
           loading={!payslipsLoaded}
           rows={rows}
           columns={columns}
-          //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          // pageSizeOptions={[5, 10, 25]}
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: metaData.pageSize,
+          //       page: metaData.currentPage  ,
+
+          //     }
+          //   },
+          // }}
+          // hideFooterSelectedRowCount
+          hideFooter
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );
