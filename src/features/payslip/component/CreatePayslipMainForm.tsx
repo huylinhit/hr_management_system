@@ -158,7 +158,7 @@ export const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
         visibility: "visible",
     },
 }));
-const textFieldInputProps = {
+ export const textFieldInputProps = {
     disableUnderline: true,
     style: {
         ...infoStyle,

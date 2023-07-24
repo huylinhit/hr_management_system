@@ -115,7 +115,7 @@ export const router = createBrowserRouter([
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
           { path: "/own-payslips", element: <MyPayslips /> },
           { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
-          // { path: "/staffs/:id", element: <SelfDetails /> },
+          { path: "/staffss/:id", element: <SelfDetails /> },
 
           // { path: "/own-payslips", element: <MyPayslips /> },
           // { path: "/own-payslips:payslipId/staffs/:staffId", element: <PayslipDetail /> },

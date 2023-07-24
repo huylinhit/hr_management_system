@@ -3,6 +3,7 @@ import { router } from "../router/router";
 import { toast } from "react-toastify";
 import { store } from "../store/configureStore";
 import { request } from "http";
+import { PaginatedResponse } from "../models/pagination";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
@@ -11,7 +12,8 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use(  (config) => {
+  
   const token = store.getState().account.user?.token;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
@@ -20,6 +22,14 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   async (response) => {
     await sleep();
+
+    const pagination = response.headers['pagination'];
+    if (pagination) {
+      response.data = new PaginatedResponse(response.data, JSON.parse(pagination));
+      console.log("pagination:", response)
+      return response;
+    }
+
     return response;
   },
   (error: AxiosError) => {
@@ -65,7 +75,7 @@ const Errors = {
 };
 
 const requests = {
-  get: (url: string) => axios.get(url).then(responseBody),
+  get: (url: string, params?: URLSearchParams) => axios.get(url, { params }).then(responseBody),
   post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
   delete: (url: string) => axios.delete(url).then(responseBody),
@@ -85,14 +95,14 @@ const Contract = {
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
   update: (contractId: number, staffId: number, values: any) =>
     requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
-  patch: (contractId: number, staffId:number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
+  patch: (contractId: number, staffId: number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
 };
 
 const Department = {
   list: () => requests.get("departments"),
   details: (id: number) => requests.get(`departments/${id}`),
   create: (values: any) => requests.post("departments", values),
-  update: (id: number, values: any) => requests.put(`departments/${id}`, values), 
+  update: (id: number, values: any) => requests.put(`departments/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`departments/${id}`, values),
 };
 
@@ -155,7 +165,7 @@ const UserInfors = {
 };
 
 const Payslip = {
-  list: () => requests.get("payslips"),
+  list: (params: URLSearchParams) => requests.get("payslips", params),
   details: (id: number, staffId: number) => requests.get(`payslips/${id}/staffs/${staffId}`),
   listOfStaff: (staffId: number) => requests.get(`payslips/${staffId}`),
   createAllStaff: (time: any) => requests.post(`payslips/staffs/`, time),
@@ -165,6 +175,7 @@ const Payslip = {
     requests.post(`payslips/staffs/${staffId}`, time),
   update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
+  filters: () => requests.get("/payslips/filters")
 };
 
 const LogOt = {
