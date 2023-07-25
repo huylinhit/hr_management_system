@@ -79,7 +79,7 @@ export default function NewAccount({ setUserForm, userForm, confirmPwd, setConfi
         <Typography sx={headerStyle}>Mật khẩu</Typography>
         <TextField
           required
-          error={!validatePassword(userForm.password)}
+          error={userForm.password === "" ? false : !validatePassword(userForm.password)}
           helperText={
             !validatePassword(userForm.password)
               ? "Mật khẩu cần ít nhật 1 ký tự đặc biệt, 1 chữ in hoa và một số"

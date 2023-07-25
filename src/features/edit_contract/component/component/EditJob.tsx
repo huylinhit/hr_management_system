@@ -33,13 +33,13 @@ const infoStyle = {
 };
 export default function EditJob({ contract, employee, setContractForm }: Props) {
   // -------------------------- VAR -----------------------------
-  const disabledEndDate = contract?.contractTypeId == 2 ? true : false
-  const disabledStartDate = contract?.contractStatus == true ? true : false
-  const formatDate : string = contract?.startDate!
-  const date = new Date(formatDate)
-  const maxDate = dayjs(addMonths(date, 3))
+  const disabledEndDate = contract?.contractTypeId == 2 ? true : false;
+  const disabledStartDate = contract?.contractStatus == true ? true : false;
+  const formatDate: string = contract?.startDate!;
+  const date = new Date(formatDate);
+  const maxDate = dayjs(addMonths(date, 3));
   console.log(contract?.contractTypeId);
-  
+  console.log(contract?.endDate);
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
@@ -153,10 +153,10 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker", "DatePicker"]}>
                 <DatePicker
-                disabled={contract?.contractTypeId === 1 ? false : true}
-                minDate={maxDate}
-                // maxDate={maxDate}
-                  value={dayjs(moment(contract?.endDate).format("DD-MM-YYYY"))}
+                  disabled={contract?.contractTypeId === 1 ? false : true}
+                  minDate={maxDate}
+                  // maxDate={maxDate}
+                  value={dayjs(moment(contract?.endDate).format("YYYY-MM-DD"))}
                   onChange={(e) =>
                     setContractForm((prevForm: any) => ({
                       ...prevForm,
