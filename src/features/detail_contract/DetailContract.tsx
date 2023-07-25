@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
@@ -21,10 +14,7 @@ import DeleteDialog from "./dialog/DeleteDialog";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractAsync,
@@ -42,25 +32,17 @@ export default function DetailContract() {
   // -------------------------- STATE ---------------------------
   const [open, setOpen] = useState(false);
   // -------------------------- REDUX ---------------------------
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, Number(staffid))
-  );
-  const { status: employeeStatus, employeesLoaded } = useAppSelector(
-    (state) => state.employee
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
 
-  const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(id))
-  );
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
 
- 
   const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
- 
+
   // -------------------------- EFFECT --------------------------
 
   useEffect(() => {
-    if (!employeesLoaded)
-     dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractsAsync());
   }, [dispatch, contractsLoaded, employeesLoaded]);
 
@@ -86,12 +68,13 @@ export default function DetailContract() {
     }
   }, [dispatch, location, contract, employee]);
   // -------------------------- FUNCTION ------------------------
-  // if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
-  if(contractStatus.includes("pending")) 
-    return <LoadingComponent message="Đang tải hợp đồng"/>
+  if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
+  console.log(employee);
+  // if(contractStatus.includes("pending"))
+  //   return <LoadingComponent message="Đang tải hợp đồng"/>
 
-  if(employeeStatus.includes("pending"))      
-    return <LoadingComponent message="Đang tải nhân viên"/>
+  // if(employeeStatus.includes("pending"))
+  //   return <LoadingComponent message="Đang tải nhân viên"/>
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
@@ -161,10 +144,7 @@ export default function DetailContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
-          >
+          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>
