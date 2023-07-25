@@ -382,6 +382,7 @@ export default function Contracts() {
     }
   }, [dispatch, contractsLoaded, contractUpdated]);
 
+
   useEffect(() => {
     if (contractsLoaded) {
       setRows(otherContracts);

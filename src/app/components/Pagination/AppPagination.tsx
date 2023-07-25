@@ -10,9 +10,9 @@ function AppPagination({ metaData, onPageChange }: Props) {
     const { currentPage, totalCount, totalPages, pageSize } = metaData;
 
     return (
-        <Box display="flex" justifyContent="end" flexDirection="column" alignItems="end" >
+        <Box display="flex" justifyContent="end" flexDirection="column" alignItems="end" padding="12px">
             <Typography>
-                Đang xem {(currentPage - 1) * pageSize + 1} -
+                Đang xem {(currentPage - 1) * pageSize + 1} - { }
                 {currentPage * pageSize > totalCount
                     ? totalCount
                     : currentPage * pageSize} trên {totalCount} danh mục
