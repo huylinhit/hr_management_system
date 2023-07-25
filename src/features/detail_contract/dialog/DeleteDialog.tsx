@@ -12,10 +12,7 @@ import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import { UserInfor } from "../../../app/models/userInfor";
 import agent from "../../../app/api/agent";
 import Contract from "../../../app/models/contract";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../app/store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
@@ -55,16 +52,14 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
   const currentDateTime = new Date();
   // const submitTime = convertDateTime(currentDateTime.toLocaleString());
 
-
-
   // -----------
   const newObj: Partial<Contract> | undefined = item
     ? {
-      ...item,
-      contractStatus: false,
-      // changeAt: submitTime,
-      responseId: user?.userInfor.staffId
-    }
+        ...item,
+        contractStatus: false,
+        // changeAt: submitTime,
+        responseId: user?.userInfor.staffId,
+      }
     : undefined;
   const {
     startDate,
@@ -106,49 +101,36 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
 
   const contractPatchDelete = [
     {
-      "path": "/contractStatus",
-      "op": "replace",
-      "value": false
+      path: "/contractStatus",
+      op: "replace",
+      value: false,
     },
     {
-      "path": "/responseId",
-      "op": "replace",
-      "value": `${user?.userInfor.staffId}`
+      path: "/responseId",
+      op: "replace",
+      value: `${user?.userInfor.staffId}`,
     },
-  ]
+  ];
 
   const handleDelete = async () => {
-
     let deleteStatus = false;
-    
+
     const contractId = parseInt(String(item?.contractId!));
     const staffId = parseInt(String(item?.staffId!));
 
-    await agent.Contract.patch(
-      contractId,
-      staffId,
-      contractPatchDelete
-    )
+    agent.Contract.patch(contractId, staffId, contractPatchDelete)
       .then((response) => {
+        dispatch(setContractUpdated(true));
+        setOpen(false);
+        toast.success("Hủy hợp đồng thành công");
+
+        dispatch(fetchContractAsync(Number(item?.staffId)));
+        history(`/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`);
         deleteStatus = true;
       })
       .catch((error) => {
-        deleteStatus = false;
+        toast.error("Lỗi khi hủy hợp đồng");
       });
-
-    if (deleteStatus) {
-      toast.success("Hủy hợp đồng thành công");
-      dispatch(fetchContractsAsync());
-      dispatch(fetchContractAsync(Number(item?.staffId)));
-      history(
-        `/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`
-      );
-    }
-    else{
-      toast.error("Lỗi khi hủy hợp đồng");  
-    }
-    dispatch(setContractUpdated(true));
-    setOpen(false);
   };
   // -------------------------- MAIN ----------------------------
   return (
@@ -159,10 +141,7 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
       aria-labelledby="responsive-dialog-title"
       sx={{ borderRadius: "10px", textAlign: "center" }}
     >
-      <DialogTitle
-        id="responsive-dialog-title"
-        sx={{ fontSize: "25px", color: "#B9B9B9" }}
-      >
+      <DialogTitle id="responsive-dialog-title" sx={{ fontSize: "25px", color: "#B9B9B9" }}>
         Bạn có chắc muốn hủy hợp đồng nhân viên này không?
       </DialogTitle>
       <DialogContent>
@@ -171,18 +150,10 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", paddingBottom: "15px" }}>
-        <Button
-          variant="outlined"
-          sx={{ margin: "0 10px" }}
-          onClick={handleClose}
-        >
+        <Button variant="outlined" sx={{ margin: "0 10px" }} onClick={handleClose}>
           Hủy
         </Button>
-        <Button
-          variant="contained"
-          sx={{ margin: "0 10px" }}
-          onClick={handleDelete}
-        >
+        <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleDelete}>
           Xác nhận
         </Button>
       </DialogActions>
