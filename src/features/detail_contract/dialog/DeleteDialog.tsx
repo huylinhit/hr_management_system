@@ -22,6 +22,7 @@ import {
   contractSelectors,
   fetchContractAsync,
   fetchContractsAsync,
+  setContractUpdated,
 } from "../../../app/store/contract/contractSlice";
 import moment from "moment";
 
@@ -146,7 +147,7 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
     else{
       toast.error("Lỗi khi hủy hợp đồng");  
     }
-
+    dispatch(setContractUpdated(true));
     setOpen(false);
   };
   // -------------------------- MAIN ----------------------------
