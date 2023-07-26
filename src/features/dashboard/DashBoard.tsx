@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import BarChart from "./BarChart";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import MyResponsiveLine from "./LineChart";
@@ -31,12 +30,6 @@ export default function DashBoard() {
   }, [location, dispatch]);
 
   return (
-    <Box>
-      <Box height={'75vh'}>
-        <BarChart/>
-      </Box>
-    </Box>
-  )
     <>
       <Grid container xs={12} columnSpacing={2.5} sx={{ pl: "50px", pr: "20px", pt: "40px" }}>
         <Grid item xs={3}>
