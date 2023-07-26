@@ -196,6 +196,9 @@ const LogOt = {
 const LeaveDayDetail = {
   list: (staffId: number) => requests.get(`leave-day-detail/${staffId}`),
 };
+const LeaveType = {
+  list: () => requests.get("leave-types"),
+};
 const LogLeave = {
   list: (params: URLSearchParams) => requests.get("log-leaves", params),
   details: (logLeaveId: number, staffId: number) =>
@@ -247,9 +250,11 @@ const agent = {
   Payslip,
   LogOt,
   LogLeave,
+  LeaveType,
   Candidate,
   CandidateSkill,
   LeaveDayDetail,
+
   Errors,
 };
 

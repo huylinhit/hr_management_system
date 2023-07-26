@@ -27,7 +27,6 @@ import { toast } from "react-toastify";
 import { fetchUserInforsAsync, userInforSelectors } from "../department/userInforSlice";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { fetchLogOtsAsync, setLogOvertimeAdded } from "./overtimeSlice";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   isOwn?: boolean;
@@ -190,17 +189,10 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   const allUsers = useAppSelector(userInforSelectors.selectAll);
   const users = allUsers.filter((c) => c.staffId != user?.userInfor.staffId && c.staffId !== 1);
   const { userInforsLoaded, status } = useAppSelector((state) => state.userInfor);
-  const { logOtAdded } = useAppSelector((state) => state.logot);
 
   useEffect(() => {
     if (!userInforsLoaded) dispatch(fetchUserInforsAsync());
   }, [userInforsLoaded]);
-
-  const handleCreateOvertime = (e: any) => {
-    const selectedOption = users.find((c) => c.staffId === e.target.value);
-    const selectedValue = selectedOption?.staffId;
-    setSelectedUser(selectedValue || 0);
-  };
 
   const handleSetStartDate = (event: any) => {
     setStartDate(event);
@@ -254,9 +246,6 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          // toast.error(`${error.data} 😥`);
-          // console.log("LOOIX DO MAN");
-          // console.error("Error creating ticket: ", error);
         });
     }
 
@@ -303,7 +292,6 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
                 </Typography>
               </>
             ) : (
-              // <Box display={"flex"} alignItems={"center"} sx={verticalSpacing}>
               <>
                 {users.length !== 0 && (
                   <BootstrapInput
@@ -390,8 +378,8 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Hủy</Button>
-          <Button onClick={handleCreateTicket} autoFocus>
+          <Button variant="outlined" color="error" sx={{ width: "70px", marginRight: "10px", marginBottom: "20px", borderRadius:"6px"}}  onClick={onClose}>Hủy</Button>
+          <Button variant="contained" sx={{ width: "70px", marginRight: "15px", marginBottom: "20px", borderRadius:"6px"}} onClick={handleCreateTicket} autoFocus>
             Tạo
           </Button>
         </DialogActions>

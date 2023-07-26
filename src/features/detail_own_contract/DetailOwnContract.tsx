@@ -19,6 +19,8 @@ import {
 import { useLocation } from "react-router-dom";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 
+const fontStyle = "Mulish";
+
 export default function DetailOwnContract() {
   // -------------------------- VAR -----------------------------
   const dispatch = useAppDispatch();
@@ -52,32 +54,42 @@ export default function DetailOwnContract() {
     return <LoadingComponent message="Loading..." />;
   // -------------------------- MAIN ----------------------------
   return (
-    <Box sx={{ padding: "10px 30px 30px 30px", width: "calc(100vh - 240)" }}>
-      <Grid container>
-        <Typography
-          sx={{
-            padding: "5px 0",
-            fontStyle: "normal",
-            fontWeight: "700",
-            fontSize: "30px",
-            lineHeight: "39px",
-          }}
-        >
-          Thông tin hợp đồng
-        </Typography>
-      </Grid>
-
-      <Container
+    <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
+      <Grid
+        container
         sx={{
-          backgroundColor: "white",
-          padding: "15px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
         }}
       >
         <Grid
+          item
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "baseline",
+          }}
+        >
+          <Typography
+            sx={{
+              padding: "5px 0",
+              fontStyle: "normal",
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "39px",
+              fontFamily: fontStyle,
+            }}
+          >
+            Thông tin hợp đồng
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Container>
+        <Grid
           container
           sx={{
-            borderRadius: "15px",
-            border: "1px solid #E2E1E5",
             background: "#FFF",
             margin: "0 10px",
             maxWidth: "1085px",
@@ -95,7 +107,14 @@ export default function DetailOwnContract() {
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>
+        <Grid
+          container
+          sx={{
+            margin: "0 10px",
+            padding: "30px 20px 0 30px",
+          }}
+        ></Grid>
       </Container>
-    </Box>
+    </Container>
   );
 }

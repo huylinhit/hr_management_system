@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-
+import CheckIcon from "@mui/icons-material/Check";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
@@ -326,11 +326,12 @@ export default function LeaveApproval() {
             {logLeave?.enable ? (
               <>
                 <Button
-                  variant="text"
+                  variant="contained"
+                  startIcon={<CheckIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
-                    color: "#007FFF",
+                    // color: "#007FFF",
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}

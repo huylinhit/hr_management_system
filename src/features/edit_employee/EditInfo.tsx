@@ -122,7 +122,6 @@ const HeaderInput = styled(TextField)(({ theme }) => ({
     borderRadius: 4,
     position: "relative",
     backgroundColor: theme.palette.mode === "light" ? "#FFFFFF" : "#1A2027",
-    //border: "1px solid",
     borderColor: theme.palette.mode === "light" ? "#E0E3E7" : "#2D3843",
     fontSize: 40,
     fontWeight: 800,
@@ -581,18 +580,6 @@ export default function EditInfo() {
             Xác nhận
           </Button>
         </Box>
-        {/* <Button
-            variant="outlined"
-            onClick={handleOpenDialog}
-            sx={{
-              fontWeight: "bold",
-              textTransform: "none",
-              fontFamily: fontStyle,
-            }}
-            disableElevation={true}
-          >
-            Tạo hợp đồng
-          </Button> */}
         {!!isExistContract ? (
           <Button
             variant="contained"

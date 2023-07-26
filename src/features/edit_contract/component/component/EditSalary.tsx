@@ -112,7 +112,7 @@ export default function EditSalary({
             <TextField
               required
               error={error1}
-              helperText={error1 ? "Negative number is not allowed":""}
+              helperText={error1 ? "Không hợp lệ":""}
               id="outlined-required"
               label="Lương căn bản"
               size="small"
@@ -142,7 +142,7 @@ export default function EditSalary({
             <TextField
               required
               error={error2}
-              helperText={error2 ? "Negative number is not allowed":""}
+              helperText={error2 ? "Không hợp lệ":""}
               id="outlined-required"
               label="Lương tính thuế"
               size="small"

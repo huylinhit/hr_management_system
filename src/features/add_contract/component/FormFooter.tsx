@@ -20,18 +20,6 @@ export default function FormFooter({ id, handleSubmit, disabled }: Props) {
         }}
       >
         <Grid item>
-          <Button
-            variant="outlined"
-            sx={{
-              border: "1.5px solid #007FFF",
-              borderRadius: "20px",
-              padding: "auto",
-            }}
-            component={Link}
-            to={`/staffs/${id}`}
-          >
-            Quay về
-          </Button>
         </Grid>
         <Grid item>
           <Button
@@ -40,6 +28,7 @@ export default function FormFooter({ id, handleSubmit, disabled }: Props) {
             sx={{
               borderRadius: "20px",
               padding: "auto",
+              width:"80px"
             }}
             onClick={() => handleSubmit()}
           >
