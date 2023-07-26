@@ -21,3 +21,10 @@ export interface LogOt {
   otType: OtType
   staff: Staff
 }
+
+export interface LogOtParams{
+  searchTerm?: string,
+  departments: string[],
+  pageNumber: number,
+  pageSize: number
+}

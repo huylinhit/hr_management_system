@@ -25,11 +25,10 @@ function getAxiosParams(payslipParams: PayslipParams) {
     // params.append('pageSize', payslipParams.pageSize.toString());
     params.append('orderBy', payslipParams.orderBy);
 
-    console.log("Search term: ", payslipParams.searchTerm)
 
     if (payslipParams.searchTerm) params.append('searchTerm', payslipParams.searchTerm.toString());
     if (payslipParams.departments?.length > 0) params.append('departments', payslipParams.departments.toString());
-    console.log("Here2")
+    
     return params;
 }
 
@@ -40,14 +39,11 @@ export const fetchPayslipsAsync = createAsyncThunk<Payslip[], void, { state: Roo
         const params = getAxiosParams(thunkAPI.getState().payslip.payslipParams);
         try {
             const response = await agent.Payslip.list(params);
-            console.log("here")
-            console.log(params)
-            console.log(response.items)
+            
             thunkAPI.dispatch(setMetaData(response.metaData))
             return response.items;
 
         } catch (error: any) {
-            console.log("here")
             return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
@@ -94,7 +90,6 @@ function initParams() {
         orderBy: "payslipIdDesc",
         departments: []
     }
-
 }
 
 export const payslipSlice = createSlice({

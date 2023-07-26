@@ -28,9 +28,11 @@ import {
   fetchLogOtsAsync,
   logOvertimeSelectors,
   setLogOvertimeAdded,
+  setPageNumber,
 } from "../overlog/overtimeSlice";
 import { LogOt } from "../../app/models/logOt";
 import CreateOvertimeForm from "../overlog/CreateOvertime2";
+import AppPagination from "../../app/components/Pagination/AppPagination";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -438,12 +440,13 @@ export default function MyOTList() {
   const logOts = useAppSelector(logOvertimeSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.account);
   const myOts = logOts.filter((logOt) => logOt.staffId === currentUser.user?.userInfor.staffId);
+
   const dispatch = useAppDispatch();
   const leaveDayDetail = useAppSelector((state) => state.leaveDayDetail);
 
   const [rows, setRows] = useState<LogOt[]>([]);
   const [open, setOpen] = useState(false);
-  const { logOtAdded, logOtsLoaded, status } = useAppSelector((state) => state.logot);
+  const { logOtAdded, logOtsLoaded, status , metaData,  } = useAppSelector((state) => state.logot);
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
@@ -575,16 +578,24 @@ export default function MyOTList() {
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          hideFooterPagination
+          hideFooter
+        // initialState={{
+        //   pagination: {
+        //     paginationModel: {
+        //       pageSize: 20,
+        //     },
+        //   },
+        // }}
+        // pageSizeOptions={[5]}
+        // disableRowSelectionOnClick
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );

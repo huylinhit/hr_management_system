@@ -11,6 +11,8 @@ import {
     Grid,
     Tooltip,
     Box,
+    debounce,
+    MenuItem,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -44,11 +46,12 @@ import { useAppSelector, useAppDispatch } from "../../../app/store/configureStor
 import { setDepartmentChanged, setDepartmentEmployeeAdded } from "../../department/departmentSlice";
 import { userInforSelectors, fetchUserInforsAsync } from "../../department/userInforSlice";
 import { Payslip } from "../../../app/models/payslip";
-import { fetchPayslipsAsync } from "../payslipSlice";
+import { fetchPayslipsAsync, setPayslipParams } from "../payslipSlice";
 import AvatarCustome from "../../../app/components/Custom/Avatar/AvatarCustome";
 import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
 import style from './payslip.module.scss'
 import classNames from "classnames/bind";
+import { BootstrapInput } from "./CreatePayslipMainForm";
 
 const cx = classNames.bind(style)
 
@@ -452,6 +455,7 @@ export default function ConfirmPayslips({
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.account);
     const { userInforsLoaded, filtersLoaded } = useAppSelector((state) => state.userInfor);
+    const { payslipParams, departments } = useAppSelector(state => state.payslip)
     const [rows, setRows] = useState<Payslip[]>([]);
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
     const [departmentName, setDepartmentName] = useState("");
@@ -459,6 +463,11 @@ export default function ConfirmPayslips({
     const [managerName, setManagerName] = useState("");
     const [managerId, setManagerId] = useState("");
 
+    const [serchTerm, setSearchTerm] = useState(payslipParams.searchTerm);
+
+    const debouncedSearch = debounce((e: any) => {
+        dispatch(setPayslipParams({ searchTerm: e.target.value }))
+    }, 2500)
 
     const handleAccountIconClick = (row: any) => {
         setSelectedId((prevId) => (prevId === row.id ? "" : row.id));
@@ -518,6 +527,23 @@ export default function ConfirmPayslips({
         onClose();
         setRowSelectionModel([]);
     };
+    const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
+
+    const handleSelectedDepartments = (e: any) => {
+
+        const value = e.target.value.toLowerCase();
+
+        if (value.includes("toàn bộ phòng ban")) {
+            dispatch(setPayslipParams({ departments: [] }))
+            setSelectedDepartment("Toàn bộ phòng ban");
+            return;
+
+        }
+
+        setSelectedDepartment(e.target.value);
+        const array = [e.target.value]
+        dispatch(setPayslipParams({ departments: array }))
+    }
 
     const handleDeleteSalary = async () => {
         let updateStatus = false;
@@ -581,18 +607,56 @@ export default function ConfirmPayslips({
                     height="50px">
                     <Grid item xs={4} display="flex" alignItems="center" height="100%">
                         <Box display="flex" alignItems="center">
-                            <TextField
+                            {/* <TextField
                                 id="departmentName"
                                 // label="Tìm kiếm"
                                 variant="standard"
                                 placeholder="Tìm kiếm"
                                 sx={{ width: "100%" }}
                                 onChange={handleInputChange}
+                            /> */}
+                            <TextField
+                                id=""
+                                // label="Tìm kiếm"
+                                variant="standard"
+                                placeholder="Tìm kiếm"
+                                value={serchTerm || ''}
+                                sx={{
+                                    width: "100%",
+                                    // height: "52px",
+                                    // border:"1px solid blue",
+                                    display: "inline-block"
+                                }}
+                                onChange={(e: any) => {
+                                    setSearchTerm(e.target.value);
+                                    debouncedSearch(e);
+                                }}
                             />
                         </Box>
                     </Grid>
+                    <Grid item xs={3} display="flex" alignItems="center" height="100%">
+                        <BootstrapInput
 
-                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                            sx={{ width: "50%", marginLeft: "52px", borderRadius: "12px" }}
+                            // InputProps={textFieldInputProps}
+                            variant="standard"
+                            onChange={handleSelectedDepartments}
+                            value={selectedDepartment}
+                            select
+                        // defaultValue={"Phòng ban"}
+                        >
+                            <MenuItem value="Toàn bộ phòng ban">Toàn bộ phòng ban</MenuItem>
+                            {departments?.map((item) => (
+                                <MenuItem
+                                    key={item} value={item}
+                                >
+                                    {item}
+                                </MenuItem>
+                            ))}
+                        </BootstrapInput>
+                    </Grid>
+
+                    <Grid item xs={3} display="flex" alignItems="center" height="100%" >
                         <Box sx={{ color: "#FF6969", fontWeight: "bold" }}>
                             <Box display="flex" alignItems="center">
                                 <AccountCircleIcon sx={{ mr: "5px" }} />
@@ -605,7 +669,7 @@ export default function ConfirmPayslips({
                         </Box>
                     </Grid>
 
-                    <Grid item xs={4} display="flex" alignItems="center" height="100%" >
+                    <Grid item xs={2} display="flex" alignItems="center" height="100%" >
                         <Box display="flex" justifyContent="end" width="100%">
                             <Button
                                 className={cx("delete-salary-button")}
