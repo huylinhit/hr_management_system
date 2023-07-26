@@ -25,9 +25,6 @@ function getAxiosParams(userInforParams: UserInforParams) {
 
   params.append('pageNumber', userInforParams.pageNumber.toString());
   // params.append('pageSize', userInforParams.pageSize.toString());
-
-  console.log("Search term: ", userInforParams.searchTerm)
-
   if (userInforParams.searchTerm) params.append('searchTerm', userInforParams.searchTerm.toString());
   if (userInforParams.departments?.length > 0) params.append('departments', userInforParams.departments.toString());
   return params;
@@ -135,7 +132,6 @@ export const userInforSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchUserInforAsync.rejected, (state, action) => {
-      console.log(action);
       state.status = "idle";
     });
 
