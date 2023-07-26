@@ -5,7 +5,8 @@ import { store } from "../store/configureStore";
 import { request } from "http";
 import { PaginatedResponse } from "../models/pagination";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+// axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "https://api-hrm.huylinhit.live/api";
 axios.defaults.withCredentials = true;
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
@@ -89,13 +90,14 @@ const Account = {
 };
 
 const Contract = {
-  list: () => requests.get("contracts"),
+  list: (params: URLSearchParams) => requests.get("contracts", params),
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
   details: (id: number) => requests.get(`contracts/${id}`),
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
   update: (contractId: number, staffId: number, values: any) =>
     requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
   patch: (contractId: number, staffId: number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
+  filters: () => requests.get("/contracts/filters")
 };
 
 const Department = {
@@ -195,7 +197,7 @@ const LeaveDayDetail = {
   list: (staffId: number) => requests.get(`leave-day-detail/${staffId}`),
 };
 const LogLeave = {
-  list: () => requests.get("log-leaves"),
+  list: (params: URLSearchParams) => requests.get("log-leaves", params),
   details: (logLeaveId: number, staffId: number) =>
     requests.get(`log-leaves/${logLeaveId}/staffs/${staffId}`),
   listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
@@ -204,7 +206,8 @@ const LogLeave = {
     requests.put(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
   patch: (logLeaveId: number, staffId: number, values: any) =>
     requests.patch(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
-};
+    filters: () => requests.get("/log-leaves/filters")
+  };
 
 const Employees = {
   list: () => requests.get("userinfor"),

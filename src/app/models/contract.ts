@@ -23,4 +23,13 @@ export default interface Contract {
 	contractType: ContractType
 	staff: UserInfor
 }
+
+
+export interface ContractParams{
+	searchTerm?: string,
+	departments: string[],
+	pageNumber: number,
+	pageSize: number
+  }
+  
   

@@ -153,6 +153,7 @@ export default function ConfirmSubmitDialog({
     toast.success("Cập nhật thành công")
     // dispatch(fetchContractsAsync());
     dispatch(setContractUpdated(true))
+
     // ------------------------------
   };
 

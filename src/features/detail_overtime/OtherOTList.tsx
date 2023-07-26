@@ -513,7 +513,6 @@ export default function OtherOTList() {
       dispatch(setLogotParams({ departments: [] }))
       setSelectedDepartment("Toàn bộ phòng ban");
       return;
-
     }
 
     setSelectedDepartment(e.target.value);
@@ -594,7 +593,7 @@ export default function OtherOTList() {
             </Box>
           </Grid>
           <Grid item xs={4} alignItems={"center"} display="flex">
-            <BootstrapInput
+            {/* <BootstrapInput
 
               sx={{ width: "50%", marginLeft: "12px", borderRadius: "12px" }}
               // InputProps={textFieldInputProps}
@@ -638,7 +637,7 @@ export default function OtherOTList() {
               }}
             >
               Làm mới
-            </Button>
+            </Button> */}
           </Grid>
           <Grid item>
             {/* <Button
