@@ -40,6 +40,7 @@ import { storage } from "../../firebase";
 import { deepPurple } from "@mui/material/colors";
 import styles from "./Sidebar.module.scss";
 import classNames from "classnames/bind";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 const cx = classNames.bind(styles);
@@ -160,36 +161,38 @@ export default function Sidebar() {
           <Box>
             <List className={cx("container")}>
               {user && user.roles?.includes("HRStaff") && (
-                <ListItemButton
-                  component={Link}
-                  to={`/staffs/${user?.userInfor.staffId}`}
-                  className={cx("header")}
-                >
-                  <Avatar
-                    variant="rounded"
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      bgcolor: deepPurple[500],
-                      mr: "12px",
-                    }}
-                    src={avatarUrl}
-                    alt=""
+                <>
+                  <ListItemButton
+                    component={Link}
+                    to={`/staffs/${user?.userInfor.staffId}`}
+                    className={cx("header")}
                   >
-                    {user?.userInfor.fullName.charAt(0)}
-                  </Avatar>
-                  <ListItemText
-                    className={cx("list-item-content")}
-                    primaryTypographyProps={{
-                      // color: "#000000",
-                      // color: "#000",
-                      fontWeight: 600,
-                      fontFamily: "Mulish",
-                      fontSize: 16,
-                    }}
-                    primary={user?.userInfor.fullName}
-                  />
-                </ListItemButton>
+                    <Avatar
+                      variant="rounded"
+                      sx={{
+                        width: 32,
+                        height: 32,
+                        bgcolor: deepPurple[500],
+                        mr: "12px",
+                      }}
+                      src={avatarUrl}
+                      alt=""
+                    >
+                      {user?.userInfor.fullName.charAt(0)}
+                    </Avatar>
+                    <ListItemText
+                      className={cx("list-item-content")}
+                      primaryTypographyProps={{
+                        // color: "#000000",
+                        // color: "#000",
+                        fontWeight: 600,
+                        fontFamily: "Mulish",
+                        fontSize: 16,
+                      }}
+                      primary={user?.userInfor.fullName}
+                    />
+                  </ListItemButton>
+                </>
               )}
               {user && user.roles?.includes("Staff") && user.roles.length === 1 && (
                 <ListItemButton
@@ -429,6 +432,21 @@ export default function Sidebar() {
             )}
             {user && user.roles?.includes("HRStaff") && (
               <List>
+                <ListItemButton
+                  className={cx("list-item", { activeButton: active === "dashboard" })}
+                  onClick={() => handleActiveClick("dashboard")}
+                  component={Link}
+                  to="/dashboard"
+                >
+                  <ListItemIcon sx={{ minWidth: "30px" }} className={cx("list-item-content")}>
+                    <HomeOutlinedIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    className={cx("list-item-content")}
+                    primaryTypographyProps={{ ...listItemStyle }}
+                    primary="Dashboard"
+                  />
+                </ListItemButton>
                 <>
                   <ListItemButton className={cx("header")} onClick={handleOpenStaff}>
                     <ListItemText

@@ -1,6 +1,17 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
-import BarChart from "./BarChart";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import MyResponsiveLine from "./LineChart";
+import UserInforSummary from "./UserInforChart";
+import DepartmentSummary from "./DepartmentSummary";
+import CandidateSummary from "./CandidateSummary";
+import TicketSummary from "./TicketsSummary";
+import StaffList from "../employee/StaffList";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import PayslipsMiniTable from "./PayslipsMiniTable";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { setHeaderTitle } from "../../app/layout/headerSlice";
+import { useAppDispatch } from "../../app/store/configureStore";
 const cardStyle = {
   border: "1px solid #CFCFCF",
   borderRadius: "8px",
@@ -10,86 +21,90 @@ const cardStyle = {
 };
 const fontStyle = "Mulish";
 export default function DashBoard() {
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    dispatch(setHeaderTitle([{ title: "Dashboard", path: "" }]));
+  }, [location, dispatch]);
+
   return (
     <>
-      <Grid container xs={12} spacing={3} sx={{ pl: "30px" }}>
+      <Grid container xs={12} columnSpacing={2.5} sx={{ pl: "50px", pr: "20px", pt: "40px" }}>
         <Grid item xs={3}>
-          <Card sx={cardStyle}>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "800", color: "242424" }}>
-              Chứng chỉ Google Ads
-            </Typography>
-
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "700", color: "#6D6D6D" }}>
-              Võ Minh Hoàng
-            </Typography>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "500", color: "#929292" }}>
-              Phòng phát triển sản phẩm
-            </Typography>
-          </Card>
+          <UserInforSummary />
         </Grid>
 
         <Grid item xs={3}>
-          <Card sx={cardStyle}>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "800", color: "242424" }}>
-              Chứng chỉ Google Ads
-            </Typography>
-
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "700", color: "#6D6D6D" }}>
-              Võ Minh Hoàng
-            </Typography>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "500", color: "#929292" }}>
-              Phòng phát triển sản phẩm
-            </Typography>
-          </Card>
+          <DepartmentSummary />
         </Grid>
 
         <Grid item xs={3}>
-          <Card sx={cardStyle}>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "800", color: "242424" }}>
-              Chứng chỉ Google Ads
-            </Typography>
-
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "700", color: "#6D6D6D" }}>
-              Võ Minh Hoàng
-            </Typography>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "500", color: "#929292" }}>
-              Phòng phát triển sản phẩm
-            </Typography>
-          </Card>
+          <CandidateSummary />
         </Grid>
 
         <Grid item xs={3}>
-          <Card sx={cardStyle}>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "800", color: "242424" }}>
-              Chứng chỉ Google Ads
-            </Typography>
-
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "700", color: "#6D6D6D" }}>
-              Võ Minh Hoàng
-            </Typography>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "500", color: "#929292" }}>
-              Phòng phát triển sản phẩm
-            </Typography>
-          </Card>
+          <TicketSummary />
         </Grid>
 
         <Grid item xs={6}>
-          <Card sx={cardStyle}>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "800", color: "242424" }}>
-              Chứng chỉ Google Ads
-            </Typography>
-
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "700", color: "#6D6D6D" }}>
-              Võ Minh Hoàng
-            </Typography>
-            <Typography sx={{ fontFamily: fontStyle, fontWeight: "500", color: "#929292" }}>
-              Phòng phát triển sản phẩm
-            </Typography>
-          </Card>
+          <PayslipsMiniTable />
         </Grid>
 
         <Grid item xs={6}>
-          <MyResponsiveLine />
+          <Grid mb={"2vh"}>
+            <MyResponsiveLine />
+          </Grid>
+          <Grid>
+            <Button
+              variant="contained"
+              fullWidth
+              component={NavLink}
+              to="/payslips"
+              sx={{
+                textTransform: "none",
+                height: "13vh",
+                background: "linear-gradient(45deg, #41A9FE 30%, #6877FE 90%)",
+                color: "#ffffff", // Set the text color to white
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  pl: "10px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    //flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <PeopleAltOutlinedIcon
+                    sx={{
+                      mr: "10px",
+                      fontSize: "35px",
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: "18px",
+                      fontFamily: fontStyle,
+                    }}
+                  >
+                    Đi tới bảng lương của nhân viên
+                  </Typography>
+                </Box>
+              </Box>
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </>

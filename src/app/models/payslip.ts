@@ -32,7 +32,7 @@ export interface Payslip {
   changeAt: string
   creatorId: number
   changerId: number
-  payday: string
+  payday: Date
   enable: boolean
   status: string
   staff: Staff
