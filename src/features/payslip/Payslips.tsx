@@ -45,6 +45,11 @@ import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
 import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
 import AppPagination from "../../app/components/Pagination/AppPagination";
+import classNames from "classnames/bind";
+
+import styles from './component/payslip.module.scss';
+
+const cx = classNames.bind(styles);
 
 function CustomToolbar() {
   return (
@@ -517,8 +522,8 @@ export default function Payslips() {
           sx={{
             background: "#fff",
             padding: "20px",
-            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-            // mb: "5px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
             borderRadius: "4px",
             mr: "12px",
             // height: "52px",
@@ -682,7 +687,9 @@ export default function Payslips() {
             fontSize: 16,
             fontWeight: 550,
             fontFamily: "Mulish",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            // boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
             backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
           slots={{
@@ -695,20 +702,20 @@ export default function Payslips() {
           // initialState={{
           //   pagination: {
           //     paginationModel: {
-          //       pageSize: 3,
-          //       page: metaData?.currentPage  ,
+          //       pageSize: 30,
+          //       // page: metaData?.currentPage,   
           //     }
           //   },
           // }}
           // hideFooterSelectedRowCount
           hideFooter
         />
-        {metaData && (
-          <AppPagination
-            metaData={metaData}
-            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
-          />
-        )}
+          {metaData && (
+            <AppPagination
+              metaData={metaData}
+              onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+            />
+          )}
       </Box>
     </>
   );

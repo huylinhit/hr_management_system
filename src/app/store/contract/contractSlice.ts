@@ -68,6 +68,9 @@ export const contractSlice = createSlice({
     setContractUpdated: (state, action) => {
       state.contractUpdated = action.payload;
     },
+    setContractLoaded: (state, action) =>{
+      state.contractsLoaded = false
+    }
   },
   extraReducers: (builder => {
     // List
@@ -113,5 +116,5 @@ export const contractSlice = createSlice({
   })
 })
 
-export const { setContractAdded, setContractUpdated } = contractSlice.actions;
+export const { setContractAdded, setContractUpdated, setContractLoaded  } = contractSlice.actions;
 export const contractSelectors = contractAdapter.getSelectors((state: RootState) => state.contract)
