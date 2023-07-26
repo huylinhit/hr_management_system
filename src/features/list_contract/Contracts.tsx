@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
-import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
+import { Button, Grid, IconButton, LinearProgress, TextField, Typography, debounce } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   GridToolbarColumnsButton,
@@ -25,13 +25,16 @@ import { setHeaderTitle } from "../../app/layout/headerSlice";
 import {
   contractSelectors,
   fetchContractsAsync,
+  setContractParams,
   setContractUpdated,
+  setPageNumber,
 } from "../../app/store/contract/contractSlice";
 import Contract from "../../app/models/contract";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import AppPagination from "../../app/components/Pagination/AppPagination";
 
 const headerStyle = {
   color: "#7C7C7C",
@@ -361,15 +364,25 @@ export default function Contracts() {
   }
   const { user } = useAppSelector((state) => state.account);
   const contracts = useAppSelector(contractSelectors.selectAll);
+
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
+
+
+  const debouncedSearch = debounce((e: any) => {
+    dispatch(setContractParams({ searchTerm: e.target.value }))
+  }, 2500)
   const otherContracts = contracts.filter((c) => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const {
     contractsLoaded,
     status: contractStatus,
     contractUpdated,
+    metaData,
+    contractParams
   } = useAppSelector((state) => state.contract);
   const [rows, setRows] = useState<Contract[]>([]);
   const location = useLocation();
+  const [serchTerm, setSearchTerm] = useState(contractParams.searchTerm);
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Hợp Đồng Nhân Viên", path: "/contracts" }]));
@@ -393,9 +406,41 @@ export default function Contracts() {
 
   return (
     <>
-      {/* <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
-          <Grid item>
+      <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
+        <Grid container justifyContent={"space-between"} alignItems={"center"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}>
+          <Grid item xs={3} >
+            <Box display="flex" alignItems="center"
+              // border="1px solid black"
+              height="100%"
+            >
+              <TextField
+                id=""
+                // label="Tìm kiếm"
+                variant="standard"
+                placeholder="Tìm kiếm"
+                value={serchTerm || ''}
+                sx={{
+                  width: "100%",
+                  // height: "52px",
+                  // border:"1px solid blue",
+                  display: "inline-block"
+                }}
+                onChange={(e: any) => {
+                  setSearchTerm(e.target.value);
+                  debouncedSearch(e);
+                }}
+              />
+            </Box>
+          </Grid>
+          {/* <Grid item>
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
@@ -420,18 +465,18 @@ export default function Contracts() {
             >
               Tạo đơn mới
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
-      </Box> */}
-      <Box
+      </Box>
+      {/* <Box
         sx={{
           mb: "5px",
           textTransform: "none",
           fontFamily: "Mulish",
           height: "30px",
         }}
-      ></Box>
+      ></Box> */}
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
@@ -439,7 +484,7 @@ export default function Contracts() {
           density="standard"
           getRowId={(row: any) => row.contractId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -456,16 +501,23 @@ export default function Contracts() {
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 20,
+          //     },
+          //   },
+          // }}
+          // pageSizeOptions={[5]}
+          // disableRowSelectionOnClick
+          hideFooter
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );

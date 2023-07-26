@@ -78,7 +78,6 @@ export const fetchFiltersLogOts = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response =  agent.LogOt.filters()
-            console.log("departments Here: ", response)
             return response;
         } catch (error: any) {
             thunkAPI.rejectWithValue({ error: error.data })
