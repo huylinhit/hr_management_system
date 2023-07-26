@@ -1,49 +1,27 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  Avatar,
   Button,
-  Container,
   Grid,
   IconButton,
-  InputAdornment,
   LinearProgress,
-  TextField,
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../firebase";
-import { deepPurple } from "@mui/material/colors";
-import { Ticket } from "../../app/models/ticket";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
-import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 
-import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import {
   fetchLogOtsAsync,
@@ -52,16 +30,7 @@ import {
 } from "../overlog/overtimeSlice";
 import { LogOt } from "../../app/models/logOt";
 import CreateOvertimeForm from "../overlog/CreateOvertime2";
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
+
 const headerStyle = {
   color: "#7C7C7C",
   fontWeight: 700,
@@ -149,7 +118,6 @@ export default function OtherOTList() {
         const staffId = params.row.staffId;
         const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
-        const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
@@ -501,50 +469,8 @@ export default function OtherOTList() {
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
         <Grid container justifyContent={"space-between"}>
           <Grid item>
-            {/* <TextField
-              id="standard-basic"
-              placeholder="Nhập để tìm..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-                style: { fontFamily: fontStyle },
-              }}
-              variant="standard"
-            /> */}
           </Grid>
           <Grid item>
-            {/* <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<FilterAltOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Filter
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              startIcon={<ImportExportOutlinedIcon />}
-              onClick={handleOpenDialog}
-            >
-              Sort
-            </Button> */}
             <Button
               variant="outlined"
               startIcon={<AddIcon />}

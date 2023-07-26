@@ -2,37 +2,29 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
   Grid,
   IconButton,
-  InputLabel,
   MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { fetchTicketAsync, ticketsSelectors } from "./ticketSlice";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import React from "react";
-import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import DownloadIcon from "@mui/icons-material/Download";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import MyTicketDetailSkeleon from "./MyTicketDetailSkeleton";
 import { fetchTicketTypesAsync } from "./ticketTypeSlice";
@@ -359,12 +351,14 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
             {ticket?.enable ? (
               <>
                 <Button
-                  variant="text"
+                  variant="outlined"
                   color="error"
+                  startIcon={<ClearIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
                     fontFamily: fontStyle,
+                    marginRight: "15px",
                   }}
                   disableElevation={true}
                   onClick={handleClickOpenConfirm}
@@ -372,17 +366,18 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
                   Hủy đơn
                 </Button>
                 <Button
-                  variant="text"
+                  variant="contained"
+                  startIcon={<CheckIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
-                    color: "#007FFF",
+                    // color: "#007FFF",
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}
                   onClick={handleTicketApproval}
                 >
-                  Xác nhận
+                  Lưu
                 </Button>
               </>
             ) : (

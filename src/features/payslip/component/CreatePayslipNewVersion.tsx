@@ -132,14 +132,6 @@ const textFieldInputProps = {
     },
 };
 
-
-function CurrencyFormatter(value: any) {
-    const formattedValue = new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-    }).format(value.value);
-    return <Typography sx={cellStyle}>{formattedValue}</Typography>;
-}
 export default function CreatePayslipNewVersion({
     open,
     onClose,
@@ -411,7 +403,6 @@ export default function CreatePayslipNewVersion({
 
 
     // If userInfors is not loaded, load it using dispatch
-
     useEffect(() => {
         if (!userInforsLoaded)
             dispatch(fetchUserInforsAsync());
@@ -573,10 +564,10 @@ export default function CreatePayslipNewVersion({
                 />
             </DialogContent>
             <DialogActions>
-                <Button sx={{ color: "#FF605C" }} onClick={onClose}>
+                <Button variant="outlined" color="error" sx={{ width: "70px", marginRight: "10px", marginBottom: "20px", borderRadius:"6px"}} onClick={onClose}>
                     Hủy
                 </Button>
-                <Button onClick={handleSave}>Lưu</Button>
+                <Button variant="contained" sx={{ width: "70px", marginRight: "15px", marginBottom: "20px", borderRadius:"6px"}} onClick={handleSave}>Lưu</Button>
             </DialogActions>
         </Dialog>
     );

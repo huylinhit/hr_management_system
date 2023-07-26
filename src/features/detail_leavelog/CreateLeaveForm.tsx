@@ -432,31 +432,10 @@ export default function CreateLeaveForm({ isOwn, open, onClose }: Props) {
             }}
             onChange={debouncedReasonInput}
           />
-          {/* <Box display={"flex"} alignItems={"flex-end"}>
-            <Typography sx={{ mr: "5%", width: "20%", fontWeight: 550, color: "#505050" }}>
-              Lí do
-            </Typography>
-            <TextField
-              id="title"
-              multiline
-              defaultValue={""}
-              variant="standard"
-              sx={{ mt: 1, width: "72%" }}
-              error={isReasonEmpty}
-              onChange={debouncedReasonInput}
-            />
-          </Box> */}
-          {/* {isTicketTypeEmpty ? (
-            <Typography sx={{ mt: "5%" }} color={"error"}>
-              *Nhập đầy đủ thông tin
-            </Typography>
-          ) : (
-            ""
-          )} */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Hủy</Button>
-          <Button onClick={handleCreateTicket} autoFocus>
+          <Button variant="outlined" color="error" sx={{ width: "70px", marginRight: "10px", marginBottom: "20px", borderRadius:"6px"}} onClick={onClose}>Hủy</Button>
+          <Button variant="contained" sx={{ width: "70px", marginRight: "15px", marginBottom: "20px", borderRadius:"6px"}} onClick={handleCreateTicket} autoFocus>
             Tạo
           </Button>
         </DialogActions>
