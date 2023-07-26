@@ -19,6 +19,7 @@ import {
   contractSelectors,
   fetchContractAsync,
   fetchContractsAsync,
+  setContractLoaded,
   setContractUpdated,
 } from "../../../app/store/contract/contractSlice";
 import moment from "moment";
@@ -121,12 +122,13 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
     agent.Contract.patch(contractId, staffId, contractPatchDelete)
       .then((response) => {
         dispatch(setContractUpdated(true));
-        dispatch(fetchContractsAsync());
+        // dispatch(fetchContractsAsync());
         setOpen(false);
         toast.success("Hủy hợp đồng thành công 😊");
-
-        dispatch(fetchContractAsync(Number(item?.staffId)));
+        dispatch(setContractLoaded(false))
+        // dispatch(fetchContractAsync(Number(item?.staffId)));
         history(`/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`);
+        // history('/contract')
       })
       .catch((error) => {
         toast.error("Lỗi khi hủy hợp đồng 😥");
