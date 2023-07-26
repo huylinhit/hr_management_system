@@ -356,11 +356,11 @@ export default function DetailOvertime2({
   };
 
   const handleLogOvertimeApprove = () => {
-    console.log("Here: ", status);
-    console.log("Here: ", user?.userInfor.staffId);
-    console.log("Here: ", processNote);
-    console.log("Here: ", hours);
-    console.log("Here: ", amountSalary);
+    // console.log("Here: ", status);
+    // console.log("Here: ", user?.userInfor.staffId);
+    // console.log("Here: ", processNote);
+    // console.log("Here: ", hours);
+    // console.log("Here: ", amountSalary  );
 
     const ticketUpdate = {
       patchDocument: [
