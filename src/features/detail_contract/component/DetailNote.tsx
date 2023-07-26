@@ -75,9 +75,6 @@ export default function DetaiNote({ contract }: Props) {
             maxWidth: "100%",
           }}
         >
-          {/* <Button variant="contained" size="small" sx={{ borderRadius: "10px" }}>
-            Xem file
-          </Button> */}
         </Grid>
       </Grid>
     </Grid>

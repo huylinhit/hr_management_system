@@ -31,15 +31,10 @@ export default function DetailContract() {
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { employeesLoaded } = useAppSelector((state) => state.employee);
-
-  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
-  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
-
   const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
 
   const { contractsLoaded } = useAppSelector((state) => state.contract);
----------------- EFFECT --------------------------
-
+  // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractsAsync());

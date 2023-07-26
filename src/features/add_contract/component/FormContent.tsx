@@ -119,7 +119,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             <TextField
               required
               error={error1}
-              helperText={error1 ? "Negative number is not allowed":""}
+              helperText={error1 ? "Không hợp lệ":""}
               type="number"
               placeholder={"Nhập lương căn bản"}
               sx={{ width: "100%", marginBottom: "20px" }}
@@ -143,7 +143,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
             <TextField
               required
               error={error2}
-              helperText={error2 ? "Negative number is not allowed":""}
+              helperText={error2 ? "Không hợp lệ":""}
               type="number"
               placeholder={"Nhập lương tính thuế"}
               sx={{ width: "100%", marginBottom: "20px" }}
