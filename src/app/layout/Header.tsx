@@ -67,7 +67,7 @@ export default function Header({ pageTitle }: Props) {
       .then((url) => {
         setAvatarUrl(url);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, [avatarUrl, dispatch]);
   return (
     <Box
@@ -83,16 +83,15 @@ export default function Header({ pageTitle }: Props) {
         //borderBottom: "1px solid #E4E4E4 ",
         backgroundColor: "#FFFFFF",
         opacity: "100%",
-        width: `calc(100% - ${325}px)`,
+        // width: `calc(100% - ${325}px)`,
         ml: `${320}px`,
         boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)", // Add shadow effect
 
         height: "48px",
-        pl: "10px",
-        pr: "10px",
+        padding:"20px 32px"
       }}
     >
-      <Box sx={{ display: "flex", justifyItems: "center", alignItems: "center" }}>
+      <Box sx={{ display: "flex", justifyItems: "center", alignItems: "center"}}>
         {headerTitle.map((link, index) => {
           if (link.path) {
             return (
