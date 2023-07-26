@@ -38,8 +38,7 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
   const formatDate: string = contract?.startDate!;
   const date = new Date(formatDate);
   const maxDate = dayjs(addMonths(date, 3));
-  console.log(contract?.contractTypeId);
-  console.log(contract?.endDate);
+
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------

@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 // data
 import Contract from "../../../app/models/contract";
@@ -49,6 +49,15 @@ export default function DetaiNote({ contract }: Props) {
           </Grid>
           <Grid item xs={7}>
             <Typography sx={infoStyle}>{contract?.workDatePerWeek}</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container sx={gridStyle}>
+          <Grid item xs={4}>
+            <Typography sx={headerStyle}>Số người phụ thuộc:</Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Typography sx={infoStyle}>{contract?.noOfDependences}</Typography>
           </Grid>
         </Grid>
 

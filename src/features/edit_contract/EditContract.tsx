@@ -20,7 +20,6 @@ import {
   fetchContractAsync,
 } from "../../app/store/contract/contractSlice";
 import {
-  allowanceTypeSelectors,
   fetchAllowanceTypesAsync,
 } from "../../app/store/allowanceType/allowanceTypeSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
@@ -71,18 +70,6 @@ export default function EditContract() {
       allowanceSalary: allowance.allowanceSalary,
     };
   }));
-
-  console.log("contract: ",contract);
-  console.log("allowance: ", allowanceUpdate);
-  // const allowanceUpdate = contract?.allowances.map((allowance) => {
-  //   return {
-  //     allowanceId: allowance.allowanceId,
-  //     allowanceTypeId: allowance.allowanceTypeId,
-  //     allowanceSalary: allowance.allowanceSalary,
-  //   };
-  // });
-
-
   // -------------------------- STATE ---------------------------
   const [contractForm, setContractForm] = useState({
     startDate: contract?.startDate,
@@ -193,8 +180,6 @@ export default function EditContract() {
         <Grid
           container
           sx={{
-            // borderRadius: "15px",
-            // border: "1px solid #E2E1E5",
             background: "#FFF",
             margin: "0 10px",
             maxWidth: "1085px",

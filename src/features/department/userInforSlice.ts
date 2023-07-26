@@ -19,7 +19,6 @@ const userInforsAdapter = createEntityAdapter<UserInfor>({
   selectId: (userInfor) => userInfor.staffId,
 });
 
-
 function getAxiosParams(userInforParams: UserInforParams) {
   const params = new URLSearchParams();
 
@@ -27,12 +26,10 @@ function getAxiosParams(userInforParams: UserInforParams) {
   // params.append('pageSize', userInforParams.pageSize.toString());
 
   console.log("Search term: ", userInforParams.searchTerm)
-
   if (userInforParams.searchTerm) params.append('searchTerm', userInforParams.searchTerm.toString());
   if (userInforParams.departments?.length > 0) params.append('departments', userInforParams.departments.toString());
   return params;
 }
-
 export const fetchUserInforsAsync = createAsyncThunk<UserInfor[], void, { state: RootState }>(
   "userInfors/fetchUserInforsAsync",
   async (_, thunkAPI) => {
@@ -58,8 +55,6 @@ export const fetchUserInforAsync = createAsyncThunk<UserInfor, number>(
     }
   }
 );
-
-
 export const fetchFiltersUserInfor = createAsyncThunk(
   'userInfors/fetchFiltersUserInfor',
   async (_, thunkAPI) => {
@@ -76,7 +71,7 @@ function initParams() {
   return {
     pageNumber: 1,
     pageSize: 30,
-    departments: []
+    departments: [""]
   }
 }
 

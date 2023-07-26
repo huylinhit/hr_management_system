@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
+
 import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import DetailContractFooter from "./component/DetailContractFooter";
 import DetailContractInfo from "./component/DetailContractInfo";
 import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
-import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import DeleteDialog from "./dialog/DeleteDialog";
 
@@ -17,10 +16,8 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
-  fetchContractAsync,
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
-import NewContract from "../add_contract/NewContract";
 
 const fontStyle = "Mulish";
 
@@ -33,13 +30,15 @@ export default function DetailContract() {
   const [open, setOpen] = useState(false);
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const { employeesLoaded } = useAppSelector((state) => state.employee);
+
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
 
   const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
 
-  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
-
-  // -------------------------- EFFECT --------------------------
+  const { contractsLoaded } = useAppSelector((state) => state.contract);
+---------------- EFFECT --------------------------
 
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
@@ -70,11 +69,6 @@ export default function DetailContract() {
   // -------------------------- FUNCTION ------------------------
   if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
   console.log(employee);
-  // if(contractStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải hợp đồng"/>
-
-  // if(employeeStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải nhân viên"/>
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
