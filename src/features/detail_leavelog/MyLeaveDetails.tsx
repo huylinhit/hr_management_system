@@ -40,7 +40,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 const fontStyle = "Mulish";
 
-
 const headerColor = {
   color: "#808080",
 };
@@ -115,7 +114,7 @@ const ProcessNoteInput = styled(TextField)(({ theme }) => ({
 }));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+    BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -356,7 +355,6 @@ export default function MyLeaveDetails() {
         console.log("Error updating ticket: ", error);
         toast.error("Xảy ra lỗi khi cập nhật 😥");
       });
-    navigate("/own-log-leaves")
   };
 
   const handleCancelTicket = () => {
@@ -390,7 +388,7 @@ export default function MyLeaveDetails() {
         console.log("Error cancelling ticket", error);
         // toast.error("Xảy ra lỗi khi hủy đơn 😥");
       });
-    navigate("/own-log-leaves")
+    navigate("/own-log-leaves");
     handleCloseConfirm();
   };
   if (!logLeave || !leaveDayDetail) {
@@ -529,7 +527,7 @@ export default function MyLeaveDetails() {
           defaultValue={`${moment(logLeave?.leaveStart).format("MMM Do, YYYY")}`}
           disabled={true}
         />
-         <InforRow
+        <InforRow
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày kết thúc"
           defaultValue={`${moment(logLeave?.leaveEnd).format("MMM Do, YYYY")}`}

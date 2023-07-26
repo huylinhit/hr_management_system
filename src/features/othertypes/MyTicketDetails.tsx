@@ -15,9 +15,14 @@ import {
   debounce,
 } from "@mui/material";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchTicketAsync, ticketsSelectors } from "./ticketSlice";
+import {
+  fetchTicketAsync,
+  fetchTicketsAsync,
+  setTicketAdded,
+  ticketsSelectors,
+} from "./ticketSlice";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import agent from "../../app/api/agent";
 import moment from "moment";
@@ -177,6 +182,7 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
   const [openConfirm, setOpenConfirm] = useState(false);
   const [ticketChanged, setTicketChanged] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const storageRef = ref(
     storage,
@@ -301,7 +307,7 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
     agent.Ticket.update(parseInt(id!), ticketUpdate)
       .then((response) => {
         handleUploadFile(response.staffId);
-        setTicketChanged(true);
+        dispatch(setTicketAdded(true));
         console.log("Ticket updated successfully: ", response);
         toast.success("Cập nhật đơn thành công 😊");
       })
@@ -309,6 +315,7 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
         console.log("Error updating ticket: ", error);
         toast.error("Xảy ra lỗi khi cập nhật 😥");
       });
+    setTicketChanged(true);
   };
 
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -336,6 +343,7 @@ export default function MyTicketDetails({ open, handleClose, handleChange }: any
         console.log("Ticket cancelled successfully: ", response);
         setTicketChanged(true);
         toast.success("Hủy đơn thành công 😊");
+        navigate("/own-tickets");
       })
       .catch((error) => {
         console.log("Error cancelling ticket", error);
