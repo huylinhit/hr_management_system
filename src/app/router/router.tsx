@@ -94,12 +94,6 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       // { path: "/list-contract", element: <ListContract/>},
       // { path: "/list-leave", element: <ListLeave /> },
-
-      { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome> },
-      {
-        path: "/type",
-        element: <TypeCustome typeId={3}>Làm thêm ngày nghỉ và ngày lễ</TypeCustome>,
-      },
       // { path: "/my-overtime", element: <ViewMyOvertime /> },
 
       // Staff routes
