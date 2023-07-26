@@ -218,10 +218,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
   };
 
   const handleCreateTicket = async () => {
-    console.log("Người được tạo ", selectedUser);
-    console.log("Ngày bắt đầu: ", startDate);
-    console.log("Ngày kết thúc: ", endDate);
-    console.log("Lý do: ", reason);
+
     const logOvertimeCreate = {
       logStart: startDate,
       logEnd: endDate,
@@ -243,7 +240,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           dispatch(setLogOvertimeAdded(true));
         })
         .catch((error) => {
-          console.error("Error creating ticket: ", error);
+          // console.error("Error creating ticket: ", error);
           // toast.error(`${error.data} 😥`);
         });
     } else {
@@ -259,6 +256,7 @@ export default function CreateOvertimeForm({ isOwn, open, onClose }: Props) {
           // console.error("Error creating ticket: ", error);
         });
     }
+    
 
     onClose();
   };
