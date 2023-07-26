@@ -26,7 +26,7 @@ axios.interceptors.response.use(
     const pagination = response.headers['pagination'];
     if (pagination) {
       response.data = new PaginatedResponse(response.data, JSON.parse(pagination));
-      console.log("pagination:", response)
+     
       return response;
     }
 
@@ -159,9 +159,10 @@ const CandidateSkill = {
 };
 
 const UserInfors = {
-  list: () => requests.get("userinfor"),
+  list: (params: URLSearchParams) => requests.get("userinfor", params),
   details: (id: number) => requests.get(`userinfor/${id}`),
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
+  filters: () => requests.get("/userinfor/filters")
 };
 
 const Payslip = {

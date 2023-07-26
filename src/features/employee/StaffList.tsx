@@ -7,6 +7,9 @@ import {
   IconButton,
   Tooltip,
   Avatar,
+  debounce,
+  MenuItem,
+  TextField,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { useEffect, useState } from "react";
@@ -24,8 +27,12 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SubjectIcon from "@mui/icons-material/Subject";
 import moment from "moment";
 import {
+  fetchFiltersUserInfor,
   fetchUserInforsAsync,
+  resetUserInforParams,
+  setPageNumber,
   setUserInforAdded,
+  setUserInforParams,
   userInforSelectors,
 } from "../department/userInforSlice";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
@@ -40,6 +47,9 @@ import {
   GridToolbarExport,
 } from "@mui/x-data-grid-pro";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import AppPagination from "../../app/components/Pagination/AppPagination";
+import LoadingComponent from "../../app/layout/LoadingComponent";
+import { BootstrapInput } from "../payslip/component/CreatePayslipMainForm";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -344,7 +354,7 @@ export default function StaffList() {
         .then((url) => {
           setAvatarUrl(url);
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }, [userInforsLoaded]);
     return (
       <Avatar
@@ -372,11 +382,19 @@ export default function StaffList() {
   const [rows, setRows] = useState<UserInfor[]>([]);
   const [open, setOpen] = useState(false);
 
-  const { userInforsLoaded, userInforAdded } = useAppSelector((state) => state.userInfor);
+  const { userInforsLoaded, userInforAdded, filtersLoaded, departments, userInforParams, metaData } = useAppSelector((state) => state.userInfor);
   // -------------------------- REDUX ---------------------------
+  console.log(metaData)
   const userInfors = useAppSelector(userInforSelectors.selectAll);
   const activeEmployees = userInfors?.filter((e) => e.accountStatus !== false);
+  const [serchTerm, setSearchTerm] = useState(userInforParams.searchTerm);
 
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
+
+
+  const debouncedSearch = debounce((e: any) => {
+    dispatch(setUserInforParams({ searchTerm: e.target.value }))
+  }, 2500)
   //#region -------------------------- EFFECT --------------------------
   //Get userinfors
   useEffect(() => {
@@ -384,8 +402,12 @@ export default function StaffList() {
       dispatch(fetchUserInforsAsync());
       dispatch(setUserInforAdded(false));
     }
-  }, [dispatch, userInforsLoaded, userInforAdded]);
+  }, [dispatch, userInforsLoaded, userInforAdded, filtersLoaded]);
 
+
+  useEffect(() => {
+    if (!filtersLoaded) dispatch(fetchFiltersUserInfor());
+  }, [dispatch, filtersLoaded])
   //If userInfors is loaded, set rows
   useEffect(() => {
     if (userInforsLoaded) {
@@ -408,6 +430,28 @@ export default function StaffList() {
   const handleCloseDialog = () => {
     setOpen(false);
   };
+
+  const handleReset = () => {
+    setSearchTerm("");
+    setSelectedDepartment("Toàn bộ phòng ban");
+    dispatch(resetUserInforParams())
+  }
+
+  const handleSelectedDepartments = (e: any) => {
+    const value = e.target.value.toLowerCase();
+    if (value.includes("toàn bộ phòng ban")) {
+      dispatch(setUserInforParams({ departments: [] }))
+      setSelectedDepartment("Toàn bộ phòng ban");
+      return;
+
+    }
+
+    setSelectedDepartment(e.target.value);
+    const array = [e.target.value]
+    dispatch(setUserInforParams({ departments: array }))
+  }
+
+  if (!filtersLoaded) return <LoadingComponent message="Đang tải danh sách nhân viên..." />;
   //#endregion -------------------------- FUNCTION --------------------------
 
   // -------------------------- MAIN ----------------------------
@@ -415,60 +459,99 @@ export default function StaffList() {
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container spacing={0} alignContent="center"></Grid>
-        <Grid container justifyContent={"space-between"}>
-          <Grid item>
-            {/* <TextField
-              id="standard-basic"
-              placeholder="Nhập để tìm..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-                style: { fontFamily: fontStyle },
-              }}
-              variant="standard"
-            /> */}
+        <Grid container justifyContent={"space-between"}
+          sx={
+            {
+              background: "#fff",
+              padding: "20px",
+              boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+              //  mb: "5px",
+              borderRadius: "4px",
+              mr: "12px",
+            }
+          }>
+          <Grid item xs={3} >
+            <Box display="flex" alignItems="center"
+              // border="1px solid black"
+              height="100%"
+            >
+              <TextField
+                id=""
+                // label="Tìm kiếm"
+                variant="standard"
+                placeholder="Tìm kiếm"
+                value={serchTerm || ''}
+                sx={{
+                  width: "100%",
+                  // height: "52px",
+                  // border:"1px solid blue",
+                  display: "inline-block"
+                }}
+                onChange={(e: any) => {
+                  setSearchTerm(e.target.value);
+                  debouncedSearch(e);
+                }}
+              />
+            </Box>
           </Grid>
-          <Grid item>
-            {/* <Button
-              variant="text"
-              sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
-                textTransform: "none",
-                color: "#7C7C7C",
-              }}
-              disableElevation={true}
-              onClick={handleOpenDialog}
+          <Grid item xs={4} alignItems={"center"} display="flex">
+            <BootstrapInput
+
+              sx={{ width: "50%", marginLeft: "12px", borderRadius: "12px" }}
+              // InputProps={textFieldInputProps}
+              variant="standard"
+              onChange={handleSelectedDepartments}
+              value={selectedDepartment}
+              select
+            // defaultValue={"Phòng ban"}
             >
-              Filter
-            </Button>
+              <MenuItem value="Toàn bộ phòng ban">Toàn bộ phòng ban</MenuItem>
+              {departments?.map((item) => (
+                <MenuItem
+                  key={item} value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))}
+            </BootstrapInput>
             <Button
-              variant="text"
+              variant="outlined"
+              onClick={handleReset}
               sx={{
-                fontFamily: "Mulish",
-                fontWeight: "600",
+                marginLeft: "12px",
                 textTransform: "none",
-                color: "#7C7C7C",
+                fontFamily: "Mulish",
+                fontWeight: "bold",
+
+
+                backgroundColor: "#fff",
+                color: "rgb(57,219,57)",
+                border: "1px solid rgb(57,219,57)",
+                "&:hover": {
+                  border: "1px solid rgb(57,219,57)",
+                  color: "#fff",
+                  backgroundColor: "rgb(57,219,57)",
+                },
+                "&:active": {
+                  // backgroundColor: "#0066CD",
+                  // color: "#FFFFFF",
+                },
               }}
-              disableElevation={true}
-              onClick={handleOpenDialog}
             >
-              Sort
-            </Button> */}
+              Làm mới
+            </Button>
+
+          </Grid>
+          <Grid item xs={4} alignItems={"center"} display="flex" justifyContent={"end"}>
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
               component={Link}
               to="/staffs/add"
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -494,7 +577,7 @@ export default function StaffList() {
           density="standard"
           getRowId={(row: any) => row.staffId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -511,16 +594,23 @@ export default function StaffList() {
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 20,
+          //     },
+          //   },
+          // }}
+          // pageSizeOptions={[5]}
+          hideFooterPagination
           disableRowSelectionOnClick
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );
