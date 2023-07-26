@@ -29,3 +29,10 @@ export interface UserInfor {
   staffSkills: StaffSkill[];
   personnelContract: Contract;
 }
+
+export interface UserInforParams{
+  searchTerm?: string,
+  departments: string[],
+  pageNumber: number,
+  pageSize: number
+}

@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
-<<<<<<< Updated upstream
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
-=======
-import { Button, Container, Grid, IconButton, Typography } from "@mui/material";
->>>>>>> Stashed changes
+
+import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
@@ -23,10 +13,7 @@ import DeleteDialog from "./dialog/DeleteDialog";
 
 // data
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import {
-  employeeSelectors,
-  fetchEmployeeAsync,
-} from "../../app/store/employee/employeeSlice";
+import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
   fetchContractsAsync,
@@ -42,35 +29,19 @@ export default function DetailContract() {
   // -------------------------- STATE ---------------------------
   const [open, setOpen] = useState(false);
   // -------------------------- REDUX ---------------------------
-<<<<<<< Updated upstream
-  const employee = useAppSelector((state) =>
-    employeeSelectors.selectById(state, Number(staffid))
-  );
-  const { status: employeeStatus, employeesLoaded } = useAppSelector(
-    (state) => state.employee
-  );
-=======
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { employeesLoaded } = useAppSelector((state) => state.employee);
->>>>>>> Stashed changes
 
-  const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, Number(id))
-  );
+  const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
+  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
 
-<<<<<<< Updated upstream
- 
-  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
- 
-=======
+  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+
   const { contractsLoaded } = useAppSelector((state) => state.contract);
-
->>>>>>> Stashed changes
-  // -------------------------- EFFECT --------------------------
+---------------- EFFECT --------------------------
 
   useEffect(() => {
-    if (!employeesLoaded)
-     dispatch(fetchEmployeeAsync(Number(staffid)));
+    if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractsAsync());
   }, [dispatch, contractsLoaded, employeesLoaded]);
 
@@ -96,16 +67,8 @@ export default function DetailContract() {
     }
   }, [dispatch, location, contract, employee]);
   // -------------------------- FUNCTION ------------------------
-<<<<<<< Updated upstream
-  // if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
-  if(contractStatus.includes("pending")) 
-    return <LoadingComponent message="Đang tải hợp đồng"/>
-
-  if(employeeStatus.includes("pending"))      
-    return <LoadingComponent message="Đang tải nhân viên"/>
-=======
   if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
->>>>>>> Stashed changes
+  console.log(employee);
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
@@ -175,10 +138,7 @@ export default function DetailContract() {
             <DetailEmployeeInfo employee={employee} />
           </Grid>
 
-          <Grid
-            item
-            sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}
-          >
+          <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
             <DetailContractInfo contract={contract} employee={employee} />
           </Grid>
         </Grid>

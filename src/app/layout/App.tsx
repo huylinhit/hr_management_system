@@ -47,12 +47,15 @@ function App() {
     <Box>
       <ToastContainer />
       {/* Render the Sidebar only when the route is not the homepage */}
-      {location.pathname !== "/" && location.pathname !== "/login" && <Sidebar />} <CssBaseline />
+      {location.pathname !== "/" && location.pathname !== "/login" && <Sidebar />}
+      {/* <CssBaseline /> */}
       <Box
         sx={{
           pt: "70px",
+          height:"100vh",
           ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 39 : 0) : 0,
           backgroundColor: "#FFFFFF",
+
         }}
       >
         <ToastContainer />

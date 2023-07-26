@@ -34,7 +34,7 @@ export default function DeleteDialog({ open, setOpen, item }: Props) {
       .catch((error) => {
         console.error("Error delete employee:", error);
       });
-      
+
     setOpen(false);
   };
 
@@ -46,10 +46,7 @@ export default function DeleteDialog({ open, setOpen, item }: Props) {
       aria-labelledby="responsive-dialog-title"
       sx={{ borderRadius: "10px", textAlign: "center" }}
     >
-      <DialogTitle
-        id="responsive-dialog-title"
-        sx={{ fontSize: "25px", color: "#B9B9B9" }}
-      >
+      <DialogTitle id="responsive-dialog-title" sx={{ fontSize: "25px", color: "#B9B9B9" }}>
         Bạn có chắc muốn xóa nhân viên {item?.fullName} này không?
       </DialogTitle>
       <DialogContent>
@@ -58,18 +55,10 @@ export default function DeleteDialog({ open, setOpen, item }: Props) {
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", paddingBottom: "15px" }}>
-        <Button
-          variant="outlined"
-          sx={{ margin: "0 10px" }}
-          onClick={handleClose}
-        >
+        <Button variant="outlined" sx={{ margin: "0 10px" }} onClick={handleClose}>
           Hủy
         </Button>
-        <Button
-          variant="contained"
-          sx={{ margin: "0 10px" }}
-          onClick={handleDelete}
-        >
+        <Button variant="contained" sx={{ margin: "0 10px" }} onClick={handleDelete}>
           Xác nhận
         </Button>
       </DialogActions>

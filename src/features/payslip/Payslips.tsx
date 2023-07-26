@@ -45,6 +45,11 @@ import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
 import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
 import AppPagination from "../../app/components/Pagination/AppPagination";
+import classNames from "classnames/bind";
+
+import styles from './component/payslip.module.scss';
+
+const cx = classNames.bind(styles);
 
 function CustomToolbar() {
   return (
@@ -503,7 +508,7 @@ export default function Payslips() {
 
   useEffect(() => {
     if (payslipsLoaded) {
-      setRows(otherPayslips);
+      setRows(payslips);
     }
   }, [payslipsLoaded, payslips, dispatch]);
   // if (status.includes("pending") || !metaData)
@@ -515,9 +520,13 @@ export default function Payslips() {
         <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
         <Grid container justifyContent={"space-between"} alignItems={"center"}
           sx={{
-            mb: "5px",
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
             mr: "12px",
-            height: "52px",
+            // height: "52px",
             // border: "1px solid black"
           }}>
           <Grid item xs={4} >
@@ -662,22 +671,25 @@ export default function Payslips() {
 
           {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
-        <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
+        {/* <Box sx={{ borderBottom: "1px solid #C6C6C6" }} /> */}
       </Box>
 
-      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%", marginBottom: "1% " }}>
+      <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%"}}>
         <DataGrid
           // autoHeight
           density="standard"
           getRowId={(row: any) => row.payslipId}
           sx={{
-            height: "77vh",
+            height: "74vh",
+            // height:"100%",
             //border: "none",
             color: "#000000",
             fontSize: 16,
             fontWeight: 550,
             fontFamily: "Mulish",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            // boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
             backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
           slots={{
@@ -690,21 +702,20 @@ export default function Payslips() {
           // initialState={{
           //   pagination: {
           //     paginationModel: {
-          //       pageSize: metaData.pageSize,
-          //       page: metaData.currentPage  ,
-
+          //       pageSize: 30,
+          //       // page: metaData?.currentPage,   
           //     }
           //   },
           // }}
           // hideFooterSelectedRowCount
           hideFooter
         />
-        {metaData && (
-          <AppPagination
-            metaData={metaData}
-            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
-          />
-        )}
+          {metaData && (
+            <AppPagination
+              metaData={metaData}
+              onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+            />
+          )}
       </Box>
     </>
   );

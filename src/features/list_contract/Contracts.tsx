@@ -382,13 +382,14 @@ export default function Contracts() {
     }
   }, [dispatch, contractsLoaded, contractUpdated]);
 
+
   useEffect(() => {
     if (contractsLoaded) {
       setRows(otherContracts);
     }
   }, [contractsLoaded, contracts, contractUpdated]);
 
-  if (!contracts) <LoadingComponent message="Đang Tải Hợp Đồng" />;
+  if (!contracts || contractUpdated) return <></>;
 
   return (
     <>
@@ -429,11 +430,8 @@ export default function Contracts() {
           textTransform: "none",
           fontFamily: "Mulish",
           height: "30px",
-          
         }}
-      >
-
-      </Box>
+      ></Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%" }}>
         <DataGrid
