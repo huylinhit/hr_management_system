@@ -30,7 +30,7 @@ export default function NewContract({ open, onClose }: Props) {
     endDate: "",
     taxableSalary: 0,
     salary: 0,
-    workDatePerWeek: 0,
+    workDatePerWeek: 5,
     note: "",
     noOfDependences: 0,
     contractTypeId: 1,
@@ -76,8 +76,6 @@ export default function NewContract({ open, onClose }: Props) {
       createAt: submitTime,
     }));
     // ------------
-
-    console.log(contractForm);
     agent.Contract.create(Number(id), contractForm)
       .then((response) => {
         console.log("Add new contract successfully: ", response);
@@ -95,16 +93,12 @@ export default function NewContract({ open, onClose }: Props) {
       });
   };
   // -------------------------- MAIN ----------------------------
-  const disabled = !areAllFieldsNotNull(contractForm);
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
       <Box sx={{ width: "calc(100vh - 240)" }}>
         <Grid
           container
           sx={{
-            // border: "solid 1px rgba(226, 225, 229, 1)",
-            // borderRadius: "10px",
             padding: "30px 20px",
             marginTop: "20px",
           }}
@@ -119,7 +113,6 @@ export default function NewContract({ open, onClose }: Props) {
           }}
         >
           <FormFooter id={Number(id)} handleSubmit={handleSubmit} 
-          // disabled={disabled} 
           disabled={false} 
           />
         </Grid>

@@ -33,6 +33,7 @@ const infoStyle = {
 };
 export default function EditJob({ contract, employee, setContractForm }: Props) {
   // -------------------------- VAR -----------------------------
+<<<<<<< Updated upstream
   const disabledEndDate = contract?.contractTypeId == 2 ? true : false
   const disabledStartDate = contract?.contractStatus == true ? true : false
   const formatDate : string = contract?.startDate!
@@ -40,6 +41,13 @@ export default function EditJob({ contract, employee, setContractForm }: Props) 
   const maxDate = dayjs(addMonths(date, 3))
   console.log(contract?.contractTypeId);
   
+=======
+  const disabledEndDate = contract?.contractTypeId == 2 ? true : false;
+  const disabledStartDate = contract?.contractStatus == true ? true : false;
+  const formatDate: string = contract?.startDate!;
+  const date = new Date(formatDate);
+  const maxDate = dayjs(addMonths(date, 3));
+>>>>>>> Stashed changes
   // -------------------------- STATE ---------------------------
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------

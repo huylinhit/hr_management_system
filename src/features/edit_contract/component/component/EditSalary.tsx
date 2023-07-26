@@ -73,6 +73,8 @@ export default function EditSalary({
   const [allowanceDeleted, setAllowanceDeleted] = useState<AllowanceList>()
   const [openDeleteAllowance, setOpenDeleteAllowance] = useState(false);
   const [openAddAllowance, setOpenAddAllowance] = useState(false);
+  const [error1, setError1] = useState(false)
+  const [error2, setError2] = useState(false)
   // -------------------------- REDUX ---------------------------
   // -------------------------- EFFECT --------------------------
   // -------------------------- FUNCTION ------------------------
@@ -103,44 +105,63 @@ export default function EditSalary({
             padding: "0 30px 5px 30px",
           }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography sx={headerStyle}>Lương căn bản:</Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <TextField
               required
+              error={error1}
+              helperText={error1 ? "Negative number is not allowed":""}
               id="outlined-required"
               label="Lương căn bản"
               size="small"
-              sx={{ width: "150px" }}
+              type="number"
+              sx={{ width: "210px" }}
               margin="dense"
               defaultValue={contract?.salary}
-              onChange={(e) =>
-                setContractForm((prevForm: any) => ({
-                  ...prevForm,
-                  salary: e.target.value,
-                }))
-              }
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    salary: e.target.value,
+                  }))
+                  setError1(false)
+                } else {
+                  setError1(true)
+                }
+              }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography sx={headerStyle}>Lương tính thuế:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <TextField
               required
+              error={error2}
+              helperText={error2 ? "Negative number is not allowed":""}
               id="outlined-required"
               label="Lương tính thuế"
               size="small"
-              sx={{ width: "150px" }}
+              sx={{ width: "210px" }}
               margin="dense"
               defaultValue={contract?.taxableSalary}
-              onChange={(e) =>
-                setContractForm((prevForm: any) => ({
-                  ...prevForm,
-                  taxableSalary: e.target.value,
-                }))
-              }
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    taxableSalary: e.target.value,
+                  }))
+                  setError2(false)
+                } else {
+                  setError2(true)
+                }
+              }}
             />
           </Grid>
         </Grid>
