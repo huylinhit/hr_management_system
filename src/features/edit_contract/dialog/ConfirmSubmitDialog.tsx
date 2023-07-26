@@ -172,7 +172,7 @@ export default function ConfirmSubmitDialog({
     if (isChanged) {
       agent.Contract.update(Number(contract?.contractId), Number(staffId), item)
         .then((response) => {
-          toast.success("Đã cập nhật hợp đồng thành công");
+          toast.success("Cập nhật hợp đồng thành công");
 
           handleAllowance();
         })

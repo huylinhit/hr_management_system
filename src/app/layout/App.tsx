@@ -54,7 +54,7 @@ function App() {
           pt: "70px",
           height:"100vh",
           ml: location.pathname !== "/" ? (location.pathname !== "/login" ? 39 : 0) : 0,
-          backgroundColor: "#fff",
+          backgroundColor: "#FFFFFF",
 
         }}
       >

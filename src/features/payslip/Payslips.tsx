@@ -671,7 +671,7 @@ export default function Payslips() {
 
           {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
-        <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
+        {/* <Box sx={{ borderBottom: "1px solid #C6C6C6" }} /> */}
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%"}}>
