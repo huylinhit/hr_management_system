@@ -143,6 +143,7 @@ export default function MyLeaveList() {
         const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
         const staffNameColor = staffNameColors[rowIndex];
+
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
@@ -451,14 +452,14 @@ export default function MyLeaveList() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
-  const [gridHeight, setGridHeight] = useState(0);
+ 
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.account);
   const myLogLeaves = logLeaves.filter(
     (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId
   );
   const dispatch = useAppDispatch();
-  const leaveDayDetail = useAppSelector((state) => state.leaveDayDetail);
+ 
 
   const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
     (state) => state.logleave
