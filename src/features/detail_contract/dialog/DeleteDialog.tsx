@@ -121,15 +121,15 @@ export default function DeleteDialog({ open, setOpen, item, prevpage }: Props) {
     agent.Contract.patch(contractId, staffId, contractPatchDelete)
       .then((response) => {
         dispatch(setContractUpdated(true));
+        dispatch(fetchContractsAsync());
         setOpen(false);
-        toast.success("Hủy hợp đồng thành công");
+        toast.success("Hủy hợp đồng thành công 😊");
 
         dispatch(fetchContractAsync(Number(item?.staffId)));
         history(`/contracts/${item?.contractId}/staffs/${item?.staffId}/${prevpage}}`);
-        deleteStatus = true;
       })
       .catch((error) => {
-        toast.error("Lỗi khi hủy hợp đồng");
+        toast.error("Lỗi khi hủy hợp đồng 😥");
       });
   };
   // -------------------------- MAIN ----------------------------

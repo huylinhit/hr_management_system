@@ -517,7 +517,7 @@ export default function Payslips() {
           sx={{
             background: "#fff",
             padding: "20px",
-            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)", 
             // mb: "5px",
             borderRadius: "4px",
             mr: "12px",
@@ -666,7 +666,7 @@ export default function Payslips() {
 
           {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
-        <Box sx={{ borderBottom: "1px solid #C6C6C6" }} />
+        {/* <Box sx={{ borderBottom: "1px solid #C6C6C6" }} /> */}
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%"}}>
