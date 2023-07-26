@@ -1,65 +1,24 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import {
-  Avatar,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Button, Grid, IconButton, LinearProgress, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid-pro";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import { Department } from "../../app/models/department";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import {
-  fetchCurrentUserTicketsAsync,
-  fetchTicketsAsync,
-  setTicketAdded,
-  ticketsSelectors,
-} from "./ticketSlice";
+import { Link, useLocation } from "react-router-dom";
+import { fetchTicketsAsync, setTicketAdded, ticketsSelectors } from "./ticketSlice";
 
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SubjectIcon from "@mui/icons-material/Subject";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../firebase";
-import { deepPurple } from "@mui/material/colors";
 import { Ticket } from "../../app/models/ticket";
 import CreateTicketForm from "./CreateTicketForm";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
-import DatagridCustome from "../../app/components/Custom/Datagrid/DatagridCustome";
 import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
 const headerStyle = {
   color: "#7C7C7C",
   fontWeight: 700,
@@ -139,16 +98,19 @@ export default function MyTicketList() {
       renderCell: (params) => {
         const staffId = params.row.staffId;
         const staffName = params.row.staffName;
-        const rowIndex = staffId % staffNameColors.length;
-
+        let imageFile = "";
+        try {
+          imageFile = params.row.userInfor.imageFile;
+        } catch (e) {}
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
-              imageFile={params.row.userInfor.imageFile}
+              imageFile={imageFile || ""}
               id={staffId}
               name={staffName}
               dependency={ticketsLoaded}
             />
+
             <Typography sx={cellStyle}>{params.value}</Typography>
           </Box>
         );
@@ -173,7 +135,6 @@ export default function MyTicketList() {
             <Typography style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>
               ●
             </Typography>
-            {/* <span style={{ marginRight: 10, fontSize: "18px", color: dotColor }}>●</span> */}
             <Typography sx={{ textDecoration: "underline", ...cellStyle }}>
               {params.value}
             </Typography>
@@ -197,17 +158,7 @@ export default function MyTicketList() {
         </Box>
       ),
     },
-    // {
-    //   field: "ticketFile",
-    //   headerName: "File",
-    //   width: 250,
-    //   editable: true,
-    //   renderHeader: () => (
-    //     <Typography display={"flex"} alignItems={"center"} sx={headerStyle}>
-    //       <AttachFileIcon style={{ marginRight: 5 }} fontSize="small" /> <>File đính kèm</>
-    //     </Typography>
-    //   ),
-    // },
+
     {
       field: "ticketStatus",
       headerName: "Trạng thái",
@@ -336,36 +287,7 @@ export default function MyTicketList() {
       //valueFormatter: (params) => moment(params.value).format("LLL"),
     },
   ];
-  function CandidateAvatar(candidate: any) {
-    const [avatarUrl, setAvatarUrl] = useState("");
-    const storageRef = ref(storage, `staffAvatars/${candidate.candidateId}`);
-    useEffect(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          setAvatarUrl(url);
-        })
-        .catch((error) => {});
-    }, [ticketsLoaded]);
-    return (
-      <Avatar
-        sx={{
-          width: 34,
-          height: 34,
-          marginRight: 2,
-          fontSize: "14px",
-          bgcolor: "#BFBFBF",
-          display: "flex",
-          alignItems: "center", // Center the content vertically
-          justifyContent: "center", // Center the content horizontally
-          textAlign: "center", // Center the text horizontally
-        }}
-        src={avatarUrl}
-        alt=""
-      >
-        {candidate.candidateName.charAt(0)}
-      </Avatar>
-    );
-  }
+
   const currentUser = useAppSelector((state) => state.account);
 
   const tickets = useAppSelector(ticketsSelectors.selectAll);

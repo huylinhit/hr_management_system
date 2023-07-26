@@ -12,6 +12,7 @@ import {
     Tooltip,
     Box,
     MenuItem,
+    debounce,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -29,7 +30,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { Link } from "react-router-dom";
 import { UserInfor } from "../../../app/models/userInfor";
 import { useAppSelector, useAppDispatch } from "../../../app/store/configureStore";
-import { userInforSelectors, fetchUserInforsAsync } from "../../department/userInforSlice";
+import { userInforSelectors, fetchUserInforsAsync, setUserInforParams } from "../../department/userInforSlice";
 import AvatarCustome from "../../../app/components/Custom/Avatar/AvatarCustome";
 import style from './payslip.module.scss'
 import classNames from "classnames/bind";
@@ -396,11 +397,15 @@ export default function CreatePayslipNewVersion({
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.account);
     const users = useAppSelector(userInforSelectors.selectAll);
-    const { userInforsLoaded, filtersLoaded, status } = useAppSelector((state) => state.userInfor);
+    const { userInforsLoaded, filtersLoaded, status, userInforParams } = useAppSelector((state) => state.userInfor);
     const [rows, setRows] = useState<UserInfor[]>([]);
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
     const [selectedTime, setSelectedTime] = useState(1);
+    const [serchTerm, setSearchTerm] = useState(userInforParams.searchTerm);
 
+    const debouncedSearch = debounce((e: any) => {
+        dispatch(setUserInforParams({ searchTerm: e.target.value }))
+    }, 2500)
 
     // If userInfors is not loaded, load it using dispatch
     useEffect(() => {
@@ -477,11 +482,21 @@ export default function CreatePayslipNewVersion({
                     <Grid item xs={4} display="flex" alignItems="center" height="100%">
                         <Box display="flex" alignItems="center">
                             <TextField
-                                id="departmentName"
+                                id=""
                                 // label="Tìm kiếm"
                                 variant="standard"
                                 placeholder="Tìm kiếm"
-                                sx={{ width: "100%" }}
+                                value={serchTerm || ''}
+                                sx={{
+                                    width: "100%",
+                                    // height: "52px",
+                                    // border:"1px solid blue",
+                                    display: "inline-block"
+                                }}
+                                onChange={(e: any) => {
+                                    setSearchTerm(e.target.value);
+                                    debouncedSearch(e);
+                                }}
                             />
                         </Box>
                     </Grid>
@@ -548,11 +563,11 @@ export default function CreatePayslipNewVersion({
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 10,
+                                pageSize: 100,
                             },
                         },
                     }}
-                    pageSizeOptions={[5]}
+                    // pageSizeOptions={[5]}
                     checkboxSelection
                     isRowSelectable={(params: GridRowParams) =>
                         params.row.staffId
@@ -561,6 +576,9 @@ export default function CreatePayslipNewVersion({
                     onRowSelectionModelChange={(newRowSelectionModel) => {
                         setRowSelectionModel(newRowSelectionModel);
                     }}
+                    hideFooterSelectedRowCount
+                    hideFooterPagination
+                    hideFooter
                 />
             </DialogContent>
             <DialogActions>

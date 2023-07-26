@@ -7,7 +7,10 @@ import {
   Grid,
   IconButton,
   LinearProgress,
+  MenuItem,
+  TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,9 +27,13 @@ import NumbersIcon from "@mui/icons-material/Numbers";
 
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import {
+  fetchFiltersLogOts,
   fetchLogOtsAsync,
   logOvertimeSelectors,
+  resetlogotParams,
   setLogOvertimeAdded,
+  setLogotParams,
+  setPageNumber,
 } from "../overlog/overtimeSlice";
 import { LogOt } from "../../app/models/logOt";
 import CreateOvertimeForm from "../overlog/CreateOvertime2";
@@ -433,10 +440,18 @@ export default function OtherOTList() {
 
   const [rows, setRows] = useState<LogOt[]>([]);
   const [open, setOpen] = useState(false);
-  const { logOtAdded, logOtsLoaded, status } = useAppSelector((state) => state.logot);
+  const { logOtAdded, logOtsLoaded, status, metaData, logotParams, departments, filtersLoaded } = useAppSelector((state) => state.logot);
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
+
+
+  const [serchTerm, setSearchTerm] = useState(logotParams.searchTerm);
+
+  const debouncedSearch = debounce((e: any) => {
+    dispatch(setLogotParams({ searchTerm: e.target.value }))
+  }, 2500)
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn tăng ca của nhân viên", path: "/log-overtimes" }]));
@@ -450,6 +465,28 @@ export default function OtherOTList() {
     setOpen(false);
   };
 
+  const handleReset = () => {
+    setSearchTerm("");
+    setSelectedDepartment("Toàn bộ phòng ban");
+    dispatch(resetlogotParams())
+  }
+
+  const handleSelectedDepartments = (e: any) => {
+
+    const value = e.target.value.toLowerCase();
+
+    if (value.includes("toàn bộ phòng ban")) {
+      dispatch(setLogotParams({ departments: [] }))
+      setSelectedDepartment("Toàn bộ phòng ban");
+      return;
+
+    }
+
+    setSelectedDepartment(e.target.value);
+    const array = [e.target.value]
+    dispatch(setLogotParams({ departments: array }))
+  }
+
   useEffect(() => {
     if (!logOtsLoaded || logOtAdded || prevLocation.current.key !== key) {
       dispatch(fetchLogOtsAsync());
@@ -458,17 +495,116 @@ export default function OtherOTList() {
     prevLocation.current = location;
   }, [dispatch, logOtAdded, logOtsLoaded, key]);
 
+
+  useEffect(() => {
+    if (!filtersLoaded) dispatch(fetchFiltersLogOts());
+  }, [dispatch, filtersLoaded])
+
+
   useEffect(() => {
     if (logOtsLoaded) {
-      setRows(otherOts);
+      setRows(logOts);
     }
   }, [logOtsLoaded, logOts]);
-  console.log("Here");
+
+  if (!filtersLoaded) return <LoadingComponent message="Đang tải đơn làm thêm..." />;
+
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
-          <Grid item>
+        <Grid container justifyContent={"space-between"} alignItems={"center"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}>
+          <Grid item xs={4}>
+            {/* <TextField
+              id="standard-basic"
+              placeholder="Nhập để tìm..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+                style: { fontFamily: fontStyle },
+              }}
+              variant="standard"
+            /> */}
+            <Box display="flex" alignItems="center"
+              // border="1px solid black"
+              height="100%"
+            >
+              <TextField
+                id=""
+                // label="Tìm kiếm"
+                variant="standard"
+                placeholder="Tìm kiếm"
+                value={serchTerm || ''}
+                sx={{
+                  width: "100%",
+                  // height: "52px",
+                  // border:"1px solid blue",
+                  display: "inline-block"
+                }}
+                onChange={(e: any) => {
+                  setSearchTerm(e.target.value);
+                  debouncedSearch(e);
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={4} alignItems={"center"} display="flex">
+            <BootstrapInput
+
+              sx={{ width: "50%", marginLeft: "12px", borderRadius: "12px" }}
+              // InputProps={textFieldInputProps}
+              variant="standard"
+              onChange={handleSelectedDepartments}
+              value={selectedDepartment}
+              select
+            // defaultValue={"Phòng ban"}
+            >
+              <MenuItem value="Toàn bộ phòng ban">Toàn bộ phòng ban</MenuItem>
+              {departments?.map((item) => (
+                <MenuItem
+                  key={item} value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))}
+            </BootstrapInput>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              sx={{
+                marginLeft: "12px",
+                textTransform: "none",
+                fontFamily: "Mulish",
+                fontWeight: "bold",
+
+
+                backgroundColor: "#fff",
+                color: "rgb(57,219,57)",
+                border: "1px solid rgb(57,219,57)",
+                "&:hover": {
+                  border: "1px solid rgb(57,219,57)",
+                  color: "#fff",
+                  backgroundColor: "rgb(57,219,57)",
+                },
+                "&:active": {
+                  // backgroundColor: "#0066CD",
+                  // color: "#FFFFFF",
+                },
+              }}
+            >
+              Làm mới
+            </Button>
           </Grid>
           <Grid item>
             <Button
@@ -476,10 +612,9 @@ export default function OtherOTList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -506,7 +641,7 @@ export default function OtherOTList() {
           density="standard"
           getRowId={(row: any) => row.otLogId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -523,16 +658,15 @@ export default function OtherOTList() {
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          hideFooterPagination
+          hideFooter
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );

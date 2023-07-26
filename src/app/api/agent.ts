@@ -180,13 +180,15 @@ const Payslip = {
 };
 
 const LogOt = {
-  list: () => requests.get("logots"),
+  list: (params: URLSearchParams) => requests.get("logots", params),
   details: (id: number) => requests.get(`logots/${id}}`),
   listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
   create: (staffId: number, values: any) => requests.post(`logots/staffs/${staffId}`, values),
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
   patch: (logotId: number, staffId: number, values: any) =>
     requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
+  filters: () => requests.get("/logots/filters")
+  
 };
 
 const LeaveDayDetail = {

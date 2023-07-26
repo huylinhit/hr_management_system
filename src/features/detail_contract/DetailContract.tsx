@@ -31,7 +31,10 @@ export default function DetailContract() {
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { employeesLoaded } = useAppSelector((state) => state.employee);
-  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+
+
+
+  const contractStaff = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
 
   const { contractsLoaded } = useAppSelector((state) => state.contract);
   // -------------------------- EFFECT --------------------------
@@ -60,10 +63,16 @@ export default function DetailContract() {
         ])
       );
     }
-  }, [dispatch, location, contract, employee]);
+  }, [dispatch, location, contractStaff, employee]);
   // -------------------------- FUNCTION ------------------------
-  if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
-  console.log(employee);
+  if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
+
+  if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
+  // if(contractStatus.includes("pending"))
+  //   return <LoadingComponent message="Đang tải hợp đồng"/>
+
+  // if(employeeStatus.includes("pending"))
+  //   return <LoadingComponent message="Đang tải nhân viên"/>
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
@@ -105,7 +114,7 @@ export default function DetailContract() {
           </IconButton>
         </Grid>
         <Grid item>
-          {contract?.contractStatus === true ? (
+          {contractStaff?.contractStatus === true ? (
             <Button
               variant="outlined"
               color="error"
@@ -134,7 +143,7 @@ export default function DetailContract() {
           </Grid>
 
           <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
-            <DetailContractInfo contract={contract} employee={employee} />
+            <DetailContractInfo contract={contractStaff} employee={employee} />
           </Grid>
         </Grid>
         <Grid
@@ -146,7 +155,7 @@ export default function DetailContract() {
         ></Grid>
       </Container>
 
-      <DeleteDialog open={open} setOpen={setOpen} item={contract} prevpage={prevpage} />
+      <DeleteDialog open={open} setOpen={setOpen} item={contractStaff} prevpage={prevpage} />
     </Container>
   );
 }
