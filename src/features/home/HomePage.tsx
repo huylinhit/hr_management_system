@@ -38,7 +38,7 @@ export default function HomePage() {
             >
               HitoHub
             </Button>
-            <Button color="inherit" sx={{ ...headerItemStyle }}>
+            {/* <Button color="inherit" sx={{ ...headerItemStyle }}>
               Sản phẩm
             </Button>
             <Button color="inherit" sx={{ ...headerItemStyle }}>
@@ -52,7 +52,7 @@ export default function HomePage() {
             </Button>
             <Button color="inherit" sx={{ ...headerItemStyle }}>
               Giá cả
-            </Button>
+            </Button> */}
           </Box>
           <Box>
             <Button color="inherit" sx={{ ...headerItemStyle }} component={NavLink} to={`/login`}>
