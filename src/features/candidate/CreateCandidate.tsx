@@ -242,9 +242,10 @@ export default function CreateCandidate({ open, onClose }: Props) {
   };
 
   const handleCloseDialog = () => {
-    onClose();
     setFields([{ skill: "", level: "" }]);
     setEmailError(false);
+    setAvatarTemp("");
+    onClose();
   };
   const handleCreateCandidate = () => {
     setIsAddProcess(true);
@@ -282,13 +283,15 @@ export default function CreateCandidate({ open, onClose }: Props) {
         console.log("Candidate created successfully", response);
         toast.success("Đã thêm ứng viên 😊");
         dispatch(setCandidateAdded(true));
-        onClose();
+
+        handleCloseDialog();
       })
       .catch((error: any) => {
         console.log("error creating staff skill: ", error);
         toast.error("Xảy ra lỗi khi thêm 😥");
       });
   };
+
   return (
     <>
       <Dialog open={open} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
