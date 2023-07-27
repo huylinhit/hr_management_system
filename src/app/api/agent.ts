@@ -13,8 +13,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-axios.interceptors.request.use(  (config) => {
-  
+axios.interceptors.request.use((config) => {
   const token = store.getState().account.user?.token;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
@@ -24,10 +23,10 @@ axios.interceptors.response.use(
   async (response) => {
     await sleep();
 
-    const pagination = response.headers['pagination'];
+    const pagination = response.headers["pagination"];
     if (pagination) {
       response.data = new PaginatedResponse(response.data, JSON.parse(pagination));
-     
+
       return response;
     }
 
@@ -81,6 +80,7 @@ const requests = {
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
   delete: (url: string) => axios.delete(url).then(responseBody),
   patch: (url: string, body: {}) => axios.patch(url, body).then(responseBody),
+  posts: (url: string) => axios.post(url).then(responseBody),
 };
 
 const Account = {
@@ -96,8 +96,9 @@ const Contract = {
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
   update: (contractId: number, staffId: number, values: any) =>
     requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
-  patch: (contractId: number, staffId: number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
-  filters: () => requests.get("/contracts/filters")
+  patch: (contractId: number, staffId: number, values: any) =>
+    requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
+  filters: () => requests.get("/contracts/filters"),
 };
 
 const Department = {
@@ -164,7 +165,7 @@ const UserInfors = {
   list: (params: URLSearchParams) => requests.get("userinfor", params),
   details: (id: number) => requests.get(`userinfor/${id}`),
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
-  filters: () => requests.get("/userinfor/filters")
+  filters: () => requests.get("/userinfor/filters"),
 };
 
 const Payslip = {
@@ -178,7 +179,7 @@ const Payslip = {
     requests.post(`payslips/staffs/${staffId}`, time),
   update: (id: number, values: any) => requests.put(`payslips/${id}`, values),
   patch: (id: number, values: any) => requests.patch(`payslips/${id}`, values),
-  filters: () => requests.get("/payslips/filters")
+  filters: () => requests.get("/payslips/filters"),
 };
 
 const LogOt = {
@@ -189,12 +190,12 @@ const LogOt = {
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
   patch: (logotId: number, staffId: number, values: any) =>
     requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
-  filters: () => requests.get("/logots/filters")
-  
+  filters: () => requests.get("/logots/filters"),
 };
 
 const LeaveDayDetail = {
   list: (staffId: number) => requests.get(`leave-day-detail/${staffId}`),
+  create: (id: number) => requests.posts(`leave-day-detail/${id}`),
 };
 const LeaveType = {
   list: () => requests.get("leave-types"),
@@ -209,8 +210,8 @@ const LogLeave = {
     requests.put(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
   patch: (logLeaveId: number, staffId: number, values: any) =>
     requests.patch(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
-    filters: () => requests.get("/log-leaves/filters")
-  };
+  filters: () => requests.get("/log-leaves/filters"),
+};
 
 const Employees = {
   list: () => requests.get("userinfor"),
