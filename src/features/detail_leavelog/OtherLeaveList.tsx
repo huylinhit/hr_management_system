@@ -12,6 +12,7 @@ import {
   LinearProgress,
   TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
@@ -39,12 +40,14 @@ import { Ticket } from "../../app/models/ticket";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
-import { fetchLogLeavesAsync, logleaveSelectors, setLogLeaveAdded } from "./logleaveSlice";
+import { fetchFiltersLogLeaves, fetchLogLeavesAsync, logleaveSelectors, setLogLeaveAdded, setLogLeaveParams, setPageNumber } from "./logleaveSlice";
 import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateLeaveForm from "./CreateLeaveForm";
 import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import AppPagination from "../../app/components/Pagination/AppPagination";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -450,7 +453,7 @@ export default function OthersLeaveList() {
   );
   const dispatch = useAppDispatch();
 
-  const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
+  const { logleavesLoaded, filtersLoaded, logLeaveAdded, status, metaData, logleaveParams } = useAppSelector(
     (state) => state.logleave
   );
   const [rows, setRows] = useState<LogLeave[]>([]);
@@ -458,6 +461,16 @@ export default function OthersLeaveList() {
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
+
+
+  const [serchTerm, setSearchTerm] = useState(logleaveParams.searchTerm);
+
+  const debouncedSearch = debounce((e: any) => {
+    dispatch(setLogLeaveParams({ searchTerm: e.target.value }))
+  }, 2500)
+
+  console.log("logleave" ,logLeaves);
+
 
   useEffect(() => {
     dispatch(setHeaderTitle([{ title: "Đơn nghỉ của nhân viên", path: "/log-leaves" }]));
@@ -479,17 +492,34 @@ export default function OthersLeaveList() {
     prevLocation.current = location;
   }, [dispatch, logleavesLoaded, logLeaveAdded, key]);
 
+
+  useEffect(() => {
+    if (!filtersLoaded) dispatch(fetchFiltersLogLeaves());
+  }, [dispatch, filtersLoaded])
+
   useEffect(() => {
     if (logleavesLoaded) {
-      setRows(otherUsersLogLeaves);
+      setRows(logLeaves);
     }
   }, [logleavesLoaded, logLeaves]);
+
+  if (!filtersLoaded) return <LoadingComponent message="Đang tải đơn nghỉ phép..." />;
+  
 
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
         {/* <ToastContainer /> */}
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"} alignItems={"center"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}
+        >
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -505,6 +535,28 @@ export default function OthersLeaveList() {
               }}
               variant="standard"
             /> */}
+            <Box display="flex" alignItems="center"
+              // border="1px solid black"
+              height="100%"
+            >
+              <TextField
+                id=""
+                // label="Tìm kiếm"
+                variant="standard"
+                placeholder="Tìm kiếm"
+                value={serchTerm || ''}
+                sx={{
+                  width: "100%",
+                  // height: "52px",
+                  // border:"1px solid blue",
+                  display: "inline-block"
+                }}
+                onChange={(e: any) => {
+                  setSearchTerm(e.target.value);
+                  debouncedSearch(e);
+                }}
+              />
+            </Box>
           </Grid>
           <Grid item>
             {/* <Button
@@ -540,10 +592,9 @@ export default function OthersLeaveList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -570,7 +621,7 @@ export default function OthersLeaveList() {
           density="standard"
           getRowId={(row: any) => row.leaveLogId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -586,17 +637,24 @@ export default function OthersLeaveList() {
           loading={!logleavesLoaded || logLeaveAdded}
           rows={rows}
           columns={columns}
-          //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          hideFooter
+        //showCellVerticalBorder
+        // initialState={{
+        //   pagination: {
+        //     paginationModel: {
+        //       pageSize: 20,
+        //     },
+        //   },
+        // }}
+        // pageSizeOptions={[5]}
+        // disableRowSelectionOnClick
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );

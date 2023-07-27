@@ -5,6 +5,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { Contract } from "../model/contract";
 import { addMonths } from "date-fns";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // interface
 interface Props {
@@ -26,13 +27,15 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
   const date = new Date(formatDate)
   const maxDate = dayjs(addMonths(date, 3))
 
+  const [error1, setError1] = useState(false)
+  const [error2, setError2] = useState(false)
 
   return (
     <>
       <Container maxWidth="md">
-        <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid container spacing={3} sx={{ ...verticalSpacing }}>
           <Grid item xs={12}>
-            <Typography sx={{ ...headerStyle, fontSize: "30px", mb: "50px" }}>
+            <Typography sx={{ ...headerStyle, fontSize: "30px", mb: "20px" }}>
               Tạo mới hợp đồng
             </Typography>
           </Grid>
@@ -78,7 +81,7 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} sx={{ mb: "30px" }}>
+        <Grid container spacing={3} sx={{ mb: "30px" }}>
           <Grid item xs={6}>
             <Typography sx={headerStyle}>Ngày bắt đầu hợp đồng</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -110,40 +113,58 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid container spacing={3} sx={{ ...verticalSpacing }}>
           <Grid item xs={6}>
             <Typography sx={headerStyle}>Lương căn bản</Typography>
             <TextField
               required
+              error={error1}
+              helperText={error1 ? "Không hợp lệ":""}
               type="number"
               placeholder={"Nhập lương căn bản"}
               sx={{ width: "100%", marginBottom: "20px" }}
-              onChange={(e) =>
-                setContractForm((prevForm: any) => ({
-                  ...prevForm,
-                  salary: e.target.value,
-                }))
-              }
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    salary: e.target.value,
+                  }))
+                  setError1(false)
+                } else {
+                  setError1(true)
+                }
+              }}
             />
           </Grid>
           <Grid item xs={6}>
             <Typography sx={headerStyle}>Lương tính thuế</Typography>
             <TextField
               required
+              error={error2}
+              helperText={error2 ? "Không hợp lệ":""}
               type="number"
               placeholder={"Nhập lương tính thuế"}
               sx={{ width: "100%", marginBottom: "20px" }}
-              onChange={(e) =>
-                setContractForm((prevForm: any) => ({
-                  ...prevForm,
-                  taxableSalary: e.target.value,
-                }))
-              }
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    taxableSalary: e.target.value,
+                  }))
+                  setError2(false)
+                } else {
+                  setError2(true)
+                }
+              }}
             />
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+        <Grid container spacing={3} sx={{ ...verticalSpacing }}>
           <Grid item xs={6}>
             <Typography sx={headerStyle}>Số ngày làm một tuần</Typography>
             <TextField
@@ -151,16 +172,41 @@ export default function FormContent({ contractForm, setContractForm }: Props) {
               type="number"
               placeholder="Nhập ngày"
               sx={{ width: "100%", marginBottom: "20px20px" }}
-              onChange={(e) =>
-                setContractForm((prevForm: any) => ({
-                  ...prevForm,
-                  workDatePerWeek: e.target.value,
-                }))
-              }
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    workDatePerWeek: e.target.value,
+                  }))
+                }
+              }}
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={headerStyle}>Ghi chú</Typography>
+            <Typography sx={headerStyle}>Số người phụ thuộc</Typography>
+            <TextField
+              type="text"
+              placeholder="Nhập số người phụ thuộc"
+              sx={{ width: "100%", marginBottom: "20px20px" }}
+              onChange={(e) =>{
+                const numberValue = Number(e.target.value);
+            
+                if (!isNaN(numberValue) && numberValue >= 0) {
+                  setContractForm((prevForm: any) => ({
+                    ...prevForm,
+                    noOfDependences: e.target.value,
+                  }))
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} sx={{ ...verticalSpacing }}>
+          <Grid item xs={12}>
+          <Typography sx={headerStyle}>Ghi chú</Typography>
             <TextField
               type="text"
               placeholder="Nhập ghi chú"

@@ -127,7 +127,7 @@ export const router = createBrowserRouter([
         element: <RequireAuth roles={["HRStaff"]} />,
         children: [
           //Dashboard
-          { path: "/dashboard", element: <DashBoard /> },
+          { path: "/dashboard", element: <DashBoard/> },
           { path: "/other-leave-list/:id", element: <LeaveApproval /> },
 
           //department

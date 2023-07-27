@@ -22,3 +22,11 @@ export interface LogLeave {
   leaveType: LeaveType;
   staff: Staff;
 }
+
+export interface LogLeaveParams{
+  searchTerm?: string,
+  departments: string[],
+  pageNumber: number,
+  pageSize: number
+}
+

@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 // data
 import Contract from "../../../app/models/contract";
@@ -54,6 +54,15 @@ export default function DetaiNote({ contract }: Props) {
 
         <Grid container sx={gridStyle}>
           <Grid item xs={4}>
+            <Typography sx={headerStyle}>Số người phụ thuộc:</Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <Typography sx={infoStyle}>{contract?.noOfDependences}</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container sx={gridStyle}>
+          <Grid item xs={4}>
             <Typography sx={headerStyle}>Ghi chú:</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -66,9 +75,6 @@ export default function DetaiNote({ contract }: Props) {
             maxWidth: "100%",
           }}
         >
-          {/* <Button variant="contained" size="small" sx={{ borderRadius: "10px" }}>
-            Xem file
-          </Button> */}
         </Grid>
       </Grid>
     </Grid>

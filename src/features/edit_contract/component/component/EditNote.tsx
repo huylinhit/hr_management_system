@@ -1,4 +1,4 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 
 // data
 import Contract from "../../../../app/models/contract";
@@ -78,6 +78,36 @@ export default function EditNote({ contract, setContractForm }: Props) {
           }}
         >
           <Grid item xs={4}>
+            <Typography sx={headerStyle}>Số người phụ thuộc:</Typography>
+          </Grid>
+          <Grid item xs={7}>
+            <TextField
+              id="outlined-required"
+              label="Số người phụ thuộc"
+              size="small"
+              margin="dense"
+              defaultValue={contract?.noOfDependences}
+              onChange={(e) =>
+                setContractForm((prevForm: any) => ({
+                  ...prevForm,
+                  noOfDependences: e.target.value,
+                }))
+              }
+            />
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: "100%",
+            padding: "0 30px 10px 30px",
+          }}
+        >
+          <Grid item xs={4}>
             <Typography sx={headerStyle}>Ghi chú:</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -97,12 +127,6 @@ export default function EditNote({ contract, setContractForm }: Props) {
           </Grid>
         </Grid>
 
-        {/* <Grid sx={{
-            maxWidth: "100%",
-            padding: "0 30px 10px 30px",
-          }}>
-            <Button variant="contained" size="small" sx={{ borderRadius:"10px" }}>Xem file</Button>
-          </Grid> */}
       </Grid>
     </Grid>
   );

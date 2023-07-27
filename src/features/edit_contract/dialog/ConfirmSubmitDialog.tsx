@@ -153,6 +153,7 @@ export default function ConfirmSubmitDialog({
     toast.success("Cập nhật thành công")
     // dispatch(fetchContractsAsync());
     dispatch(setContractUpdated(true))
+
     // ------------------------------
   };
 
@@ -189,7 +190,7 @@ export default function ConfirmSubmitDialog({
       dispatch(fetchContractsAsync());
       dispatch(fetchContractAsync(Number(staffId)));
       dispatch(setContractAdded(true));
-      history(`/contracts/${contract?.contractId}/staffs/${staffId}/list`);
+      history(`/contracts/${contract?.contractId}/staffs/${staffId}/${prevpage}`);
     }
     setOpen(false);
     dispatch(setContractUpdated(true));

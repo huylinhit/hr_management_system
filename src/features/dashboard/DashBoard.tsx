@@ -1,11 +1,9 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import MyResponsiveLine from "./LineChart";
 import UserInforSummary from "./UserInforChart";
 import DepartmentSummary from "./DepartmentSummary";
 import CandidateSummary from "./CandidateSummary";
 import TicketSummary from "./TicketsSummary";
-import StaffList from "../employee/StaffList";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import PayslipsMiniTable from "./PayslipsMiniTable";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import { NavLink, useLocation } from "react-router-dom";

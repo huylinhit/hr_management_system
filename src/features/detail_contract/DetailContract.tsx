@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
+
+import { Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
 // component
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import DetailContractFooter from "./component/DetailContractFooter";
 import DetailContractInfo from "./component/DetailContractInfo";
 import DetailEmployeeInfo from "./component/DetailEmployeeInfo";
-import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import DeleteDialog from "./dialog/DeleteDialog";
 
@@ -17,10 +16,8 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { employeeSelectors, fetchEmployeeAsync } from "../../app/store/employee/employeeSlice";
 import {
   contractSelectors,
-  fetchContractAsync,
   fetchContractsAsync,
 } from "../../app/store/contract/contractSlice";
-import NewContract from "../add_contract/NewContract";
 
 const fontStyle = "Mulish";
 
@@ -33,14 +30,11 @@ export default function DetailContract() {
   const [open, setOpen] = useState(false);
   // -------------------------- REDUX ---------------------------
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
-  const { status: employeeStatus, employeesLoaded } = useAppSelector((state) => state.employee);
+  const { employeesLoaded } = useAppSelector((state) => state.employee);
 
-  const contract = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
-
-  const { status: contractStatus, contractsLoaded } = useAppSelector((state) => state.contract);
-
+  const contractStaff = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
+  const { contractsLoaded } = useAppSelector((state) => state.contract);
   // -------------------------- EFFECT --------------------------
-
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractsAsync());
@@ -66,15 +60,11 @@ export default function DetailContract() {
         ])
       );
     }
-  }, [dispatch, location, contract, employee]);
+  }, [dispatch, location, contractStaff, employee]);
   // -------------------------- FUNCTION ------------------------
-  if (!contract || !employee) return <LoadingComponent message="Đang tải..." />;
-  console.log(employee);
-  // if(contractStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải hợp đồng"/>
+  if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
 
-  // if(employeeStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải nhân viên"/>
+  if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>
@@ -116,7 +106,7 @@ export default function DetailContract() {
           </IconButton>
         </Grid>
         <Grid item>
-          {contract?.contractStatus === true ? (
+          {contractStaff?.contractStatus === true ? (
             <Button
               variant="outlined"
               color="error"
@@ -145,7 +135,7 @@ export default function DetailContract() {
           </Grid>
 
           <Grid item sx={{ width: "100%", paddingTop: "10px", paddingBottom: "25px" }}>
-            <DetailContractInfo contract={contract} employee={employee} />
+            <DetailContractInfo contract={contractStaff} employee={employee} />
           </Grid>
         </Grid>
         <Grid
@@ -157,7 +147,7 @@ export default function DetailContract() {
         ></Grid>
       </Container>
 
-      <DeleteDialog open={open} setOpen={setOpen} item={contract} prevpage={prevpage} />
+      <DeleteDialog open={open} setOpen={setOpen} item={contractStaff} prevpage={prevpage} />
     </Container>
   );
 }

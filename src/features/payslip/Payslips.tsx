@@ -6,22 +6,13 @@ import {
   Button,
   Grid,
   IconButton,
-  InputAdornment,
   LinearProgress,
   MenuItem,
-  Pagination,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid-pro";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, useLocation } from "react-router-dom";
 
@@ -40,22 +31,12 @@ import { fetchFiltersPayslips, fetchPayslipsAsync, payslipSelectors, resetPaysli
 import { Payslip } from "../../app/models/payslip";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import ChipCustome from "../../app/components/Custom/Chip/ChipCustome";
-import CreatePayslipMainForm, { BootstrapInput, textFieldInputProps } from "./component/CreatePayslipMainForm";
+import { BootstrapInput } from "./component/CreatePayslipMainForm";
 import { CheckCircle } from "@mui/icons-material";
 import ConfirmPayslips from "./component/ConfirmPayslips";
 import CreatePayslipNewVersion from "./component/CreatePayslipNewVersion";
 import AppPagination from "../../app/components/Pagination/AppPagination";
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
 const headerStyle = {
   color: "#7C7C7C",
   fontWeight: 700,
@@ -149,7 +130,6 @@ export default function Payslips() {
         const staffName = `${params.row.staff.lastName}  ${params.row.staff.firstName}`;
         const rowIndex = staffId % staffNameColors.length;
         const imageFile = params.row.staff.imageFile;
-        const staffNameColor = staffNameColors[rowIndex];
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
@@ -428,7 +408,6 @@ export default function Payslips() {
   }
   const { user } = useAppSelector((state) => state.account);
   const payslips = useAppSelector(payslipSelectors.selectAll);
-  const otherPayslips = payslips.filter(c => c.staffId !== user?.userInfor.staffId);
   const dispatch = useAppDispatch();
   const { payslipsLoaded, status, filtersLoaded, departments, payslipParams, metaData } = useAppSelector((state) => state.payslip);
   const [rows, setRows] = useState<Payslip[]>([]);
@@ -436,17 +415,8 @@ export default function Payslips() {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("Toàn bộ phòng ban");
   const location = useLocation();
-  const prevLocation = useRef(location);
-  const key = location.pathname;
 
   const [serchTerm, setSearchTerm] = useState(payslipParams.searchTerm);
-
-  const CustomFooter = () => {
-    // Customize the footer component if needed
-    // For now, we return null to remove the footer
-    return null;
-  };
-
 
   const debouncedSearch = debounce((e: any) => {
     dispatch(setPayslipParams({ searchTerm: e.target.value }))
@@ -506,8 +476,6 @@ export default function Payslips() {
       setRows(payslips);
     }
   }, [payslipsLoaded, payslips, dispatch]);
-  // if (status.includes("pending") || !metaData)
-  //   return <LoadingComponent message="Đang tải danh sách lương..." />;
   if (!filtersLoaded) return <LoadingComponent message="Đang tải danh sách lương..." />;
   return (
     <>
@@ -517,12 +485,9 @@ export default function Payslips() {
           sx={{
             background: "#fff",
             padding: "20px",
-            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)", 
-            // mb: "5px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
             borderRadius: "4px",
             mr: "12px",
-            // height: "52px",
-            // border: "1px solid black"
           }}>
           <Grid item xs={4} >
             <Box display="flex" alignItems="center"
@@ -663,10 +628,7 @@ export default function Payslips() {
             open={open}
             onClose={handleCloseDialog}
           />
-
-          {/* <CreatePayslipMainForm open={open} onClose={handleCloseDialog} /> */}
         </Grid>
-        {/* <Box sx={{ borderBottom: "1px solid #C6C6C6" }} /> */}
       </Box>
 
       <Box sx={{ width: "94%", margin: "0 auto", marginTop: "1%"}}>
@@ -676,13 +638,11 @@ export default function Payslips() {
           getRowId={(row: any) => row.payslipId}
           sx={{
             height: "74vh",
-            // height:"100%",
-            //border: "none",
             color: "#000000",
             fontSize: 16,
             fontWeight: 550,
             fontFamily: "Mulish",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Add shadow effect
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
             backgroundColor: "rgba(255, 255, 255, 1)", // Set the opacity
           }}
           slots={{
@@ -691,24 +651,14 @@ export default function Payslips() {
           loading={!payslipsLoaded}
           rows={rows}
           columns={columns}
-          // pageSizeOptions={[5, 10, 25]}
-          // initialState={{
-          //   pagination: {
-          //     paginationModel: {
-          //       pageSize: 3,
-          //       page: metaData?.currentPage  ,
-          //     }
-          //   },
-          // }}
-          // hideFooterSelectedRowCount
           hideFooter
         />
-        {metaData && (
-          <AppPagination
-            metaData={metaData}
-            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
-          />
-        )}
+          {metaData && (
+            <AppPagination
+              metaData={metaData}
+              onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+            />
+          )}
       </Box>
     </>
   );

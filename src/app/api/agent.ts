@@ -6,6 +6,7 @@ import { request } from "http";
 import { PaginatedResponse } from "../models/pagination";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+// axios.defaults.baseURL = "https://api-hrm.huylinhit.live/api";
 axios.defaults.withCredentials = true;
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
@@ -26,7 +27,7 @@ axios.interceptors.response.use(
     const pagination = response.headers['pagination'];
     if (pagination) {
       response.data = new PaginatedResponse(response.data, JSON.parse(pagination));
-      console.log("pagination:", response)
+     
       return response;
     }
 
@@ -89,13 +90,14 @@ const Account = {
 };
 
 const Contract = {
-  list: () => requests.get("contracts"),
+  list: (params: URLSearchParams) => requests.get("contracts", params),
   validDetails: (id: number) => requests.get(`contracts/valid/${id}`),
   details: (id: number) => requests.get(`contracts/${id}`),
   create: (id: number, values: any) => requests.post(`contracts/staffs/${id}`, values),
   update: (contractId: number, staffId: number, values: any) =>
     requests.put(`contracts/${contractId}/staffs/${staffId}`, values),
   patch: (contractId: number, staffId: number, values: any) => requests.patch(`contracts/${contractId}/staffs/${staffId}`, values),
+  filters: () => requests.get("/contracts/filters")
 };
 
 const Department = {
@@ -159,9 +161,10 @@ const CandidateSkill = {
 };
 
 const UserInfors = {
-  list: () => requests.get("userinfor"),
+  list: (params: URLSearchParams) => requests.get("userinfor", params),
   details: (id: number) => requests.get(`userinfor/${id}`),
   patch: (id: number, values: any) => requests.patch(`userinfor/${id}`, values),
+  filters: () => requests.get("/userinfor/filters")
 };
 
 const Payslip = {
@@ -179,20 +182,25 @@ const Payslip = {
 };
 
 const LogOt = {
-  list: () => requests.get("logots"),
+  list: (params: URLSearchParams) => requests.get("logots", params),
   details: (id: number) => requests.get(`logots/${id}}`),
   listOfStaff: (staffId: number) => requests.get(`logots/staffs/${staffId}`),
   create: (staffId: number, values: any) => requests.post(`logots/staffs/${staffId}`, values),
   update: (id: number, values: any) => requests.put(`logots/${id}`, values),
   patch: (logotId: number, staffId: number, values: any) =>
     requests.patch(`logots/${logotId}/staffs/${staffId}`, values),
+  filters: () => requests.get("/logots/filters")
+  
 };
 
 const LeaveDayDetail = {
   list: (staffId: number) => requests.get(`leave-day-detail/${staffId}`),
 };
+const LeaveType = {
+  list: () => requests.get("leave-types"),
+};
 const LogLeave = {
-  list: () => requests.get("log-leaves"),
+  list: (params: URLSearchParams) => requests.get("log-leaves", params),
   details: (logLeaveId: number, staffId: number) =>
     requests.get(`log-leaves/${logLeaveId}/staffs/${staffId}`),
   listOfStaff: (staffId: number) => requests.get(`log-leaves/staffs/${staffId}`),
@@ -201,7 +209,8 @@ const LogLeave = {
     requests.put(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
   patch: (logLeaveId: number, staffId: number, values: any) =>
     requests.patch(`log-leaves/${logLeaveId}/staffs/${staffId}`, values),
-};
+    filters: () => requests.get("/log-leaves/filters")
+  };
 
 const Employees = {
   list: () => requests.get("userinfor"),
@@ -241,9 +250,11 @@ const agent = {
   Payslip,
   LogOt,
   LogLeave,
+  LeaveType,
   Candidate,
   CandidateSkill,
   LeaveDayDetail,
+
   Errors,
 };
 
