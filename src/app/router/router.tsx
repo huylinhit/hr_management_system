@@ -71,6 +71,7 @@ import MyPayslips from "../../features/payslip/MyPayslips";
 import DetailOwnContract from "../../features/detail_own_contract/DetailOwnContract";
 import OwnPayslipDetail from "../../features/payslip/component/OwnPayslipDetail";
 import SelfDetails from "../../features/detail_employee/SelfDetails";
+import CallAPI from "../../features/account/CallAPI";
 // import Payroll from "../../features/payslip/component/Payroll";
 // import PayslipDetail from "../../features/payslip/component/PayslipDetail";
 
@@ -79,7 +80,7 @@ const PrivateRoute = ({ path, element }: any) => {
   const navigate = useNavigate();
   if (!user) {
     return element;
-} else {
+  } else {
     if (user.roles?.includes("HRStaff")) return <Navigate to="/dashboard" replace={true} />;
     else return <Navigate to="/own-log-overtimes" replace={true} />;
   }
@@ -93,6 +94,8 @@ export const router = createBrowserRouter([
       //Login dont need to Authen or Author
 
       { path: "login", element: <PrivateRoute element={<Login />} /> },
+      { path: "callapi", element: <CallAPI /> },
+
       { path: "/", element: <HomePage /> },
       // { path: "/list-contract", element: <ListContract/>},
       // { path: "/list-leave", element: <ListLeave /> },
