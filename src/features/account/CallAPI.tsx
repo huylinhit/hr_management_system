@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export default function CallAPI() {
   const handlecreateLeaveDayDetail = () => {
-    agent.LeaveDayDetail.create(3).then(() => {
+    agent.LeaveDayDetail.create(2).then(() => {
       toast.success("CREATED");
     });
   };
