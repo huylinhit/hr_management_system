@@ -96,8 +96,8 @@ export default function DashBoard() {
                       fontSize: "18px",
                       fontFamily: fontStyle,
                     }}
-                  >
-                    Đi tới bảng lương của nhân viên
+                  > 
+                    Đi tới bảng lương của nhân viên 
                   </Typography>
                 </Box>
               </Box>
