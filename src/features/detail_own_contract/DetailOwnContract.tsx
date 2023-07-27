@@ -35,7 +35,7 @@ export default function DetailOwnContract() {
   const { employeesLoaded } = useAppSelector((state) => state.employee);
 
   const contract = useAppSelector((state) =>
-    contractSelectors.selectById(state, 2)
+    contractSelectors.selectById(state, currentUser.user?.userInfor.staffId!)
   );
   const { status, contractsLoaded } = useAppSelector((state) => state.contract);
   
