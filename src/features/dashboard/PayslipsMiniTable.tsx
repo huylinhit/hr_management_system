@@ -489,7 +489,7 @@ export default function PayslipsMiniTable() {
   }, [payslipsLoaded, payslips, dispatch]);
   // if (status.includes("pending") || !metaData)
   //   return <LoadingComponent message="Đang tải danh sách lương..." />;
-  if (!filtersLoaded) return <LoadingComponent message="Đang tải danh sách lương..." />;
+  if (!filtersLoaded) return <></>;
   return (
     <>
       <Box>
