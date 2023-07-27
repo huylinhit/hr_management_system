@@ -21,7 +21,6 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridRowId,
   GridRowSelectionModel,
 } from "@mui/x-data-grid-pro";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
@@ -31,16 +30,11 @@ import { UserInfor } from "../../app/models/userInfor";
 import agent from "../../app/api/agent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Department } from "../../app/models/department";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 import moment from "moment";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import SubjectIcon from "@mui/icons-material/Subject";
 import PhoneIcon from "@mui/icons-material/Phone";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setDepartmentChanged, setDepartmentEmployeeAdded } from "./departmentSlice";
@@ -408,9 +402,7 @@ export default function DepartmentForm({
           }}
           slots={{
             loadingOverlay: LinearProgress,
-            //toolbar: CustomToolbar,
           }}
-          //loading = {!departmentsLoaded}
           rows={rows}
           columns={columns}
           classes={{
@@ -435,10 +427,10 @@ export default function DepartmentForm({
         />
       </DialogContent>
       <DialogActions>
-        <Button sx={{ color: "#FF605C" }} onClick={onClose}>
+        <Button variant="outlined" color="error" sx={{ width: "70px", marginRight: "10px", marginBottom: "20px"}} onClick={onClose}>
           Hủy
         </Button>
-        <Button onClick={handleSave}>Lưu</Button>
+        <Button variant="contained" sx={{ width: "70px", marginRight: "15px", marginBottom: "20px"}} onClick={handleSave}>Lưu</Button>
       </DialogActions>
     </Dialog>
   );

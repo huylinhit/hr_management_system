@@ -2,36 +2,22 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
   MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import React from "react";
-import PhoneIcon from "@mui/icons-material/Phone";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import DownloadIcon from "@mui/icons-material/Download";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-
+import CheckIcon from "@mui/icons-material/Check";
 import { ToastContainer, toast } from "react-toastify";
 import {
   BaseSingleInputFieldProps,
@@ -39,19 +25,21 @@ import {
   DatePickerProps,
   DateValidationError,
   FieldSection,
-  LocalizationProvider,
   UseDateFieldProps,
 } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import agent from "../../../app/api/agent";
 import ConfirmDialog from "../../../app/layout/ConfirmDialog";
 import { setHeaderTitle } from "../../../app/layout/headerSlice";
-import { useAppSelector, useAppDispatch } from "../../../app/store/configureStore";
-import { fetchLeaveDayDetailAsync } from "../../detail_leavelog/leaveDayDetailSlice";
-import { logleaveSelectors, fetchLogLeaveAsync, setLogLeaveAdded } from "../../detail_leavelog/logleaveSlice";
-import MyTicketDetailSkeleon from "../../othertypes/MyTicketDetailSkeleton";
-import { fetchLogOtAsync, fetchLogOtsAsync, fetchLogOtsStaffAsync, logOvertimeSelectors, setLogOvertimeAdded } from "../../overlog/overtimeSlice";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "../../../app/store/configureStore";
+import {
+  fetchLogOtsAsync,
+  logOvertimeSelectors,
+  setLogOvertimeAdded,
+} from "../../overlog/overtimeSlice";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import ChipCustome from "../../../app/components/Custom/Chip/ChipCustome";
 const fontStyle = "Mulish";
@@ -107,7 +95,11 @@ const BootstrapInput = styled(TextField)(({ theme, disabled }) => ({
     fontSize: 15,
     width: "100%  ",
     padding: "6px 8px",
-    transition: theme.transitions.create(["border-color", "background-color", "box-shadow"]),
+    transition: theme.transitions.create([
+      "border-color",
+      "background-color",
+      "box-shadow",
+    ]),
     // Use the system font instead of the default Roboto font.
     fontFamily: "Mulish",
     "&:hover:not(:focus)": {
@@ -147,7 +139,12 @@ const ProcessNoteInput = styled(TextField)(({ theme, disabled }) => ({
 }));
 interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
-  BaseSingleInputFieldProps<Dayjs | null, Dayjs, FieldSection, DateValidationError> {
+    BaseSingleInputFieldProps<
+      Dayjs | null,
+      Dayjs,
+      FieldSection,
+      DateValidationError
+    > {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ButtonField(props: ButtonFieldProps) {
@@ -193,7 +190,9 @@ function ButtonField(props: ButtonFieldProps) {
     </Button>
   );
 }
-function ButtonDatePicker(props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" | "onClose">) {
+function ButtonDatePicker(
+  props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" | "onClose">
+) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -210,7 +209,11 @@ function ButtonDatePicker(props: Omit<DatePickerProps<Dayjs>, "open" | "onOpen" 
 
 const InforRow = (value: any) => {
   return (
-    <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing, ...headerColor }}>
+    <Box
+      display={"flex"}
+      alignItems={"center"}
+      sx={{ ...verticalSpacing, ...headerColor }}
+    >
       {value.icon}
       <Typography sx={headerStyle}>{value.header}</Typography>
       <Box sx={{ flexGrow: 1 }}>
@@ -241,18 +244,28 @@ const fieldStyle = {
   flexGrow: 1,
   mb: "2%",
 };
-export default function DetailOvertime2({ open, handleClose, handleChange }: any) {
+export default function DetailOvertime2({
+  open,
+  handleClose,
+  handleChange,
+}: any) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id, staffid } = useParams<{ id: string; staffid: string }>();
-  const { user } = useAppSelector(state => state.account);
+  const { user } = useAppSelector((state) => state.account);
 
   // const staffId = parseInt(staffid!);
   const overtimeId = parseInt(id!);
   const staffId = parseInt(staffid!);
-  const { logOtsLoaded, status: LogOtStatus } = useAppSelector(state => state.logot);
-  const logot = useAppSelector(state => logOvertimeSelectors.selectById(state, overtimeId));
-  const [oneDaySalary, setOneDaySalary] = useState<number>(logot?.salaryPerDay!);
+  const { logOtsLoaded, status: LogOtStatus } = useAppSelector(
+    (state) => state.logot
+  );
+  const logot = useAppSelector((state) =>
+    logOvertimeSelectors.selectById(state, overtimeId)
+  );
+  const [oneDaySalary, setOneDaySalary] = useState<number>(
+    logot?.salaryPerDay!
+  );
   const [hours, setHours] = useState<number>(logot?.logHours!);
   const [days, setDays] = useState(logot?.days);
   const [amountSalary, setAmountSalary] = useState<number>(logot?.amount!);
@@ -273,17 +286,15 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   const location = useLocation();
 
   useEffect(() => {
-    if (!logOtsLoaded)
-      dispatch(fetchLogOtsAsync());
+    if (!logOtsLoaded) dispatch(fetchLogOtsAsync());
 
-    setDays(logot?.days)
+    setDays(logot?.days);
     setHours(logot?.logHours!);
     setOneDaySalary(logot?.salaryPerDay!);
     setAmountSalary(logot?.amount!);
     setMaxHours(logot?.days! * 8);
     setReason(logot?.reason!);
-    setSalaryOneHour(logot?.amount! / logot?.logHours!);  
-
+    setSalaryOneHour(logot?.amount! / logot?.logHours!);
   }, [logOtsLoaded, dispatch]);
   // console.log(`LOGLEAVE ID: ${id} STAFF ID: ${staffid}`);
   //#region ==============================USE EFFECT=====================================
@@ -300,8 +311,8 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   }, [dispatch, location, logot]);
 
   const handleDays = (e: any) => {
-    setDays(e.target.value)
-  }
+    setDays(e.target.value);
+  };
 
   const handleHours = (e: any) => {
     const newValue = e.target.value.toString();
@@ -313,9 +324,9 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
 
     if (minHours <= demo && demo <= maxHours) {
       setHours(demo);
-      setAmountSalary(prev => Math.floor(salaryOneHour * demo))
+      setAmountSalary((prev) => Math.floor(salaryOneHour * demo));
     }
-  }
+  };
 
   //#endregion ==============================USE EFFECT=====================================
 
@@ -345,11 +356,13 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   };
 
   const handleLogOvertimeApprove = () => {
+
     // console.log("Here: ", status);
     // console.log("Here: ", user?.userInfor.staffId);
     // console.log("Here: ", processNote);
     // console.log("Here: ", hours);
     // console.log("Here: ", amountSalary  );
+
 
     const ticketUpdate = {
       patchDocument: [
@@ -387,7 +400,7 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         setLogOvertimeAdded(true);
         // console.log("Ticket updated successfully: ", response);
         toast.success("Duyệt đơn thành công 😊");
-        navigate('/log-overtimes')
+        navigate("/log-overtimes");
       })
       .catch((error) => {
         // console.log("Error updating ticket: ", error);
@@ -399,8 +412,8 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
   //   return <MyTicketDetailSkeleon />;
   // }
 
-
-  if (LogOtStatus.includes('pending')) return <LoadingComponent message="Đang Tải Đơn Làm Thêm Giờ..." />
+  if (LogOtStatus.includes("pending"))
+    return <LoadingComponent message="Đang Tải Đơn Làm Thêm Giờ..." />;
 
   //#endregion ===========================HANDLE ACTION======================================
   return (
@@ -409,18 +422,21 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
       <ToastContainer autoClose={3000} pauseOnHover={false} theme="colored" />
       <Container sx={{ padding: "2%", width: "60%", borderRadius: "8px" }}>
         <Grid container justifyContent={"space-between"}>
-          <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
+          <Typography
+            sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}
+          >
             Đơn của {`${logot?.staff.lastName} ${logot?.staff.firstName}`}
           </Typography>
           <Box display={"flex"} alignItems={"flex-end"}>
             {logot?.enable ? (
               <>
                 <Button
-                  variant="text"
+                  variant="contained"
+                  startIcon={<CheckIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
-                    color: "#007FFF",
+                    // color: "#007FFF",
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}
@@ -442,12 +458,16 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
           </Box>
         </Grid>
 
-        <Box sx={{ borderBottom: "2px solid #333333", mb: "4%", mt: "1%" }}></Box>
+        <Box
+          sx={{ borderBottom: "2px solid #333333", mb: "4%", mt: "1%" }}
+        ></Box>
 
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Mã nhân viên"
-          defaultValue={`STF-${logot?.staff.staffId.toString().padStart(5, "0")}`}
+          defaultValue={`STF-${logot?.staff.staffId
+            .toString()
+            .padStart(5, "0")}`}
           disabled={true}
         />
 
@@ -468,7 +488,9 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Người duyệt đơn"
-          value={logot?.respondencesId ? `STF-0000${logot?.respondencesId}` : "Trống"}
+          value={
+            logot?.respondencesId ? `STF-0000${logot?.respondencesId}` : "Trống"
+          }
           // defaultValue={}
           disabled={true}
         />
@@ -495,7 +517,9 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
           icon={<CalendarMonthIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày kết thúc"
           defaultValue={
-            logot?.logEnd ? `${moment(logot?.logEnd).format("MMM Do, YYYY")}` : ""
+            logot?.logEnd
+              ? `${moment(logot?.logEnd).format("MMM Do, YYYY")}`
+              : ""
           }
           disabled={true}
         />
@@ -511,17 +535,22 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Tổng Lương"
           // defaultValue={logot?.amount.toLocaleString()}
-          value={amountSalary ? amountSalary?.toLocaleString() : logot?.amount.toLocaleString()}
+          value={
+            amountSalary
+              ? amountSalary?.toLocaleString()
+              : logot?.amount.toLocaleString()
+          }
           disabled
         />
         <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Giờ"
-          type='number'
+          type="number"
           value={hours ? hours : logot?.logHours}
           disabled={logot?.enable === false && true}
           onChange={handleHours}
-        /><InforRow
+        />
+        <InforRow
           icon={<SubjectIcon fontSize="small" sx={{ mr: "5px" }} />}
           header="Ngày"
           defaultValue={`${logot?.days}`}
@@ -555,26 +584,38 @@ export default function DetailOvertime2({ open, handleClose, handleChange }: any
         />
 
         <Box display={"flex"} alignItems={"center"} sx={{ ...verticalSpacing }}>
-          <FormatListBulletedIcon sx={{ mr: "5px", ...headerColor }} fontSize="small" />
-          <Typography sx={{ ...headerStyle, ...headerColor }}>Trạng thái</Typography>
+          <FormatListBulletedIcon
+            sx={{ mr: "5px", ...headerColor }}
+            fontSize="small"
+          />
+          <Typography sx={{ ...headerStyle, ...headerColor }}>
+            Trạng thái
+          </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <BootstrapInput
               fullWidth
               defaultValue={logot?.status}
-
               InputProps={textFieldInputProps}
               variant="standard"
               onChange={handleStatusChange}
               select
             >
-              <MenuItem value={"approved"}><ChipCustome status="payment" >Chấp Nhận</ChipCustome></MenuItem>
-              <MenuItem value={"pending"}><ChipCustome status="pending">Chờ Duyệt</ChipCustome></MenuItem>
-              <MenuItem value={"rejected"}><ChipCustome status="rejected">Từ Chối</ChipCustome></MenuItem>
+              <MenuItem value={"approved"}>
+                <ChipCustome status="payment">Chấp Nhận</ChipCustome>
+              </MenuItem>
+              <MenuItem value={"pending"}>
+                <ChipCustome status="pending">Chờ Duyệt</ChipCustome>
+              </MenuItem>
+              <MenuItem value={"rejected"}>
+                <ChipCustome status="rejected">Từ Chối</ChipCustome>
+              </MenuItem>
             </BootstrapInput>
           </Box>
         </Box>
 
-        <Box sx={{ borderBottom: "1px solid #C4C4C4", mt: "5%", mb: "1%" }}></Box>
+        <Box
+          sx={{ borderBottom: "1px solid #C4C4C4", mt: "5%", mb: "1%" }}
+        ></Box>
 
         <Grid item xs={9}>
           <TextField

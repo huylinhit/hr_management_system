@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../app/store/configureStore";
+import { useParams } from "react-router-dom";
 
 // component
 import DetailLeaveFooter from "./component/DetailLeaveFooter";
@@ -10,19 +8,13 @@ import DetailLeaveFooter from "./component/DetailLeaveFooter";
 // data
 
 // api
-import { Employee } from "../../app/models/employee";
 import { LeaveLog } from "../../app/models/leaveLog";
-import { LeaveType } from "../../app/models/leaveType";
 import axios from "axios";
-import { LEAVETYPE, STAFF } from "../../app/store/data";
 
 export default function DetailLeave() {
   // -------------------------- VAR -----------------------------
   const { id } = useParams();
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { handleSubmit } = useForm();
   const [logLeave, setlogLeave] = useState<LeaveLog>();
   useEffect(() => {
     axios.get(`http://localhost:5000/api/log-leaves/${id}/staffs/2`).then((response) =>    

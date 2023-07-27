@@ -50,16 +50,8 @@ import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
 import AppPagination from "../../app/components/Pagination/AppPagination";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { BootstrapInput } from "../payslip/component/CreatePayslipMainForm";
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
+import ReplayIcon from '@mui/icons-material/Replay';
+
 const fontStyle = "Mulish";
 const cellStyle = {
   fontSize: 15,
@@ -517,6 +509,7 @@ export default function StaffList() {
             <Button
               variant="outlined"
               onClick={handleReset}
+              startIcon={<ReplayIcon/>}
               sx={{
                 marginLeft: "12px",
                 textTransform: "none",
@@ -531,10 +524,6 @@ export default function StaffList() {
                   border: "1px solid rgb(57,219,57)",
                   color: "#fff",
                   backgroundColor: "rgb(57,219,57)",
-                },
-                "&:active": {
-                  // backgroundColor: "#0066CD",
-                  // color: "#FFFFFF",
                 },
               }}
             >

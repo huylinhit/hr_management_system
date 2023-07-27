@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { LuEdit } from "react-icons/lu";
 
@@ -32,13 +32,9 @@ export default function DetailContract() {
   const employee = useAppSelector((state) => employeeSelectors.selectById(state, Number(staffid)));
   const { employeesLoaded } = useAppSelector((state) => state.employee);
 
-
-
   const contractStaff = useAppSelector((state) => contractSelectors.selectById(state, Number(id)));
-
   const { contractsLoaded } = useAppSelector((state) => state.contract);
-//---------------- EFFECT --------------------------
-
+  // -------------------------- EFFECT --------------------------
   useEffect(() => {
     if (!employeesLoaded) dispatch(fetchEmployeeAsync(Number(staffid)));
     if (!contractsLoaded) dispatch(fetchContractsAsync());
@@ -69,11 +65,6 @@ export default function DetailContract() {
   if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
 
   if (!contractStaff || !employee) return <LoadingComponent message="Đang tải..." />;
-  // if(contractStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải hợp đồng"/>
-
-  // if(employeeStatus.includes("pending"))
-  //   return <LoadingComponent message="Đang tải nhân viên"/>
   // -------------------------- MAIN ----------------------------
   return (
     <Container sx={{ padding: "2%", width: "80%", borderRadius: "8px" }}>

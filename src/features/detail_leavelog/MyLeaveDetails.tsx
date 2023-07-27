@@ -33,11 +33,11 @@ import {
   DatePickerProps,
   DateValidationError,
   FieldSection,
-  LocalizationProvider,
   UseDateFieldProps,
 } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 const fontStyle = "Mulish";
 
 const headerColor = {
@@ -408,12 +408,14 @@ export default function MyLeaveDetails() {
             {logLeave?.enable ? (
               <>
                 <Button
-                  variant="text"
+                  variant="outlined"
                   color="error"
+                  startIcon={<ClearIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
                     fontFamily: fontStyle,
+                    marginRight: "15px",
                   }}
                   disableElevation={true}
                   onClick={handleClickOpenConfirm}
@@ -421,17 +423,18 @@ export default function MyLeaveDetails() {
                   Hủy đơn
                 </Button>
                 <Button
-                  variant="text"
+                  variant="contained"
+                  startIcon={<CheckIcon />}
                   sx={{
                     fontWeight: "bold",
                     textTransform: "none",
-                    color: "#007FFF",
+                    // color: "#007FFF",
                     fontFamily: fontStyle,
                   }}
                   disableElevation={true}
                   onClick={handleTicketApproval}
                 >
-                  Xác nhận
+                  Lưu
                 </Button>
               </>
             ) : (

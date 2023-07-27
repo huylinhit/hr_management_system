@@ -1,24 +1,17 @@
 import {
   Box,
   Button,
-  Container,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
   MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
-import { ReactNode, useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { ticketsSelectors } from "./ticketSlice";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import CheckIcon from "@mui/icons-material/Check";
 import agent from "../../app/api/agent";
 import moment from "moment";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
@@ -140,30 +133,6 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
   };
   return (
     <Box sx={{ paddingLeft: "20%", mt: "20px", paddingRight: "20%" }}>
-      {/* <Grid container spacing={0} alignContent="center">
-        <Grid item>
-          <Button
-            variant="text"
-            sx={navStyle}
-            disableElevation={true}
-            component={NavLink}
-            to={`/otheruserstickets`}
-            key={"/otheruserstickets"}
-          >
-            Danh sách đơn khác
-          </Button>
-        </Grid>
-
-        <Grid item>
-          <ArrowRightIcon sx={{ mt: 0.6, padding: 0 }} fontSize="large" />
-        </Grid>
-
-        <Grid item>
-          <Button variant="text" sx={navStyle} disableElevation={true}>
-            Phản hồi đơn
-          </Button>
-        </Grid>
-      </Grid> */}
       <Grid container justifyContent={"space-between"}>
         <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
           Đơn của {ticket?.staffName}
@@ -183,11 +152,12 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
           </Button>
 
           <Button
-            variant="text"
+            variant="contained"
+            startIcon={<CheckIcon />}
             sx={{
               fontWeight: "bold",
               textTransform: "none",
-              color: "#007FFF",
+              // color: "#007FFF",
               fontFamily: fontStyle,
             }}
             disableElevation={true}

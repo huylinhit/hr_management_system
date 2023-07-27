@@ -280,8 +280,8 @@ export default function CreateTicketForm({ open, onClose }: Props) {
           </>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Hủy</Button>
-          <Button onClick={handleCreateTicket} autoFocus>
+          <Button variant="outlined" color="error" sx={{ width: "70px", marginRight: "10px", marginBottom: "20px", borderRadius:"6px"}} onClick={onClose}>Hủy</Button>
+          <Button variant="contained" sx={{ width: "70px", marginRight: "15px", marginBottom: "20px", borderRadius:"6px"}} onClick={handleCreateTicket} autoFocus>
             Tạo
           </Button>
         </DialogActions>

@@ -109,7 +109,7 @@ export default function NewContract({ open, onClose }: Props) {
         <Grid
           container
           sx={{
-            padding: "30px 0",
+            paddingBottom: "30px",
           }}
         >
           <FormFooter id={Number(id)} handleSubmit={handleSubmit} 

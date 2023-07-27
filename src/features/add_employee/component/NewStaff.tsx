@@ -34,13 +34,20 @@ const headerStyle = {
   mb: "5px",
 };
 
-export default function NewStaff({ setUserForm, departments, userForm }: Props) {
+export default function NewStaff({
+  setUserForm,
+  departments,
+  userForm,
+}: Props) {
   const [citizenIdError, setCitizenIdError] = useState(false);
+  const [bankAccountError, setBankAccountError] = useState(false);
+
   const handleCitizenIdBlur = (e: any) => {
     const citizenId = e.target.value;
     const isCitizenIdValid = validateCitizenID(citizenId);
     setCitizenIdError(!isCitizenIdValid);
   };
+
   return (
     <Grid container sx={{ mt: "50px" }}>
       <Grid container spacing={2} sx={{ ...verticalSpacing }}>
@@ -219,8 +226,14 @@ export default function NewStaff({ setUserForm, departments, userForm }: Props) 
           <TextField
             required
             type="text"
-            placeholder={userForm.bankAccountName === "" ? "Nhập tên tài khoản ngân hàng" : ""}
-            defaultValue={userForm.bankAccountName === "" ? "" : userForm.bankAccountName}
+            placeholder={
+              userForm.bankAccountName === ""
+                ? "Nhập tên tài khoản ngân hàng"
+                : ""
+            }
+            defaultValue={
+              userForm.bankAccountName === "" ? "" : userForm.bankAccountName
+            }
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -234,16 +247,26 @@ export default function NewStaff({ setUserForm, departments, userForm }: Props) 
           <Typography sx={headerStyle}>Số tài khoản ngân hàng</Typography>
           <TextField
             required
+            error={bankAccountError}
+            helperText="Tài khoản ngân hàng phải từ 0-12 số"
             type="text"
-            placeholder={userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""}
-            defaultValue={userForm.bankAccount === "" ? "" : userForm.bankAccount}
-            sx={{ width: "100%", marginBottom: "20px" }}
-            onChange={(e) =>
-              setUserForm((prevForm: any) => ({
-                ...prevForm,
-                bankAccount: e.target.value,
-              }))
+            placeholder={
+              userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""
             }
+            defaultValue={
+              userForm.bankAccount === "" ? "" : userForm.bankAccount
+            }
+            inputProps={{ min: 0, max: 12 }}
+            sx={{ width: "100%", marginBottom: "20px" }}
+            onChange={(e) => {
+              if (e.target.value.length > 0 && e.target.value.length <= 12)
+                setUserForm((prevForm: any) => ({
+                  ...prevForm,
+                  bankAccount: e.target.value,
+                }));
+              else 
+                setBankAccountError(true)
+            }}
           />
         </Grid>
       </Grid>
