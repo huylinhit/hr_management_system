@@ -22,7 +22,7 @@ interface PayslipSummary {
 export default function MyResponsiveLine() {
   const { payslipsLoaded, status, filtersLoaded, departments, payslipParams, metaData } =
     useAppSelector((state) => state.payslip);
-  const payslips = useAppSelector(payslipSelectors.selectAll)
+  const payslips = useAppSelector(payslipSelectors.selectAll).filter(c => c.status == "approved")
  
   const dispatch = useAppDispatch();
   useEffect(() => {
