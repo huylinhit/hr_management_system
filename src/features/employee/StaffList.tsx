@@ -376,7 +376,6 @@ export default function StaffList() {
 
   const { userInforsLoaded, userInforAdded, filtersLoaded, departments, userInforParams, metaData } = useAppSelector((state) => state.userInfor);
   // -------------------------- REDUX ---------------------------
-  console.log(metaData)
   const userInfors = useAppSelector(userInforSelectors.selectAll);
   const activeEmployees = userInfors?.filter((e) => e.accountStatus !== false);
   const [serchTerm, setSearchTerm] = useState(userInforParams.searchTerm);
@@ -591,6 +590,7 @@ export default function StaffList() {
           //   },
           // }}
           // pageSizeOptions={[5]}
+          hideFooter
           hideFooterPagination
           disableRowSelectionOnClick
         />

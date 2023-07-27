@@ -29,7 +29,6 @@ function getAxiosParams(logleaveParams: LogLeaveParams) {
   // params.append('pageSize', logleaveParams.pageSize.toString());
   // params.append('orderBy', logleaveParams.orderBy);
 
-  console.log("Logleave: ", logleaveParams);
 
   if (logleaveParams.searchTerm) params.append('searchTerm', logleaveParams.searchTerm.toString());
   if (logleaveParams.departments?.length > 0) params.append('departments', logleaveParams.departments.toString());

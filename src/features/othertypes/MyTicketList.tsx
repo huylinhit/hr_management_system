@@ -101,7 +101,7 @@ export default function MyTicketList() {
         let imageFile = "";
         try {
           imageFile = params.row.userInfor.imageFile;
-        } catch (e) {}
+        } catch (e) { }
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarCustome
@@ -332,7 +332,16 @@ export default function MyTicketList() {
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <ToastContainer />
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}
+        >
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -383,10 +392,9 @@ export default function MyTicketList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -399,7 +407,7 @@ export default function MyTicketList() {
                 },
               }}
             >
-              Tạo đơn mới
+              Tạo đơn khác
             </Button>
           </Grid>
 
@@ -413,7 +421,7 @@ export default function MyTicketList() {
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

@@ -75,13 +75,13 @@ export default function Sidebar() {
   };
 
   const dispatch = useAppDispatch();
-  const [openLeaveLog, setOpenLeaveLog] = useState(true);
-  const [openOT, setOpenOT] = useState(true);
-  const [openStaff, setOpenStaff] = useState(true);
-  const [openCandidate, setOpenCandidate] = useState(true);
-  const [openSalary, setOpenSalary] = useState(true);
-  const [openContract, setOpenContract] = useState(true);
-  const [openTicket, setOpenTicket] = useState(true);
+  const [openLeaveLog, setOpenLeaveLog] = useState(false);
+  const [openOT, setOpenOT] = useState(false);
+  const [openStaff, setOpenStaff] = useState(false);
+  const [openCandidate, setOpenCandidate] = useState(false);
+  const [openSalary, setOpenSalary] = useState(false);
+  const [openContract, setOpenContract] = useState(false);
+  const [openTicket, setOpenTicket] = useState(false);
   const [pageTitle, setPageTitle] = useState("Default Page");
   const { departmentAdded, departmentsChanged } = useAppSelector((state) => state.department);
   const { user } = useAppSelector((state) => state.account);

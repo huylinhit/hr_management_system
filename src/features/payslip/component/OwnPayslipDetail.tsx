@@ -49,7 +49,6 @@ function OwnPayslipDetail() {
   const { logOtsLoaded, status: logOtStatus } = useAppSelector((state) => state.logot);
 
   const logotsStaff = logots.filter((c) => {
-    console.log("Thang: ", moment(c.logStart).month() + 1);
     return (
       moment(c.logStart).month() + 1 === moment(payslip?.payday).month() + 1 &&
       c.status === "approved" &&

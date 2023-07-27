@@ -17,10 +17,7 @@ interface Props {
 
 function LogOvertimeTable({ logOts, totalLogOtDays, totalLogOtHours, totalLogOtSalary, now }: Props) {
     const [open, setOpen] = useState(true);
-
     const dispatch = useAppDispatch();
-
-    console.log("here: ", now.getMonth());
 
     const handleClick = () => {
         setOpen(!open);

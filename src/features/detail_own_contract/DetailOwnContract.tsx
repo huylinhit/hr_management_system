@@ -38,7 +38,6 @@ export default function DetailOwnContract() {
     contractSelectors.selectById(state, 2)
   );
   const { status, contractsLoaded } = useAppSelector((state) => state.contract);
-  console.log(contract);
   
   // -------------------------- EFFECT --------------------------
   useEffect(() => {

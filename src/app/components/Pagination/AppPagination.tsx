@@ -11,11 +11,11 @@ function AppPagination({ metaData, onPageChange }: Props) {
 
   return (
     <Box display="flex" justifyContent="end" flexDirection="column" alignItems="end" padding="12px">
-      <Typography sx={{ fontFamily: "Mulish", fontSize: "14px" }}>
+      {/* <Typography sx={{ fontFamily: "Mulish", fontSize: "14px" }}>
         Đang xem {(currentPage - 1) * pageSize + 1} - {}
         {currentPage * pageSize > totalCount ? totalCount : currentPage * pageSize} trên{" "}
         {totalCount} danh mục
-      </Typography>
+      </Typography> */}
       <Box>
         <Pagination
           // color="secondary"

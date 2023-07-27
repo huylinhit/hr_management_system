@@ -115,6 +115,7 @@ export const router = createBrowserRouter([
           { path: "/own-tickets/:id", element: <MyTicketDetails /> },
           { path: "/own-payslips", element: <MyPayslips /> },
           { path: "/own-payslips/:payslipId", element: <OwnPayslipDetail /> },
+          { path: "/own-contract", element: <DetailOwnContract /> },
           { path: "/staffss/:id", element: <SelfDetails /> },
 
           // { path: "/own-payslips", element: <MyPayslips /> },
@@ -163,8 +164,8 @@ export const router = createBrowserRouter([
           //other
           { path: "/tickets", element: <OtherUsersTicketList /> },
           { path: "/tickets/:id", element: <TicketApprovalForm /> },
-          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
           { path: "/own-tickets", element: <MyTicketList /> },
+          { path: "/own-tickets/:id", element: <MyTicketDetails /> },
 
           //payslip
           { path: "/payslips", element: <Payslips /> },
