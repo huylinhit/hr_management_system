@@ -5,8 +5,8 @@ import { store } from "../store/configureStore";
 import { request } from "http";
 import { PaginatedResponse } from "../models/pagination";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
-//axios.defaults.baseURL = "https://api-hrm.huylinhit.live/api";
+//axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "https://api-hrm.huylinhit.live/api";
 axios.defaults.withCredentials = true;
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));

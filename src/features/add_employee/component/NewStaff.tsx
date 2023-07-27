@@ -15,7 +15,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Department } from "../../../app/models/department";
 import { User } from "../model/user";
 import dayjs from "dayjs";
-import { validateCitizenID } from "../../../utils/validationUtils";
+import { validateCitizenID, validatePhoneNumber } from "../../../utils/validationUtils";
 import { useState } from "react";
 
 // interface
@@ -34,18 +34,19 @@ const headerStyle = {
   mb: "5px",
 };
 
-export default function NewStaff({
-  setUserForm,
-  departments,
-  userForm,
-}: Props) {
+export default function NewStaff({ setUserForm, departments, userForm }: Props) {
   const [citizenIdError, setCitizenIdError] = useState(false);
   const [bankAccountError, setBankAccountError] = useState(false);
-
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
   const handleCitizenIdBlur = (e: any) => {
     const citizenId = e.target.value;
     const isCitizenIdValid = validateCitizenID(citizenId);
     setCitizenIdError(!isCitizenIdValid);
+  };
+  const handlePhoneNumberBlur = (e: any) => {
+    const phoneNumber = e.target.value;
+    const isPhoneNumberError = validatePhoneNumber(phoneNumber);
+    setPhoneNumberError(!isPhoneNumberError);
   };
 
   return (
@@ -128,6 +129,9 @@ export default function NewStaff({
           <Typography sx={headerStyle}>Số điện thoại</Typography>
           <TextField
             required
+            onBlur={handlePhoneNumberBlur}
+            error={phoneNumberError}
+            helperText={phoneNumberError ? "SĐT chỉ được chứa 10 số" : ""}
             type="text"
             placeholder={userForm.phone === "" ? "Nhập số điện thoại" : ""}
             defaultValue={userForm.phone === "" ? "" : userForm.phone}
@@ -226,14 +230,8 @@ export default function NewStaff({
           <TextField
             required
             type="text"
-            placeholder={
-              userForm.bankAccountName === ""
-                ? "Nhập tên tài khoản ngân hàng"
-                : ""
-            }
-            defaultValue={
-              userForm.bankAccountName === "" ? "" : userForm.bankAccountName
-            }
+            placeholder={userForm.bankAccountName === "" ? "Nhập tên tài khoản ngân hàng" : ""}
+            defaultValue={userForm.bankAccountName === "" ? "" : userForm.bankAccountName}
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) =>
               setUserForm((prevForm: any) => ({
@@ -247,15 +245,9 @@ export default function NewStaff({
           <Typography sx={headerStyle}>Số tài khoản ngân hàng</Typography>
           <TextField
             required
-            error={bankAccountError}
-            helperText="Tài khoản ngân hàng phải từ 0-12 số"
             type="text"
-            placeholder={
-              userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""
-            }
-            defaultValue={
-              userForm.bankAccount === "" ? "" : userForm.bankAccount
-            }
+            placeholder={userForm.bankAccount === "" ? "Nhập số tài khoản ngân hàng" : ""}
+            defaultValue={userForm.bankAccount === "" ? "" : userForm.bankAccount}
             inputProps={{ min: 0, max: 12 }}
             sx={{ width: "100%", marginBottom: "20px" }}
             onChange={(e) => {
@@ -264,8 +256,7 @@ export default function NewStaff({
                   ...prevForm,
                   bankAccount: e.target.value,
                 }));
-              else 
-                setBankAccountError(true)
+              else setBankAccountError(true);
             }}
           />
         </Grid>

@@ -12,3 +12,7 @@ export const validateCitizenID = (citizenID: any) => {
   const citizenIDRegex = /^\d{12}$/;
   return citizenIDRegex.test(citizenID);
 };
+export const validatePhoneNumber = (phoneNumber: any) => {
+  const phoneNumberRegex = /^\d{10}$/;
+  return phoneNumberRegex.test(phoneNumber);
+};
