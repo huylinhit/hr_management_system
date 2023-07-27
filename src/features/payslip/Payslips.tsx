@@ -16,6 +16,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, useLocation } from "react-router-dom";
 
+import ReplayIcon from '@mui/icons-material/Replay';
 import moment from "moment";
 import "moment/locale/vi";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -535,6 +536,7 @@ export default function Payslips() {
             </BootstrapInput>
             <Button
               variant="outlined"
+              startIcon={<ReplayIcon/>}
               onClick={handleReset}
               sx={{
                 marginLeft: "12px",

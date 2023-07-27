@@ -26,7 +26,7 @@ function getAxiosParams(logotParams: LogOtParams) {
     // params.append('pageSize', logotParams.pageSize.toString());
     // params.append('orderBy', logotParams.orderBy);
 
-
+    if (logotParams.pageSize) params.append('pageSize', logotParams.pageSize.toString());
     if (logotParams.searchTerm) params.append('searchTerm', logotParams.searchTerm.toString());
     if (logotParams.departments?.length > 0) params.append('departments', logotParams.departments.toString());
 
@@ -122,6 +122,10 @@ export const logotSlice = createSlice({
           },
           setLogotMetaData: (state, action) => {
             state.metaData = action.payload;
+          },
+          setPageSize: (state, action) =>{
+            console.log("state: ", state);
+            console.log("Action: ", action);
           }
     },
     extraReducers: (builder => {
@@ -184,6 +188,6 @@ export const logotSlice = createSlice({
     })
 })
 
-export const { setLogOvertimeAdded, setLogotMetaData, setPageNumber, setLogotParams, resetlogotParams } = logotSlice.actions;
+export const { setLogOvertimeAdded, setLogotMetaData, setPageNumber, setLogotParams, resetlogotParams, setPageSize } = logotSlice.actions;
 
 export const logOvertimeSelectors = logOvertimesAdapter.getSelectors((state: RootState) => state.logot);

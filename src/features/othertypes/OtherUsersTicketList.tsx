@@ -357,8 +357,21 @@ export default function OtherUsersTicketList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
-          <Grid item>
+        <Grid container justifyContent={"space-between"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}
+        >
+          <Grid item
+            sx={{
+              height: "40px",
+            }}
+          >
             {/* <TextField
               id="standard-basic"
               placeholder="Nhập để tìm..."
@@ -458,7 +471,7 @@ export default function OtherUsersTicketList() {
           density="standard"
           getRowId={(row: any) => row.ticketId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,

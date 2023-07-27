@@ -41,7 +41,7 @@ function TaxDetailList({
                         </TableHead>
                         <TableBody>
                             {taxDetails.map(item => (
-                                <TableRow>
+                                <TableRow key ={item.taxDetailId}>
                                     <TableCell align="right" component="th" scope="row" style={{ borderRight: '1px solid #e0e0e0' }}>{item.taxLevelNavigation.description}</TableCell>
                                     <TableCell align="right" style={{ borderRight: '1px solid #e0e0e0' }}>{item.taxLevelNavigation.taxPercentage}%</TableCell>
                                     <TableCell align="right">- {item.amount.toLocaleString()}</TableCell>

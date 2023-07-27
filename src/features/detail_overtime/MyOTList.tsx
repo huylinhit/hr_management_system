@@ -29,6 +29,7 @@ import {
   logOvertimeSelectors,
   setLogOvertimeAdded,
   setPageNumber,
+  setPageSize,
 } from "../overlog/overtimeSlice";
 import { LogOt } from "../../app/models/logOt";
 import CreateOvertimeForm from "../overlog/CreateOvertime2";
@@ -446,7 +447,7 @@ export default function MyOTList() {
 
   const [rows, setRows] = useState<LogOt[]>([]);
   const [open, setOpen] = useState(false);
-  const { logOtAdded, logOtsLoaded, status , metaData,  } = useAppSelector((state) => state.logot);
+  const { logOtAdded, logOtsLoaded, status, metaData, } = useAppSelector((state) => state.logot);
   const location = useLocation();
   const prevLocation = useRef(location);
   const key = location.pathname;
@@ -480,7 +481,16 @@ export default function MyOTList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"}
+
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}>
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -531,10 +541,9 @@ export default function MyOTList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -561,7 +570,7 @@ export default function MyOTList() {
           density="standard"
           getRowId={(row: any) => row.otLogId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -593,7 +602,10 @@ export default function MyOTList() {
         {metaData && (
           <AppPagination
             metaData={metaData}
-            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+            onPageChange={(page: number) => {
+              dispatch(setPageNumber({ pageNumber: page }))
+            }
+            }
           />
         )}
       </Box>
