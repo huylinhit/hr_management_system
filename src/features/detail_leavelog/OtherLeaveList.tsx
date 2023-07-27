@@ -469,7 +469,6 @@ export default function OthersLeaveList() {
     dispatch(setLogLeaveParams({ searchTerm: e.target.value }))
   }, 2500)
 
-  console.log("logleave" ,logLeaves);
 
 
   useEffect(() => {

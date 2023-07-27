@@ -39,12 +39,13 @@ import { Ticket } from "../../app/models/ticket";
 import { setHeaderTitle } from "../../app/layout/headerSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
-import { fetchLogLeavesAsync, logleaveSelectors, setLogLeaveAdded } from "./logleaveSlice";
+import { fetchLogLeavesAsync, logleaveSelectors, setLogLeaveAdded, setPageNumber } from "./logleaveSlice";
 import { LogLeave } from "../../app/models/logLeave";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CreateLeaveForm from "./CreateLeaveForm";
 import { ToastContainer } from "react-toastify";
 import AvatarCustome from "../../app/components/Custom/Avatar/AvatarCustome";
+import AppPagination from "../../app/components/Pagination/AppPagination";
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -452,16 +453,16 @@ export default function MyLeaveList() {
     }).format(value.value);
     return <Typography sx={cellStyle}>{formattedValue}</Typography>;
   }
- 
+
   const logLeaves = useAppSelector(logleaveSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.account);
   const myLogLeaves = logLeaves.filter(
     (logLeave) => logLeave.staffId === currentUser.user?.userInfor.staffId
   );
   const dispatch = useAppDispatch();
- 
 
-  const { logleavesLoaded, filtersLoaded, logLeaveAdded, status } = useAppSelector(
+
+  const { logleavesLoaded, filtersLoaded, logLeaveAdded, status , metaData} = useAppSelector(
     (state) => state.logleave
   );
   const [rows, setRows] = useState<LogLeave[]>([]);
@@ -499,7 +500,16 @@ export default function MyLeaveList() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", pt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}
+        >
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -550,10 +560,9 @@ export default function MyLeaveList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -581,7 +590,7 @@ export default function MyLeaveList() {
           density="standard"
           getRowId={(row: any) => row.leaveLogId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -598,16 +607,23 @@ export default function MyLeaveList() {
           rows={rows}
           columns={columns}
           //showCellVerticalBorder
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 20,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 20,
+          //     },
+          //   },
+          // }}
+          // pageSizeOptions={[5]}
+          // disableRowSelectionOnClick
+          hideFooter
         />
+        {metaData && (
+          <AppPagination
+            metaData={metaData}
+            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+          />
+        )}
       </Box>
     </>
   );

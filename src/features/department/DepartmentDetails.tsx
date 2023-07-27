@@ -362,7 +362,15 @@ export default function DepartmentDetails() {
   return (
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}>
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -434,10 +442,9 @@ export default function DepartmentDetails() {
                   startIcon={<AddIcon />}
                   onClick={handleOpenDialog}
                   sx={{
-                    mb: "5px",
                     textTransform: "none",
                     fontFamily: "Mulish",
-                    height: "30px",
+                    height: "40px",
                     color: "#FFFFFF",
                     backgroundColor: "#007FFF",
                     "&:hover": {
@@ -482,7 +489,7 @@ export default function DepartmentDetails() {
           <DataGrid
             density="standard"
             sx={{
-              height: "83vh",
+              height: "74vh",
               //border: "none",
               color: "#000000",
               fontSize: 16,
@@ -498,15 +505,16 @@ export default function DepartmentDetails() {
             loading={departmentStatus.includes("pending") || departmentAdded}
             rows={department.userInfors}
             columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 20,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            disableRowSelectionOnClick
+            // initialState={{
+            //   pagination: {
+            //     paginationModel: {
+            //       pageSize: 20,
+            //     },
+            //   },
+            // }}
+            // pageSizeOptions={[5]}
+            // disableRowSelectionOnClick
+            hideFooter
           />
         ) : (
           <AppBar />

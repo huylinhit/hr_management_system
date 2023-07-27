@@ -385,7 +385,7 @@ export default function OtherUsersTicketList() {
         .then((url) => {
           setAvatarUrl(url);
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }, [candidatesLoaded, candidateAdded]);
     return (
       <Avatar
@@ -448,7 +448,16 @@ export default function OtherUsersTicketList() {
     <>
       <Box sx={{ paddingLeft: "3%", mt: "20px", paddingRight: "3%" }}>
         <Grid container spacing={0} alignContent="center"></Grid>
-        <Grid container justifyContent={"space-between"}>
+        <Grid container justifyContent={"space-between"}
+          sx={{
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+            //  mb: "5px",
+            borderRadius: "4px",
+            mr: "12px",
+          }}
+        >
           <Grid item>
             {/* <TextField
               id="standard-basic"
@@ -497,10 +506,9 @@ export default function OtherUsersTicketList() {
               startIcon={<AddIcon />}
               onClick={handleOpenDialog}
               sx={{
-                mb: "5px",
                 textTransform: "none",
                 fontFamily: "Mulish",
-                height: "30px",
+                height: "40px",
                 color: "#FFFFFF",
                 backgroundColor: "#007FFF",
                 "&:hover": {
@@ -526,7 +534,7 @@ export default function OtherUsersTicketList() {
           density="standard"
           getRowId={(row: any) => row.candidateId}
           sx={{
-            height: "83vh",
+            height: "74vh",
             //border: "none",
             color: "#000000",
             fontSize: 16,
@@ -552,6 +560,7 @@ export default function OtherUsersTicketList() {
           }}
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
+          hideFooter
         />
       </Box>
     </>

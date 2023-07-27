@@ -38,7 +38,6 @@ function PayslipDetail() {
   const contract: Contract | undefined = contracts.find(
     (c) => c.staffId === parseInt(staffId!) && c.contractStatus === true
   );
-  console.log("Contract: ", contract);
 
   const allowances: Allowance[] = contract ? contract.allowances : [];
   const totalAllowances = allowances?.reduce((total, item) => total + item.allowanceSalary, 0);
@@ -48,10 +47,8 @@ function PayslipDetail() {
   const logots = useAppSelector(logOvertimeSelectors.selectAll);
   const { logOtsLoaded, status: logOtStatus } = useAppSelector((state) => state.logot);
 
-  console.log("LogOTs:", logots);
 
   const logotsStaff = logots.filter((c) => {
-    console.log("Thang: ", moment(c.logStart).month() + 1);
     return (
       moment(c.logStart).month() + 1 === moment(payslip?.payday).month() + 1 &&
       c.status === "approved" &&
@@ -112,9 +109,9 @@ function PayslipDetail() {
     }
   }, [dispatch, location, payslip]);
 
-  useEffect(() => {
-    if (!contractsLoaded) dispatch(fetchContractValidDetailASync(parseInt(staffId!)));
-  }, [contractsLoaded]);
+  // useEffect(() => {
+  //   if (!contractsLoaded) dispatch(fetchContractValidDetailASync(parseInt(staffId!)));
+  // }, [contractsLoaded]);
 
   //useEffect Log Ot
   useEffect(() => {

@@ -18,6 +18,7 @@ import {
   fetchContractAsync,
   fetchContractsAsync,
   setContractAdded,
+  setContractLoaded,
   setContractUpdated,
 } from "../../../app/store/contract/contractSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/store/configureStore";
@@ -153,6 +154,8 @@ export default function ConfirmSubmitDialog({
     toast.success("Cập nhật thành công")
     // dispatch(fetchContractsAsync());
     dispatch(setContractUpdated(true))
+    dispatch(setContractLoaded(true))
+    history(`/contracts/${Number(contract?.contractId)}/staffs/${Number(staffId)}/list`)
 
     // ------------------------------
   };

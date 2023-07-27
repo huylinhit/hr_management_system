@@ -75,7 +75,6 @@ export default function MyResponsiveLine() {
       })),
     },
   ];
-  console.log(payslipData);
   return (
     <>
       <Box height={"50vh"} border={`1px solid #CFCFCF`} borderRadius="4px">
