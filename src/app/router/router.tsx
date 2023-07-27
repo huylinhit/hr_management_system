@@ -94,7 +94,6 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       // { path: "/list-contract", element: <ListContract/>},
       // { path: "/list-leave", element: <ListLeave /> },
-
       { path: "/chip", element: <ChipCustome status="approved">here</ChipCustome> },
       {
         path: "/type",
