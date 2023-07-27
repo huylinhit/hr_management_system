@@ -90,7 +90,8 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       //Login dont need to Authen or Author
-      { path: "login", element: <Login /> },
+      
+      { path: "login", element: <PrivateRoute element={<Login />} /> },
       { path: "/", element: <HomePage /> },
       // { path: "/list-contract", element: <ListContract/>},
       // { path: "/list-leave", element: <ListLeave /> },
