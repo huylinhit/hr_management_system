@@ -1,16 +1,8 @@
-import {
-  Box,
-  Button,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-  debounce,
-} from "@mui/material";
+import { Box, Button, Grid, MenuItem, TextField, Typography, debounce } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { ticketsSelectors } from "./ticketSlice";
+import { fetchTicketAsync, ticketsSelectors } from "./ticketSlice";
 import CheckIcon from "@mui/icons-material/Check";
 import agent from "../../app/api/agent";
 import moment from "moment";
@@ -19,6 +11,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../firebase";
 import { toast } from "react-toastify";
+import { fetchTicketTypesAsync } from "./ticketTypeSlice";
+import MyTicketDetailSkeleon from "./MyTicketDetailSkeleton";
 const fontStyle = "Mulish";
 
 const menuItemStyle = {
@@ -59,6 +53,9 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
   const [ticketStatus, setTicketStatus] = useState(ticket?.ticketStatus);
   const formattedTicketId = `TK-${ticket?.ticketId.toString().padStart(5, "0")}`;
   const dispatch = useAppDispatch();
+  const [ticketChanged, setTicketChanged] = useState(false);
+  const { ticketTypes, ticketTypesLoaded } = useAppSelector((state) => state.ticketType);
+
   const [ticketFile, setTicketFile] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,10 +71,22 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
       .then((url) => {
         setTicketFile(url);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, [ticket]);
   console.log(ticketFile);
+  useEffect(() => {
+    if ((!ticket && id) || ticketChanged) {
+      dispatch(fetchTicketAsync(parseInt(id!)));
+      setTicketChanged(false);
+    }
+  }, [id, ticket, dispatch, ticketChanged]);
 
+  //Get ticket types
+  useEffect(() => {
+    if (!ticketTypes) {
+      dispatch(fetchTicketTypesAsync());
+    }
+  }, [ticketTypesLoaded]);
   useEffect(() => {
     dispatch(
       setHeaderTitle([
@@ -90,7 +99,7 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
     setProcessNote(event.target.value);
   }, 750);
 
-  useEffect(() => { }, [id]);
+  useEffect(() => {}, [id]);
 
   const handleStatusChange = (event: any) => {
     setTicketStatus(event.target.value);
@@ -103,12 +112,11 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
     };
     agent.Ticket.updateStatus(parseInt(id!), ticketUpdate)
       .then((response) => {
-        toast.success("Cập nhật đơn thành công")
+        toast.success("Cập nhật đơn thành công");
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
 
-    navigate("/tickets")
+    navigate("/tickets");
   };
   const handleDownload = async (event: any) => {
     event.stopPropagation();
@@ -127,12 +135,14 @@ export default function TicketApprovalForm({ open, handleClose, handleChange }: 
       .catch((error) => {
         console.log("Error cancelling ticket", error);
       });
-      toast.success("Hủy đơn thành công")
-      navigate("/tickets")
-
+    toast.success("Hủy đơn thành công");
+    navigate("/tickets");
   };
+  if (!ticket || !ticketTypes) {
+    return <MyTicketDetailSkeleon />;
+  }
   return (
-    <Box sx={{ paddingLeft: "20%", mt: "20px", paddingRight: "20%" }}>
+    <Box sx={{ paddingLeft: "20%", mt: "3%", paddingRight: "20%" }}>
       <Grid container justifyContent={"space-between"}>
         <Typography sx={{ fontSize: "40px", fontWeight: "700", fontFamily: fontStyle }}>
           Đơn của {ticket?.staffName}
