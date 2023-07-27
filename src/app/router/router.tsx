@@ -79,8 +79,9 @@ const PrivateRoute = ({ path, element }: any) => {
   const navigate = useNavigate();
   if (!user) {
     return element;
-  } else {
-    return <Navigate to="/departments" replace={true} />;
+} else {
+    if (user.roles?.includes("HRStaff")) return <Navigate to="/dashboard" replace={true} />;
+    else return <Navigate to="/own-log-overtimes" replace={true} />;
   }
 };
 
@@ -90,7 +91,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       //Login dont need to Authen or Author
-      
+
       { path: "login", element: <PrivateRoute element={<Login />} /> },
       { path: "/", element: <HomePage /> },
       // { path: "/list-contract", element: <ListContract/>},
@@ -127,7 +128,7 @@ export const router = createBrowserRouter([
         element: <RequireAuth roles={["HRStaff"]} />,
         children: [
           //Dashboard
-          { path: "/dashboard", element: <DashBoard/> },
+          { path: "/dashboard", element: <DashBoard /> },
           { path: "/other-leave-list/:id", element: <LeaveApproval /> },
 
           //department
