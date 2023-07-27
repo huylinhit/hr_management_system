@@ -466,7 +466,7 @@ export default function CreatePayslipNewVersion({
         <Dialog sx={{ padding: "100px" }} fullScreen open={open} onClose={onClose} maxWidth="lg">
 
             <DialogTitle sx={{ fontSize: 25, fontWeight: 600, marginBottom: 1 }}>
-                Duyệt bảng lương
+                Tạo bảng lương
             </DialogTitle>
 
             <DialogContent >
